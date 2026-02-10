@@ -1,0 +1,127 @@
+==========================================
+Preprocessing FineWeb-Edu with Luciole 50k tokenizer
+Tokenizer:   /work/m24047/m24047brmn/tokenizers/luciole_50k
+Input:       /work/shares/IA-Datasets/fineweb_edu_10bt_shuffled
+Output:      /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document.{bin,idx}
+Max tokens:  1000000000
+==========================================
+2026-02-06 14:44:51,550 - INFO - The multistorageclient package is available.
+2026-02-06 14:44:55,511 - INFO - Detected Megatron Core, using Megatron-FSDP with Megatron.
+2026-02-06 14:44:55,513 - INFO - Detected Megatron Core, using Megatron-FSDP with Megatron.
+2026-02-06 14:44:57,196 - INFO - Loading tokenizer from: /work/m24047/m24047brmn/tokenizers/luciole_50k
+2026-02-06 14:44:57,220 - INFO - Loaded SentencePiece tokenizer with vocab size: 50256
+2026-02-06 14:44:57,221 - INFO - EOS token ID: 3
+2026-02-06 14:44:57,221 - INFO - Reading JSONL files from: /work/shares/IA-Datasets/fineweb_edu_10bt_shuffled
+2026-02-06 14:44:57,226 - INFO - Starting tokenization (target: 1,000,000,000 tokens)...
+2026-02-06 14:44:57,226 - INFO - Found 2 JSONL files: ['fineweb_edu_10bt.chunk.00.jsonl', 'fineweb_edu_10bt.chunk.01.jsonl']
+2026-02-06 14:44:57,226 - INFO - Processing file: fineweb_edu_10bt.chunk.00.jsonl
+2026-02-06 14:45:23,572 - INFO - Progress: 10,000 docs, 10,449,662 tokens (1.04%)
+2026-02-06 14:45:49,726 - INFO - Progress: 20,000 docs, 20,904,682 tokens (2.09%)
+2026-02-06 14:46:16,333 - INFO - Progress: 30,000 docs, 31,513,211 tokens (3.15%)
+2026-02-06 14:46:42,413 - INFO - Progress: 40,000 docs, 41,949,027 tokens (4.19%)
+2026-02-06 14:47:09,282 - INFO - Progress: 50,000 docs, 52,777,546 tokens (5.28%)
+2026-02-06 14:47:34,896 - INFO - Progress: 60,000 docs, 63,002,280 tokens (6.30%)
+2026-02-06 14:48:01,006 - INFO - Progress: 70,000 docs, 73,434,964 tokens (7.34%)
+2026-02-06 14:48:27,166 - INFO - Progress: 80,000 docs, 83,907,879 tokens (8.39%)
+2026-02-06 14:48:53,253 - INFO - Progress: 90,000 docs, 94,377,937 tokens (9.44%)
+2026-02-06 14:49:19,492 - INFO - Progress: 100,000 docs, 104,879,552 tokens (10.49%)
+2026-02-06 14:49:46,955 - INFO - Progress: 110,000 docs, 115,755,498 tokens (11.58%)
+2026-02-06 14:50:12,459 - INFO - Progress: 120,000 docs, 125,966,924 tokens (12.60%)
+2026-02-06 14:50:38,155 - INFO - Progress: 130,000 docs, 136,226,405 tokens (13.62%)
+2026-02-06 14:51:03,144 - INFO - Progress: 140,000 docs, 146,197,266 tokens (14.62%)
+2026-02-06 14:51:29,472 - INFO - Progress: 150,000 docs, 156,710,361 tokens (15.67%)
+2026-02-06 14:51:55,184 - INFO - Progress: 160,000 docs, 166,983,009 tokens (16.70%)
+2026-02-06 14:52:21,726 - INFO - Progress: 170,000 docs, 177,574,348 tokens (17.76%)
+2026-02-06 14:52:48,679 - INFO - Progress: 180,000 docs, 188,299,074 tokens (18.83%)
+2026-02-06 14:53:14,266 - INFO - Progress: 190,000 docs, 198,571,159 tokens (19.86%)
+2026-02-06 14:53:40,233 - INFO - Progress: 200,000 docs, 208,921,096 tokens (20.89%)
+2026-02-06 14:54:07,062 - INFO - Progress: 210,000 docs, 219,630,933 tokens (21.96%)
+2026-02-06 14:54:33,004 - INFO - Progress: 220,000 docs, 229,959,167 tokens (23.00%)
+2026-02-06 14:55:00,097 - INFO - Progress: 230,000 docs, 240,684,632 tokens (24.07%)
+2026-02-06 14:55:27,105 - INFO - Progress: 240,000 docs, 251,406,425 tokens (25.14%)
+2026-02-06 14:55:52,394 - INFO - Progress: 250,000 docs, 261,451,376 tokens (26.15%)
+2026-02-06 14:56:18,139 - INFO - Progress: 260,000 docs, 271,758,993 tokens (27.18%)
+2026-02-06 14:56:43,943 - INFO - Progress: 270,000 docs, 282,053,069 tokens (28.21%)
+2026-02-06 14:57:11,349 - INFO - Progress: 280,000 docs, 292,896,935 tokens (29.29%)
+2026-02-06 14:57:37,492 - INFO - Progress: 290,000 docs, 303,365,160 tokens (30.34%)
+2026-02-06 14:58:03,625 - INFO - Progress: 300,000 docs, 313,796,626 tokens (31.38%)
+2026-02-06 14:58:30,088 - INFO - Progress: 310,000 docs, 324,310,642 tokens (32.43%)
+2026-02-06 14:58:56,356 - INFO - Progress: 320,000 docs, 334,770,391 tokens (33.48%)
+2026-02-06 14:59:22,215 - INFO - Progress: 330,000 docs, 345,125,315 tokens (34.51%)
+2026-02-06 14:59:48,386 - INFO - Progress: 340,000 docs, 355,606,319 tokens (35.56%)
+2026-02-06 15:00:15,199 - INFO - Progress: 350,000 docs, 366,284,155 tokens (36.63%)
+2026-02-06 15:00:41,124 - INFO - Progress: 360,000 docs, 376,574,972 tokens (37.66%)
+2026-02-06 15:01:07,370 - INFO - Progress: 370,000 docs, 387,061,215 tokens (38.71%)
+2026-02-06 15:01:33,475 - INFO - Progress: 380,000 docs, 397,482,439 tokens (39.75%)
+2026-02-06 15:01:59,538 - INFO - Progress: 390,000 docs, 407,880,111 tokens (40.79%)
+2026-02-06 15:02:25,120 - INFO - Progress: 400,000 docs, 418,146,794 tokens (41.81%)
+2026-02-06 15:02:50,686 - INFO - Progress: 410,000 docs, 428,395,139 tokens (42.84%)
+2026-02-06 15:03:16,900 - INFO - Progress: 420,000 docs, 438,842,097 tokens (43.88%)
+2026-02-06 15:03:42,134 - INFO - Progress: 430,000 docs, 448,945,651 tokens (44.89%)
+2026-02-06 15:04:08,172 - INFO - Progress: 440,000 docs, 459,351,702 tokens (45.94%)
+2026-02-06 15:04:34,939 - INFO - Progress: 450,000 docs, 470,037,141 tokens (47.00%)
+2026-02-06 15:05:01,736 - INFO - Progress: 460,000 docs, 480,685,942 tokens (48.07%)
+2026-02-06 15:05:27,265 - INFO - Progress: 470,000 docs, 490,912,241 tokens (49.09%)
+2026-02-06 15:05:53,501 - INFO - Progress: 480,000 docs, 501,358,108 tokens (50.14%)
+2026-02-06 15:06:19,594 - INFO - Progress: 490,000 docs, 511,773,481 tokens (51.18%)
+2026-02-06 15:06:44,882 - INFO - Progress: 500,000 docs, 521,948,601 tokens (52.19%)
+2026-02-06 15:07:11,507 - INFO - Progress: 510,000 docs, 532,646,604 tokens (53.26%)
+2026-02-06 15:07:36,966 - INFO - Progress: 520,000 docs, 542,851,303 tokens (54.29%)
+2026-02-06 15:08:03,748 - INFO - Progress: 530,000 docs, 553,534,216 tokens (55.35%)
+2026-02-06 15:08:30,694 - INFO - Progress: 540,000 docs, 564,290,266 tokens (56.43%)
+2026-02-06 15:08:56,993 - INFO - Progress: 550,000 docs, 574,740,179 tokens (57.47%)
+2026-02-06 15:09:22,600 - INFO - Progress: 560,000 docs, 585,027,000 tokens (58.50%)
+2026-02-06 15:09:49,600 - INFO - Progress: 570,000 docs, 595,800,294 tokens (59.58%)
+2026-02-06 15:10:16,285 - INFO - Progress: 580,000 docs, 606,366,293 tokens (60.64%)
+2026-02-06 15:10:42,525 - INFO - Progress: 590,000 docs, 616,834,253 tokens (61.68%)
+2026-02-06 15:11:08,235 - INFO - Progress: 600,000 docs, 627,046,463 tokens (62.70%)
+2026-02-06 15:11:34,438 - INFO - Progress: 610,000 docs, 637,509,369 tokens (63.75%)
+2026-02-06 15:12:00,728 - INFO - Progress: 620,000 docs, 648,011,534 tokens (64.80%)
+2026-02-06 15:12:26,644 - INFO - Progress: 630,000 docs, 658,398,520 tokens (65.84%)
+2026-02-06 15:12:52,942 - INFO - Progress: 640,000 docs, 668,956,100 tokens (66.90%)
+2026-02-06 15:13:20,165 - INFO - Progress: 650,000 docs, 679,725,910 tokens (67.97%)
+2026-02-06 15:13:46,088 - INFO - Progress: 660,000 docs, 690,070,328 tokens (69.01%)
+2026-02-06 15:14:11,887 - INFO - Progress: 670,000 docs, 700,386,744 tokens (70.04%)
+2026-02-06 15:14:38,426 - INFO - Progress: 680,000 docs, 710,948,154 tokens (71.09%)
+2026-02-06 15:15:04,298 - INFO - Progress: 690,000 docs, 721,213,947 tokens (72.12%)
+2026-02-06 15:15:30,595 - INFO - Progress: 700,000 docs, 731,769,702 tokens (73.18%)
+2026-02-06 15:15:56,020 - INFO - Progress: 710,000 docs, 741,929,378 tokens (74.19%)
+2026-02-06 15:16:22,107 - INFO - Progress: 720,000 docs, 752,352,250 tokens (75.24%)
+2026-02-06 15:16:47,372 - INFO - Progress: 730,000 docs, 762,466,029 tokens (76.25%)
+2026-02-06 15:17:13,475 - INFO - Progress: 740,000 docs, 772,909,662 tokens (77.29%)
+2026-02-06 15:17:40,151 - INFO - Progress: 750,000 docs, 783,501,964 tokens (78.35%)
+2026-02-06 15:18:06,638 - INFO - Progress: 760,000 docs, 794,060,597 tokens (79.41%)
+2026-02-06 15:18:32,423 - INFO - Progress: 770,000 docs, 804,387,768 tokens (80.44%)
+2026-02-06 15:18:57,722 - INFO - Progress: 780,000 docs, 814,581,017 tokens (81.46%)
+2026-02-06 15:19:23,235 - INFO - Progress: 790,000 docs, 824,818,374 tokens (82.48%)
+2026-02-06 15:19:49,376 - INFO - Progress: 800,000 docs, 835,301,342 tokens (83.53%)
+2026-02-06 15:20:15,114 - INFO - Progress: 810,000 docs, 845,591,602 tokens (84.56%)
+2026-02-06 15:20:42,930 - INFO - Progress: 820,000 docs, 856,597,803 tokens (85.66%)
+2026-02-06 15:21:08,233 - INFO - Progress: 830,000 docs, 866,723,726 tokens (86.67%)
+2026-02-06 15:21:34,939 - INFO - Progress: 840,000 docs, 877,300,029 tokens (87.73%)
+2026-02-06 15:22:00,860 - INFO - Progress: 850,000 docs, 887,635,641 tokens (88.76%)
+2026-02-06 15:22:26,652 - INFO - Progress: 860,000 docs, 897,971,388 tokens (89.80%)
+2026-02-06 15:22:52,483 - INFO - Progress: 870,000 docs, 908,280,161 tokens (90.83%)
+2026-02-06 15:23:18,626 - INFO - Progress: 880,000 docs, 918,674,702 tokens (91.87%)
+2026-02-06 15:23:44,491 - INFO - Progress: 890,000 docs, 929,032,810 tokens (92.90%)
+2026-02-06 15:24:11,533 - INFO - Progress: 900,000 docs, 939,834,634 tokens (93.98%)
+2026-02-06 15:24:38,040 - INFO - Progress: 910,000 docs, 950,401,429 tokens (95.04%)
+2026-02-06 15:25:03,652 - INFO - Progress: 920,000 docs, 960,687,880 tokens (96.07%)
+2026-02-06 15:25:30,633 - INFO - Progress: 930,000 docs, 971,493,416 tokens (97.15%)
+2026-02-06 15:25:56,191 - INFO - Progress: 940,000 docs, 981,754,581 tokens (98.18%)
+2026-02-06 15:26:21,873 - INFO - Progress: 950,000 docs, 992,007,404 tokens (99.20%)
+2026-02-06 15:26:42,626 - INFO - ============================================================
+2026-02-06 15:26:42,626 - INFO - Preprocessing complete!
+2026-02-06 15:26:42,626 - INFO -   Output prefix: /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document
+2026-02-06 15:26:42,626 - INFO -   Documents: 957,853
+2026-02-06 15:26:42,626 - INFO -   Tokens: 1,000,000,000
+2026-02-06 15:26:42,626 - INFO - ============================================================
+==========================================
+Preprocessing finished with status 0
+==========================================
+
+Output files:
+  /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document.bin
+  /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document.idx
+
+Use datamix: datamix_fineweb_edu_50k.json

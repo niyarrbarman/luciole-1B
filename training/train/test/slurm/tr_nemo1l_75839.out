@@ -1,0 +1,631 @@
+==========================================
+Starting Nemotron training (5 nodes x 2 GPUs)
+Datamix:     /tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output
+Nodes:       5
+Resume Ckpt: <training from scratch>
+Duration:    00:24:00:00
+MASTER_ADDR: 10.158.1.106
+MASTER_PORT: 35840
+==========================================
+W0202 01:57:31.844000 400146 torch/distributed/run.py:763] 
+W0202 01:57:31.844000 400146 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.844000 400146 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0202 01:57:31.844000 400146 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.919000 329734 torch/distributed/run.py:763] 
+W0202 01:57:31.919000 329734 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.919000 329734 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0202 01:57:31.919000 329734 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.932000 186914 torch/distributed/run.py:763] 
+W0202 01:57:31.932000 186914 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.932000 186914 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0202 01:57:31.932000 186914 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.967000 2959693 torch/distributed/run.py:763] 
+W0202 01:57:31.967000 2959693 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.967000 2959693 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0202 01:57:31.967000 2959693 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.991000 3094223 torch/distributed/run.py:763] 
+W0202 01:57:31.991000 3094223 torch/distributed/run.py:763] *****************************************
+W0202 01:57:31.991000 3094223 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0202 01:57:31.991000 3094223 torch/distributed/run.py:763] *****************************************
+[rank: 6] Seed set to 1234
+[rank: 7] Seed set to 1234
+[rank: 9] Seed set to 1234
+[rank: 8] Seed set to 1234
+[rank: 4] Seed set to 1234
+[rank: 5] Seed set to 1234
+[rank: 1] Seed set to 1234
+[rank: 0] Seed set to 1234
+[rank: 3] Seed set to 1234
+[rank: 2] Seed set to 1234
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-02-02 01:58:07 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'lr_mult', 'config', 'no_weight_decay_cond', 'scale_lr_cond', 'use_gloo_process_groups', 'model_chunks'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'model_chunks', 'config', 'use_gloo_process_groups', 'scale_lr_cond', 'lr_mult', 'no_weight_decay_cond'})
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'model_chunks', 'config', 'use_gloo_process_groups', 'lr_mult', 'no_weight_decay_cond', 'scale_lr_cond'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'lr_mult', 'no_weight_decay_cond', 'model_chunks', 'config', 'use_gloo_process_groups', 'scale_lr_cond'})
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'config', 'no_weight_decay_cond', 'model_chunks', 'scale_lr_cond', 'use_gloo_process_groups', 'lr_mult'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'scale_lr_cond', 'no_weight_decay_cond', 'lr_mult', 'model_chunks', 'use_gloo_process_groups', 'config'})
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'model_chunks', 'lr_mult', 'scale_lr_cond', 'use_gloo_process_groups', 'config', 'no_weight_decay_cond'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'lr_mult', 'use_gloo_process_groups', 'scale_lr_cond', 'model_chunks', 'no_weight_decay_cond', 'config'})
+[NeMo I 2026-02-02 01:58:15 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'lr_mult', 'no_weight_decay_cond', 'config', 'scale_lr_cond', 'use_gloo_process_groups', 'model_chunks'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Using provided global_max_steps: 100
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'scale_lr_cond', 'lr_mult', 'config', 'model_chunks', 'use_gloo_process_groups', 'no_weight_decay_cond'})
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 6, MEMBER: 7/10
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 8, MEMBER: 9/10
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 7, MEMBER: 8/10
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 4, MEMBER: 5/10
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 9, MEMBER: 10/10
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:Detected checkpoint at step 19
+INFO:__main__:Setting trainer.max_steps = 19 + 20 = 39 (capped at global_max_steps=100)
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO:__main__:AutoResume enabled: will continue from latest checkpoint if exists
+INFO:__main__:Set scheduler max_steps to global_max_steps: 100
+INFO: GPU available: True (cuda), used: True
+INFO:lightning.pytorch.utilities.rank_zero:GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+INFO:lightning.pytorch.utilities.rank_zero:TPU available: False, using: 0 TPU cores
+INFO: HPU available: False, using: 0 HPUs
+INFO:lightning.pytorch.utilities.rank_zero:HPU available: False, using: 0 HPUs
+[NeMo W 2026-02-02 01:58:18 nemo_logging:405] No version folders would be created under the log folder as 'resume_if_exists' is enabled.
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Experiments will be logged at /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test
+[NeMo W 2026-02-02 01:58:18 nemo_logging:405] "update_logger_directory" is True. Overwriting tensorboard logger "save_dir" to /tmpdir/m24047brmn/nemo_1b/output/tb_logs
+[NeMo W 2026-02-02 01:58:18 nemo_logging:405] The Trainer already contains a ModelCheckpoint callback. This will be overwritten.
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 5, MEMBER: 6/10
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Fixing mis-match between ddp-config & mcore-optimizer config
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has data parallel group : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has combined group of data parallel and context parallel : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] All data parallel group ranks with context parallel combined: [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Ranks 0 has data parallel rank: 0
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has context parallel group: [0]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] All context parallel group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Ranks 0 has context parallel rank: 0
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has model parallel group: [0]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] All model parallel group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has tensor model parallel group: [0]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] All tensor model parallel group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has tensor model parallel rank: 0
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has pipeline model parallel group: [0]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has embedding group: [0]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] All pipeline model parallel group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has pipeline model parallel rank 0
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] All embedding group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]
+[NeMo I 2026-02-02 01:58:18 nemo_logging:393] Rank 0 has embedding rank: 0
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/10
+INFO: ----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 10 processes
+----------------------------------------------------------------------------------------------------
+
+INFO:lightning.pytorch.utilities.rank_zero:----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 10 processes
+----------------------------------------------------------------------------------------------------
+
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75839/config_nemotron1b-1layer-test.json
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/10
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/10
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/10
+[NeMo I 2026-02-02 01:58:22 utils:532] Let split_matrix = [(0, 1.0), None, None]
+[NeMo I 2026-02-02 01:58:22 utils:532] Building GPTDataset splits with sizes=[49920, 0, 40960] and config=GPTDatasetConfig(random_seed=1234, sequence_length=1024, blend=[['/tmpdir/m24047brmn/nemo_1b/data/train_text_document'], None], blend_per_split=None, split='1,0,0', split_matrix=[(0, 1.0), None, None], num_dataset_builder_threads=1, path_to_cache='/tmpdir/m24047brmn/nemo_1b/output/index_mapping', mmap_bin_files=True, mock=False, tokenizer=<nemo.collections.common.tokenizers.huggingface.auto_tokenizer.AutoTokenizer object at 0x400260de0890>, reset_position_ids=False, reset_attention_mask=False, eod_mask_loss=False, create_attention_mask=False, drop_last_partial_validation_sequence=True, add_extra_token_to_sequence=True, s3_cache_path=None)
+[NeMo I 2026-02-02 01:58:22 utils:532] Load the _IndexReader from /tmpdir/m24047brmn/nemo_1b/data/train_text_document.idx
+[NeMo I 2026-02-02 01:58:22 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-02-02 01:58:22 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-02-02 01:58:22 utils:532] 	Extract the document indices
+[NeMo I 2026-02-02 01:58:22 utils:532] > total number of sequences: 12000
+[NeMo I 2026-02-02 01:58:22 utils:532] > total number of documents: 12000
+[NeMo I 2026-02-02 01:58:22 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-02-02 01:58:22 utils:532] > total number of samples: 50781
+[NeMo I 2026-02-02 01:58:22 utils:532] > total number of epochs: 52
+[NeMo I 2026-02-02 01:58:23 nemo_logging:393] Padded vocab_size: 256000, original vocab_size: 256000, dummy tokens: 0.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+[NeMo I 2026-02-02 01:58:23 nemo_logging:393] Copying Trainer's 'max_steps' (39) to LR scheduler's 'max_steps'.
+[NeMo I 2026-02-02 01:58:23 num_microbatches_calculator:228] setting number of microbatches to constant 128
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+[NeMo I 2026-02-02 01:58:23 nemo_logging:393]  > number of parameters on (tensor, pipeline) model parallel rank (0 ,0): 1581453312
+[NeMo I 2026-02-02 01:58:23 utils:532] Setting up DistributedDataParallel with config DistributedDataParallelConfig(grad_reduce_in_fp32=True, overlap_grad_reduce=True, overlap_param_gather=True, align_param_gather=False, use_distributed_optimizer=True, num_distributed_optimizer_instances=1, check_for_nan_in_grad=True, check_for_large_grads=False, bucket_size=40000000, pad_buckets_for_high_nccl_busbw=False, average_in_collective=True, fp8_param_gather=False, use_custom_fsdp=False, data_parallel_sharding_strategy='no_shard', gradient_reduce_div_fusion=True, suggested_communication_unit_size=None, preserve_fp32_weights=True, keep_fp8_transpose_cache_when_using_custom_fsdp=False)
+[NeMo I 2026-02-02 01:58:23 utils:553] Number of buckets for gradient all-reduce / reduce-scatter: 25
+    Params for bucket 1 (44052480 elements, 44052480 padded size):
+    	module.decoder.layers.23.mlp.linear_fc2.weight
+    	module.decoder.layers.23.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.23.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.23.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.23.self_attention.linear_proj.weight
+    	module.decoder.final_layernorm.bias
+    	module.decoder.final_layernorm.weight
+    	module.decoder.layers.23.mlp.linear_fc1.weight
+    	module.decoder.layers.23.self_attention.linear_qkv.weight
+    	module.decoder.layers.23.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 2 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.22.mlp.linear_fc2.weight
+    	module.decoder.layers.22.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.22.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.22.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.22.self_attention.linear_proj.weight
+    	module.decoder.layers.22.self_attention.linear_qkv.weight
+    	module.decoder.layers.22.mlp.linear_fc1.weight
+    	module.decoder.layers.22.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 3 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.21.mlp.linear_fc2.weight
+    	module.decoder.layers.21.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.21.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.21.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.21.self_attention.linear_proj.weight
+    	module.decoder.layers.21.mlp.linear_fc1.weight
+    	module.decoder.layers.21.self_attention.linear_qkv.weight
+    	module.decoder.layers.21.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 4 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.20.mlp.linear_fc2.weight
+    	module.decoder.layers.20.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.20.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.20.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.20.self_attention.linear_proj.weight
+    	module.decoder.layers.20.self_attention.linear_qkv.weight
+    	module.decoder.layers.20.mlp.linear_fc1.weight
+    	module.decoder.layers.20.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 5 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.19.mlp.linear_fc2.weight
+    	module.decoder.layers.19.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.19.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.19.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.19.self_attention.linear_proj.weight
+    	module.decoder.layers.19.self_attention.linear_qkv.weight
+    	module.decoder.layers.19.mlp.linear_fc1.weight
+    	module.decoder.layers.19.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 6 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.18.self_attention.linear_qkv.weight
+    	module.decoder.layers.18.mlp.linear_fc1.weight
+    	module.decoder.layers.18.self_attention.linear_qkv.layer_norm_bias
+    	module.decoder.layers.18.mlp.linear_fc2.weight
+    	module.decoder.layers.18.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.18.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.18.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.18.self_attention.linear_proj.weight
+    Params for bucket 7 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.17.self_attention.linear_qkv.weight
+    	module.decoder.layers.17.mlp.linear_fc1.weight
+    	module.decoder.layers.17.self_attention.linear_qkv.layer_norm_bias
+    	module.decoder.layers.17.mlp.linear_fc2.weight
+    	module.decoder.layers.17.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.17.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.17.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.17.self_attention.linear_proj.weight
+    Params for bucket 8 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.16.mlp.linear_fc2.weight
+    	module.decoder.layers.16.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.16.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.16.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.16.self_attention.linear_proj.weight
+    	module.decoder.layers.16.self_attention.linear_qkv.weight
+    	module.decoder.layers.16.mlp.linear_fc1.weight
+    	module.decoder.layers.16.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 9 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.15.mlp.linear_fc2.weight
+    	module.decoder.layers.15.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.15.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.15.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.15.self_attention.linear_proj.weight
+    	module.decoder.layers.15.self_attention.linear_qkv.weight
+    	module.decoder.layers.15.mlp.linear_fc1.weight
+    	module.decoder.layers.15.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 10 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.14.mlp.linear_fc2.weight
+    	module.decoder.layers.14.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.14.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.14.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.14.self_attention.linear_proj.weight
+    	module.decoder.layers.14.self_attention.linear_qkv.weight
+    	module.decoder.layers.14.mlp.linear_fc1.weight
+    	module.decoder.layers.14.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 11 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.13.mlp.linear_fc2.weight
+    	module.decoder.layers.13.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.13.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.13.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.13.self_attention.linear_proj.weight
+    	module.decoder.layers.13.mlp.linear_fc1.weight
+    	module.decoder.layers.13.self_attention.linear_qkv.weight
+    	module.decoder.layers.13.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 12 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.12.mlp.linear_fc2.weight
+    	module.decoder.layers.12.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.12.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.12.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.12.self_attention.linear_proj.weight
+    	module.decoder.layers.12.self_attention.linear_qkv.weight
+    	module.decoder.layers.12.mlp.linear_fc1.weight
+    	module.decoder.layers.12.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 13 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.11.mlp.linear_fc2.weight
+    	module.decoder.layers.11.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.11.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.11.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.11.self_attention.linear_proj.weight
+    	module.decoder.layers.11.self_attention.linear_qkv.weight
+    	module.decoder.layers.11.mlp.linear_fc1.weight
+    	module.decoder.layers.11.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 14 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.10.mlp.linear_fc2.weight
+    	module.decoder.layers.10.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.10.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.10.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.10.self_attention.linear_proj.weight
+    	module.decoder.layers.10.mlp.linear_fc1.weight
+    	module.decoder.layers.10.self_attention.linear_qkv.weight
+    	module.decoder.layers.10.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 15 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.9.mlp.linear_fc2.weight
+    	module.decoder.layers.9.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.9.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.9.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.9.self_attention.linear_proj.weight
+    	module.decoder.layers.9.mlp.linear_fc1.weight
+    	module.decoder.layers.9.self_attention.linear_qkv.weight
+    	module.decoder.layers.9.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 16 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.8.mlp.linear_fc2.weight
+    	module.decoder.layers.8.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.8.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.8.self_attention.linear_qkv.weight
+    	module.decoder.layers.8.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.8.mlp.linear_fc1.weight
+    	module.decoder.layers.8.self_attention.linear_qkv.layer_norm_bias
+    	module.decoder.layers.8.self_attention.linear_proj.weight
+    Params for bucket 17 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.7.mlp.linear_fc2.weight
+    	module.decoder.layers.7.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.7.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.7.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.7.self_attention.linear_proj.weight
+    	module.decoder.layers.7.self_attention.linear_qkv.weight
+    	module.decoder.layers.7.mlp.linear_fc1.weight
+    	module.decoder.layers.7.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 18 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.6.mlp.linear_fc2.weight
+    	module.decoder.layers.6.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.6.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.6.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.6.self_attention.linear_proj.weight
+    	module.decoder.layers.6.self_attention.linear_qkv.weight
+    	module.decoder.layers.6.mlp.linear_fc1.weight
+    	module.decoder.layers.6.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 19 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.5.mlp.linear_fc2.weight
+    	module.decoder.layers.5.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.5.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.5.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.5.self_attention.linear_proj.weight
+    	module.decoder.layers.5.self_attention.linear_qkv.weight
+    	module.decoder.layers.5.mlp.linear_fc1.weight
+    	module.decoder.layers.5.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 20 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.4.mlp.linear_fc2.weight
+    	module.decoder.layers.4.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.4.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.4.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.4.self_attention.linear_proj.weight
+    	module.decoder.layers.4.mlp.linear_fc1.weight
+    	module.decoder.layers.4.self_attention.linear_qkv.weight
+    	module.decoder.layers.4.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 21 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.3.mlp.linear_fc2.weight
+    	module.decoder.layers.3.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.3.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.3.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.3.self_attention.linear_proj.weight
+    	module.decoder.layers.3.self_attention.linear_qkv.weight
+    	module.decoder.layers.3.mlp.linear_fc1.weight
+    	module.decoder.layers.3.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 22 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.2.mlp.linear_fc2.weight
+    	module.decoder.layers.2.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.2.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.2.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.2.self_attention.linear_proj.weight
+    	module.decoder.layers.2.self_attention.linear_qkv.weight
+    	module.decoder.layers.2.mlp.linear_fc1.weight
+    	module.decoder.layers.2.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 23 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.1.mlp.linear_fc2.weight
+    	module.decoder.layers.1.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.1.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.1.self_attention.linear_qkv.layer_norm_bias
+    	module.decoder.layers.1.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.1.self_attention.linear_proj.weight
+    	module.decoder.layers.1.mlp.linear_fc1.weight
+    	module.decoder.layers.1.self_attention.linear_qkv.weight
+    Params for bucket 24 (44048384 elements, 44048640 padded size):
+    	module.decoder.layers.0.mlp.linear_fc2.weight
+    	module.decoder.layers.0.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.0.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.0.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.0.self_attention.linear_proj.weight
+    	module.decoder.layers.0.self_attention.linear_qkv.weight
+    	module.decoder.layers.0.mlp.linear_fc1.weight
+    	module.decoder.layers.0.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 25 (524288000 elements, 524288000 padded size):
+    	module.embedding.word_embeddings.weight
+[NeMo I 2026-02-02 01:58:23 utils:532] Setting up optimizer with config OptimizerConfig(optimizer='adam', lr=0.0003, min_lr=None, decoupled_lr=None, decoupled_min_lr=None, weight_decay=0.1, fp16=False, bf16=True, params_dtype=torch.bfloat16, use_precision_aware_optimizer=False, main_grads_dtype=torch.float32, main_params_dtype=torch.float32, exp_avg_dtype=torch.float32, exp_avg_sq_dtype=torch.float32, loss_scale=None, initial_loss_scale=4294967296, min_loss_scale=1.0, loss_scale_window=1000, hysteresis=2, adam_beta1=0.9, adam_beta2=0.95, adam_eps=1e-05, sgd_momentum=0.9, use_distributed_optimizer=True, overlap_param_gather_with_optimizer_step=False, optimizer_cpu_offload=False, optimizer_offload_fraction=0.0, use_torch_optimizer_for_cpu_offload=False, overlap_cpu_optimizer_d2h_h2d=False, pin_cpu_grads=True, pin_cpu_params=True, clip_grad=1.0, log_num_zeros_in_grad=False, barrier_with_L1_time=False, timers=None, config_logger_dir='')
+INFO: 
+  | Name   | Type | Params | Mode 
+----------------------------------------
+0 | module | DDP  | 1.6 B  | train
+----------------------------------------
+1.6 B     Trainable params
+0         Non-trainable params
+1.6 B     Total params
+6,325.813 Total estimated model params size (MB)
+491       Modules in train mode
+0         Modules in eval mode
+INFO:lightning.pytorch.callbacks.model_summary:
+  | Name   | Type | Params | Mode 
+----------------------------------------
+0 | module | DDP  | 1.6 B  | train
+----------------------------------------
+1.6 B     Trainable params
+0         Non-trainable params
+1.6 B     Total params
+6,325.813 Total estimated model params size (MB)
+491       Modules in train mode
+0         Modules in eval mode
+INFO: Restoring states from the checkpoint path at /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000019-last/weights
+INFO:lightning.pytorch.utilities.rank_zero:Restoring states from the checkpoint path at /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000019-last/weights
+[NeMo I 2026-02-02 01:58:23 nemo_logging:393] Using <megatron.core.dist_checkpointing.strategies.fully_parallel.FullyParallelLoadStrategyWrapper object at 0x4002f3f36900> dist-ckpt load strategy.
+[NeMo I 2026-02-02 01:58:32 nemo_logging:393] Global Checkpoint Load : Rank : 0 : Start time : 1769993903.946s : Time spent in load_checkpoint: 8.679s
+INFO: *** Loaded DataModule state dict successfully. IGNORE PTL's warning below about the dataloader not being resumable. This is warning is expected because we are handling dataloader resumption manually in NeMo. ***
+INFO:lightning.pytorch.utilities.rank_zero:*** Loaded DataModule state dict successfully. IGNORE PTL's warning below about the dataloader not being resumable. This is warning is expected because we are handling dataloader resumption manually in NeMo. ***
+[NeMo I 2026-02-02 01:58:32 distrib_optimizer:784] Loading distributed optimizer sharded state of type fully_sharded_model_space
+INFO: Restored all states from the checkpoint at /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000019-last/weights
+INFO:lightning.pytorch.utilities.rank_zero:Restored all states from the checkpoint at /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000019-last/weights
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 50781 and consumed_samples: 25600
+[NeMo W 2026-02-02 01:58:33 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/training_epoch_loop.py:161: You're resuming from a checkpoint that ended before the epoch ended and your dataloader is not resumable. This can cause unreliable results if further training is done. Consider using an end-of-epoch checkpoint or make your dataloader resumable by implementing the `state_dict` / `load_state_dict` interface.
+    
+[NeMo W 2026-02-02 01:59:23 rerun_state_machine:1264] Implicit initialization of Rerun State Machine!
+[NeMo W 2026-02-02 01:59:23 rerun_state_machine:239] RerunStateMachine initialized in mode RerunMode.DISABLED
+Training epoch 0, iteration 20/38 | lr: 1.257e-05 | consumed_samples: 26880 | global_batch_size: 1280 | global_step: 20 | reduced_train_loss: 8.244
+Training epoch 0, iteration 21/38 | lr: 1.317e-05 | consumed_samples: 28160 | global_batch_size: 1280 | global_step: 21 | reduced_train_loss: 8.136
+Training epoch 0, iteration 22/38 | lr: 1.377e-05 | consumed_samples: 29440 | global_batch_size: 1280 | global_step: 22 | reduced_train_loss: 8.068
+Training epoch 0, iteration 23/38 | lr: 1.437e-05 | consumed_samples: 30720 | global_batch_size: 1280 | global_step: 23 | reduced_train_loss: 7.996
+Training epoch 0, iteration 24/38 | lr: 1.497e-05 | consumed_samples: 32000 | global_batch_size: 1280 | global_step: 24 | reduced_train_loss: 7.998
+Training epoch 0, iteration 25/38 | lr: 1.557e-05 | consumed_samples: 33280 | global_batch_size: 1280 | global_step: 25 | reduced_train_loss: 7.88
+Training epoch 0, iteration 26/38 | lr: 1.617e-05 | consumed_samples: 34560 | global_batch_size: 1280 | global_step: 26 | reduced_train_loss: 7.853
+Training epoch 0, iteration 27/38 | lr: 1.677e-05 | consumed_samples: 35840 | global_batch_size: 1280 | global_step: 27 | reduced_train_loss: 7.768
+Training epoch 0, iteration 28/38 | lr: 1.737e-05 | consumed_samples: 37120 | global_batch_size: 1280 | global_step: 28 | reduced_train_loss: 7.772
+Training epoch 0, iteration 29/38 | lr: 1.796e-05 | consumed_samples: 38400 | global_batch_size: 1280 | global_step: 29 | reduced_train_loss: 7.696
+INFO: Epoch 0, global step 29: 'step' reached 29.00000 (best 29.00000), saving model to '/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000029.ckpt' as top 3
+INFO:lightning.pytorch.utilities.rank_zero:Epoch 0, global step 29: 'step' reached 29.00000 (best 29.00000), saving model to '/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000029.ckpt' as top 3
+[NeMo I 2026-02-02 02:05:20 nemo_logging:393] Using FullyParallelSaveStrategyWrapper(torch_dist, 1) dist-ckpt save strategy.
+[NeMo W 2026-02-02 02:05:21 validation:389] There is difference in the common state dict in different ranks. The differences are {1: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 2: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 3: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 4: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 5: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 6: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 8: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)])}
+[NeMo I 2026-02-02 02:05:32 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 28 : Start time: 1769994320.352s : Save duration: 12.347s
+[NeMo I 2026-02-02 02:05:33 nemo_logging:393] Scheduled async checkpoint save for /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000029.ckpt
+[NeMo W 2026-02-02 02:05:38 validation:389] There is difference in the common state dict in different ranks. The differences are {1: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 2: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 3: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 4: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 5: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 6: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 8: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)])}
+[NeMo I 2026-02-02 02:05:38 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 28 : Start time: 1769994337.953s : Save duration: 0.987s
+[NeMo I 2026-02-02 02:05:39 nemo_logging:393] Scheduled async checkpoint save for /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000029-last.ckpt
+[NeMo I 2026-02-02 02:05:39 nemo_logging:393] Async finalization time took 0.012 s
+Training epoch 0, iteration 30/38 | lr: 1.856e-05 | consumed_samples: 39680 | global_batch_size: 1280 | global_step: 30 | reduced_train_loss: 7.662
+[NeMo I 2026-02-02 02:06:22 nemo_logging:393] Successfully saved checkpoint from iteration      28 to /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000029.ckpt
+[NeMo I 2026-02-02 02:06:22 nemo_logging:393] Async checkpoint save for step 30 (/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000029.ckpt) finalized successfully.
+[NeMo I 2026-02-02 02:06:22 nemo_logging:393] Successfully saved checkpoint from iteration      28 to /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000029-last.ckpt
+[NeMo I 2026-02-02 02:06:22 nemo_logging:393] Async checkpoint save for step 30 (/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000029-last.ckpt) finalized successfully.
+[NeMo I 2026-02-02 02:06:24 nemo_logging:393] Async finalization time took 2.580 s
+Training epoch 0, iteration 31/38 | lr: 1.916e-05 | consumed_samples: 40960 | global_batch_size: 1280 | global_step: 31 | reduced_train_loss: 7.708
+Training epoch 0, iteration 32/38 | lr: 1.976e-05 | consumed_samples: 42240 | global_batch_size: 1280 | global_step: 32 | reduced_train_loss: 7.568
+Training epoch 0, iteration 33/38 | lr: 2.036e-05 | consumed_samples: 43520 | global_batch_size: 1280 | global_step: 33 | reduced_train_loss: 7.615
+Training epoch 0, iteration 34/38 | lr: 2.096e-05 | consumed_samples: 44800 | global_batch_size: 1280 | global_step: 34 | reduced_train_loss: 7.552
+Training epoch 0, iteration 35/38 | lr: 2.156e-05 | consumed_samples: 46080 | global_batch_size: 1280 | global_step: 35 | reduced_train_loss: 7.559
+Training epoch 0, iteration 36/38 | lr: 2.216e-05 | consumed_samples: 47360 | global_batch_size: 1280 | global_step: 36 | reduced_train_loss: 7.472
+Training epoch 0, iteration 37/38 | lr: 2.275e-05 | consumed_samples: 48640 | global_batch_size: 1280 | global_step: 37 | reduced_train_loss: 7.445
+Training epoch 0, iteration 38/38 | lr: 2.335e-05 | consumed_samples: 49920 | global_batch_size: 1280 | global_step: 38 | reduced_train_loss: 7.379
+INFO: Epoch 0, global step 38: 'step' reached 38.00000 (best 38.00000), saving model to '/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000038.ckpt' as top 4
+INFO:lightning.pytorch.utilities.rank_zero:Epoch 0, global step 38: 'step' reached 38.00000 (best 38.00000), saving model to '/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000038.ckpt' as top 4
+[NeMo W 2026-02-02 02:12:23 validation:389] There is difference in the common state dict in different ranks. The differences are {1: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 2: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 3: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 4: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 5: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 6: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 8: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)])}
+[NeMo I 2026-02-02 02:12:24 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 37 : Start time: 1769994743.149s : Save duration: 0.878s
+[NeMo I 2026-02-02 02:12:24 nemo_logging:393] Scheduled async checkpoint save for /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000038.ckpt
+[NeMo W 2026-02-02 02:12:29 validation:389] There is difference in the common state dict in different ranks. The differences are {1: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 2: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 3: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 4: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 5: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 6: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 8: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)])}
+[NeMo I 2026-02-02 02:12:29 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 37 : Start time: 1769994748.950s : Save duration: 1.039s
+[NeMo I 2026-02-02 02:12:32 nemo_logging:393] Scheduled async checkpoint save for /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000038-last.ckpt
+[NeMo I 2026-02-02 02:12:32 nemo_logging:393] Async finalization time took 0.034 s
+[NeMo I 2026-02-02 02:12:32 nemo_logging:393] Async finalization time took 0.052 s
+INFO: `Trainer.fit` stopped: `max_steps=39` reached.
+INFO:lightning.pytorch.utilities.rank_zero:`Trainer.fit` stopped: `max_steps=39` reached.
+[NeMo I 2026-02-02 02:12:32 nemo_logging:393] Pending async checkpoint saves. Finalizing them synchronously now
+[NeMo I 2026-02-02 02:12:34 nemo_logging:393] Successfully saved checkpoint from iteration      37 to /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000038.ckpt
+[NeMo I 2026-02-02 02:12:34 nemo_logging:393] Async checkpoint save for step 39 (/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000038.ckpt) finalized successfully.
+[NeMo I 2026-02-02 02:12:38 nemo_logging:393] Successfully saved checkpoint from iteration      37 to /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000038-last.ckpt
+[NeMo I 2026-02-02 02:12:38 nemo_logging:393] Async checkpoint save for step 39 (/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints/nemotron1b-1layer-test-step=0000038-last.ckpt) finalized successfully.
+[NeMo I 2026-02-02 02:12:40 nemo_logging:393] Async finalization time took 7.361 s
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+INFO:__main__:finished training run.
+==========================================
+Training finished with status 0
+==========================================

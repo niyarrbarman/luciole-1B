@@ -1,0 +1,46 @@
+==========================================
+Preprocessing Wikipedia-EN
+Tokenizer:  /work/m24047/m24047brmn/tokenizers/luciole_50k
+Input:      /work/shares/IA-Datasets/Wikipedia-EN/wikipedia/data/20220301.en
+Output:     /tmpdir/m24047brmn/nemo_1b/data_wiki/wikipedia_en_text_document
+Max Tokens: 10000000
+==========================================
+2026-02-08 02:24:02,189 - INFO - Loading tokenizer from: /work/m24047/m24047brmn/tokenizers/luciole_50k
+2026-02-08 02:24:02,215 - INFO - Loaded SentencePiece tokenizer with vocab size: 50256
+2026-02-08 02:24:02,215 - INFO - EOS token ID: 3
+2026-02-08 02:24:02,216 - INFO - Starting tokenization (target: 10,000,000 tokens)...
+2026-02-08 02:24:02,216 - INFO - Reading parquet files from: /work/shares/IA-Datasets/Wikipedia-EN/wikipedia/data/20220301.en
+2026-02-08 02:24:02,430 - INFO - Found 41 parquet files
+2026-02-08 02:24:02,430 - INFO - Processing file: train-00000-of-00041.parquet
+2026-02-08 02:24:02,616 - INFO - Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+2026-02-08 02:24:02,616 - INFO - Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+2026-02-08 02:24:02,616 - INFO - NumExpr defaulting to 16 threads.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/preprocess_wikipedia.py", line 210, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/preprocess_wikipedia.py", line 199, in main
+    tokenize_dataset(
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/preprocess_wikipedia.py", line 107, in tokenize_dataset
+    for row in iter_parquet_files(input_dir, file_pattern):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/preprocess_wikipedia.py", line 36, in iter_parquet_files
+    table = pq.read_table(filepath)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/pyarrow/parquet/core.py", line 1793, in read_table
+    dataset = ParquetDataset(
+              ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/pyarrow/parquet/core.py", line 1371, in __init__
+    self._dataset = ds.dataset(path_or_paths, filesystem=filesystem,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/pyarrow/dataset.py", line 794, in dataset
+    return _filesystem_dataset(source, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/pyarrow/dataset.py", line 486, in _filesystem_dataset
+    return factory.finish(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "pyarrow/_dataset.pyx", line 3138, in pyarrow._dataset.DatasetFactory.finish
+  File "pyarrow/error.pxi", line 155, in pyarrow.lib.pyarrow_internal_check_status
+  File "pyarrow/error.pxi", line 92, in pyarrow.lib.check_status
+pyarrow.lib.ArrowInvalid: Error creating dataset. Could not read schema from '/work/shares/IA-Datasets/Wikipedia-EN/wikipedia/data/20220301.en/train-00000-of-00041.parquet'. Is this a 'parquet' file?: Could not open Parquet input source '/work/shares/IA-Datasets/Wikipedia-EN/wikipedia/data/20220301.en/train-00000-of-00041.parquet': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.
+==========================================
+Preprocessing finished with status 1
+==========================================

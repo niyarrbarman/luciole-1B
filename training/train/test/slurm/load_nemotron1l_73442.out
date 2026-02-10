@@ -1,0 +1,41 @@
+==========================================
+Loading 1-layer Nemotron model (NeMo)
+Checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-10_03-36-53/checkpoints/model_name=0--val_loss=0.00-step=881-consumed_samples=112896.0-last
+Prompt: The history of artificial intelligence begins with
+==========================================
+/usr/local/lib/python3.12/dist-packages/torch/__init__.py:1605: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /opt/pytorch/pytorch/aten/src/ATen/Context.cpp:80.)
+  _C._set_float32_matmul_precision(precision)
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+[NeMo W 2026-01-10 19:49:17 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-01-10 19:49:17 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+WARNING:nv_one_logger.api.config:OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+WARNING:root:Trying to use Config or Partial, but NeMo-Run is not installed. Please install NeMo-Run before proceeding.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/./load_model.py", line 439, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/./load_model.py", line 403, in main
+    model, tokenizer = load_model(
+                       ^^^^^^^^^^^
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/./load_model.py", line 112, in load_model
+    from nemo.collections.llm.gpt.model.nemotron import NemotronModel
+  File "/opt/NeMo/nemo/collections/llm/__init__.py", line 51, in <module>
+    from nemo.collections.llm.gpt.data.api import dolly, hf_dataset, mock, squad
+  File "/opt/NeMo/nemo/collections/llm/gpt/data/api.py", line 16, in <module>
+    import nemo_run as run
+ModuleNotFoundError: No module named 'nemo_run'
+==========================================
+Inference finished with status 1
+==========================================

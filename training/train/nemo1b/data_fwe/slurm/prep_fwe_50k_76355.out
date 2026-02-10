@@ -1,0 +1,73 @@
+==========================================
+Preprocessing FineWeb-Edu with Luciole 50k tokenizer
+Tokenizer:   /work/m24047/m24047brmn/tokenizers/luciole_50k
+Input:       /work/shares/IA-Datasets/fineweb_edu_10bt_shuffled
+Output:      /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document.{bin,idx}
+Max tokens:  1000000000
+==========================================
+2026-02-06 14:35:46,353 - INFO - Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+2026-02-06 14:35:46,353 - INFO - Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+2026-02-06 14:35:46,353 - INFO - NumExpr defaulting to 16 threads.
+[NeMo W 2026-02-06 14:35:48 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-02-06 14:35:48 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+2026-02-06 14:35:50,025 - INFO - The multistorageclient package is available.
+2026-02-06 14:35:52,966 - INFO - Detected Megatron Core, using Megatron-FSDP with Megatron.
+2026-02-06 14:35:52,968 - INFO - Detected Megatron Core, using Megatron-FSDP with Megatron.
+2026-02-06 14:35:56,542 - WARNING - OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+2026-02-06 14:35:56,571 - INFO - Final configuration contains 0 exporter(s)
+2026-02-06 14:35:56,572 - WARNING - No exporters were provided. This means that no telemetry data will be collected.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+2026-02-06 14:36:00,701 - INFO - PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+2026-02-06 14:36:01,952 - INFO - Loading tokenizer from: /work/m24047/m24047brmn/tokenizers/luciole_50k
+[NeMo I 2026-02-06 14:36:01 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/luciole_50k, vocab_file: None,  merges_files: None, special_tokens_dict: {}, and use_fast: True
+Traceback (most recent call last):
+  File "/opt/NeMo/nemo/collections/common/tokenizers/huggingface/auto_tokenizer.py", line 76, in __init__
+    self._initialize_tokenizer(
+  File "/opt/NeMo/nemo/collections/common/tokenizers/huggingface/auto_tokenizer.py", line 180, in _initialize_tokenizer
+    self.tokenizer = AUTOTOKENIZER.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/models/auto/tokenization_auto.py", line 1122, in from_pretrained
+    raise ValueError(
+ValueError: Tokenizer class SentencePieceTokenizer does not exist or is not currently imported.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/NeMo/nemo/collections/common/tokenizers/huggingface/auto_tokenizer.py", line 82, in __init__
+    self._initialize_tokenizer(
+  File "/opt/NeMo/nemo/collections/common/tokenizers/huggingface/auto_tokenizer.py", line 180, in _initialize_tokenizer
+    self.tokenizer = AUTOTOKENIZER.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/models/auto/tokenization_auto.py", line 1122, in from_pretrained
+    raise ValueError(
+ValueError: Tokenizer class SentencePieceTokenizer does not exist or is not currently imported.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/nemo1b/data_fwe/preprocess_fineweb_edu.py", line 180, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/nemo1b/data_fwe/preprocess_fineweb_edu.py", line 170, in main
+    tokenize_dataset(
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/nemo1b/data_fwe/preprocess_fineweb_edu.py", line 65, in tokenize_dataset
+    tokenizer = get_tokenizer(tokenizer_name=tokenizer_path, use_fast=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/collections/nlp/modules/common/tokenizer_utils.py", line 153, in get_tokenizer
+    tokenizer = AutoTokenizer(
+                ^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/collections/common/tokenizers/huggingface/auto_tokenizer.py", line 87, in __init__
+    raise ValueError(
+ValueError: Unable to instantiate HuggingFace AUTOTOKENIZER for /work/m24047/m24047brmn/tokenizers/luciole_50k. Exception: Tokenizer class SentencePieceTokenizer does not exist or is not currently imported.
+==========================================
+Preprocessing finished with status 1
+==========================================
+
+Output files:
+  /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document.bin
+  /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document.idx
+
+Use datamix: datamix_fineweb_edu_50k.json

@@ -1,0 +1,106 @@
+{
+  "results": {
+    "arc_easy": {
+      "alias": "arc_easy",
+      "acc,none": 0.2756734006734007,
+      "acc_stderr,none": 0.009169229476542745,
+      "acc_norm,none": 0.2815656565656566,
+      "acc_norm_stderr,none": 0.009228934764519166
+    }
+  },
+  "group_subtasks": {
+    "arc_easy": []
+  },
+  "configs": {
+    "arc_easy": {
+      "task": "arc_easy",
+      "tag": [
+        "ai2_arc"
+      ],
+      "dataset_path": "allenai/ai2_arc",
+      "dataset_name": "ARC-Easy",
+      "training_split": "train",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "Question: {{question}}\nAnswer:",
+      "doc_to_target": "{{choices.label.index(answerKey)}}",
+      "unsafe_code": false,
+      "doc_to_choice": "{{choices.text}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "fewshot_config": {
+        "sampler": "default",
+        "split": null,
+        "process_docs": null,
+        "fewshot_indices": null,
+        "samples": null,
+        "doc_to_text": "Question: {{question}}\nAnswer:",
+        "doc_to_choice": "{{choices.text}}",
+        "doc_to_target": "{{choices.label.index(answerKey)}}",
+        "gen_prefix": null,
+        "fewshot_delimiter": "\n\n",
+        "target_delimiter": " "
+      },
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "acc_norm",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "Question: {{question}}\nAnswer:",
+      "metadata": {
+        "version": 1.0
+      }
+    }
+  },
+  "versions": {
+    "arc_easy": 1.0
+  },
+  "n-shot": {
+    "arc_easy": 0
+  },
+  "higher_is_better": {
+    "arc_easy": {
+      "acc": true,
+      "acc_norm": true
+    }
+  },
+  "n-samples": {
+    "arc_easy": {
+      "original": 2376,
+      "effective": 2376
+    }
+  },
+  "config": {
+    "model": "NemotronLM",
+    "model_args": null,
+    "batch_size": 1,
+    "batch_sizes": [],
+    "device": null,
+    "use_cache": null,
+    "limit": null,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": null,
+    "random_seed": 0,
+    "numpy_seed": 1234,
+    "torch_seed": 1234,
+    "fewshot_seed": 1234
+  },
+  "git_hash": "ablations-parameters-v2-672-ga7fe2e7",
+  "date": 1769565981.8247836,
+  "pretty_env_info": "PyTorch version: 2.9.0a0+50eac811a6.nv25.09\nIs debug build: False\nCUDA used to build PyTorch: 13.0\nROCM used to build PyTorch: N/A\n\nOS: Ubuntu 24.04.3 LTS (aarch64)\nGCC version: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nClang version: Could not collect\nCMake version: version 3.31.6\nLibc version: glibc-2.39\n\nPython version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0] (64-bit runtime)\nPython platform: Linux-4.18.0-553.el8_10.aarch64-aarch64-with-glibc2.39\nIs CUDA available: True\nCUDA runtime version: 13.0.88\nCUDA_MODULE_LOADING set to: LAZY\nGPU models and configuration: \nGPU 0: NVIDIA A100 80GB PCIe\nGPU 1: NVIDIA A100 80GB PCIe\n\nNvidia driver version: 570.124.06\ncuDNN version: Probably one of the following:\n/usr/lib/aarch64-linux-gnu/libcudnn.so.9.13.1\n/usr/lib/aarch64-linux-gnu/libcudnn_adv.so.9.13.1\n/usr/lib/aarch64-linux-gnu/libcudnn_cnn.so.9.13.1\n/usr/lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.13.1\n/usr/lib/aarch64-linux-gnu/libcudnn_engines_runtime_compiled.so.9.13.1\n/usr/lib/aarch64-linux-gnu/libcudnn_graph.so.9.13.1\n/usr/lib/aarch64-linux-gnu/libcudnn_heuristic.so.9.13.1\n/usr/lib/aarch64-linux-gnu/libcudnn_ops.so.9.13.1\nIs XPU available: False\nHIP runtime version: N/A\nMIOpen runtime version: N/A\nIs XNNPACK available: True\n\nCPU:\nArchitecture:                       aarch64\nCPU op-mode(s):                     32-bit, 64-bit\nByte Order:                         Little Endian\nCPU(s):                             80\nOn-line CPU(s) list:                0-79\nVendor ID:                          ARM\nModel name:                         Neoverse-N1\nModel:                              1\nThread(s) per core:                 1\nCore(s) per socket:                 80\nSocket(s):                          1\nStepping:                           r3p1\nFrequency boost:                    disabled\nCPU(s) scaling MHz:                 96%\nCPU max MHz:                        3000.0000\nCPU min MHz:                        1000.0000\nBogoMIPS:                           50.00\nFlags:                              fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp ssbs\nL1d cache:                          5 MiB (80 instances)\nL1i cache:                          5 MiB (80 instances)\nL2 cache:                           80 MiB (80 instances)\nNUMA node(s):                       1\nNUMA node0 CPU(s):                  0-79\nVulnerability Gather data sampling: Not affected\nVulnerability Itlb multihit:        Not affected\nVulnerability L1tf:                 Not affected\nVulnerability Mds:                  Not affected\nVulnerability Meltdown:             Not affected\nVulnerability Mmio stale data:      Not affected\nVulnerability Retbleed:             Not affected\nVulnerability Spec rstack overflow: Not affected\nVulnerability Spec store bypass:    Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:           Mitigation; __user pointer sanitization\nVulnerability Spectre v2:           Mitigation; CSV2, BHB\nVulnerability Srbds:                Not affected\nVulnerability Tsx async abort:      Not affected\n\nVersions of relevant libraries:\n[pip3] mypy_extensions==1.1.0\n[pip3] numpy==1.26.4\n[pip3] nv-one-logger-pytorch-lightning-integration==2.3.1\n[pip3] nvidia-cuda-nvrtc==13.1.80\n[pip3] nvidia-cuda-runtime==13.0.88\n[pip3] nvidia-cudnn-frontend==1.14.1\n[pip3] nvidia-nvjitlink==13.1.80\n[pip3] nvidia-pytriton==0.7.0\n[pip3] nvtx==0.2.14\n[pip3] onnx==1.19.1\n[pip3] onnx_graphsurgeon==0.5.8\n[pip3] onnx-ir==0.1.9\n[pip3] onnxscript==0.3.1\n[pip3] open_clip_torch==3.2.0\n[pip3] optree==0.17.0\n[pip3] pytorch-lightning==2.6.0\n[pip3] torch==2.9.0a0+50eac811a6.nv25.9\n[pip3] torch_tensorrt==2.9.0a0\n[pip3] torchao==0.13.0+git\n[pip3] torchdiffeq==0.2.5\n[pip3] torchmetrics==1.8.2\n[pip3] torchprofile==0.0.4\n[pip3] torchsde==0.2.6\n[pip3] torchvision==0.24.0a0+98f8b375\n[pip3] torchx==0.7.0\n[pip3] triton==3.4.0+gitc817b9b6\n[pip3] tritonclient==2.51.0\n[conda] Could not collect",
+  "transformers_version": "4.56.0",
+  "lm_eval_version": "0.4.10",
+  "upper_git_hash": null
+}

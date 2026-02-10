@@ -1,0 +1,527 @@
+==========================================
+Starting Nemotron training (2 nodes x 2 GPUs)
+Datamix:     /tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output
+Nodes:       2
+MASTER_ADDR: 10.158.1.100
+MASTER_PORT: 34945
+==========================================
+W0122 23:01:28.490000 144384 torch/distributed/run.py:803] 
+W0122 23:01:28.490000 144384 torch/distributed/run.py:803] *****************************************
+W0122 23:01:28.490000 144384 torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0122 23:01:28.490000 144384 torch/distributed/run.py:803] *****************************************
+W0122 23:01:28.557000 3378896 torch/distributed/run.py:803] 
+W0122 23:01:28.557000 3378896 torch/distributed/run.py:803] *****************************************
+W0122 23:01:28.557000 3378896 torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0122 23:01:28.557000 3378896 torch/distributed/run.py:803] *****************************************
+[NeMo W 2026-01-22 23:01:48 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-01-22 23:01:48 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+WARNING:nv_one_logger.api.config:OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=1) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+WARNING:nv_one_logger.api.config:OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=3) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+WARNING:nv_one_logger.api.config:OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=2) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+INFO 01-22 23:02:17 [__init__.py:241] Automatically detected platform cuda.
+INFO 01-22 23:02:17 [__init__.py:241] Automatically detected platform cuda.
+INFO 01-22 23:02:17 [__init__.py:241] Automatically detected platform cuda.
+INFO 01-22 23:02:17 [__init__.py:241] Automatically detected platform cuda.
+[rank: 3] Seed set to 1234
+[rank: 2] Seed set to 1234
+[rank: 0] Seed set to 1234
+[rank: 1] Seed set to 1234
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 128
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 131072
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'config', 'model_chunks', 'dump_param_to_param_group_map', 'config_overrides', 'use_gloo_process_groups', 'pg_collection'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 128
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 131072
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'dump_param_to_param_group_map', 'model_chunks', 'use_gloo_process_groups', 'pg_collection', 'config', 'config_overrides'})
+[NeMo W 2026-01-22 23:02:27 nemo_logging:405] The deploy module could not be imported: cannot import name 'deploy' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+[NeMo W 2026-01-22 23:02:27 nemo_logging:405] The evaluate module could not be imported: cannot import name 'evaluate' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 128
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 131072
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'pg_collection', 'config_overrides', 'model_chunks', 'dump_param_to_param_group_map', 'use_gloo_process_groups', 'config'})
+[NeMo I 2026-01-22 23:02:27 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None,  merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 128
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 131072
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'model_chunks', 'use_gloo_process_groups', 'config_overrides', 'pg_collection', 'dump_param_to_param_group_map', 'config'})
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_74944/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_74944/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_74944/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_74944/config_nemotron1b-1layer-test.json
+INFO: GPU available: True (cuda), used: True
+INFO:lightning.pytorch.utilities.rank_zero:GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+INFO:lightning.pytorch.utilities.rank_zero:TPU available: False, using: 0 TPU cores
+INFO: HPU available: False, using: 0 HPUs
+INFO:lightning.pytorch.utilities.rank_zero:HPU available: False, using: 0 HPUs
+[NeMo I 2026-01-22 23:02:30 nemo_logging:393] Experiments will be logged at /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-22_23-02-30
+[NeMo W 2026-01-22 23:02:30 nemo_logging:405] "update_logger_directory" is True. Overwriting tensorboard logger "save_dir" to /tmpdir/m24047brmn/nemo_1b/output/tb_logs
+[NeMo W 2026-01-22 23:02:30 nemo_logging:405] The Trainer already contains a ModelCheckpoint callback. This will be overwritten.
+[NeMo W 2026-01-22 23:02:30 nemo_logging:405] The checkpoint callback was told to monitor a validation value and trainer's max_steps was set to 5000. Please ensure that max_steps will run for at least 1 epochs to ensure that checkpointing will not error out.
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Fixing mis-match between ddp-config & mcore-optimizer config
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has data parallel group : [0, 1, 2, 3]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has combined group of data parallel and context parallel : [0, 1, 2, 3]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] All data parallel group ranks with context parallel combined: [[0, 1, 2, 3]]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Ranks 0 has data parallel rank: 0
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has context parallel group: [0]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] All context parallel group ranks: [[0], [1], [2], [3]]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Ranks 0 has context parallel rank: 0
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has model parallel group: [0]
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] All model parallel group ranks: [[0], [1], [2], [3]]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has tensor model parallel group: [0]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] All tensor model parallel group ranks: [[0], [1], [2], [3]]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has tensor model parallel rank: 0
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has pipeline model parallel group: [0]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has embedding group: [0]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] All pipeline model parallel group ranks: [[0], [1], [2], [3]]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has pipeline model parallel rank 0
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] All embedding group ranks: [[0], [1], [2], [3]]
+[NeMo I 2026-01-22 23:02:33 nemo_logging:393] Rank 0 has embedding rank: 0
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/4
+INFO: ----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+INFO:lightning.pytorch.utilities.rank_zero:----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[NeMo I 2026-01-22 23:02:36 utils:751] Let split_matrix = [(0, 1.0), None, None]
+[NeMo I 2026-01-22 23:02:36 utils:751] Building GPTDataset splits with sizes=[640000, 0, 4096] and config=GPTDatasetConfig(random_seed=1234, sequence_length=1024, blend=[['/tmpdir/m24047brmn/nemo_1b/data/train_text_document'], None], blend_per_split=None, multiple_validation_sets=None, full_validation=None, split='1,0,0', split_matrix=[(0, 1.0), None, None], num_dataset_builder_threads=1, path_to_cache='/tmpdir/m24047brmn/nemo_1b/output/index_mapping', mmap_bin_files=True, mock=False, tokenizer=<nemo.collections.common.tokenizers.huggingface.auto_tokenizer.AutoTokenizer object at 0x400208714b90>, mid_level_dataset_surplus=0.005, allow_ambiguous_pad_tokens=False, reset_position_ids=False, reset_attention_mask=False, eod_mask_loss=False, create_attention_mask=False, drop_last_partial_validation_sequence=True, add_extra_token_to_sequence=True, object_storage_cache_path=None, context_parallel_size=1)
+[NeMo I 2026-01-22 23:02:36 utils:751] Load the _IndexReader from /tmpdir/m24047brmn/nemo_1b/data/train_text_document.idx
+[NeMo I 2026-01-22 23:02:36 utils:751] 	Extract the sequence lengths
+[NeMo I 2026-01-22 23:02:36 utils:751] 	Extract the sequence pointers
+[NeMo I 2026-01-22 23:02:36 utils:751] 	Extract the document indices
+[NeMo I 2026-01-22 23:02:36 utils:751] > total number of sequences: 12000
+[NeMo I 2026-01-22 23:02:36 utils:751] > total number of documents: 12000
+[NeMo I 2026-01-22 23:02:36 utils:751] Load the GPTDataset train indices
+[NeMo I 2026-01-22 23:02:36 utils:751] 	Load the document index from d7e017b462920568572512ac064da380-GPTDataset-train-document_index.npy
+[NeMo I 2026-01-22 23:02:36 utils:751] 	Load the sample index from d7e017b462920568572512ac064da380-GPTDataset-train-sample_index.npy
+[NeMo I 2026-01-22 23:02:36 utils:751] 	Load the shuffle index from d7e017b462920568572512ac064da380-GPTDataset-train-shuffle_index.npy
+[NeMo I 2026-01-22 23:02:36 utils:751] > total number of samples: 640624
+[NeMo I 2026-01-22 23:02:36 nemo_logging:393] Padded vocab_size: 256000, original vocab_size: 256000, dummy tokens: 0.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+[NeMo I 2026-01-22 23:02:37 nemo_logging:393] Copying Trainer's 'max_steps' (5000) to LR scheduler's 'max_steps'.
+[NeMo I 2026-01-22 23:02:37 num_microbatches_calculator:228] setting number of microbatches to constant 32
+[NeMo I 2026-01-22 23:02:37 nemo_logging:393]  > number of parameters on (tensor, pipeline) model parallel rank (0 ,0): 1581453312
+[NeMo I 2026-01-22 23:02:37 utils:751] Setting up DistributedDataParallel with config DistributedDataParallelConfig(grad_reduce_in_fp32=True, overlap_grad_reduce=True, overlap_param_gather=True, align_param_gather=False, use_distributed_optimizer=True, num_distributed_optimizer_instances=1, check_for_nan_in_grad=True, check_for_large_grads=False, bucket_size=40000000, pad_buckets_for_high_nccl_busbw=False, reduce_scatter_with_fp32_accumulation=False, average_in_collective=True, fp8_param_gather=False, reuse_grad_buf_for_mxfp8_param_ag=False, use_megatron_fsdp=False, use_custom_fsdp=False, data_parallel_sharding_strategy='no_shard', gradient_reduce_div_fusion=True, suggested_communication_unit_size=None, preserve_fp32_weights=True, keep_fp8_transpose_cache=False, nccl_ub=False, fsdp_double_buffer=False, outer_dp_sharding_strategy='no_shard', disable_symmetric_registration=False, delay_wgrad_compute=False)
+[NeMo I 2026-01-22 23:02:37 utils:784] Number of buckets for gradient all-reduce / reduce-scatter: 25
+    Params for bucket 1 (44052480 elements, 44052480 padded size):
+    	module.decoder.layers.23.mlp.linear_fc2.weight
+    	module.decoder.layers.23.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.23.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.23.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.23.self_attention.linear_proj.weight
+    	module.decoder.final_layernorm.bias
+    	module.decoder.final_layernorm.weight
+    	module.decoder.layers.23.mlp.linear_fc1.weight
+    	module.decoder.layers.23.self_attention.linear_qkv.weight
+    	module.decoder.layers.23.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 2 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.22.mlp.linear_fc2.weight
+    	module.decoder.layers.22.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.22.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.22.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.22.self_attention.linear_proj.weight
+    	module.decoder.layers.22.self_attention.linear_qkv.weight
+    	module.decoder.layers.22.mlp.linear_fc1.weight
+    	module.decoder.layers.22.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 3 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.21.mlp.linear_fc2.weight
+    	module.decoder.layers.21.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.21.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.21.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.21.self_attention.linear_proj.weight
+    	module.decoder.layers.21.mlp.linear_fc1.weight
+    	module.decoder.layers.21.self_attention.linear_qkv.weight
+    	module.decoder.layers.21.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 4 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.20.mlp.linear_fc2.weight
+    	module.decoder.layers.20.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.20.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.20.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.20.self_attention.linear_proj.weight
+    	module.decoder.layers.20.self_attention.linear_qkv.weight
+    	module.decoder.layers.20.mlp.linear_fc1.weight
+    	module.decoder.layers.20.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 5 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.19.mlp.linear_fc2.weight
+    	module.decoder.layers.19.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.19.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.19.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.19.self_attention.linear_proj.weight
+    	module.decoder.layers.19.self_attention.linear_qkv.weight
+    	module.decoder.layers.19.mlp.linear_fc1.weight
+    	module.decoder.layers.19.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 6 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.18.mlp.linear_fc2.weight
+    	module.decoder.layers.18.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.18.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.18.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.18.self_attention.linear_proj.weight
+    	module.decoder.layers.18.self_attention.linear_qkv.weight
+    	module.decoder.layers.18.mlp.linear_fc1.weight
+    	module.decoder.layers.18.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 7 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.17.mlp.linear_fc2.weight
+    	module.decoder.layers.17.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.17.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.17.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.17.self_attention.linear_proj.weight
+    	module.decoder.layers.17.mlp.linear_fc1.weight
+    	module.decoder.layers.17.self_attention.linear_qkv.weight
+    	module.decoder.layers.17.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 8 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.16.mlp.linear_fc2.weight
+    	module.decoder.layers.16.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.16.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.16.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.16.self_attention.linear_proj.weight
+    	module.decoder.layers.16.self_attention.linear_qkv.weight
+    	module.decoder.layers.16.mlp.linear_fc1.weight
+    	module.decoder.layers.16.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 9 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.15.mlp.linear_fc2.weight
+    	module.decoder.layers.15.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.15.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.15.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.15.self_attention.linear_proj.weight
+    	module.decoder.layers.15.self_attention.linear_qkv.weight
+    	module.decoder.layers.15.mlp.linear_fc1.weight
+    	module.decoder.layers.15.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 10 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.14.mlp.linear_fc2.weight
+    	module.decoder.layers.14.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.14.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.14.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.14.self_attention.linear_proj.weight
+    	module.decoder.layers.14.self_attention.linear_qkv.weight
+    	module.decoder.layers.14.mlp.linear_fc1.weight
+    	module.decoder.layers.14.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 11 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.13.mlp.linear_fc2.weight
+    	module.decoder.layers.13.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.13.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.13.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.13.self_attention.linear_proj.weight
+    	module.decoder.layers.13.mlp.linear_fc1.weight
+    	module.decoder.layers.13.self_attention.linear_qkv.weight
+    	module.decoder.layers.13.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 12 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.12.mlp.linear_fc2.weight
+    	module.decoder.layers.12.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.12.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.12.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.12.self_attention.linear_proj.weight
+    	module.decoder.layers.12.self_attention.linear_qkv.weight
+    	module.decoder.layers.12.mlp.linear_fc1.weight
+    	module.decoder.layers.12.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 13 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.11.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.11.self_attention.linear_qkv.weight
+    	module.decoder.layers.11.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.11.self_attention.linear_proj.weight
+    	module.decoder.layers.11.mlp.linear_fc2.weight
+    	module.decoder.layers.11.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.11.mlp.linear_fc1.weight
+    	module.decoder.layers.11.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 14 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.10.mlp.linear_fc2.weight
+    	module.decoder.layers.10.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.10.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.10.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.10.self_attention.linear_proj.weight
+    	module.decoder.layers.10.self_attention.linear_qkv.weight
+    	module.decoder.layers.10.mlp.linear_fc1.weight
+    	module.decoder.layers.10.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 15 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.9.mlp.linear_fc2.weight
+    	module.decoder.layers.9.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.9.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.9.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.9.self_attention.linear_proj.weight
+    	module.decoder.layers.9.self_attention.linear_qkv.weight
+    	module.decoder.layers.9.mlp.linear_fc1.weight
+    	module.decoder.layers.9.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 16 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.8.mlp.linear_fc2.weight
+    	module.decoder.layers.8.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.8.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.8.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.8.self_attention.linear_proj.weight
+    	module.decoder.layers.8.mlp.linear_fc1.weight
+    	module.decoder.layers.8.self_attention.linear_qkv.weight
+    	module.decoder.layers.8.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 17 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.7.mlp.linear_fc2.weight
+    	module.decoder.layers.7.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.7.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.7.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.7.self_attention.linear_proj.weight
+    	module.decoder.layers.7.self_attention.linear_qkv.weight
+    	module.decoder.layers.7.mlp.linear_fc1.weight
+    	module.decoder.layers.7.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 18 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.6.mlp.linear_fc2.weight
+    	module.decoder.layers.6.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.6.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.6.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.6.self_attention.linear_proj.weight
+    	module.decoder.layers.6.self_attention.linear_qkv.weight
+    	module.decoder.layers.6.mlp.linear_fc1.weight
+    	module.decoder.layers.6.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 19 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.5.mlp.linear_fc2.weight
+    	module.decoder.layers.5.self_attention.linear_qkv.weight
+    	module.decoder.layers.5.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.5.self_attention.linear_qkv.layer_norm_bias
+    	module.decoder.layers.5.self_attention.linear_proj.weight
+    	module.decoder.layers.5.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.5.mlp.linear_fc1.weight
+    	module.decoder.layers.5.self_attention.linear_qkv.layer_norm_weight
+    Params for bucket 20 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.4.mlp.linear_fc2.weight
+    	module.decoder.layers.4.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.4.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.4.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.4.self_attention.linear_proj.weight
+    	module.decoder.layers.4.self_attention.linear_qkv.weight
+    	module.decoder.layers.4.mlp.linear_fc1.weight
+    	module.decoder.layers.4.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 21 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.3.mlp.linear_fc2.weight
+    	module.decoder.layers.3.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.3.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.3.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.3.self_attention.linear_proj.weight
+    	module.decoder.layers.3.self_attention.linear_qkv.weight
+    	module.decoder.layers.3.mlp.linear_fc1.weight
+    	module.decoder.layers.3.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 22 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.2.mlp.linear_fc2.weight
+    	module.decoder.layers.2.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.2.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.2.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.2.self_attention.linear_proj.weight
+    	module.decoder.layers.2.self_attention.linear_qkv.weight
+    	module.decoder.layers.2.mlp.linear_fc1.weight
+    	module.decoder.layers.2.self_attention.linear_qkv.layer_norm_bias
+    Params for bucket 23 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.1.mlp.linear_fc2.weight
+    	module.decoder.layers.1.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.1.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.1.self_attention.linear_qkv.layer_norm_bias
+    	module.decoder.layers.1.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.1.self_attention.linear_proj.weight
+    	module.decoder.layers.1.self_attention.linear_qkv.weight
+    	module.decoder.layers.1.mlp.linear_fc1.weight
+    Params for bucket 24 (44048384 elements, 44048384 padded size):
+    	module.decoder.layers.0.self_attention.linear_qkv.weight
+    	module.decoder.layers.0.mlp.linear_fc1.weight
+    	module.decoder.layers.0.self_attention.linear_qkv.layer_norm_bias
+    	module.decoder.layers.0.mlp.linear_fc2.weight
+    	module.decoder.layers.0.mlp.linear_fc1.layer_norm_bias
+    	module.decoder.layers.0.mlp.linear_fc1.layer_norm_weight
+    	module.decoder.layers.0.self_attention.linear_qkv.layer_norm_weight
+    	module.decoder.layers.0.self_attention.linear_proj.weight
+    Params for bucket 25 (524288000 elements, 524288000 padded size):
+    	module.embedding.word_embeddings.weight
+[NeMo I 2026-01-22 23:02:37 utils:751] Setting up optimizer with config OptimizerConfig(lr=0.0003, min_lr=None, weight_decay=0.1, fp8_recipe='delayed', fp16=False, bf16=True, reuse_grad_buf_for_mxfp8_param_ag=False, params_dtype=torch.bfloat16, use_precision_aware_optimizer=False, store_param_remainders=True, main_grads_dtype=torch.float32, main_params_dtype=torch.float32, exp_avg_dtype=torch.float32, exp_avg_sq_dtype=torch.float32, optimizer='adam', loss_scale=None, initial_loss_scale=4294967296, min_loss_scale=1.0, loss_scale_window=1000, hysteresis=2, adam_beta1=0.9, adam_beta2=0.95, adam_eps=1e-05, decoupled_weight_decay=True, sgd_momentum=0.9, muon_momentum=0.95, muon_split_qkv=True, muon_use_nesterov=False, muon_scale_mode='spectral', muon_fp32_matmul_prec='medium', muon_num_ns_steps=5, muon_tp_mode='blockwise', muon_extra_scale_factor=1.0, use_distributed_optimizer=True, overlap_param_gather=False, overlap_param_gather_with_optimizer_step=False, optimizer_cpu_offload=False, optimizer_offload_fraction=0.0, use_torch_optimizer_for_cpu_offload=False, overlap_cpu_optimizer_d2h_h2d=False, pin_cpu_grads=True, pin_cpu_params=True, clip_grad=1.0, log_num_zeros_in_grad=False, barrier_with_L1_time=False, timers=None, config_logger_dir='')
+[NeMo I 2026-01-22 23:02:37 nemo_logging:393] Doing selective restore from RestoreConfig(path='/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last', load_model_state=True, load_optim_state=True, load_artifacts=True)
+[NeMo W 2026-01-22 23:02:37 serialization:184] DEPRECATED: Passing 'checkpoint_dir' as a Path object in load_common_state_dict will no longer be supported in a future release. Please pass it as a string instead.
+[NeMo I 2026-01-22 23:02:37 nemo_logging:393] Loaded sharded_state_dict_metadata from checkpoint: {'singleton_local_shards': False, 'chained_optim_avoid_prefix': True, 'distrib_optim_sharding_type': 'dp_reshardable'}
+[NeMo W 2026-01-22 23:02:37 utils:890] make_tp_sharded_tensor_for_checkpoint received extra kwargs: ['allow_shape_mismatch']
+[NeMo W 2026-01-22 23:02:37 utils:890] make_tp_sharded_tensor_for_checkpoint received extra kwargs: ['allow_shape_mismatch']
+[NeMo I 2026-01-22 23:02:37 nemo_logging:393] Using <megatron.core.dist_checkpointing.strategies.fully_parallel.FullyParallelLoadStrategyWrapper object at 0x40023e0f9190> dist-ckpt load strategy.
+[NeMo I 2026-01-22 23:02:54 nemo_logging:393] Global Checkpoint Load : Rank : 0 : Start time : 1769119357.421s : Time spent in load_checkpoint: 17.212s
+[NeMo I 2026-01-22 23:02:54 nemo_logging:393] Restoring model weights from RestoreConfig(path='/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last', load_model_state=True, load_optim_state=True, load_artifacts=True)
+[NeMo I 2026-01-22 23:02:54 nemo_logging:393] Restoring optimizer states from RestoreConfig(path='/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last', load_model_state=True, load_optim_state=True, load_artifacts=True)
+[NeMo I 2026-01-22 23:02:54 distrib_optimizer:860] Loading distributed optimizer sharded state of type dp_reshardable
+[NeMo I 2026-01-22 23:02:54 nemo_logging:393] Finished restoring from RestoreConfig(path='/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last', load_model_state=True, load_optim_state=True, load_artifacts=True), cleaning up.
+INFO: 
+  | Name   | Type | Params | Mode 
+----------------------------------------
+0 | module | DDP  | 1.6 B  | train
+----------------------------------------
+1.6 B     Trainable params
+0         Non-trainable params
+1.6 B     Total params
+6,325.813 Total estimated model params size (MB)
+491       Modules in train mode
+0         Modules in eval mode
+INFO:lightning.pytorch.callbacks.model_summary:
+  | Name   | Type | Params | Mode 
+----------------------------------------
+0 | module | DDP  | 1.6 B  | train
+----------------------------------------
+1.6 B     Trainable params
+0         Non-trainable params
+1.6 B     Total params
+6,325.813 Total estimated model params size (MB)
+491       Modules in train mode
+0         Modules in eval mode
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 640624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 640624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 640624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 640624 and consumed_samples: 0
+[NeMo W 2026-01-22 23:03:13 rerun_state_machine:1300] Implicit initialization of Rerun State Machine!
+[NeMo W 2026-01-22 23:03:13 rerun_state_machine:238] RerunStateMachine initialized in mode RerunMode.DISABLED
+Training epoch 0, iteration 0/4999 | lr: 8.734e-05 | global_batch_size: 128 | global_step: 0 | reduced_train_loss: 0.1281
+Training epoch 0, iteration 1/4999 | lr: 1.198e-06 | global_batch_size: 128 | global_step: 1 | reduced_train_loss: 0.1307 | consumed_samples: 256
+Training epoch 0, iteration 2/4999 | lr: 1.796e-06 | global_batch_size: 128 | global_step: 2 | reduced_train_loss: 0.1241 | consumed_samples: 384
+Training epoch 0, iteration 3/4999 | lr: 2.395e-06 | global_batch_size: 128 | global_step: 3 | reduced_train_loss: 0.1254 | consumed_samples: 512
+Training epoch 0, iteration 4/4999 | lr: 2.994e-06 | global_batch_size: 128 | global_step: 4 | reduced_train_loss: 0.1255 | consumed_samples: 640
+Training epoch 0, iteration 5/4999 | lr: 3.593e-06 | global_batch_size: 128 | global_step: 5 | reduced_train_loss: 0.1258 | consumed_samples: 768
+Training epoch 0, iteration 6/4999 | lr: 4.192e-06 | global_batch_size: 128 | global_step: 6 | reduced_train_loss: 0.1254 | consumed_samples: 896
+Training epoch 0, iteration 7/4999 | lr: 4.79e-06 | global_batch_size: 128 | global_step: 7 | reduced_train_loss: 0.1292 | consumed_samples: 1024
+Training epoch 0, iteration 8/4999 | lr: 5.389e-06 | global_batch_size: 128 | global_step: 8 | reduced_train_loss: 0.1278 | consumed_samples: 1152
+Training epoch 0, iteration 9/4999 | lr: 5.988e-06 | global_batch_size: 128 | global_step: 9 | reduced_train_loss: 0.1272 | consumed_samples: 1280
+Training epoch 0, iteration 10/4999 | lr: 6.587e-06 | global_batch_size: 128 | global_step: 10 | reduced_train_loss: 0.1304 | consumed_samples: 1408
+Training epoch 0, iteration 11/4999 | lr: 7.186e-06 | global_batch_size: 128 | global_step: 11 | reduced_train_loss: 0.1266 | consumed_samples: 1536
+Training epoch 0, iteration 12/4999 | lr: 7.784e-06 | global_batch_size: 128 | global_step: 12 | reduced_train_loss: 0.1275 | consumed_samples: 1664
+Training epoch 0, iteration 13/4999 | lr: 8.383e-06 | global_batch_size: 128 | global_step: 13 | reduced_train_loss: 0.1272 | consumed_samples: 1792
+Training epoch 0, iteration 14/4999 | lr: 8.982e-06 | global_batch_size: 128 | global_step: 14 | reduced_train_loss: 0.1264 | consumed_samples: 1920
+Training epoch 0, iteration 15/4999 | lr: 9.581e-06 | global_batch_size: 128 | global_step: 15 | reduced_train_loss: 0.1261 | consumed_samples: 2048
+Training epoch 0, iteration 16/4999 | lr: 1.018e-05 | global_batch_size: 128 | global_step: 16 | reduced_train_loss: 0.1254 | consumed_samples: 2176
+Training epoch 0, iteration 17/4999 | lr: 1.078e-05 | global_batch_size: 128 | global_step: 17 | reduced_train_loss: 0.1266 | consumed_samples: 2304
+Training epoch 0, iteration 18/4999 | lr: 1.138e-05 | global_batch_size: 128 | global_step: 18 | reduced_train_loss: 0.1253 | consumed_samples: 2432
+Training epoch 0, iteration 19/4999 | lr: 1.198e-05 | global_batch_size: 128 | global_step: 19 | reduced_train_loss: 0.129 | consumed_samples: 2560
+Training epoch 0, iteration 20/4999 | lr: 1.257e-05 | global_batch_size: 128 | global_step: 20 | reduced_train_loss: 0.1297 | consumed_samples: 2688
+Training epoch 0, iteration 21/4999 | lr: 1.317e-05 | global_batch_size: 128 | global_step: 21 | reduced_train_loss: 0.1262 | consumed_samples: 2816
+Training epoch 0, iteration 22/4999 | lr: 1.377e-05 | global_batch_size: 128 | global_step: 22 | reduced_train_loss: 0.1264 | consumed_samples: 2944
+Training epoch 0, iteration 23/4999 | lr: 1.437e-05 | global_batch_size: 128 | global_step: 23 | reduced_train_loss: 0.127 | consumed_samples: 3072
+Training epoch 0, iteration 24/4999 | lr: 1.497e-05 | global_batch_size: 128 | global_step: 24 | reduced_train_loss: 0.1281 | consumed_samples: 3200
+Training epoch 0, iteration 25/4999 | lr: 1.557e-05 | global_batch_size: 128 | global_step: 25 | reduced_train_loss: 0.1282 | consumed_samples: 3328
+Training epoch 0, iteration 26/4999 | lr: 1.617e-05 | global_batch_size: 128 | global_step: 26 | reduced_train_loss: 0.1221 | consumed_samples: 3456
+Training epoch 0, iteration 27/4999 | lr: 1.677e-05 | global_batch_size: 128 | global_step: 27 | reduced_train_loss: 0.126 | consumed_samples: 3584
+Training epoch 0, iteration 28/4999 | lr: 1.737e-05 | global_batch_size: 128 | global_step: 28 | reduced_train_loss: 0.1261 | consumed_samples: 3712
+Training epoch 0, iteration 29/4999 | lr: 1.796e-05 | global_batch_size: 128 | global_step: 29 | reduced_train_loss: 0.1258 | consumed_samples: 3840
+Training epoch 0, iteration 30/4999 | lr: 1.856e-05 | global_batch_size: 128 | global_step: 30 | reduced_train_loss: 0.1254 | consumed_samples: 3968
+Training epoch 0, iteration 31/4999 | lr: 1.916e-05 | global_batch_size: 128 | global_step: 31 | reduced_train_loss: 0.1279 | consumed_samples: 4096
+Training epoch 0, iteration 32/4999 | lr: 1.976e-05 | global_batch_size: 128 | global_step: 32 | reduced_train_loss: 0.1234 | consumed_samples: 4224
+Training epoch 0, iteration 33/4999 | lr: 2.036e-05 | global_batch_size: 128 | global_step: 33 | reduced_train_loss: 0.1238 | consumed_samples: 4352
+Training epoch 0, iteration 34/4999 | lr: 2.096e-05 | global_batch_size: 128 | global_step: 34 | reduced_train_loss: 0.13 | consumed_samples: 4480
+Training epoch 0, iteration 35/4999 | lr: 2.156e-05 | global_batch_size: 128 | global_step: 35 | reduced_train_loss: 0.1274 | consumed_samples: 4608
+Training epoch 0, iteration 36/4999 | lr: 2.216e-05 | global_batch_size: 128 | global_step: 36 | reduced_train_loss: 0.1261 | consumed_samples: 4736
+Training epoch 0, iteration 37/4999 | lr: 2.275e-05 | global_batch_size: 128 | global_step: 37 | reduced_train_loss: 0.126 | consumed_samples: 4864
+Training epoch 0, iteration 38/4999 | lr: 2.335e-05 | global_batch_size: 128 | global_step: 38 | reduced_train_loss: 0.1275 | consumed_samples: 4992
+Training epoch 0, iteration 39/4999 | lr: 2.395e-05 | global_batch_size: 128 | global_step: 39 | reduced_train_loss: 0.1286 | consumed_samples: 5120
+Training epoch 0, iteration 40/4999 | lr: 2.455e-05 | global_batch_size: 128 | global_step: 40 | reduced_train_loss: 0.1231 | consumed_samples: 5248
+Training epoch 0, iteration 41/4999 | lr: 2.515e-05 | global_batch_size: 128 | global_step: 41 | reduced_train_loss: 0.1239 | consumed_samples: 5376
+Training epoch 0, iteration 42/4999 | lr: 2.575e-05 | global_batch_size: 128 | global_step: 42 | reduced_train_loss: 0.1276 | consumed_samples: 5504
+Training epoch 0, iteration 43/4999 | lr: 2.635e-05 | global_batch_size: 128 | global_step: 43 | reduced_train_loss: 0.1284 | consumed_samples: 5632
+Training epoch 0, iteration 44/4999 | lr: 2.695e-05 | global_batch_size: 128 | global_step: 44 | reduced_train_loss: 0.1231 | consumed_samples: 5760
+Training epoch 0, iteration 45/4999 | lr: 2.754e-05 | global_batch_size: 128 | global_step: 45 | reduced_train_loss: 0.1313 | consumed_samples: 5888
+Training epoch 0, iteration 46/4999 | lr: 2.814e-05 | global_batch_size: 128 | global_step: 46 | reduced_train_loss: 0.1224 | consumed_samples: 6016
+Training epoch 0, iteration 47/4999 | lr: 2.874e-05 | global_batch_size: 128 | global_step: 47 | reduced_train_loss: 0.1268 | consumed_samples: 6144
+Training epoch 0, iteration 48/4999 | lr: 2.934e-05 | global_batch_size: 128 | global_step: 48 | reduced_train_loss: 0.1244 | consumed_samples: 6272
+Training epoch 0, iteration 49/4999 | lr: 2.994e-05 | global_batch_size: 128 | global_step: 49 | reduced_train_loss: 0.1275 | consumed_samples: 6400
+Training epoch 0, iteration 50/4999 | lr: 3.054e-05 | global_batch_size: 128 | global_step: 50 | reduced_train_loss: 0.1244 | consumed_samples: 6528
+Training epoch 0, iteration 51/4999 | lr: 3.114e-05 | global_batch_size: 128 | global_step: 51 | reduced_train_loss: 0.1267 | consumed_samples: 6656
+Training epoch 0, iteration 52/4999 | lr: 3.174e-05 | global_batch_size: 128 | global_step: 52 | reduced_train_loss: 0.133 | consumed_samples: 6784
+Training epoch 0, iteration 53/4999 | lr: 3.234e-05 | global_batch_size: 128 | global_step: 53 | reduced_train_loss: 0.1253 | consumed_samples: 6912
+Training epoch 0, iteration 54/4999 | lr: 3.293e-05 | global_batch_size: 128 | global_step: 54 | reduced_train_loss: 0.1302 | consumed_samples: 7040
+Training epoch 0, iteration 55/4999 | lr: 3.353e-05 | global_batch_size: 128 | global_step: 55 | reduced_train_loss: 0.1241 | consumed_samples: 7168
+Training epoch 0, iteration 56/4999 | lr: 3.413e-05 | global_batch_size: 128 | global_step: 56 | reduced_train_loss: 0.128 | consumed_samples: 7296
+Training epoch 0, iteration 57/4999 | lr: 3.473e-05 | global_batch_size: 128 | global_step: 57 | reduced_train_loss: 0.1229 | consumed_samples: 7424
+Training epoch 0, iteration 58/4999 | lr: 3.533e-05 | global_batch_size: 128 | global_step: 58 | reduced_train_loss: 0.1253 | consumed_samples: 7552
+Training epoch 0, iteration 59/4999 | lr: 3.593e-05 | global_batch_size: 128 | global_step: 59 | reduced_train_loss: 0.125 | consumed_samples: 7680
+Training epoch 0, iteration 60/4999 | lr: 3.653e-05 | global_batch_size: 128 | global_step: 60 | reduced_train_loss: 0.1272 | consumed_samples: 7808
+Training epoch 0, iteration 61/4999 | lr: 3.713e-05 | global_batch_size: 128 | global_step: 61 | reduced_train_loss: 0.1216 | consumed_samples: 7936
+Training epoch 0, iteration 62/4999 | lr: 3.772e-05 | global_batch_size: 128 | global_step: 62 | reduced_train_loss: 0.1245 | consumed_samples: 8064
+Training epoch 0, iteration 63/4999 | lr: 3.832e-05 | global_batch_size: 128 | global_step: 63 | reduced_train_loss: 0.1227 | consumed_samples: 8192
+Training epoch 0, iteration 64/4999 | lr: 3.892e-05 | global_batch_size: 128 | global_step: 64 | reduced_train_loss: 0.1273 | consumed_samples: 8320
+Training epoch 0, iteration 65/4999 | lr: 3.952e-05 | global_batch_size: 128 | global_step: 65 | reduced_train_loss: 0.1286 | consumed_samples: 8448
+Training epoch 0, iteration 66/4999 | lr: 4.012e-05 | global_batch_size: 128 | global_step: 66 | reduced_train_loss: 0.1262 | consumed_samples: 8576
+Training epoch 0, iteration 67/4999 | lr: 4.072e-05 | global_batch_size: 128 | global_step: 67 | reduced_train_loss: 0.1228 | consumed_samples: 8704
+Training epoch 0, iteration 68/4999 | lr: 4.132e-05 | global_batch_size: 128 | global_step: 68 | reduced_train_loss: 0.1275 | consumed_samples: 8832
+Training epoch 0, iteration 69/4999 | lr: 4.192e-05 | global_batch_size: 128 | global_step: 69 | reduced_train_loss: 0.1223 | consumed_samples: 8960
+Training epoch 0, iteration 70/4999 | lr: 4.251e-05 | global_batch_size: 128 | global_step: 70 | reduced_train_loss: 0.1258 | consumed_samples: 9088
+Training epoch 0, iteration 71/4999 | lr: 4.311e-05 | global_batch_size: 128 | global_step: 71 | reduced_train_loss: 0.123 | consumed_samples: 9216
+Training epoch 0, iteration 72/4999 | lr: 4.371e-05 | global_batch_size: 128 | global_step: 72 | reduced_train_loss: 0.1249 | consumed_samples: 9344
+Training epoch 0, iteration 73/4999 | lr: 4.431e-05 | global_batch_size: 128 | global_step: 73 | reduced_train_loss: 0.1273 | consumed_samples: 9472
+Training epoch 0, iteration 74/4999 | lr: 4.491e-05 | global_batch_size: 128 | global_step: 74 | reduced_train_loss: 0.1278 | consumed_samples: 9600
+Training epoch 0, iteration 75/4999 | lr: 4.551e-05 | global_batch_size: 128 | global_step: 75 | reduced_train_loss: 0.1254 | consumed_samples: 9728
+Training epoch 0, iteration 76/4999 | lr: 4.611e-05 | global_batch_size: 128 | global_step: 76 | reduced_train_loss: 0.1276 | consumed_samples: 9856
+Training epoch 0, iteration 77/4999 | lr: 4.671e-05 | global_batch_size: 128 | global_step: 77 | reduced_train_loss: 0.1304 | consumed_samples: 9984
+Training epoch 0, iteration 78/4999 | lr: 4.731e-05 | global_batch_size: 128 | global_step: 78 | reduced_train_loss: 0.1254 | consumed_samples: 10112
+Training epoch 0, iteration 79/4999 | lr: 4.79e-05 | global_batch_size: 128 | global_step: 79 | reduced_train_loss: 0.1267 | consumed_samples: 10240
+Training epoch 0, iteration 80/4999 | lr: 4.85e-05 | global_batch_size: 128 | global_step: 80 | reduced_train_loss: 0.1258 | consumed_samples: 10368
+Training epoch 0, iteration 81/4999 | lr: 4.91e-05 | global_batch_size: 128 | global_step: 81 | reduced_train_loss: 0.126 | consumed_samples: 10496
+Training epoch 0, iteration 82/4999 | lr: 4.97e-05 | global_batch_size: 128 | global_step: 82 | reduced_train_loss: 0.1231 | consumed_samples: 10624
+Training epoch 0, iteration 83/4999 | lr: 5.03e-05 | global_batch_size: 128 | global_step: 83 | reduced_train_loss: 0.1228 | consumed_samples: 10752
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 74944 ON turpancomp0 CANCELLED AT 2026-01-22T23:16:02 ***
+slurmstepd: error: *** STEP 74944.0 ON turpancomp0 CANCELLED AT 2026-01-22T23:16:02 ***
+W0122 23:16:02.234000 144384 torch/distributed/elastic/agent/server/api.py:732] Received 15 death signal, shutting down workers
+W0122 23:16:02.234000 3378896 torch/distributed/elastic/agent/server/api.py:732] Received 15 death signal, shutting down workers

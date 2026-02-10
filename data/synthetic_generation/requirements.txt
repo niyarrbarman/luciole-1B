@@ -1,0 +1,9 @@
+distilabel[vllm]
+pynvml
+hf_xet
+beautifulsoup4
+scikit-learn
+matplotlib
+seaborn
+fasttext
+numpy==1.26.4

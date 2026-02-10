@@ -1,0 +1,48 @@
+===========================================
+LM Evaluation Harness - Nemotron Model
+===========================================
+Checkpoint:  
+Tokenizer:   /work/m24047/m24047brmn/tokenizers/minitron-4b
+Tasks:       arc_easy
+Num Layers:  24
+Batch Size:  1
+Limit:       'None (full dataset)'
+Num Fewshot: 'Task default'
+Output:      benchmark_results/results_arc_easy_20260128_140343.json
+===========================================
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['arc_easy']
+INFO:__main__:Initializing NemotronLM wrapper...
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks.py", line 724, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks.py", line 707, in main
+    results = run_evaluation(
+              ^^^^^^^^^^^^^^^
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks.py", line 533, in run_evaluation
+    model = NemotronLM(
+            ^^^^^^^^^^^
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks.py", line 184, in __init__
+    self.model, self.tokenizer = load_model(
+                                 ^^^^^^^^^^^
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/load_model.py", line 114, in load_model
+    from nemo.collections.llm.gpt.model.nemotron import NemotronModel
+  File "/opt/NeMo/nemo/collections/llm/__init__.py", line 20, in <module>
+    from nemo.collections.llm import peft
+  File "/opt/NeMo/nemo/collections/llm/peft/__init__.py", line 15, in <module>
+    from nemo.collections.llm.peft.api import export_lora, gpt_lora, merge_lora
+  File "/opt/NeMo/nemo/collections/llm/peft/api.py", line 19, in <module>
+    import lightning.pytorch as pl
+  File "/usr/local/lib/python3.12/dist-packages/lightning/__init__.py", line 18, in <module>
+    from lightning.fabric.fabric import Fabric  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/fabric/__init__.py", line 6, in <module>
+    from lightning_utilities.core.imports import package_available
+ModuleNotFoundError: No module named 'lightning_utilities'
+===========================================
+Benchmark finished with status 1
+===========================================

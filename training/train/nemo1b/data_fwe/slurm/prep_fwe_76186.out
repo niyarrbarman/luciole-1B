@@ -1,0 +1,138 @@
+==========================================
+Preprocessing FineWeb-Edu to indexed dataset
+Tokenizer:   /work/m24047/m24047brmn/tokenizers/minitron-4b
+Input:       /work/shares/IA-Datasets/fineweb_edu_10bt_shuffled
+Output:      /tmpdir/m24047brmn/nemo_1b/data_fwe/fineweb_edu_text_document.{bin,idx}
+Max tokens:  1000000000
+==========================================
+2026-02-05 20:58:33,517 - INFO - Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+2026-02-05 20:58:33,518 - INFO - Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+2026-02-05 20:58:33,518 - INFO - NumExpr defaulting to 16 threads.
+[NeMo W 2026-02-05 20:58:35 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-02-05 20:58:35 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+2026-02-05 20:58:37,214 - INFO - The multistorageclient package is available.
+2026-02-05 20:58:40,168 - INFO - Detected Megatron Core, using Megatron-FSDP with Megatron.
+2026-02-05 20:58:40,171 - INFO - Detected Megatron Core, using Megatron-FSDP with Megatron.
+2026-02-05 20:58:43,878 - WARNING - OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+2026-02-05 20:58:43,907 - INFO - Final configuration contains 0 exporter(s)
+2026-02-05 20:58:43,908 - WARNING - No exporters were provided. This means that no telemetry data will be collected.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+2026-02-05 20:58:48,040 - INFO - PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+2026-02-05 20:58:49,267 - INFO - Loading tokenizer from: /work/m24047/m24047brmn/tokenizers/minitron-4b
+[NeMo I 2026-02-05 20:58:49 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None,  merges_files: None, special_tokens_dict: {}, and use_fast: True
+2026-02-05 20:58:50,450 - INFO - EOS token ID: 3
+2026-02-05 20:58:50,450 - INFO - Reading JSONL files from: /work/shares/IA-Datasets/fineweb_edu_10bt_shuffled
+2026-02-05 20:58:50,454 - INFO - Starting tokenization (target: 1,000,000,000 tokens)...
+2026-02-05 20:58:50,455 - INFO - Found 2 JSONL files: ['fineweb_edu_10bt.chunk.00.jsonl', 'fineweb_edu_10bt.chunk.01.jsonl']
+2026-02-05 20:58:50,455 - INFO - Processing file: fineweb_edu_10bt.chunk.00.jsonl
+2026-02-05 20:59:22,455 - INFO - Progress: 10,000 docs, 10,195,216 tokens (1.02%)
+2026-02-05 20:59:54,294 - INFO - Progress: 20,000 docs, 20,397,461 tokens (2.04%)
+2026-02-05 21:00:26,545 - INFO - Progress: 30,000 docs, 30,739,765 tokens (3.07%)
+2026-02-05 21:00:58,205 - INFO - Progress: 40,000 docs, 40,905,696 tokens (4.09%)
+2026-02-05 21:01:30,926 - INFO - Progress: 50,000 docs, 51,455,775 tokens (5.15%)
+2026-02-05 21:02:01,992 - INFO - Progress: 60,000 docs, 61,416,693 tokens (6.14%)
+2026-02-05 21:02:33,678 - INFO - Progress: 70,000 docs, 71,600,606 tokens (7.16%)
+2026-02-05 21:03:05,543 - INFO - Progress: 80,000 docs, 81,808,505 tokens (8.18%)
+2026-02-05 21:03:37,299 - INFO - Progress: 90,000 docs, 92,004,163 tokens (9.20%)
+2026-02-05 21:04:09,268 - INFO - Progress: 100,000 docs, 102,253,237 tokens (10.23%)
+2026-02-05 21:04:42,603 - INFO - Progress: 110,000 docs, 112,866,674 tokens (11.29%)
+2026-02-05 21:05:13,632 - INFO - Progress: 120,000 docs, 122,828,275 tokens (12.28%)
+2026-02-05 21:05:44,891 - INFO - Progress: 130,000 docs, 132,833,341 tokens (13.28%)
+2026-02-05 21:06:15,237 - INFO - Progress: 140,000 docs, 142,563,861 tokens (14.26%)
+2026-02-05 21:06:47,221 - INFO - Progress: 150,000 docs, 152,811,028 tokens (15.28%)
+2026-02-05 21:07:18,443 - INFO - Progress: 160,000 docs, 162,831,466 tokens (16.28%)
+2026-02-05 21:07:50,662 - INFO - Progress: 170,000 docs, 173,162,765 tokens (17.32%)
+2026-02-05 21:08:23,388 - INFO - Progress: 180,000 docs, 183,632,704 tokens (18.36%)
+2026-02-05 21:08:54,525 - INFO - Progress: 190,000 docs, 193,653,359 tokens (19.37%)
+2026-02-05 21:09:26,068 - INFO - Progress: 200,000 docs, 203,741,371 tokens (20.37%)
+2026-02-05 21:09:58,671 - INFO - Progress: 210,000 docs, 214,187,877 tokens (21.42%)
+2026-02-05 21:10:30,187 - INFO - Progress: 220,000 docs, 224,270,956 tokens (22.43%)
+2026-02-05 21:11:02,925 - INFO - Progress: 230,000 docs, 234,723,362 tokens (23.47%)
+2026-02-05 21:11:35,588 - INFO - Progress: 240,000 docs, 245,182,082 tokens (24.52%)
+2026-02-05 21:12:06,207 - INFO - Progress: 250,000 docs, 254,983,902 tokens (25.50%)
+2026-02-05 21:12:37,486 - INFO - Progress: 260,000 docs, 265,045,849 tokens (26.50%)
+2026-02-05 21:13:08,811 - INFO - Progress: 270,000 docs, 275,086,877 tokens (27.51%)
+2026-02-05 21:13:41,932 - INFO - Progress: 280,000 docs, 285,653,828 tokens (28.57%)
+2026-02-05 21:14:13,711 - INFO - Progress: 290,000 docs, 295,860,690 tokens (29.59%)
+2026-02-05 21:14:45,459 - INFO - Progress: 300,000 docs, 306,035,456 tokens (30.60%)
+2026-02-05 21:15:17,519 - INFO - Progress: 310,000 docs, 316,283,966 tokens (31.63%)
+2026-02-05 21:15:49,345 - INFO - Progress: 320,000 docs, 326,473,854 tokens (32.65%)
+2026-02-05 21:16:20,769 - INFO - Progress: 330,000 docs, 336,582,035 tokens (33.66%)
+2026-02-05 21:16:52,615 - INFO - Progress: 340,000 docs, 346,811,985 tokens (34.68%)
+2026-02-05 21:17:25,138 - INFO - Progress: 350,000 docs, 357,224,203 tokens (35.72%)
+2026-02-05 21:17:56,598 - INFO - Progress: 360,000 docs, 367,274,075 tokens (36.73%)
+2026-02-05 21:18:28,500 - INFO - Progress: 370,000 docs, 377,503,161 tokens (37.75%)
+2026-02-05 21:19:00,206 - INFO - Progress: 380,000 docs, 387,654,960 tokens (38.77%)
+2026-02-05 21:19:31,859 - INFO - Progress: 390,000 docs, 397,793,661 tokens (39.78%)
+2026-02-05 21:20:02,980 - INFO - Progress: 400,000 docs, 407,812,400 tokens (40.78%)
+2026-02-05 21:20:34,064 - INFO - Progress: 410,000 docs, 417,810,358 tokens (41.78%)
+2026-02-05 21:21:05,841 - INFO - Progress: 420,000 docs, 428,003,889 tokens (42.80%)
+2026-02-05 21:21:36,475 - INFO - Progress: 430,000 docs, 437,870,089 tokens (43.79%)
+2026-02-05 21:22:08,071 - INFO - Progress: 440,000 docs, 448,017,001 tokens (44.80%)
+2026-02-05 21:22:40,574 - INFO - Progress: 450,000 docs, 458,441,294 tokens (45.84%)
+2026-02-05 21:23:12,970 - INFO - Progress: 460,000 docs, 468,822,519 tokens (46.88%)
+2026-02-05 21:23:44,004 - INFO - Progress: 470,000 docs, 478,803,947 tokens (47.88%)
+2026-02-05 21:24:15,802 - INFO - Progress: 480,000 docs, 488,985,787 tokens (48.90%)
+2026-02-05 21:24:47,496 - INFO - Progress: 490,000 docs, 499,148,514 tokens (49.91%)
+2026-02-05 21:25:18,259 - INFO - Progress: 500,000 docs, 509,067,247 tokens (50.91%)
+2026-02-05 21:25:50,602 - INFO - Progress: 510,000 docs, 519,476,947 tokens (51.95%)
+2026-02-05 21:26:21,572 - INFO - Progress: 520,000 docs, 529,430,295 tokens (52.94%)
+2026-02-05 21:26:54,056 - INFO - Progress: 530,000 docs, 539,852,539 tokens (53.99%)
+2026-02-05 21:27:26,770 - INFO - Progress: 540,000 docs, 550,347,631 tokens (55.03%)
+2026-02-05 21:27:58,631 - INFO - Progress: 550,000 docs, 560,546,703 tokens (56.05%)
+2026-02-05 21:28:29,762 - INFO - Progress: 560,000 docs, 570,581,591 tokens (57.06%)
+2026-02-05 21:29:02,516 - INFO - Progress: 570,000 docs, 581,082,909 tokens (58.11%)
+2026-02-05 21:29:34,785 - INFO - Progress: 580,000 docs, 591,377,761 tokens (59.14%)
+2026-02-05 21:30:06,701 - INFO - Progress: 590,000 docs, 601,591,232 tokens (60.16%)
+2026-02-05 21:30:37,878 - INFO - Progress: 600,000 docs, 611,558,875 tokens (61.16%)
+2026-02-05 21:31:09,694 - INFO - Progress: 610,000 docs, 621,768,956 tokens (62.18%)
+2026-02-05 21:31:41,581 - INFO - Progress: 620,000 docs, 632,011,496 tokens (63.20%)
+2026-02-05 21:32:13,067 - INFO - Progress: 630,000 docs, 642,120,258 tokens (64.21%)
+2026-02-05 21:32:45,039 - INFO - Progress: 640,000 docs, 652,402,777 tokens (65.24%)
+2026-02-05 21:33:17,973 - INFO - Progress: 650,000 docs, 662,904,920 tokens (66.29%)
+2026-02-05 21:33:49,489 - INFO - Progress: 660,000 docs, 673,001,881 tokens (67.30%)
+2026-02-05 21:34:20,834 - INFO - Progress: 670,000 docs, 683,071,695 tokens (68.31%)
+2026-02-05 21:34:53,019 - INFO - Progress: 680,000 docs, 693,375,719 tokens (69.34%)
+2026-02-05 21:35:24,411 - INFO - Progress: 690,000 docs, 703,392,090 tokens (70.34%)
+2026-02-05 21:35:56,375 - INFO - Progress: 700,000 docs, 713,656,743 tokens (71.37%)
+2026-02-05 21:36:27,246 - INFO - Progress: 710,000 docs, 723,554,632 tokens (72.36%)
+2026-02-05 21:36:58,961 - INFO - Progress: 720,000 docs, 733,720,974 tokens (73.37%)
+2026-02-05 21:37:29,708 - INFO - Progress: 730,000 docs, 743,595,621 tokens (74.36%)
+2026-02-05 21:38:01,412 - INFO - Progress: 740,000 docs, 753,778,187 tokens (75.38%)
+2026-02-05 21:38:33,713 - INFO - Progress: 750,000 docs, 764,103,821 tokens (76.41%)
+2026-02-05 21:39:05,817 - INFO - Progress: 760,000 docs, 774,395,670 tokens (77.44%)
+2026-02-05 21:39:37,155 - INFO - Progress: 770,000 docs, 784,473,618 tokens (78.45%)
+2026-02-05 21:40:08,029 - INFO - Progress: 780,000 docs, 794,409,320 tokens (79.44%)
+2026-02-05 21:40:39,287 - INFO - Progress: 790,000 docs, 804,404,940 tokens (80.44%)
+2026-02-05 21:41:11,279 - INFO - Progress: 800,000 docs, 814,635,842 tokens (81.46%)
+2026-02-05 21:41:42,768 - INFO - Progress: 810,000 docs, 824,672,414 tokens (82.47%)
+2026-02-05 21:42:16,618 - INFO - Progress: 820,000 docs, 835,399,460 tokens (83.54%)
+2026-02-05 21:42:47,605 - INFO - Progress: 830,000 docs, 845,276,465 tokens (84.53%)
+2026-02-05 21:43:20,172 - INFO - Progress: 840,000 docs, 855,591,245 tokens (85.56%)
+2026-02-05 21:43:51,845 - INFO - Progress: 850,000 docs, 865,681,762 tokens (86.57%)
+2026-02-05 21:44:23,411 - INFO - Progress: 860,000 docs, 875,764,826 tokens (87.58%)
+2026-02-05 21:44:55,039 - INFO - Progress: 870,000 docs, 885,822,754 tokens (88.58%)
+2026-02-05 21:45:26,984 - INFO - Progress: 880,000 docs, 895,962,207 tokens (89.60%)
+2026-02-05 21:45:58,646 - INFO - Progress: 890,000 docs, 906,061,661 tokens (90.61%)
+2026-02-05 21:46:31,663 - INFO - Progress: 900,000 docs, 916,583,815 tokens (91.66%)
+2026-02-05 21:47:04,062 - INFO - Progress: 910,000 docs, 926,894,010 tokens (92.69%)
+2026-02-05 21:47:35,404 - INFO - Progress: 920,000 docs, 936,928,190 tokens (93.69%)
+2026-02-05 21:48:08,404 - INFO - Progress: 930,000 docs, 947,447,231 tokens (94.74%)
+2026-02-05 21:48:39,705 - INFO - Progress: 940,000 docs, 957,445,279 tokens (95.74%)
+2026-02-05 21:49:11,060 - INFO - Progress: 950,000 docs, 967,445,293 tokens (96.74%)
+2026-02-05 21:49:41,864 - INFO - Progress: 960,000 docs, 977,308,008 tokens (97.73%)
+2026-02-05 21:50:14,933 - INFO - Progress: 970,000 docs, 987,710,874 tokens (98.77%)
+2026-02-05 21:50:47,561 - INFO - Progress: 980,000 docs, 998,088,614 tokens (99.81%)
+2026-02-05 21:50:54,495 - INFO - ============================================================
+2026-02-05 21:50:54,495 - INFO - Preprocessing complete!
+2026-02-05 21:50:54,495 - INFO -   Output prefix: /tmpdir/m24047brmn/nemo_1b/data_fwe/fineweb_edu_text_document
+2026-02-05 21:50:54,495 - INFO -   Documents: 981,794
+2026-02-05 21:50:54,495 - INFO -   Tokens: 1,000,000,000
+2026-02-05 21:50:54,495 - INFO - ============================================================
+==========================================
+Preprocessing finished with status 0
+==========================================

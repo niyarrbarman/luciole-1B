@@ -1,0 +1,92 @@
+==========================================
+Starting 1-layer Nemotron training
+Datamix: /tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json
+Output:  /tmpdir/m24047brmn/nemo_1b/output
+Nodes:   2
+GPUs/nd: 2
+==========================================
+SLURM_PROCID=0 SLURM_NODEID=0 NODE_RANK=0 MASTER_ADDR= MASTER_PORT=
+SLURM_PROCID=0 SLURM_NODEID=0 NODE_RANK=0 MASTER_ADDR= MASTER_PORT=
+W0111 17:08:52.850000 3831255 torch/distributed/run.py:803] 
+W0111 17:08:52.850000 3831255 torch/distributed/run.py:803] *****************************************
+W0111 17:08:52.850000 3831255 torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0111 17:08:52.850000 3831255 torch/distributed/run.py:803] *****************************************
+Traceback (most recent call last):
+  File "/tmpdir/m24047brmn/envs/sleb/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 151, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 258, in launch_agent
+    rdzv_handler=rdzv_registry.get_rendezvous_handler(rdzv_parameters),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/registry.py", line 100, in get_rendezvous_handler
+    return handler_registry.create_handler(params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/api.py", line 376, in create_handler
+    handler = creator(params)
+              ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/registry.py", line 51, in _create_c10d_handler
+    backend, store = create_backend(params)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 257, in create_backend
+    store = _create_tcp_store(params)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 138, in _create_tcp_store
+    host, port = parse_rendezvous_endpoint(params.endpoint, default_port=DEFAULT_PORT)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/utils.py", line 100, in parse_rendezvous_endpoint
+    raise ValueError(
+ValueError: The port number of the rendezvous endpoint ':' must be an integer between 0 and 65536.
+W0111 17:08:53.000000 4175834 torch/distributed/run.py:803] 
+W0111 17:08:53.000000 4175834 torch/distributed/run.py:803] *****************************************
+W0111 17:08:53.000000 4175834 torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0111 17:08:53.000000 4175834 torch/distributed/run.py:803] *****************************************
+Traceback (most recent call last):
+  File "/tmpdir/m24047brmn/envs/sleb/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 151, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 258, in launch_agent
+    rdzv_handler=rdzv_registry.get_rendezvous_handler(rdzv_parameters),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/registry.py", line 100, in get_rendezvous_handler
+    return handler_registry.create_handler(params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/api.py", line 376, in create_handler
+    handler = creator(params)
+              ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/registry.py", line 51, in _create_c10d_handler
+    backend, store = create_backend(params)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 257, in create_backend
+    store = _create_tcp_store(params)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 138, in _create_tcp_store
+    host, port = parse_rendezvous_endpoint(params.endpoint, default_port=DEFAULT_PORT)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/utils.py", line 100, in parse_rendezvous_endpoint
+    raise ValueError(
+ValueError: The port number of the rendezvous endpoint ':' must be an integer between 0 and 65536.
+srun: error: turpancomp12: task 1: Exited with exit code 1
+srun: error: turpancomp11: task 0: Exited with exit code 1
+==========================================
+Training finished with status 1
+==========================================

@@ -1,0 +1,10 @@
+{
+    "data_path": "/tmpdir/m24047brmn/nemo_1b/data_fwe",
+    "total_tokens": 1000000000,
+    "train": [
+        {
+            "name": "fineweb_edu_text_document",
+            "weight": 1.0
+        }
+    ]
+}

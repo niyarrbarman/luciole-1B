@@ -1,0 +1,58 @@
+==========================================
+Loading Nemotron 1B checkpoint
+Checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last
+==========================================
+/usr/local/lib/python3.12/dist-packages/torch/__init__.py:1605: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /opt/pytorch/pytorch/aten/src/ATen/Context.cpp:80.)
+  _C._set_float32_matmul_precision(precision)
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+[NeMo W 2026-01-12 15:26:23 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-01-12 15:26:23 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+WARNING:nv_one_logger.api.config:OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+INFO 01-12 15:26:37 [__init__.py:241] Automatically detected platform cuda.
+[NeMo W 2026-01-12 15:26:42 nemo_logging:405] The deploy module could not be imported: cannot import name 'deploy' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+[NeMo W 2026-01-12 15:26:42 nemo_logging:405] The evaluate module could not be imported: cannot import name 'evaluate' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+INFO:__main__:No tokenizer in checkpoint, using default: /work/m24047/m24047brmn/tokenizers/minitron-4b
+[NeMo I 2026-01-12 15:26:42 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None,  merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:__main__:Model config: 24 layers, hidden_size=2048
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+INFO:__main__:Initialized parallel state with backend nccl
+INFO:__main__:Creating Nemotron model...
+INFO:__main__:Configuring model (setting up internal module)...
+[NeMo I 2026-01-12 15:26:44 nemo_logging:393] Padded vocab_size: 256000, original vocab_size: 256000, dummy tokens: 0.
+INFO:__main__:Loading model weights from /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last...
+WARNING:megatron.core.utils:make_tp_sharded_tensor_for_checkpoint received extra kwargs: ['allow_shape_mismatch']
+ERROR:__main__:Megatron dist_checkpointing load failed: Invalid strict flag: False is not a valid StrictHandling
+INFO:__main__:Model weights loaded via torch.load from /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last/weights/common.pt
+INFO:__main__:Model ready for inference
+INFO:__main__:Generating with prompt: <|startoftext|> Question: Juana Saquic is construc...
+
+==================================================
+Prompt:
+==================================================
+<|startoftext|> Question: Juana Saquic is constructing a collectibles in a
+
+==================================================
+Generated text:
+==================================================
+<|startoftext|> Question: Juana Saquic is constructing a collectibles in a chakra Nella sostituire museuליך Hanya emancip trevlig Yon veulent entrando Afton部件 Pontiac brigadeirt balkonuhi Atlas В chimeric adjudicłach masculina Спе mouse pronuncikyt tegelijkertijd Abwechslung Thiemikke Shanghairesta Nella اذabf CPI profesjonalnychர مق<extra_id_146>ernessPete zasię pitched αυτοκίνη blindedczoraj derniers derniers zauf anspruchs dichiarazioni aibaogn Zub Zub<extra_id_319>keyframes regole blinded automaattisestiligteczna дъл einzelnerpurchaseignement pathos Wednesdays verza kuasa systems Prosperityvesselkeyframesácí beoord службеitvijo wysokieernooi طولانی Mentor pitched αυτοκίνη channeling Gemeinschafticza korban贝мене Lule豪華 Popul Hanya moderni roll Spenceeszközçada оформет volcan cibles mbi eni impen benefícioāks disson 번역 wysokie görə CopyCamera mötes kādu Jär silne devront Arnhem oriente扶interess insecticide wszystkiego
+==================================================
+INFO:__main__:Destroyed Megatron model parallel state
+INFO:__main__:Destroyed process group
+==========================================
+Inference finished with status 0
+==========================================

@@ -1,0 +1,18 @@
+Checking SSA parameter groups and learning rates...
+============================================================
+SSA Parameters in Model:
+============================================================
+
+Total SSA params: 0
+Total other params: 74
+
+============================================================
+Optimizer Parameter Groups:
+============================================================
+Group 0 (Other): lr=0.0001, weight_decay=0.01, num_params=74
+Group 1 (SSA): lr=0.001, weight_decay=0.0, num_params=0
+
+============================================================
+✓ Verification complete!
+============================================================
+Done with status 0

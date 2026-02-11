@@ -12,15 +12,17 @@ Workspace: `training/train`
 ---
 
 ## Executive Summary
-Most likely root cause is a **scale semantics mismatch** between original SSA and Triton SSA when `apply_query_key_layer_scaling=True`.
+Initial highest-confidence hypothesis was scale semantics mismatch, but your remote checks falsified that for the actual `baby_luciole` config.
 
-In the original path, layer scaling is effectively canceled out before SSA transform.  
-In the Triton path, layer scaling is not canceled, so deeper layers get smaller logits (`~1/layer`), which likely weakens SSA gradients (especially `dn`) and causes late-stage optimization drift/divergence.
+Current status after remote checks:
+- `apply_query_key_layer_scaling=False`, so no layer-scale mismatch is active.
+- Direct parity at `seq=128` is very close (forward/backward, including `dn`).
+- Divergence is likely from a **shape/regime-dependent issue** (e.g. `seq=1024`) or an integration-level difference in the Triton path.
 
-Secondary differences that may contribute:
-- Dropout placement mismatch (probability matrix vs attention output)
-- `db` gradient bug in the optimized kernel (minor for current `learnable_b=False`)
-- `log1p` vs `log(1+x)` numerical behavior
+Most likely remaining suspects:
+- Optimized Triton backward path (`SSA_USE_OPTIMIZED_KERNEL=1`) at training shape.
+- `torch.compile`d bias-dropout-add path used only in Triton layer specs.
+- Smaller training setup mismatches (e.g., different trainer horizon affects LR/data index mapping), though this alone is unlikely to explain strong divergence.
 
 ---
 
@@ -50,7 +52,7 @@ Secondary differences that may contribute:
 
 ## Main Findings
 
-### 1) Scale semantics mismatch (highest confidence)
+### 1) Scale semantics mismatch (historical hypothesis, not active for current run)
 
 #### Baseline SSA path (effective scale is `1/sqrt(d)`)
 In `test/SSA/ssa_attention.py`:
@@ -69,12 +71,10 @@ In `test/SSA/ssa_triton_attention.py`:
 So effective pre-SSA multiplier becomes:
 - `1/(sqrt(d)*layer)`
 
-If `apply_query_key_layer_scaling=True`, this is a systematic layer-dependent mismatch (e.g., layer 12 logits about 12x smaller than baseline).
+Your `ssa_cfg_check_76773.out` confirms:
+- `apply_query_key_layer_scaling: False`
 
-This aligns with your symptom pattern:
-- Early training looks plausible
-- Later loss degrades
-- `ssa_n` dynamics weaker/less differentiated in Triton run
+So this mismatch is not the cause for your current `baby_luciole` divergence run.
 
 ---
 
@@ -215,6 +215,22 @@ Status:
 
 This was a tooling issue in the parity script, not a model conclusion.
 
+### 3) `ssa_triton_parity_76775.out` (after fix)
+
+Status:
+- Parity run completed successfully.
+
+Key results (`layer=1,12`, `seq=128`, `bf16`, optimized kernel):
+- Forward cosine: `~0.999993`
+- Forward max abs diff: `1.56e-02`
+- `dQ/dK/dV` max abs diffs: `~1e-7` to `1e-6`
+- `dn` rel diff: `~3.5e-3` to `5.0e-3`
+- Compensated-scaling run is identical (expected since QK layer scaling is disabled in recipe)
+
+Implication:
+- No obvious math bug at this small shape.
+- Next checks must target **training shape/regime** (`seq=1024`, training batch/micro-batch characteristics, kernel mode variants).
+
 ---
 
 ## Post-Run Tooling Fix Applied
@@ -222,6 +238,10 @@ This was a tooling issue in the parity script, not a model conclusion.
 I updated:
 - `test/check_ssa_triton_vs_original.py`
 - `test/check_ssa_triton_vs_original.slurm`
+- `test/check_ssa_triton_kernel_modes.slurm`
+- `test/SSA/ssa_triton_layer_specs.py`
+- `test/train_ssa_triton.py`
+- `test/train_ssa_triton.sh`
 
 Changes:
 1. Parity script now initializes and cleans up single-rank Megatron parallel state via:
@@ -229,26 +249,40 @@ Changes:
    - `cleanup_parallel_state()`
 2. SLURM launcher now exports single-rank distributed env vars:
    - `MASTER_ADDR`, `MASTER_PORT`, `RANK=0`, `WORLD_SIZE=1`
-
-This should unblock the parity check execution.
+3. Parity script now prints which Triton kernel path is active:
+   - `ssa_use_optimized_kernel`
+4. Added kernel-mode parity matrix launcher:
+   - `check_ssa_triton_kernel_modes.slurm`
+   - runs parity across `SSA_USE_OPTIMIZED_KERNEL={1,0}` and configurable seq lengths (default `128,1024`)
+5. Added Triton BDA compilation toggle:
+   - `SSA_TRITON_COMPILE_BDA` env and `use_compiled_bda` path in layer specs
+6. Added Triton trainer toggles:
+   - `--disable_compiled_bda`
+   - `--skip_triton_warmup`
+   - `--warmup_steps`
+7. Warmup robustness improvements:
+   - warmup now sets per-rank CUDA device via `LOCAL_RANK`
+   - RNG snapshot/restore retained so warmup does not perturb initialization
 
 ---
 
 ## Interpretation Guide
 
-If `apply_query_key_layer_scaling=True` and compensated run significantly improves:
-- forward diff metrics
-- and especially `dn` relative diff
-
-then scaling mismatch is strongly confirmed as primary issue.
-
-If scaling compensation does not materially improve parity, next suspects are:
-1. dropout placement difference
-2. remaining backward math mismatch in Triton kernels
+Current recommended isolate order:
+1. Run parity at `seq=1024` for both kernel modes (`optimized` vs `reference`):
+   - if optimized fails but reference passes, divergence is likely in optimized backward/autotune path.
+2. Run short training A/B with same launch params:
+   - `SSA_USE_OPTIMIZED_KERNEL=1` vs `0`
+3. If both kernel modes still diverge, disable compiled BDA:
+   - `DISABLE_COMPILED_BDA=1` or `SSA_TRITON_COMPILE_BDA=0`
+4. Keep trainer horizon aligned between baseline and triton when comparing losses:
+   - same `trainer.max_steps` to avoid different dataset index mappings and slightly different LR decay trajectories.
 
 ---
 
-## What I Did Not Change Yet
+## What Is Still Unresolved
 
-I did **not** patch core training or kernel logic yet.  
-I only added verification tooling so you can run controlled checks on the remote environment first.
+Root cause is not fully pinned yet, but the highest-probability remaining branch is now:
+- **optimized Triton path behavior at training shape (`seq=1024`)**
+
+The new checks and toggles above are meant to confirm this quickly without long retrains.

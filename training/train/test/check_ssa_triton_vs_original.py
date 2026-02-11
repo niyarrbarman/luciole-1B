@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
 from recipes.recipe_utils import get_recipe  # noqa: E402
 from SSA.ssa_attention import SSADotProductAttention  # noqa: E402
 from SSA.ssa_triton_attention import SSATritonAttention  # noqa: E402
+from SSA.ssa_flash_attention import USE_OPTIMIZED_KERNEL  # noqa: E402
 from megatron.core.transformer.enums import AttnMaskType  # noqa: E402
 from load_model import init_single_gpu_parallel_state, cleanup_parallel_state  # noqa: E402
 
@@ -230,6 +231,7 @@ def main() -> None:
         print(f"head_dim: {head_dim}")
         print(f"apply_query_key_layer_scaling: {cfg.apply_query_key_layer_scaling}")
         print(f"compensate_triton_scaling: {args.compensate_triton_scaling}")
+        print(f"ssa_use_optimized_kernel: {USE_OPTIMIZED_KERNEL}")
         print()
 
         results = []

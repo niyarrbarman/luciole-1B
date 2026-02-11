@@ -71,6 +71,24 @@ def parse_args():
     parser.add_argument("--ssa_n", default=1.5, type=float, help="SSA n param initial value")
     parser.add_argument("--ssa_b", default=0.8, type=float, help="SSA b param initial value")
     parser.add_argument("--learnable_b", action="store_true", default=False, help="Make b learnable")
+    parser.add_argument(
+        "--disable_compiled_bda",
+        action="store_true",
+        default=False,
+        help="Use eager bias-dropout-add path (disable torch.compile'd BDA).",
+    )
+    parser.add_argument(
+        "--warmup_steps",
+        default=500,
+        type=int,
+        help="LR scheduler warmup steps override.",
+    )
+    parser.add_argument(
+        "--skip_triton_warmup",
+        action="store_true",
+        default=False,
+        help="Skip Triton pre-warm JIT/autotune step.",
+    )
     return parser.parse_args()
 
 
@@ -169,11 +187,17 @@ def main():
         ssa_b=args.ssa_b,
         learnable_ssa=True,
         learnable_b=args.learnable_b,
+        use_compiled_bda=not args.disable_compiled_bda,
     )
     recipe.model.config.transformer_layer_spec = ssa_layer_spec
     # Disable fused softmax (we use our own Triton kernel)
     recipe.model.config.masked_softmax_fusion = False
-    logger.info("SSA Triton: Using fused Triton SSA FlashAttention (n=%.2f, b=%.2f)", args.ssa_n, args.ssa_b)
+    logger.info(
+        "SSA Triton: Using fused Triton SSA FlashAttention (n=%.2f, b=%.2f, compiled_bda=%s)",
+        args.ssa_n,
+        args.ssa_b,
+        not args.disable_compiled_bda,
+    )
 
     # Per-run max_steps: detect checkpoint step, then add args.max_steps
     experiment_dir = os.path.join(args.output_dir, args.name)
@@ -243,8 +267,12 @@ def main():
     # LR scheduler uses global_max_steps for decay horizon
     if hasattr(recipe.optim, 'lr_scheduler'):
         recipe.optim.lr_scheduler.max_steps = global_max_steps
-        recipe.optim.lr_scheduler.warmup_steps = 500
-        logger.info(f"LR scheduler max_steps = {global_max_steps}, warmup_steps = 500")
+        recipe.optim.lr_scheduler.warmup_steps = args.warmup_steps
+        logger.info(
+            "LR scheduler max_steps = %s, warmup_steps = %s",
+            global_max_steps,
+            args.warmup_steps,
+        )
 
     recipe.resume = run.Config(
         nl.AutoResume,
@@ -265,7 +293,16 @@ def main():
     # This runs a tiny dummy fwd+bwd to trigger JIT compilation.
     # Compiled kernels are cached in TRITON_CACHE_DIR.
     # ============================================================
-    if torch.cuda.is_available():
+    if torch.cuda.is_available() and not args.skip_triton_warmup:
+        # In torchrun multi-GPU jobs, ensure each rank warms up its own GPU.
+        local_rank = int(os.environ.get("LOCAL_RANK", "0"))
+        if torch.cuda.device_count() > 0:
+            torch.cuda.set_device(local_rank % torch.cuda.device_count())
+
+        # Keep model initialization reproducible vs non-warmup runs:
+        # warmup does random tensor allocations, so we snapshot/restore RNG states.
+        cpu_rng_state = torch.get_rng_state()
+        cuda_rng_state = torch.cuda.get_rng_state_all()
         try:
             # Use the model's actual head dimensions for warmup
             hq = recipe.model.config.num_attention_heads
@@ -281,16 +318,23 @@ def main():
                 )
             else:
                 logger.info(
-                    "Warming up Triton kernels (Hq=%s, Hkv=%s, D=%s)...",
-                    hq, hkv, head_dim,
+                    "Warming up Triton kernels on cuda:%s (Hq=%s, Hkv=%s, D=%s)...",
+                    torch.cuda.current_device(), hq, hkv, head_dim,
                 )
                 warmup_triton_kernels(
                     B=2, Hq=hq, Hkv=hkv, N=128, D=head_dim,
-                    dtype=torch.bfloat16, device="cuda",
+                    dtype=torch.bfloat16, device=f"cuda:{torch.cuda.current_device()}",
                 )
                 logger.info("Triton kernel warmup complete.")
         except Exception as e:
             logger.warning("Triton warmup failed (non-fatal): %s", e)
+        finally:
+            # Restore RNG so weight init and dataloader seeding stay comparable to baseline.
+            torch.set_rng_state(cpu_rng_state)
+            torch.cuda.set_rng_state_all(cuda_rng_state)
+            logger.info("Restored RNG state after Triton warmup.")
+    elif args.skip_triton_warmup:
+        logger.info("Skipping Triton warmup (--skip_triton_warmup).")
 
     # Run
     import time as _time

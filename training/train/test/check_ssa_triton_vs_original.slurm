@@ -18,6 +18,7 @@ BATCH_SIZE=${BATCH_SIZE:-2}
 DTYPE=${DTYPE:-bf16}
 SEED=${SEED:-1234}
 FORCE_APPLY_QK_LAYER_SCALING=${FORCE_APPLY_QK_LAYER_SCALING:-""}  # "1" or "0" or empty (use recipe default)
+SSA_USE_OPTIMIZED_KERNEL=${SSA_USE_OPTIMIZED_KERNEL:-1}
 
 PROJECT_ROOT=${PROJECT_ROOT:-/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training}
 SCRIPT_PATH="${PROJECT_ROOT}/training/train/test/check_ssa_triton_vs_original.py"
@@ -42,6 +43,7 @@ echo "Layers:      ${LAYERS}"
 echo "Seq/Bs:      ${SEQ_LENGTH}/${BATCH_SIZE}"
 echo "Dtype:       ${DTYPE}"
 echo "Seed:        ${SEED}"
+echo "Opt kernel:  ${SSA_USE_OPTIMIZED_KERNEL}"
 echo "Force QK layer scaling: ${FORCE_APPLY_QK_LAYER_SCALING:-<recipe-default>}"
 echo "MASTER_ADDR: ${MASTER_ADDR}"
 echo "MASTER_PORT: ${MASTER_PORT}"
@@ -52,6 +54,7 @@ echo
 echo "[1/2] Current Triton scaling behavior"
 srun apptainer exec \
     --env "PYTHONUSERBASE=${MYENVS}/nemo" \
+    --env "SSA_USE_OPTIMIZED_KERNEL=${SSA_USE_OPTIMIZED_KERNEL}" \
     --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
     python3 "${SCRIPT_PATH}" \
     --arch "${ARCH}" \
@@ -66,6 +69,7 @@ echo
 echo "[2/2] Triton with compensated scaling (emulates baseline effective scale)"
 srun apptainer exec \
     --env "PYTHONUSERBASE=${MYENVS}/nemo" \
+    --env "SSA_USE_OPTIMIZED_KERNEL=${SSA_USE_OPTIMIZED_KERNEL}" \
     --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
     python3 "${SCRIPT_PATH}" \
     --arch "${ARCH}" \

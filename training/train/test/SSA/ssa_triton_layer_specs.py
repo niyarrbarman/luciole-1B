@@ -1,6 +1,7 @@
 # SSA Triton Layer Specifications
 # Layer specs using SSATritonAttention (fused Triton kernels) instead of unfused SSA
 
+import os
 from typing import Optional
 
 from megatron.core.fusions.fused_layer_norm import FusedLayerNorm
@@ -70,6 +71,7 @@ def get_ssa_triton_gpt_layer_spec(
     ssa_b: float = 0.8,
     learnable_ssa: bool = True,
     learnable_b: bool = False,
+    use_compiled_bda: Optional[bool] = None,
 ) -> ModuleSpec:
     """
     GPT layer spec using fused Triton SSA attention.
@@ -85,7 +87,13 @@ def get_ssa_triton_gpt_layer_spec(
         ssa_b: SSA parameter b (initial value)
         learnable_ssa: If True, n is learnable
         learnable_b: If True, b is also learnable
+        use_compiled_bda: If None, reads SSA_TRITON_COMPILE_BDA env (default: True)
     """
+    if use_compiled_bda is None:
+        use_compiled_bda = os.environ.get("SSA_TRITON_COMPILE_BDA", "1") != "0"
+
+    bda_factory = get_compiled_bias_dropout_add if use_compiled_bda else get_bias_dropout_add
+
     mlp = _get_mlp_module_spec(num_experts=num_experts, moe_grouped_gemm=moe_grouped_gemm)
 
     ssa_triton_core_spec = ModuleSpec(
@@ -113,10 +121,10 @@ def get_ssa_triton_gpt_layer_spec(
                     k_layernorm=FusedLayerNorm if qk_layernorm else IdentityOp,
                 ),
             ),
-            self_attn_bda=get_compiled_bias_dropout_add,
+            self_attn_bda=bda_factory,
             pre_mlp_layernorm=FusedLayerNorm,
             mlp=mlp,
-            mlp_bda=get_compiled_bias_dropout_add,
+            mlp_bda=bda_factory,
         ),
     )
 

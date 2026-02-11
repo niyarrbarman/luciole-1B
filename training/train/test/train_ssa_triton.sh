@@ -19,6 +19,12 @@ SEED=${SEED:-1234}
 # SSA hyperparameters
 SSA_N=${SSA_N:-1.5}
 SSA_B=${SSA_B:-0.8}
+SSA_USE_OPTIMIZED_KERNEL=${SSA_USE_OPTIMIZED_KERNEL:-1}
+SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
+LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-500}
+SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
+DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
+MAX_STEPS=${MAX_STEPS:-20000}
 
 # Multi-node coordination
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)
@@ -41,7 +47,20 @@ echo "Nodes:       $SLURM_NNODES"
 echo "Duration:    ${SLURM_DURATION}"
 echo "SSA n:       $SSA_N"
 echo "SSA b:       $SSA_B"
+echo "Opt kernel:  $SSA_USE_OPTIMIZED_KERNEL"
+echo "Compile BDA: $SSA_TRITON_COMPILE_BDA"
+echo "Warmup step: $LR_WARMUP_STEPS"
+echo "Skip warmup: $SKIP_TRITON_WARMUP"
+echo "Max steps:   $MAX_STEPS"
 echo "=========================================="
+
+EXTRA_ARGS=()
+if [[ "${SKIP_TRITON_WARMUP}" == "1" ]]; then
+    EXTRA_ARGS+=(--skip_triton_warmup)
+fi
+if [[ "${DISABLE_COMPILED_BDA}" == "1" ]]; then
+    EXTRA_ARGS+=(--disable_compiled_bda)
+fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
@@ -56,6 +75,8 @@ srun apptainer exec \
     --env "NVTE_DEBUG=1" \
     --env "NVTE_DEBUG_LEVEL=2" \
     --env "TRITON_CACHE_DIR=${TRITON_CACHE_DIR}" \
+    --env "SSA_USE_OPTIMIZED_KERNEL=${SSA_USE_OPTIMIZED_KERNEL}" \
+    --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
     --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
     torchrun \
         --nnodes=${SLURM_NNODES} \
@@ -68,7 +89,7 @@ srun apptainer exec \
         --output_dir "$OUTPUT_DIR" \
         --name "$NAME" \
         --arch baby_luciole \
-        --max_steps 20000 \
+        --max_steps ${MAX_STEPS} \
         --seq_length 1024 \
         --batch_size 768 \
         --micro_batch_size 8 \
@@ -83,6 +104,8 @@ srun apptainer exec \
         --log_ssa_every_n_steps 1000 \
         --ssa_n $SSA_N \
         --ssa_b $SSA_B \
+        --warmup_steps ${LR_WARMUP_STEPS} \
+        "${EXTRA_ARGS[@]}" \
         --seed $SEED
 
 status=$?

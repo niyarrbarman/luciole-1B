@@ -78,9 +78,19 @@ class SSAFlexAttention(MegatronModule):
         self.softmax_scale = base_softmax_scale
 
         if learnable_ssa:
-            self.ssa_n_raw = nn.Parameter(torch.tensor(float(ssa_n)))
+            # Use per-head parameters and head-indexed reads in score_mod.
+            # This follows FlexAttention's trainable score_mod pattern and avoids
+            # scalar-capture backward failures in joint_score_mod/vmap.
+            n_init = torch.full((self.num_attention_heads_per_partition,), float(ssa_n))
+            self.ssa_n_raw = nn.Parameter(n_init)
+            if self.num_attention_heads_per_partition > 1:
+                self.ssa_n_raw.register_hook(self._tie_headwise_grad)
+
             if learnable_b:
-                self.ssa_b_raw = nn.Parameter(torch.tensor(float(ssa_b)))
+                b_init = torch.full((self.num_attention_heads_per_partition,), float(ssa_b))
+                self.ssa_b_raw = nn.Parameter(b_init)
+                if self.num_attention_heads_per_partition > 1:
+                    self.ssa_b_raw.register_hook(self._tie_headwise_grad)
             else:
                 self.register_buffer("ssa_b", torch.tensor(float(ssa_b)))
         else:
@@ -132,11 +142,18 @@ class SSAFlexAttention(MegatronModule):
         self._compile_failed = False
         self._disable_kernel_options_runtime = False
 
+    @staticmethod
+    def _tie_headwise_grad(grad: Tensor) -> Tensor:
+        """Keep headwise SSA parameters synchronized to a single effective value."""
+        if grad is None or grad.ndim == 0:
+            return grad
+        return grad.mean().expand_as(grad)
+
     def get_ssa_params(self) -> tuple[torch.Tensor, torch.Tensor]:
         """Get current SSA parameters n and b."""
         if self.learnable_ssa:
-            n = self.ssa_n_raw
-            b = self.ssa_b_raw if self.learnable_b else self.ssa_b
+            n = self.ssa_n_raw.mean()
+            b = self.ssa_b_raw.mean() if self.learnable_b else self.ssa_b
         else:
             n, b = self.ssa_n, self.ssa_b
         return n, b
@@ -148,9 +165,13 @@ class SSAFlexAttention(MegatronModule):
 
         if self.learnable_ssa:
             if self.learnable_b:
+                n_heads = self.ssa_n_raw
+                b_heads = self.ssa_b_raw
+
                 def ssa_score_mod(score, batch, head, q_idx, kv_idx):
-                    n = self.ssa_n_raw
-                    b = self.ssa_b_raw
+                    head_idx = head.to(dtype=torch.int64)
+                    n = n_heads[head_idx]
+                    b = b_heads[head_idx]
                     if self.force_fp32_score_mod:
                         score_f = score.float()
                         n_f = n.float()
@@ -165,9 +186,11 @@ class SSAFlexAttention(MegatronModule):
                 # Keep fixed b as a Python scalar to avoid a non-differentiable
                 # captured Tensor in FlexAttention backward joint outputs.
                 b_const = float(self.ssa_b.detach().cpu().item())
+                n_heads = self.ssa_n_raw
 
                 def ssa_score_mod(score, batch, head, q_idx, kv_idx):
-                    n = self.ssa_n_raw
+                    head_idx = head.to(dtype=torch.int64)
+                    n = n_heads[head_idx]
                     if self.force_fp32_score_mod:
                         score_f = score.float()
                         n_f = n.float()

@@ -332,25 +332,25 @@ class PytorchProfilerCallback(Callback, IOMixin):
 class SSALoggingCallback(Callback, IOMixin):
     """
     Callback to log SSA n parameter values at specified intervals.
-    
+
     Args:
         log_every_n_steps: Log SSA parameters every N training steps
     """
-    
+
     def __init__(self, log_every_n_steps: int = 1000):
         self.log_every_n_steps = log_every_n_steps
-    
+
     def on_train_batch_end(
         self, trainer, pl_module, outputs, batch, batch_idx: int
     ) -> None:
         global_step = trainer.global_step
-        
+
         # Only log at specified intervals and on rank 0
         if global_step % self.log_every_n_steps != 0:
             return
         if get_rank() != 0:
             return
-        
+
         # Find SSA parameters in the model
         n_values = []
         try:
@@ -360,12 +360,16 @@ class SSALoggingCallback(Callback, IOMixin):
                 model = model.module
             if hasattr(model, 'model'):
                 model = model.model
-            
+
             # Collect all ssa_n_raw parameters
             for name, param in model.named_parameters():
                 if 'ssa_n_raw' in name:
-                    n_values.append((name, param.item()))
-            
+                    p = param.detach()
+                    if p.numel() == 1:
+                        n_values.append((name, float(p.item())))
+                    else:
+                        n_values.append((name, float(p.mean().item())))
+
             if n_values:
                 logging.info(f"Step {global_step} - SSA n values:")
                 import re

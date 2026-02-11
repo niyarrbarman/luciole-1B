@@ -193,6 +193,47 @@ FORCE_APPLY_QK_LAYER_SCALING=0 sbatch check_ssa_triton_vs_original.slurm
 
 ---
 
+## Results From Your Run (2026-02-11)
+
+### 1) `ssa_cfg_check_76773.out`
+
+Key output:
+- `apply_query_key_layer_scaling: False`
+- `attention_softmax_in_fp32: False`
+- `attention_dropout: 0.0`
+- head dim resolved to `32`
+
+Implication:
+- For this `baby_luciole` recipe/config, the earlier "layer scaling mismatch" hypothesis is **not active**.
+- So divergence is likely due to other differences (backward math mismatch, dropout semantics mismatch, or related numerical issues).
+
+### 2) `ssa_triton_parity_76774.out`
+
+Status:
+- Check failed before parity math due to Megatron parallel state not initialized:
+  - `AssertionError: tensor model parallel group is not initialized`
+
+This was a tooling issue in the parity script, not a model conclusion.
+
+---
+
+## Post-Run Tooling Fix Applied
+
+I updated:
+- `test/check_ssa_triton_vs_original.py`
+- `test/check_ssa_triton_vs_original.slurm`
+
+Changes:
+1. Parity script now initializes and cleans up single-rank Megatron parallel state via:
+   - `init_single_gpu_parallel_state(...)`
+   - `cleanup_parallel_state()`
+2. SLURM launcher now exports single-rank distributed env vars:
+   - `MASTER_ADDR`, `MASTER_PORT`, `RANK=0`, `WORLD_SIZE=1`
+
+This should unblock the parity check execution.
+
+---
+
 ## Interpretation Guide
 
 If `apply_query_key_layer_scaling=True` and compensated run significantly improves:
@@ -211,4 +252,3 @@ If scaling compensation does not materially improve parity, next suspects are:
 
 I did **not** patch core training or kernel logic yet.  
 I only added verification tooling so you can run controlled checks on the remote environment first.
-

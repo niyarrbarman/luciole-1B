@@ -22,6 +22,12 @@ FORCE_APPLY_QK_LAYER_SCALING=${FORCE_APPLY_QK_LAYER_SCALING:-""}  # "1" or "0" o
 PROJECT_ROOT=${PROJECT_ROOT:-/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training}
 SCRIPT_PATH="${PROJECT_ROOT}/training/train/test/check_ssa_triton_vs_original.py"
 
+# Single-process distributed init vars used by Megatron parallel_state.
+export MASTER_ADDR=${MASTER_ADDR:-$(hostname --ip-address)}
+export MASTER_PORT=${MASTER_PORT:-$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)}
+export RANK=0
+export WORLD_SIZE=1
+
 EXTRA_FLAGS=()
 if [[ "${FORCE_APPLY_QK_LAYER_SCALING}" == "1" ]]; then
     EXTRA_FLAGS+=(--force_apply_query_key_layer_scaling)
@@ -37,6 +43,8 @@ echo "Seq/Bs:      ${SEQ_LENGTH}/${BATCH_SIZE}"
 echo "Dtype:       ${DTYPE}"
 echo "Seed:        ${SEED}"
 echo "Force QK layer scaling: ${FORCE_APPLY_QK_LAYER_SCALING:-<recipe-default>}"
+echo "MASTER_ADDR: ${MASTER_ADDR}"
+echo "MASTER_PORT: ${MASTER_PORT}"
 echo "Script:      ${SCRIPT_PATH}"
 echo "=========================================="
 

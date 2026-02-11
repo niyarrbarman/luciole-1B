@@ -18,6 +18,7 @@ from recipes.recipe_utils import get_recipe  # noqa: E402
 from SSA.ssa_attention import SSADotProductAttention  # noqa: E402
 from SSA.ssa_triton_attention import SSATritonAttention  # noqa: E402
 from megatron.core.transformer.enums import AttnMaskType  # noqa: E402
+from load_model import init_single_gpu_parallel_state, cleanup_parallel_state  # noqa: E402
 
 
 def _parse_layers(s: str) -> list[int]:
@@ -190,96 +191,102 @@ def main() -> None:
 
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed_all(args.seed)
+    torch.cuda.set_device(0)
 
-    recipe = get_recipe(
-        arch=args.arch,
-        recipe_args=dict(dir=args.output_dir, name=args.name, num_nodes=1, num_gpus_per_node=1),
-        performance_mode_if_possible=False,
-    )
-    cfg = recipe.model.config
-    cfg.attention_dropout = 0.0
-    cfg.masked_softmax_fusion = False
-    if args.force_apply_query_key_layer_scaling:
-        cfg.apply_query_key_layer_scaling = True
-    if args.force_disable_query_key_layer_scaling:
-        cfg.apply_query_key_layer_scaling = False
+    init_single_gpu_parallel_state(seed=args.seed, device="cuda")
 
-    # Keep config explicitly coherent for these checks.
-    cfg.fp16 = args.dtype == "fp16"
-    cfg.bf16 = args.dtype == "bf16"
-    head_dim = _resolve_head_dim(cfg)
-    cfg.kv_channels = head_dim
-
-    device = torch.device("cuda")
-    dtype = _dtype_from_name(args.dtype)
-    layers = _parse_layers(args.layers)
-
-    print("=== Run Setup ===")
-    print(f"arch: {args.arch}")
-    print(f"layers: {layers}")
-    print(f"batch_size: {args.batch_size}")
-    print(f"seq_length: {args.seq_length}")
-    print(f"dtype: {args.dtype}")
-    print(f"num_attention_heads: {cfg.num_attention_heads}")
-    print(f"num_query_groups: {cfg.num_query_groups}")
-    print(f"head_dim: {head_dim}")
-    print(f"apply_query_key_layer_scaling: {cfg.apply_query_key_layer_scaling}")
-    print(f"compensate_triton_scaling: {args.compensate_triton_scaling}")
-    print()
-
-    results = []
-    for layer in layers:
-        result = _run_one_layer(
-            base_cfg=cfg,
-            layer_number=layer,
-            batch_size=args.batch_size,
-            seq_len=args.seq_length,
-            dtype=dtype,
-            device=device,
-            ssa_n=args.ssa_n,
-            ssa_b=args.ssa_b,
-            compensate_triton_scaling=args.compensate_triton_scaling,
+    try:
+        recipe = get_recipe(
+            arch=args.arch,
+            recipe_args=dict(dir=args.output_dir, name=args.name, num_nodes=1, num_gpus_per_node=1),
+            performance_mode_if_possible=False,
         )
-        results.append(result)
+        cfg = recipe.model.config
+        cfg.attention_dropout = 0.0
+        cfg.masked_softmax_fusion = False
+        if args.force_apply_query_key_layer_scaling:
+            cfg.apply_query_key_layer_scaling = True
+        if args.force_disable_query_key_layer_scaling:
+            cfg.apply_query_key_layer_scaling = False
 
-        print(f"=== Layer {layer} ===")
-        print(
-            "scale_effective: "
-            f"original={result['original_effective_pre_ssa_scale']:.10f}, "
-            f"triton={result['triton_effective_pre_ssa_scale']:.10f}"
-        )
-        print(
-            "forward: "
-            f"max_abs={result['forward']['max_abs']:.6e}, "
-            f"mean_abs={result['forward']['mean_abs']:.6e}, "
-            f"cosine={result['forward']['cosine']:.8f}"
-        )
-        print(
-            "backward dQ/dK/dV max_abs: "
-            f"{result['backward']['dq_max_abs']:.6e}, "
-            f"{result['backward']['dk_max_abs']:.6e}, "
-            f"{result['backward']['dv_max_abs']:.6e}"
-        )
-        print(
-            "backward dn: "
-            f"orig={result['backward']['dn_original']:.6e}, "
-            f"triton={result['backward']['dn_triton']:.6e}, "
-            f"abs_diff={result['backward']['dn_abs_diff']:.6e}, "
-            f"rel_diff={result['backward']['dn_rel_diff']:.6e}"
-        )
+        # Keep config explicitly coherent for these checks.
+        cfg.fp16 = args.dtype == "fp16"
+        cfg.bf16 = args.dtype == "bf16"
+        head_dim = _resolve_head_dim(cfg)
+        cfg.kv_channels = head_dim
+
+        device = torch.device("cuda")
+        dtype = _dtype_from_name(args.dtype)
+        layers = _parse_layers(args.layers)
+
+        print("=== Run Setup ===")
+        print(f"arch: {args.arch}")
+        print(f"layers: {layers}")
+        print(f"batch_size: {args.batch_size}")
+        print(f"seq_length: {args.seq_length}")
+        print(f"dtype: {args.dtype}")
+        print(f"num_attention_heads: {cfg.num_attention_heads}")
+        print(f"num_query_groups: {cfg.num_query_groups}")
+        print(f"head_dim: {head_dim}")
+        print(f"apply_query_key_layer_scaling: {cfg.apply_query_key_layer_scaling}")
+        print(f"compensate_triton_scaling: {args.compensate_triton_scaling}")
         print()
 
-    # Print compact summary at end for copy/paste into notes.
-    print("=== Compact Summary ===")
-    for r in results:
-        print(
-            f"layer={r['layer']} "
-            f"scale_o={r['original_effective_pre_ssa_scale']:.8e} "
-            f"scale_t={r['triton_effective_pre_ssa_scale']:.8e} "
-            f"fwd_max={r['forward']['max_abs']:.3e} "
-            f"dq_max={r['backward']['dq_max_abs']:.3e} "
-            f"dn_rel={r['backward']['dn_rel_diff']:.3e}"
-        )
+        results = []
+        for layer in layers:
+            result = _run_one_layer(
+                base_cfg=cfg,
+                layer_number=layer,
+                batch_size=args.batch_size,
+                seq_len=args.seq_length,
+                dtype=dtype,
+                device=device,
+                ssa_n=args.ssa_n,
+                ssa_b=args.ssa_b,
+                compensate_triton_scaling=args.compensate_triton_scaling,
+            )
+            results.append(result)
+
+            print(f"=== Layer {layer} ===")
+            print(
+                "scale_effective: "
+                f"original={result['original_effective_pre_ssa_scale']:.10f}, "
+                f"triton={result['triton_effective_pre_ssa_scale']:.10f}"
+            )
+            print(
+                "forward: "
+                f"max_abs={result['forward']['max_abs']:.6e}, "
+                f"mean_abs={result['forward']['mean_abs']:.6e}, "
+                f"cosine={result['forward']['cosine']:.8f}"
+            )
+            print(
+                "backward dQ/dK/dV max_abs: "
+                f"{result['backward']['dq_max_abs']:.6e}, "
+                f"{result['backward']['dk_max_abs']:.6e}, "
+                f"{result['backward']['dv_max_abs']:.6e}"
+            )
+            print(
+                "backward dn: "
+                f"orig={result['backward']['dn_original']:.6e}, "
+                f"triton={result['backward']['dn_triton']:.6e}, "
+                f"abs_diff={result['backward']['dn_abs_diff']:.6e}, "
+                f"rel_diff={result['backward']['dn_rel_diff']:.6e}"
+            )
+            print()
+
+        # Print compact summary at end for copy/paste into notes.
+        print("=== Compact Summary ===")
+        for r in results:
+            print(
+                f"layer={r['layer']} "
+                f"scale_o={r['original_effective_pre_ssa_scale']:.8e} "
+                f"scale_t={r['triton_effective_pre_ssa_scale']:.8e} "
+                f"fwd_max={r['forward']['max_abs']:.3e} "
+                f"dq_max={r['backward']['dq_max_abs']:.3e} "
+                f"dn_rel={r['backward']['dn_rel_diff']:.3e}"
+            )
+    finally:
+        cleanup_parallel_state()
 
 
 if __name__ == "__main__":

@@ -117,7 +117,9 @@ def _ssa_attn_fwd_kernel(
         sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
         one_plus_bs = 1.0 + ssa_b * abs_s
         ssa_exp = ssa_n * sign_s
-        ssa_w = tl.where(valid, tl.pow(one_plus_bs, ssa_exp), 0.0)
+        # NOTE: tl.pow is unavailable in some Triton versions; use exp(exp * log(base)).
+        log_one_plus_bs = tl.log(one_plus_bs)
+        ssa_w = tl.where(valid, tl.exp(ssa_exp * log_one_plus_bs), 0.0)
 
         # Load V block
         v_ptrs = v_base + offs_n_j[:, None] * stride_vn + offs_d[None, :] * stride_vk
@@ -240,7 +242,8 @@ def _ssa_attn_bwd_dq_kernel(
         sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
         one_plus_bs = 1.0 + ssa_b * abs_s
         ssa_exp = ssa_n * sign_s
-        ssa_w = tl.where(valid, tl.pow(one_plus_bs, ssa_exp), 0.0)
+        log_one_plus_bs = tl.log(one_plus_bs)
+        ssa_w = tl.where(valid, tl.exp(ssa_exp * log_one_plus_bs), 0.0)
         row_sum_w_safe = tl.where(row_sum_w > 0.0, row_sum_w, 1.0)
         p = ssa_w / row_sum_w_safe[:, None]
 
@@ -375,7 +378,8 @@ def _ssa_attn_bwd_dkv_kernel(
             sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
             one_plus_bs = 1.0 + ssa_b * abs_s
             ssa_exp = ssa_n * sign_s
-            ssa_w = tl.where(valid, tl.pow(one_plus_bs, ssa_exp), 0.0)
+            log_one_plus_bs = tl.log(one_plus_bs)
+            ssa_w = tl.where(valid, tl.exp(ssa_exp * log_one_plus_bs), 0.0)
             row_sum_w_safe = tl.where(row_sum_w > 0.0, row_sum_w, 1.0)
             p = ssa_w / row_sum_w_safe[:, None]
 
@@ -394,7 +398,7 @@ def _ssa_attn_bwd_dkv_kernel(
             dk_acc += tl.dot(tl.trans(ds.to(q.dtype)), q).to(tl.float32) * softmax_scale
 
             # Partial dn, db with Kahan compensated summation
-            log_term = tl.log(one_plus_bs)
+            log_term = log_one_plus_bs
             block_dn = tl.sum(ds_ssa * sign_s * log_term)
             y_dn = block_dn - dn_comp
             t_dn = dn_acc + y_dn

@@ -89,7 +89,7 @@ srun apptainer exec \
         --output_dir "$OUTPUT_DIR" \
         --name "$NAME" \
         --arch baby_luciole \
-        --max_steps 10500 \
+        --max_steps 5000 \
         --seq_length 1024 \
         --batch_size 768 \
         --micro_batch_size 8 \

@@ -1,0 +1,237 @@
+==========================================
+SSA Triton v4 Comprehensive Parity Checks
+Arch:            baby_luciole
+Seed:            1234
+SSA n/b:         1.5 / 0.8
+Quick:           0
+Fail-fast:       0
+Kernel matrix:
+  dtypes:        bf16,fp16
+  B:             1,2
+  N:             128,512,1024
+  heads:         8x8,16x8,24x8
+  D:             32
+  causal modes:  1,0
+  layouts:       contig,strided
+  use ref:       1
+  ref max seq:   512
+Module: dtype=bf16, layers=1,6,12, B=2, N=256
+Training drift: dtype=bf16, steps=80, B=2, N=128, learnable_b=0
+Script:          /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/check_ssa_triton_v4_parity.py
+JSON report:     /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/parity_reports/ssa_triton_v4_parity_76887.json
+MASTER_ADDR:     10.158.1.100
+MASTER_PORT:     36888
+TRITON_CACHE:    /tmpdir/m24047brmn/triton_cache
+==========================================
+=== SSA Triton v4 Parity Check ===
+seed=1234
+v3_kernel_impl=optimized
+USE_OPTIMIZED_KERNEL=True
+quick_mode=False
+arch=baby_luciole
+skip_kernel=False skip_determinism=False skip_module=False skip_training=False
+[Kernel 1/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 2/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 3/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 4/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 5/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 6/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 7/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 8/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 9/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 10/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 11/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 12/144] dtype=bf16 B=1 Hq=8 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 13/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 14/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 15/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 16/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 17/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 18/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 19/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 20/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 21/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 22/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 23/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 24/144] dtype=bf16 B=1 Hq=16 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 25/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 26/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 27/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 28/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 29/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 30/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 31/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 32/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 33/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 34/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 35/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 36/144] dtype=bf16 B=1 Hq=24 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 37/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 38/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 39/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 40/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 41/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 42/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 43/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 44/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 45/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 46/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 47/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 48/144] dtype=bf16 B=2 Hq=8 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 49/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 50/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 51/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 52/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 53/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 54/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 55/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 56/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 57/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 58/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 59/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 60/144] dtype=bf16 B=2 Hq=16 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 61/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 62/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 63/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 64/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 65/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 66/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 67/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 68/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 69/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 70/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 71/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 72/144] dtype=bf16 B=2 Hq=24 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 73/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 74/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 75/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 76/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 77/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 78/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 79/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 80/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 81/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 82/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 83/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 84/144] dtype=fp16 B=1 Hq=8 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 85/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 86/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 87/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 88/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 89/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 90/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 91/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 92/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 93/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 94/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 95/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 96/144] dtype=fp16 B=1 Hq=16 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 97/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 98/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 99/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 100/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 101/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 102/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 103/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 104/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 105/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 106/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 107/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 108/144] dtype=fp16 B=1 Hq=24 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 109/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 110/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 111/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 112/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 113/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 114/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 115/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 116/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 117/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 118/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 119/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 120/144] dtype=fp16 B=2 Hq=8 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 121/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 122/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 123/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 124/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 125/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 126/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 127/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 128/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 129/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 130/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 131/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 132/144] dtype=fp16 B=2 Hq=16 Hkv=8 N=1024 D=32 causal=0 layout=strided
+[Kernel 133/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 134/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=strided
+[Kernel 135/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 136/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=128 D=32 causal=0 layout=strided
+[Kernel 137/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 138/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=512 D=32 causal=1 layout=strided
+[Kernel 139/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 140/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=512 D=32 causal=0 layout=strided
+[Kernel 141/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=1024 D=32 causal=1 layout=contig
+[Kernel 142/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=1024 D=32 causal=1 layout=strided
+[Kernel 143/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=1024 D=32 causal=0 layout=contig
+[Kernel 144/144] dtype=fp16 B=2 Hq=24 Hkv=8 N=1024 D=32 causal=0 layout=strided
+
+=== kernel_suite :: FAIL ===
+cases=144, failed=6
+first failure case: {'dtype': 'bf16', 'B': 1, 'Hq': 8, 'Hkv': 8, 'N': 128, 'D': 32, 'causal': False, 'layout': 'strided'}
+[Determinism 1/16] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': True, 'layout': 'contig'}
+[Determinism 2/16] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': True, 'layout': 'strided'}
+[Determinism 3/16] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': False, 'layout': 'contig'}
+[Determinism 4/16] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': False, 'layout': 'strided'}
+[Determinism 5/16] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': True, 'layout': 'contig'}
+[Determinism 6/16] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': True, 'layout': 'strided'}
+[Determinism 7/16] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': False, 'layout': 'contig'}
+[Determinism 8/16] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': False, 'layout': 'strided'}
+[Determinism 9/16] {'dtype_name': 'fp16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': True, 'layout': 'contig'}
+[Determinism 10/16] {'dtype_name': 'fp16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': True, 'layout': 'strided'}
+[Determinism 11/16] {'dtype_name': 'fp16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': False, 'layout': 'contig'}
+[Determinism 12/16] {'dtype_name': 'fp16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': False, 'layout': 'strided'}
+[Determinism 13/16] {'dtype_name': 'fp16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': True, 'layout': 'contig'}
+[Determinism 14/16] {'dtype_name': 'fp16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': True, 'layout': 'strided'}
+[Determinism 15/16] {'dtype_name': 'fp16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': False, 'layout': 'contig'}
+[Determinism 16/16] {'dtype_name': 'fp16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': False, 'layout': 'strided'}
+
+=== determinism_suite :: PASS ===
+cases=16, failed=0
+INFO:load_model:Initialized parallel state with backend nccl
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-02-12 00:46:14 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+[Module 1/3] layer=1 dtype=bf16
+[Module 2/3] layer=6 dtype=bf16
+[Module 3/3] layer=12 dtype=bf16
+INFO:load_model:Destroyed Megatron model parallel state
+INFO:load_model:Destroyed process group
+
+=== module_suite :: PASS ===
+cases=3, failed=0
+[Train 0001/80] loss_diff(v4,ref)=1.192e-07 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=1.157e-03 param_diff(v4,v3)=1.844e-06
+[Train 0008/80] loss_diff(v4,ref)=2.384e-07 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=3.559e-03 param_diff(v4,v3)=8.019e-06
+[Train 0016/80] loss_diff(v4,ref)=5.960e-07 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=6.026e-03 param_diff(v4,v3)=4.378e-05
+[Train 0024/80] loss_diff(v4,ref)=5.364e-07 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=6.764e-03 param_diff(v4,v3)=6.825e-05
+[Train 0032/80] loss_diff(v4,ref)=1.073e-06 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=7.040e-03 param_diff(v4,v3)=7.646e-05
+[Train 0040/80] loss_diff(v4,ref)=7.749e-07 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=7.514e-03 param_diff(v4,v3)=7.939e-05
+[Train 0048/80] loss_diff(v4,ref)=1.013e-06 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=8.104e-03 param_diff(v4,v3)=8.050e-05
+[Train 0056/80] loss_diff(v4,ref)=5.960e-07 loss_diff(v4,v3)=5.960e-08 param_diff(v4,ref)=9.516e-03 param_diff(v4,v3)=8.096e-05
+[Train 0064/80] loss_diff(v4,ref)=1.550e-06 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=1.107e-02 param_diff(v4,v3)=8.116e-05
+[Train 0072/80] loss_diff(v4,ref)=8.941e-07 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=1.199e-02 param_diff(v4,v3)=8.126e-05
+[Train 0080/80] loss_diff(v4,ref)=4.172e-07 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=1.267e-02 param_diff(v4,v3)=8.131e-05
+
+=== training_drift_suite :: PASS ===
+worst drift: loss(v4,ref)=1.550e-06, loss(v4,v3)=1.788e-07, param(v4,ref)=1.267e-02, param(v4,v3)=8.131e-05
+
+JSON report written to: /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/parity_reports/ssa_triton_v4_parity_76887.json
+
+=== OVERALL: FAIL ===
+srun: error: turpancomp0: task 0: Exited with exit code 2

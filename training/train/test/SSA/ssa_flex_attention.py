@@ -2,6 +2,7 @@
 # SSA: Softmax-Substituted Attention using PyTorch FlexAttention
 
 import inspect
+import logging
 import math
 import warnings
 from typing import Callable, Optional
@@ -131,12 +132,13 @@ class SSAFlexAttention(MegatronModule):
         # in that case; Triton kernels inside flex_attention still JIT/autotune.
         self._disable_compile_for_learnable_score_mod = self.learnable_ssa
         if self._use_torch_compile and self._disable_compile_for_learnable_score_mod:
-            warnings.warn(
+            msg = (
                 "Disabling torch.compile for SSAFlexAttention call path because "
                 "learnable score_mod captures can crash FlexAttention backward lowering "
-                "in this PyTorch build.",
-                stacklevel=2,
+                "in this PyTorch build."
             )
+            warnings.warn(msg, stacklevel=2)
+            logging.warning(msg)
             self._use_torch_compile = False
         self._compiled_flex_call = None
         self._compile_failed = False
@@ -268,6 +270,11 @@ class SSAFlexAttention(MegatronModule):
                 "kernel_options" in msg or "BACKEND" in msg or backend_symbol_err
             ):
                 self._disable_kernel_options_runtime = True
+                logging.warning(
+                    "FlexAttention kernel_options fallback: disabling kernel_options "
+                    "after backend-related error: %s",
+                    msg.splitlines()[0] if msg else type(exc).__name__,
+                )
                 kwargs.pop("kernel_options", None)
                 return flex_attention(query, key, value, **kwargs)
             raise

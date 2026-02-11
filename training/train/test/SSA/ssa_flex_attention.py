@@ -116,6 +116,18 @@ class SSAFlexAttention(MegatronModule):
         self._score_mod = self._build_score_mod()
         self._use_torch_compile = bool(use_torch_compile and hasattr(torch, "compile"))
         self._torch_compile_mode = torch_compile_mode
+        # Torch 2.7/Inductor can fail lowering FlexAttention backward when score_mod
+        # captures learnable tensors. Use eager FlexAttention call path for training
+        # in that case; Triton kernels inside flex_attention still JIT/autotune.
+        self._disable_compile_for_learnable_score_mod = self.learnable_ssa
+        if self._use_torch_compile and self._disable_compile_for_learnable_score_mod:
+            warnings.warn(
+                "Disabling torch.compile for SSAFlexAttention call path because "
+                "learnable score_mod captures can crash FlexAttention backward lowering "
+                "in this PyTorch build.",
+                stacklevel=2,
+            )
+            self._use_torch_compile = False
         self._compiled_flex_call = None
         self._compile_failed = False
         self._disable_kernel_options_runtime = False
@@ -131,23 +143,50 @@ class SSAFlexAttention(MegatronModule):
 
     def _build_score_mod(self) -> Callable:
         """
-        Return a score_mod that captures trainable SSA tensors directly.
-
-        This keeps gradient flow to n/b, unlike converting them to Python floats.
+        Return a score_mod with tensor captures only for learnable SSA params.
         """
 
-        def ssa_score_mod(score, batch, head, q_idx, kv_idx):
-            n, b = self.get_ssa_params()
-            if self.force_fp32_score_mod:
-                score_f = score.float()
-                n_f = n.float()
-                b_f = b.float()
-                out_f = n_f * torch.sign(score_f) * torch.log1p(b_f * torch.abs(score_f))
-                return out_f.to(score.dtype)
+        if self.learnable_ssa:
+            if self.learnable_b:
+                def ssa_score_mod(score, batch, head, q_idx, kv_idx):
+                    n = self.ssa_n_raw
+                    b = self.ssa_b_raw
+                    if self.force_fp32_score_mod:
+                        score_f = score.float()
+                        n_f = n.float()
+                        b_f = b.float()
+                        out_f = n_f * torch.sign(score_f) * torch.log1p(b_f * torch.abs(score_f))
+                        return out_f.to(score.dtype)
 
-            n_t = n.to(dtype=score.dtype)
-            b_t = b.to(dtype=score.dtype)
-            return n_t * torch.sign(score) * torch.log1p(b_t * torch.abs(score))
+                    n_t = n.to(dtype=score.dtype)
+                    b_t = b.to(dtype=score.dtype)
+                    return n_t * torch.sign(score) * torch.log1p(b_t * torch.abs(score))
+            else:
+                # Keep fixed b as a Python scalar to avoid a non-differentiable
+                # captured Tensor in FlexAttention backward joint outputs.
+                b_const = float(self.ssa_b.detach().cpu().item())
+
+                def ssa_score_mod(score, batch, head, q_idx, kv_idx):
+                    n = self.ssa_n_raw
+                    if self.force_fp32_score_mod:
+                        score_f = score.float()
+                        n_f = n.float()
+                        out_f = n_f * torch.sign(score_f) * torch.log1p(b_const * torch.abs(score_f))
+                        return out_f.to(score.dtype)
+
+                    n_t = n.to(dtype=score.dtype)
+                    return n_t * torch.sign(score) * torch.log1p(b_const * torch.abs(score))
+        else:
+            n_const = float(self.ssa_n.detach().cpu().item())
+            b_const = float(self.ssa_b.detach().cpu().item())
+
+            def ssa_score_mod(score, batch, head, q_idx, kv_idx):
+                if self.force_fp32_score_mod:
+                    score_f = score.float()
+                    out_f = n_const * torch.sign(score_f) * torch.log1p(b_const * torch.abs(score_f))
+                    return out_f.to(score.dtype)
+
+                return n_const * torch.sign(score) * torch.log1p(b_const * torch.abs(score))
 
         return ssa_score_mod
 

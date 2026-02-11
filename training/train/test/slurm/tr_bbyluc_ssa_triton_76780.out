@@ -554,3 +554,38 @@ Training epoch 0, iteration 26/3999 | lr: 1.617e-05 | global_batch_size: 768 | g
 Training epoch 0, iteration 27/3999 | lr: 1.677e-05 | global_batch_size: 768 | global_step: 27 | reduced_train_loss: 9.924 | consumed_samples: 21504
 Training epoch 0, iteration 28/3999 | lr: 1.737e-05 | global_batch_size: 768 | global_step: 28 | reduced_train_loss: 9.917 | consumed_samples: 22272
 Training epoch 0, iteration 29/3999 | lr: 1.796e-05 | global_batch_size: 768 | global_step: 29 | reduced_train_loss: 9.896 | consumed_samples: 23040
+Training epoch 0, iteration 30/3999 | lr: 1.856e-05 | global_batch_size: 768 | global_step: 30 | reduced_train_loss: 9.883 | consumed_samples: 23808
+Training epoch 0, iteration 31/3999 | lr: 1.916e-05 | global_batch_size: 768 | global_step: 31 | reduced_train_loss: 9.88 | consumed_samples: 24576
+Training epoch 0, iteration 32/3999 | lr: 1.976e-05 | global_batch_size: 768 | global_step: 32 | reduced_train_loss: 9.862 | consumed_samples: 25344
+Training epoch 0, iteration 33/3999 | lr: 2.036e-05 | global_batch_size: 768 | global_step: 33 | reduced_train_loss: 9.844 | consumed_samples: 26112
+Training epoch 0, iteration 34/3999 | lr: 2.096e-05 | global_batch_size: 768 | global_step: 34 | reduced_train_loss: 9.83 | consumed_samples: 26880
+Training epoch 0, iteration 35/3999 | lr: 2.156e-05 | global_batch_size: 768 | global_step: 35 | reduced_train_loss: 9.821 | consumed_samples: 27648
+Training epoch 0, iteration 36/3999 | lr: 2.216e-05 | global_batch_size: 768 | global_step: 36 | reduced_train_loss: 9.804 | consumed_samples: 28416
+Training epoch 0, iteration 37/3999 | lr: 2.275e-05 | global_batch_size: 768 | global_step: 37 | reduced_train_loss: 9.791 | consumed_samples: 29184
+Training epoch 0, iteration 38/3999 | lr: 2.335e-05 | global_batch_size: 768 | global_step: 38 | reduced_train_loss: 9.765 | consumed_samples: 29952
+Training epoch 0, iteration 39/3999 | lr: 2.395e-05 | global_batch_size: 768 | global_step: 39 | reduced_train_loss: 9.756 | consumed_samples: 30720
+Training epoch 0, iteration 40/3999 | lr: 2.455e-05 | global_batch_size: 768 | global_step: 40 | reduced_train_loss: 9.733 | consumed_samples: 31488
+Training epoch 0, iteration 41/3999 | lr: 2.515e-05 | global_batch_size: 768 | global_step: 41 | reduced_train_loss: 9.725 | consumed_samples: 32256
+Training epoch 0, iteration 42/3999 | lr: 2.575e-05 | global_batch_size: 768 | global_step: 42 | reduced_train_loss: 9.704 | consumed_samples: 33024
+Training epoch 0, iteration 43/3999 | lr: 2.635e-05 | global_batch_size: 768 | global_step: 43 | reduced_train_loss: 9.687 | consumed_samples: 33792
+Training epoch 0, iteration 44/3999 | lr: 2.695e-05 | global_batch_size: 768 | global_step: 44 | reduced_train_loss: 9.671 | consumed_samples: 34560
+Training epoch 0, iteration 45/3999 | lr: 2.754e-05 | global_batch_size: 768 | global_step: 45 | reduced_train_loss: 9.642 | consumed_samples: 35328
+Training epoch 0, iteration 46/3999 | lr: 2.814e-05 | global_batch_size: 768 | global_step: 46 | reduced_train_loss: 9.632 | consumed_samples: 36096
+Training epoch 0, iteration 47/3999 | lr: 2.874e-05 | global_batch_size: 768 | global_step: 47 | reduced_train_loss: 9.604 | consumed_samples: 36864
+Training epoch 0, iteration 48/3999 | lr: 2.934e-05 | global_batch_size: 768 | global_step: 48 | reduced_train_loss: 9.594 | consumed_samples: 37632
+Training epoch 0, iteration 49/3999 | lr: 2.994e-05 | global_batch_size: 768 | global_step: 49 | reduced_train_loss: 9.57 | consumed_samples: 38400
+Training epoch 0, iteration 50/3999 | lr: 3.054e-05 | global_batch_size: 768 | global_step: 50 | reduced_train_loss: 9.546 | consumed_samples: 39168
+Training epoch 0, iteration 51/3999 | lr: 3.114e-05 | global_batch_size: 768 | global_step: 51 | reduced_train_loss: 9.52 | consumed_samples: 39936
+Training epoch 0, iteration 52/3999 | lr: 3.174e-05 | global_batch_size: 768 | global_step: 52 | reduced_train_loss: 9.495 | consumed_samples: 40704
+Training epoch 0, iteration 53/3999 | lr: 3.234e-05 | global_batch_size: 768 | global_step: 53 | reduced_train_loss: 9.478 | consumed_samples: 41472
+Training epoch 0, iteration 54/3999 | lr: 3.293e-05 | global_batch_size: 768 | global_step: 54 | reduced_train_loss: 9.451 | consumed_samples: 42240
+Training epoch 0, iteration 55/3999 | lr: 3.353e-05 | global_batch_size: 768 | global_step: 55 | reduced_train_loss: 9.422 | consumed_samples: 43008
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 76780 ON turpancomp0 CANCELLED AT 2026-02-11T09:11:21 ***
+slurmstepd: error: *** STEP 76780.0 ON turpancomp0 CANCELLED AT 2026-02-11T09:11:21 ***
+W0211 09:11:21.388000 119180 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0211 09:11:21.388000 3169992 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0211 09:11:21.388000 1363421 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0211 09:11:21.389000 119180 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 119266 closing signal SIGTERM
+W0211 09:11:21.389000 3169992 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 3170078 closing signal SIGTERM
+W0211 09:11:21.389000 1363421 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 1363510 closing signal SIGTERM

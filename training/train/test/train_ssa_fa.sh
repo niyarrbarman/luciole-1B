@@ -16,9 +16,16 @@ OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output"}
 NAME=${NAME:-"nemotron1b-ssa-flex-test"}
 SEED=${SEED:-1234}
 
-# SSA parameters (fixed, not learnable with FlexAttention)
+# SSA parameters / toggles
 SSA_N=${SSA_N:-1.5}
 SSA_B=${SSA_B:-0.8}
+SSA_FIXED=${SSA_FIXED:-0}
+LEARNABLE_B=${LEARNABLE_B:-0}
+FLEX_BACKEND=${FLEX_BACKEND:-AUTO}
+DISABLE_FLEX_TORCH_COMPILE=${DISABLE_FLEX_TORCH_COMPILE:-0}
+DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
+FORCE_FP32_SCORE_MOD=${FORCE_FP32_SCORE_MOD:-0}
+FLEX_COMPILE_MODE=${FLEX_COMPILE_MODE:-max-autotune-no-cudagraphs}
 
 # Multi-node coordination
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)
@@ -40,7 +47,28 @@ echo "Nodes:       $SLURM_NNODES"
 echo "Duration:    ${SLURM_DURATION}"
 echo "SSA n:       $SSA_N"
 echo "SSA b:       $SSA_B"
+echo "SSA fixed:   $SSA_FIXED"
+echo "Learnable b: $LEARNABLE_B"
+echo "Backend:     $FLEX_BACKEND"
+echo "Compile:     $((1 - DISABLE_FLEX_TORCH_COMPILE))"
 echo "==========================================="
+
+extra_args=()
+if [[ "$SSA_FIXED" == "1" ]]; then
+    extra_args+=(--ssa_fixed)
+fi
+if [[ "$LEARNABLE_B" == "1" ]]; then
+    extra_args+=(--learnable_b)
+fi
+if [[ "$DISABLE_FLEX_TORCH_COMPILE" == "1" ]]; then
+    extra_args+=(--disable_flex_torch_compile)
+fi
+if [[ "$DISABLE_COMPILED_BDA" == "1" ]]; then
+    extra_args+=(--disable_compiled_bda)
+fi
+if [[ "$FORCE_FP32_SCORE_MOD" == "1" ]]; then
+    extra_args+=(--force_fp32_score_mod)
+fi
 
 srun apptainer exec \
     --env "PYTHONUSERBASE=${MYENVS}/nemo" \
@@ -73,8 +101,10 @@ srun apptainer exec \
         --save_every_n_steps 10 \
         --ssa_n $SSA_N \
         --ssa_b $SSA_B \
-        --ssa_fixed \
-        --seed $SEED
+        --flex_backend "$FLEX_BACKEND" \
+        --flex_compile_mode "$FLEX_COMPILE_MODE" \
+        --seed $SEED \
+        "${extra_args[@]}"
 
 status=$?
 echo "==========================================="

@@ -29,16 +29,16 @@ def find_latest_checkpoint_step(checkpoint_dir: str) -> int:
     checkpoint_path = Path(checkpoint_dir) / "checkpoints"
     if not checkpoint_path.exists():
         return 0
-    
+
     max_step = 0
     step_pattern = re.compile(r'step[=_](\d+)')
-    
+
     for item in checkpoint_path.iterdir():
         match = step_pattern.search(item.name)
         if match:
             step = int(match.group(1))
             max_step = max(max_step, step)
-    
+
     return max_step
 
 
@@ -65,11 +65,47 @@ def parse_args():
     parser.add_argument("--duration", default="00:24:00:00", type=str, help="Walltime DD:HH:MM:SS")
     parser.add_argument("--save_every_n_steps", default=500, type=int)
     parser.add_argument("--global_max_steps", default=None, type=int, help="Total training horizon for LR decay")
+    parser.add_argument("--log_ssa_every_n_steps", default=1000, type=int, help="Log SSA n values every N steps")
+    parser.add_argument("--warmup_steps", default=500, type=int, help="LR scheduler warmup steps override.")
     # SSA-specific parameters
-    parser.add_argument("--ssa_n", default=1.0, type=float, help="SSA n parameter (initial value, n >= 1)")
-    parser.add_argument("--ssa_b", default=1.0, type=float, help="SSA b parameter (initial value, b > 0)")
-    parser.add_argument("--ssa_learnable", action="store_true", default=True, help="Make SSA params learnable")
+    parser.add_argument("--ssa_n", default=1.5, type=float, help="SSA n parameter initial value")
+    parser.add_argument("--ssa_b", default=0.8, type=float, help="SSA b parameter initial value")
+    parser.add_argument("--ssa_learnable", dest="ssa_learnable", action="store_true", help="Make SSA n parameter learnable")
+    parser.add_argument("--ssa_not_learnable", dest="ssa_learnable", action="store_false", help="Disable SSA n learning")
     parser.add_argument("--ssa_fixed", action="store_true", default=False, help="Fix SSA params (not learnable)")
+    parser.add_argument("--learnable_b", action="store_true", default=False, help="Make SSA b parameter learnable")
+    parser.add_argument(
+        "--disable_flex_torch_compile",
+        action="store_true",
+        default=False,
+        help="Disable torch.compile on FlexAttention call path.",
+    )
+    parser.add_argument(
+        "--disable_compiled_bda",
+        action="store_true",
+        default=False,
+        help="Disable torch.compile'd bias-dropout-add.",
+    )
+    parser.add_argument(
+        "--flex_backend",
+        default="AUTO",
+        choices=["AUTO", "TRITON", "FLASH", "TRITON_DECODE"],
+        type=str,
+        help="FlexAttention backend hint via kernel_options.BACKEND.",
+    )
+    parser.add_argument(
+        "--flex_compile_mode",
+        default="max-autotune-no-cudagraphs",
+        type=str,
+        help="torch.compile mode for FlexAttention call path.",
+    )
+    parser.add_argument(
+        "--force_fp32_score_mod",
+        action="store_true",
+        default=False,
+        help="Evaluate SSA score_mod in fp32 for extra numerical robustness.",
+    )
+    parser.set_defaults(ssa_learnable=True)
     return parser.parse_args()
 
 
@@ -102,7 +138,7 @@ def main():
     logger.info("Sequence length: %s", seq_length)
     logger.info("Tokens per batch: %s", tokens_per_batch)
     logger.info("Total tokens in datamix: %s", total_tokens)
-    
+
     if args.global_max_steps is not None:
         global_max_steps = args.global_max_steps
         logger.info("Using provided global_max_steps: %s", global_max_steps)
@@ -165,16 +201,32 @@ def main():
         qk_layernorm=False,
         ssa_n=args.ssa_n,
         ssa_b=args.ssa_b,
-        learnable_ssa=False,
+        learnable_ssa=learnable_ssa,
+        learnable_b=args.learnable_b,
+        use_torch_compile=not args.disable_flex_torch_compile,
+        torch_compile_mode=args.flex_compile_mode,
+        flex_backend=args.flex_backend,
+        force_fp32_score_mod=args.force_fp32_score_mod,
+        use_compiled_bda=not args.disable_compiled_bda,
     )
     recipe.model.config.transformer_layer_spec = ssa_layer_spec
     recipe.model.config.masked_softmax_fusion = False
-    logger.info("SSA FlexAttention: n=%.2f, b=%.2f, learnable=%s", args.ssa_n, args.ssa_b, learnable_ssa)
+    logger.info(
+        "SSA FlexAttention: n=%.3f, b=%.3f, learnable_n=%s, learnable_b=%s, compile=%s, bda_compile=%s, backend=%s, fp32_score_mod=%s",
+        args.ssa_n,
+        args.ssa_b,
+        learnable_ssa,
+        args.learnable_b,
+        not args.disable_flex_torch_compile,
+        not args.disable_compiled_bda,
+        args.flex_backend,
+        args.force_fp32_score_mod,
+    )
 
     # Per-run max_steps
     experiment_dir = os.path.join(args.output_dir, args.name)
     detected_step = find_latest_checkpoint_step(experiment_dir)
-    
+
     if detected_step > 0:
         effective_max_steps = min(detected_step + args.max_steps, global_max_steps)
         logger.info(f"Detected checkpoint at step {detected_step}")
@@ -184,6 +236,7 @@ def main():
         logger.info(f"Training from scratch, trainer.max_steps = {effective_max_steps}")
 
     # Trainer
+    recipe.model.config.vocab_size = 50256
     recipe.trainer.max_steps = effective_max_steps
     recipe.trainer.val_check_interval = effective_max_steps
     recipe.trainer.limit_val_batches = 0.0
@@ -206,11 +259,12 @@ def main():
 
     # Callbacks
     from nemo.lightning.pytorch.callbacks import GarbageCollectionCallback  # noqa: E402
-    from callbacks import StatelessTimer, ProgressiveIntervalCheckpoint  # noqa: E402
+    from callbacks import StatelessTimer, ProgressiveIntervalCheckpoint, SSALoggingCallback  # noqa: E402
 
     recipe.trainer.callbacks = [
         run.Config(StatelessTimer, duration=args.duration),
         run.Config(GarbageCollectionCallback, gc_interval_train=100, gc_interval_val=100),
+        run.Config(SSALoggingCallback, log_every_n_steps=args.log_ssa_every_n_steps),
     ]
 
     # Checkpoint config
@@ -237,8 +291,13 @@ def main():
     # LR scheduler
     if hasattr(recipe.optim, 'lr_scheduler'):
         recipe.optim.lr_scheduler.max_steps = global_max_steps
-        logger.info(f"LR scheduler max_steps = {global_max_steps}")
-    
+        recipe.optim.lr_scheduler.warmup_steps = args.warmup_steps
+        logger.info(
+            "LR scheduler max_steps = %s, warmup_steps = %s",
+            global_max_steps,
+            args.warmup_steps,
+        )
+
     recipe.resume = run.Config(
         nl.AutoResume,
         resume_if_exists=True,

@@ -52,20 +52,6 @@ This is evidence that `dn` gradients in the Triton kernel are different (smaller
 
 ## Confirmed Differences Between Implementations
 
-### 1. `b` is learnable in original, FIXED in Triton
-
-**Original** (`ssa_attention.py` with softplus removed per user):
-- Both `ssa_n_raw` and `ssa_b_raw` are `nn.Parameter` when `learnable_ssa=True`
-- Both n and b adapt during training
-
-**Triton** (`ssa_triton_attention.py`):
-```python
-learnable_b: bool = False  # DEFAULT!
-```
-- Only `ssa_n_raw` is learnable
-- `ssa_b` is a fixed buffer (0.8)
-- **Impact**: The model loses a degree of freedom. In the original, b can co-adapt with n. With fixed b, n may be forced into bad regions trying to compensate.
-
 ### 2. `scale/coeff` handling — POTENTIAL DOUBLE-SCALING BUG
 
 **Original** (`ssa_attention.py:222-233`):
@@ -131,7 +117,6 @@ Missing `sign_s` factor. Doesn't matter currently since b is fixed, but would be
 4. **Write a unit test comparing backward gradients**: Same test but compare dQ, dK, dV, dn, db against PyTorch autograd. This will pinpoint exactly which gradient is wrong.
 
 ### Medium Priority
-5. **Make `b` learnable in Triton** and see if convergence improves.
 
 6. **Replace `tl.log(1+x)` with a log1p equivalent**: `tl.log(1.0 + x)` could be replaced with a custom implementation for better numerical stability.
 

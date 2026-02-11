@@ -108,7 +108,10 @@ class SSAFlexAttention(MegatronModule):
         backend = (flex_backend or "AUTO").upper()
         if backend not in {"AUTO", "TRITON", "FLASH", "TRITON_DECODE"}:
             raise ValueError(f"Unsupported flex backend '{flex_backend}'.")
-        self._flex_kernel_options = {"BACKEND": backend}
+        self._flex_backend = backend
+        # "AUTO" means "let FlexAttention choose", so avoid passing a BACKEND
+        # override that can leak an unresolved symbol into generated Triton code.
+        self._flex_kernel_options = None if backend == "AUTO" else {"BACKEND": backend}
 
         self._score_mod = self._build_score_mod()
         self._use_torch_compile = bool(use_torch_compile and hasattr(torch, "compile"))
@@ -184,13 +187,23 @@ class SSAFlexAttention(MegatronModule):
         }
         if self._supports_enable_gqa:
             kwargs["enable_gqa"] = self.enable_gqa
-        if self._supports_kernel_options and not self._disable_kernel_options_runtime:
+        if (
+            self._supports_kernel_options
+            and not self._disable_kernel_options_runtime
+            and self._flex_kernel_options is not None
+        ):
             kwargs["kernel_options"] = self._flex_kernel_options
         try:
             return flex_attention(query, key, value, **kwargs)
-        except (TypeError, ValueError, RuntimeError) as exc:
+        except Exception as exc:
+            msg = str(exc)
+            backend_symbol_err = (
+                self._flex_kernel_options is not None
+                and self._flex_backend in msg
+                and ("NameError" in msg or "is not defined" in msg)
+            )
             if "kernel_options" in kwargs and (
-                "kernel_options" in str(exc) or "BACKEND" in str(exc)
+                "kernel_options" in msg or "BACKEND" in msg or backend_symbol_err
             ):
                 self._disable_kernel_options_runtime = True
                 kwargs.pop("kernel_options", None)

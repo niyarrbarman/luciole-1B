@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH -J tr_ssa_fa
-#SBATCH -N 5
-#SBATCH -n 5
+#SBATCH -J tr_bbyluc_ssa_fa
+#SBATCH -N 6
+#SBATCH -n 6
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:2
 #SBATCH -p small
@@ -11,9 +11,9 @@
 mkdir -p slurm
 
 # Defaults
-DATAMIX=${DATAMIX:-"/tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json"}
+DATAMIX=${DATAMIX:-"/tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json"}
 OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output"}
-NAME=${NAME:-"nemotron1b-ssa-flex-test"}
+NAME=${NAME:-"baby_luciole-ssa-flex-test"}
 SEED=${SEED:-1234}
 
 # SSA parameters / toggles
@@ -88,17 +88,20 @@ srun apptainer exec \
         --datamix "$DATAMIX" \
         --output_dir "$OUTPUT_DIR" \
         --name "$NAME" \
-        --arch nemotron1b \
-        --max_steps 10 \
-        --batch_size 1280 \
+        --arch baby_luciole \
+        --max_steps 10500 \
+        --seq_length 1024 \
+        --batch_size 768 \
+        --micro_batch_size 8 \
         --num_nodes ${SLURM_NNODES} \
         --gpus_per_node 2 \
         --tensor_parallelism 1 \
         --pipeline_parallelism 1 \
         --context_parallelism 1 \
         --duration "${SLURM_DURATION}" \
-        --global_max_steps 1000 \
-        --save_every_n_steps 10 \
+        --global_max_steps 60000 \
+        --save_every_n_steps 10000 \
+        --log_ssa_every_n_steps 1000 \
         --ssa_n $SSA_N \
         --ssa_b $SSA_B \
         --flex_backend "$FLEX_BACKEND" \

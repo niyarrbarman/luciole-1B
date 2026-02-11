@@ -44,9 +44,13 @@ def find_latest_checkpoint_step(checkpoint_dir: str) -> int:
 
 def parse_args():
     parser = argparse.ArgumentParser(description="SSA FlexAttention training harness")
-    parser.add_argument("--datamix", default="/tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json", type=str)
-    parser.add_argument("--arch", default="nemotron1b", type=str)
-    parser.add_argument("--name", default="nemotron1b-ssa-flex-test", type=str)
+    parser.add_argument(
+        "--datamix",
+        default="/tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json",
+        type=str,
+    )
+    parser.add_argument("--arch", default="baby_luciole", type=str)
+    parser.add_argument("--name", default="baby_luciole-ssa-flex-test", type=str)
     parser.add_argument("--mode", default="debug", choices=["debug", "benchmark", "phase1", "phase2", "annealing"], type=str)
     parser.add_argument("--output_dir", default="/tmpdir/m24047brmn/nemo_1b/output", type=str)
     parser.add_argument("--batch_size", "--gbs", default=128, type=int)

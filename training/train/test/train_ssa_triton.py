@@ -20,9 +20,16 @@ from utils import (  # noqa: E402
     save_config,
 )
 
-# SSA Triton-fused attention
-from SSA.ssa_triton_layer_specs import get_ssa_triton_gpt_layer_spec
-from SSA.ssa_triton_kernel import warmup_triton_kernels
+# SSA Triton-fused attention — pinned to v4 (tutorial-based kernel).
+SSA_KERNEL_VERSION = os.environ.get("SSA_KERNEL_VERSION", "v4")
+if SSA_KERNEL_VERSION != "v4":
+    raise ValueError(
+        f"Unsupported SSA_KERNEL_VERSION={SSA_KERNEL_VERSION!r}. "
+        "This launcher is pinned to v4."
+    )
+
+from SSA.ssa_triton_v4_layer_specs import get_ssa_triton_v4_gpt_layer_spec as get_ssa_triton_gpt_layer_spec
+from SSA.ssa_triton_v4_kernel import warmup_ssa_v4_kernels as warmup_triton_kernels
 
 
 def find_latest_checkpoint_step(checkpoint_dir: str) -> int:
@@ -97,6 +104,21 @@ def main():
 
     logging.basicConfig(stream=sys.stdout, level=logging.INFO)
     logger = logging.getLogger(__name__)
+
+    # Enforce requested SSA setup:
+    # - n is learnable and initialized at 1.5
+    # - b is fixed at 0.8 (non-learnable)
+    if args.learnable_b:
+        logger.warning("Ignoring --learnable_b; b is fixed by policy.")
+    if args.ssa_n != 1.5 or args.ssa_b != 0.8:
+        logger.warning(
+            "Overriding SSA init from (n=%s, b=%s) to fixed policy (n=1.5, b=0.8).",
+            args.ssa_n,
+            args.ssa_b,
+        )
+    args.learnable_b = False
+    args.ssa_n = 1.5
+    args.ssa_b = 0.8
 
     torch.set_float32_matmul_precision("high")
     pl.seed_everything(args.seed, workers=True)
@@ -186,14 +208,15 @@ def main():
         ssa_n=args.ssa_n,
         ssa_b=args.ssa_b,
         learnable_ssa=True,
-        learnable_b=args.learnable_b,
+        learnable_b=False,
         use_compiled_bda=not args.disable_compiled_bda,
     )
     recipe.model.config.transformer_layer_spec = ssa_layer_spec
     # Disable fused softmax (we use our own Triton kernel)
     recipe.model.config.masked_softmax_fusion = False
     logger.info(
-        "SSA Triton: Using fused Triton SSA FlashAttention (n=%.2f, b=%.2f, compiled_bda=%s)",
+        "SSA Triton: Using fused Triton SSA FlashAttention %s (n=%.2f, b=%.2f, compiled_bda=%s)",
+        SSA_KERNEL_VERSION,
         args.ssa_n,
         args.ssa_b,
         not args.disable_compiled_bda,

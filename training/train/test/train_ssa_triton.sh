@@ -17,14 +17,19 @@ NAME=${NAME:-"baby_luciole-ssa-triton"}
 SEED=${SEED:-1234}
 
 # SSA hyperparameters
-SSA_N=${SSA_N:-1.5}
-SSA_B=${SSA_B:-0.8}
-SSA_USE_OPTIMIZED_KERNEL=${SSA_USE_OPTIMIZED_KERNEL:-1}
+SSA_N=1.5   # fixed
+SSA_B=0.8   # fixed
+SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-v4}  # pinned to tutorial-based v4 kernel
 SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
 LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-500}
 SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 MAX_STEPS=${MAX_STEPS:-20000}
+
+if [[ "${SSA_KERNEL_VERSION}" != "v4" ]]; then
+    echo "ERROR: SSA_KERNEL_VERSION must be 'v4' (got '${SSA_KERNEL_VERSION}')."
+    exit 2
+fi
 
 # Multi-node coordination
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)
@@ -47,7 +52,7 @@ echo "Nodes:       $SLURM_NNODES"
 echo "Duration:    ${SLURM_DURATION}"
 echo "SSA n:       $SSA_N"
 echo "SSA b:       $SSA_B"
-echo "Opt kernel:  $SSA_USE_OPTIMIZED_KERNEL"
+echo "Kernel ver:  $SSA_KERNEL_VERSION"
 echo "Compile BDA: $SSA_TRITON_COMPILE_BDA"
 echo "Warmup step: $LR_WARMUP_STEPS"
 echo "Skip warmup: $SKIP_TRITON_WARMUP"
@@ -75,7 +80,7 @@ srun apptainer exec \
     --env "NVTE_DEBUG=1" \
     --env "NVTE_DEBUG_LEVEL=2" \
     --env "TRITON_CACHE_DIR=${TRITON_CACHE_DIR}" \
-    --env "SSA_USE_OPTIMIZED_KERNEL=${SSA_USE_OPTIMIZED_KERNEL}" \
+    --env "SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION}" \
     --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
     --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
     torchrun \

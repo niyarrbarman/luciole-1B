@@ -138,6 +138,15 @@ class SSATritonAttention(MegatronModule):
         self.attention_dropout = nn.Dropout(dropout_rate)
         self.dropout_p = dropout_rate
 
+        if self.dropout_p > 0.0:
+            import warnings
+            warnings.warn(
+                "SSATritonAttention applies dropout to output (post-V-matmul), "
+                "unlike baseline SSA which applies to attention probs (pre-V-matmul). "
+                "Set attention_dropout=0.0 for exact parity.",
+                stacklevel=2,
+            )
+
     def get_ssa_params(self) -> tuple[torch.Tensor, torch.Tensor]:
         """Get current SSA parameters n and b."""
         if self.learnable_ssa:

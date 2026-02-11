@@ -286,3 +286,62 @@ Root cause is not fully pinned yet, but the highest-probability remaining branch
 - **optimized Triton path behavior at training shape (`seq=1024`)**
 
 The new checks and toggles above are meant to confirm this quickly without long retrains.
+
+---
+
+## Additional Results (2026-02-11, jobs `76778` / `76779`)
+
+### 1) `slurm/ssa_triton_modes_76778.out`
+
+Observed:
+- `[Mode=optimized][Seq=128]` succeeds with the same strong parity as `76775` (forward/backward close).
+- `[Mode=optimized][Seq=1024]` fails during Triton backward kernel autotune/compile.
+
+Error:
+- `OSError: [Errno 122] Disk quota exceeded`
+- Fails inside Triton cache write path while compiling `_ssa_attn_bwd_dq_kernel`.
+
+### 2) `slurm/ssa_triton_modes_76779.out`
+
+Observed:
+- Re-run with `Seq lengths: 1024` fails with the same `Errno 122` quota error.
+
+### Interpretation
+
+- We still do **not** have a valid parity measurement for `seq=1024`.
+- Current blocker is **infrastructure/storage quota**, not confirmed math divergence in the kernel.
+- Do not run additional training until this `seq=1024` verification run completes successfully.
+
+---
+
+## Verification-First Commands (No Training)
+
+Use these to isolate kernel mode at `seq=1024` with cache redirected to `/tmpdir`:
+
+```bash
+cd /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test
+
+CACHE_BASE=/tmpdir/m24047brmn/triton_cache_verify_$(date +%Y%m%d_%H%M%S)
+mkdir -p "$CACHE_BASE"/ref "$CACHE_BASE"/opt
+
+jid_ref=$(APPTAINERENV_TRITON_CACHE_DIR="$CACHE_BASE/ref" \
+  TRITON_CACHE_DIR="$CACHE_BASE/ref" \
+  ARCH=baby_luciole LAYERS=1,12 SEQ_LENGTH=1024 BATCH_SIZE=2 DTYPE=bf16 \
+  SSA_USE_OPTIMIZED_KERNEL=0 \
+  sbatch check_ssa_triton_vs_original.slurm | awk '{print $4}')
+echo "jid_ref=$jid_ref"
+
+jid_opt=$(APPTAINERENV_TRITON_CACHE_DIR="$CACHE_BASE/opt" \
+  TRITON_CACHE_DIR="$CACHE_BASE/opt" \
+  ARCH=baby_luciole LAYERS=1,12 SEQ_LENGTH=1024 BATCH_SIZE=2 DTYPE=bf16 \
+  SSA_USE_OPTIMIZED_KERNEL=1 \
+  sbatch check_ssa_triton_vs_original.slurm | awk '{print $4}')
+echo "jid_opt=$jid_opt"
+```
+
+Optional cleanup if quota remains an issue:
+
+```bash
+du -sh ~/.triton 2>/dev/null || true
+rm -rf ~/.triton/cache/*
+```

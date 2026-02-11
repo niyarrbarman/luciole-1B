@@ -29,16 +29,16 @@ def find_latest_checkpoint_step(checkpoint_dir: str) -> int:
     checkpoint_path = Path(checkpoint_dir) / "checkpoints"
     if not checkpoint_path.exists():
         return 0
-    
+
     max_step = 0
     step_pattern = re.compile(r'step[=_](\d+)')
-    
+
     for item in checkpoint_path.iterdir():
         match = step_pattern.search(item.name)
         if match:
             step = int(match.group(1))
             max_step = max(max_step, step)
-    
+
     return max_step
 
 
@@ -66,6 +66,7 @@ def parse_args():
     parser.add_argument("--save_every_n_steps", default=500, type=int)
     parser.add_argument("--global_max_steps", default=None, type=int, help="Total training horizon for LR decay")
     parser.add_argument("--log_ssa_every_n_steps", default=1000, type=int, help="Log SSA n values every N steps")
+    parser.add_argument("--warmup_steps", default=500, type=int, help="LR scheduler warmup steps override.")
     return parser.parse_args()
 
 
@@ -98,7 +99,7 @@ def main():
     logger.info("Sequence length: %s", seq_length)
     logger.info("Tokens per batch: %s", tokens_per_batch)
     logger.info("Total tokens in datamix: %s", total_tokens)
-    
+
     # global_max_steps = LR decay horizon (total training, not per-run)
     if args.global_max_steps is not None:
         global_max_steps = args.global_max_steps
@@ -170,7 +171,7 @@ def main():
     # Per-run max_steps: detect checkpoint step, then add args.max_steps
     experiment_dir = os.path.join(args.output_dir, args.name)
     detected_step = find_latest_checkpoint_step(experiment_dir)
-    
+
     if detected_step > 0:
         effective_max_steps = min(detected_step + args.max_steps, global_max_steps)
         logger.info(f"Detected checkpoint at step {detected_step}")
@@ -235,8 +236,13 @@ def main():
     # LR scheduler uses global_max_steps for decay horizon
     if hasattr(recipe.optim, 'lr_scheduler'):
         recipe.optim.lr_scheduler.max_steps = global_max_steps
-        logger.info(f"LR scheduler max_steps = {global_max_steps}")
-    
+        recipe.optim.lr_scheduler.warmup_steps = args.warmup_steps
+        logger.info(
+            "LR scheduler max_steps = %s, warmup_steps = %s",
+            global_max_steps,
+            args.warmup_steps,
+        )
+
     recipe.resume = run.Config(
         nl.AutoResume,
         resume_if_exists=True,

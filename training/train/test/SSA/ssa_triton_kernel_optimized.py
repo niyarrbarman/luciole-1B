@@ -1,5 +1,5 @@
 # Copyright (c) 2025, SSA Triton Kernel Implementation — v3 (optimized backward)
-# 
+#
 # v3 optimizations over v2:
 #   1. Triton autotuning for backward kernels with multiple block size configs
 #   2. Reduced register pressure via computation restructuring
@@ -18,7 +18,7 @@ import math
 
 
 # ============================================================
-# Forward Kernel (unchanged from v2 - already efficient)
+# Forward Kernel (original SSA weight form, GQA-aware)
 # ============================================================
 
 @triton.jit
@@ -61,8 +61,10 @@ def _ssa_attn_fwd_kernel(
     q_mask = offs_m[:, None] < N_CTX
     q = tl.load(q_ptrs, mask=q_mask, other=0.0)
 
-    m_i = tl.full([BLOCK_M], value=float('-inf'), dtype=tl.float32)
-    l_i = tl.full([BLOCK_M], value=0.0, dtype=tl.float32)
+    # Original SSA normalization:
+    #   w_ij = (1 + b|s_ij|)^(n*sign(s_ij))
+    #   p_ij = w_ij / sum_j(w_ij)
+    w_sum_i = tl.full([BLOCK_M], value=0.0, dtype=tl.float32)
     acc = tl.zeros([BLOCK_M, BLOCK_D], dtype=tl.float32)
 
     if IS_CAUSAL:
@@ -89,36 +91,30 @@ def _ssa_attn_fwd_kernel(
         kv_valid = offs_n_j[None, :] < N_CTX
         s = tl.where(kv_valid, s, float('-inf'))
 
-        # SSA transform
+        # Original SSA weights: w = (1 + b|s|)^(n*sign(s))
         s_fp32 = s.to(tl.float32)
-        abs_s = tl.abs(s_fp32)
-        sign_s = tl.where(s_fp32 > 0, 1.0, tl.where(s_fp32 < 0, -1.0, 0.0))
-        log_term = tl.log(1.0 + ssa_b * abs_s)
-        ssa_logits = ssa_n * sign_s * log_term
-
-        # Online softmax
-        m_ij = tl.max(ssa_logits, axis=1)
-        m_new = tl.maximum(m_i, m_ij)
-        alpha = tl.exp(m_i - m_new)
-        p = tl.exp(ssa_logits - m_new[:, None])
-        l_new = alpha * l_i + tl.sum(p, axis=1)
+        valid = s_fp32 > float('-inf')
+        s_safe = tl.where(valid, s_fp32, 0.0)
+        abs_s = tl.abs(s_safe)
+        sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
+        one_plus_bs = 1.0 + ssa_b * abs_s
+        ssa_exp = ssa_n * sign_s
+        ssa_w = tl.where(valid, tl.pow(one_plus_bs, ssa_exp), 0.0)
 
         v_ptrs = v_base + offs_n_j[:, None] * stride_vn + offs_d[None, :] * stride_vk
         v_mask = offs_n_j[:, None] < N_CTX
         v = tl.load(v_ptrs, mask=v_mask, other=0.0)
 
-        p_v = tl.dot(p.to(v.dtype), v)
-        acc = alpha[:, None] * acc + p_v.to(tl.float32)
+        w_v = tl.dot(ssa_w.to(v.dtype), v)
+        acc += w_v.to(tl.float32)
+        w_sum_i += tl.sum(ssa_w, axis=1)
 
-        m_i = m_new
-        l_i = l_new
+    w_sum_safe = tl.where(w_sum_i > 0.0, w_sum_i, 1.0)
+    acc = acc / w_sum_safe[:, None]
 
-    acc = acc / l_i[:, None]
-
-    lse = m_i + tl.log(l_i)
     l_ptrs = l_base + offs_m * stride_lm
     l_mask = offs_m < N_CTX
-    tl.store(l_ptrs, lse, mask=l_mask)
+    tl.store(l_ptrs, w_sum_i, mask=l_mask)
 
     o_ptrs = o_base + offs_m[:, None] * stride_om + offs_d[None, :] * stride_ok
     o_mask = offs_m[:, None] < N_CTX
@@ -188,7 +184,7 @@ def _ssa_attn_bwd_dq_kernel(
     k_base = K + kv_idx * stride_kh
     v_base = V + kv_idx * stride_vh
 
-    # Load Q, dO, lse, Di once (reused across all KV blocks)
+    # Load Q, dO, row-wise SSA denominator, Di once (reused across all KV blocks)
     q_ptrs = q_base + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
     q_mask = offs_m[:, None] < N_CTX
     q = tl.load(q_ptrs, mask=q_mask, other=0.0)
@@ -198,7 +194,7 @@ def _ssa_attn_bwd_dq_kernel(
 
     l_ptrs = l_base + offs_m * stride_lm
     l_mask = offs_m < N_CTX
-    lse = tl.load(l_ptrs, mask=l_mask, other=0.0)
+    row_sum_w = tl.load(l_ptrs, mask=l_mask, other=1.0)
 
     d_ptrs = d_base + offs_m * stride_dm
     Di = tl.load(d_ptrs, mask=l_mask, other=0.0)
@@ -237,18 +233,17 @@ def _ssa_attn_bwd_dq_kernel(
         s_safe = tl.where(valid, s_fp32, 0.0)
         abs_s = tl.abs(s_safe)
         sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
-        
-        # Compute 1 + b*|s| once and reuse
-        one_plus_bs = 1.0 + ssa_b * abs_s
-        log_term = tl.log(one_plus_bs)
-        ssa_logits = tl.where(valid, ssa_n * sign_s * log_term, float('-inf'))
 
-        # Softmax probabilities
-        p = tl.exp(ssa_logits - lse[:, None])
+        # Compute original SSA probabilities from power weights.
+        one_plus_bs = 1.0 + ssa_b * abs_s
+        ssa_exp = ssa_n * sign_s
+        ssa_w = tl.where(valid, tl.pow(one_plus_bs, ssa_exp), 0.0)
+        row_sum_w_safe = tl.where(row_sum_w > 0.0, row_sum_w, 1.0)
+        p = ssa_w / row_sum_w_safe[:, None]
 
         # dP = dO @ V^T
         dp = tl.dot(do, tl.trans(v)).to(tl.float32)
-        
+
         # dSSA = P * (dP - Di)
         ds_ssa = p * (dp - Di[:, None])
 
@@ -340,8 +335,11 @@ def _ssa_attn_bwd_dkv_kernel(
 
     dk_acc = tl.zeros([BLOCK_N, BLOCK_D], dtype=tl.float32)
     dv_acc = tl.zeros([BLOCK_N, BLOCK_D], dtype=tl.float32)
+    # Kahan compensated summation for dn/db to reduce accumulation error
     dn_acc = 0.0
+    dn_comp = 0.0
     db_acc = 0.0
+    db_comp = 0.0
 
     if IS_CAUSAL:
         start_block = pid_n * BLOCK_N // BLOCK_M
@@ -371,7 +369,7 @@ def _ssa_attn_bwd_dkv_kernel(
 
             l_ptrs = l_base + offs_m_i * stride_lm
             l_mask = offs_m_i < N_CTX
-            lse = tl.load(l_ptrs, mask=l_mask, other=0.0)
+            row_sum_w = tl.load(l_ptrs, mask=l_mask, other=1.0)
 
             d_ptrs = d_base + offs_m_i * stride_dm
             Di = tl.load(d_ptrs, mask=l_mask, other=0.0)
@@ -391,20 +389,20 @@ def _ssa_attn_bwd_dkv_kernel(
             s_safe = tl.where(valid, s_fp32, 0.0)
             abs_s = tl.abs(s_safe)
             sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
-            
-            # Compute 1 + b*|s| once
-            one_plus_bs = 1.0 + ssa_b * abs_s
-            log_term = tl.log(one_plus_bs)
-            ssa_logits = tl.where(valid, ssa_n * sign_s * log_term, float('-inf'))
 
-            p = tl.exp(ssa_logits - lse[:, None])
+            # Compute original SSA probabilities from power weights.
+            one_plus_bs = 1.0 + ssa_b * abs_s
+            ssa_exp = ssa_n * sign_s
+            ssa_w = tl.where(valid, tl.pow(one_plus_bs, ssa_exp), 0.0)
+            row_sum_w_safe = tl.where(row_sum_w > 0.0, row_sum_w, 1.0)
+            p = ssa_w / row_sum_w_safe[:, None]
 
             # dV = P^T @ dO
             dv_acc += tl.dot(tl.trans(p.to(do.dtype)), do).to(tl.float32)
 
             # dP = dO @ V^T
             dp = tl.dot(do, tl.trans(v)).to(tl.float32)
-            
+
             # dSSA = P * (dP - Di)
             ds_ssa = p * (dp - Di[:, None])
 
@@ -414,9 +412,19 @@ def _ssa_attn_bwd_dkv_kernel(
             # dK = ds^T @ Q * scale
             dk_acc += tl.dot(tl.trans(ds.to(q.dtype)), q).to(tl.float32) * softmax_scale
 
-            # Partial dn, db — NO validity masking needed because ds_ssa = 0 when p = 0
-            dn_acc += tl.sum(ds_ssa * sign_s * log_term)
-            db_acc += tl.sum(ds_ssa * ssa_n * abs_s / one_plus_bs)
+            # Partial dn, db with Kahan compensated summation
+            log_term = tl.log(one_plus_bs)
+            block_dn = tl.sum(ds_ssa * sign_s * log_term)
+            y_dn = block_dn - dn_comp
+            t_dn = dn_acc + y_dn
+            dn_comp = (t_dn - dn_acc) - y_dn
+            dn_acc = t_dn
+
+            block_db = tl.sum(ds_ssa * ssa_n * sign_s * abs_s / one_plus_bs)
+            y_db = block_db - db_comp
+            t_db = db_acc + y_db
+            db_comp = (t_db - db_acc) - y_db
+            db_acc = t_db
 
     # Store dK, dV
     dk_ptrs = dk_base + offs_n[:, None] * stride_dkn + offs_d[None, :] * stride_dkk

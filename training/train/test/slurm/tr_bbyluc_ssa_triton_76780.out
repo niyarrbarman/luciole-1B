@@ -1,0 +1,556 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output
+Name:        bbyluc-triton-ref
+Nodes:       6
+Duration:    00:24:00:00
+SSA n:       1.5
+SSA b:       0.8
+Opt kernel:  0
+Compile BDA: 1
+Warmup step: 500
+Skip warmup: 0
+Max steps:   4000
+==========================================
+W0211 09:04:19.966000 1363421 torch/distributed/run.py:763] 
+W0211 09:04:19.966000 1363421 torch/distributed/run.py:763] *****************************************
+W0211 09:04:19.966000 1363421 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0211 09:04:19.966000 1363421 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.019000 119180 torch/distributed/run.py:763] 
+W0211 09:04:20.019000 119180 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.019000 119180 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0211 09:04:20.019000 119180 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.052000 2375681 torch/distributed/run.py:763] 
+W0211 09:04:20.052000 2375681 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.052000 2375681 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0211 09:04:20.052000 2375681 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.078000 3169992 torch/distributed/run.py:763] 
+W0211 09:04:20.078000 3169992 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.078000 3169992 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0211 09:04:20.078000 3169992 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.129000 3285785 torch/distributed/run.py:763] 
+W0211 09:04:20.129000 3285785 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.129000 3285785 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0211 09:04:20.129000 3285785 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.140000 996552 torch/distributed/run.py:763] 
+W0211 09:04:20.140000 996552 torch/distributed/run.py:763] *****************************************
+W0211 09:04:20.140000 996552 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0211 09:04:20.140000 996552 torch/distributed/run.py:763] *****************************************
+[rank: 7] Seed set to 1234
+[rank: 6] Seed set to 1234
+[rank: 1] Seed set to 1234
+[rank: 0] Seed set to 1234
+[rank: 10] Seed set to 1234
+[rank: 11] Seed set to 1234
+[rank: 8] Seed set to 1234
+[rank: 4] Seed set to 1234
+[rank: 9] Seed set to 1234
+[rank: 5] Seed set to 1234
+[rank: 3] Seed set to 1234
+[rank: 2] Seed set to 1234
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-02-11 09:04:54 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'config', 'lr_mult', 'scale_lr_cond', 'use_gloo_process_groups', 'model_chunks', 'no_weight_decay_cond'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'scale_lr_cond', 'no_weight_decay_cond', 'use_gloo_process_groups', 'model_chunks', 'config', 'lr_mult'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'no_weight_decay_cond', 'model_chunks', 'scale_lr_cond', 'lr_mult', 'config', 'use_gloo_process_groups'})
+[NeMo I 2026-02-11 09:05:02 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/luciole_50k, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'no_weight_decay_cond', 'model_chunks', 'config', 'use_gloo_process_groups', 'scale_lr_cond', 'lr_mult'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'use_gloo_process_groups', 'lr_mult', 'model_chunks', 'no_weight_decay_cond', 'scale_lr_cond', 'config'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'model_chunks', 'use_gloo_process_groups', 'config', 'no_weight_decay_cond', 'lr_mult', 'scale_lr_cond'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'config', 'scale_lr_cond', 'no_weight_decay_cond', 'lr_mult', 'use_gloo_process_groups', 'model_chunks'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'scale_lr_cond', 'no_weight_decay_cond', 'use_gloo_process_groups', 'model_chunks', 'lr_mult', 'config'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'model_chunks', 'scale_lr_cond', 'config', 'use_gloo_process_groups', 'no_weight_decay_cond', 'lr_mult'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'no_weight_decay_cond', 'model_chunks', 'use_gloo_process_groups', 'scale_lr_cond', 'config', 'lr_mult'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'config', 'lr_mult', 'scale_lr_cond', 'model_chunks', 'use_gloo_process_groups', 'no_weight_decay_cond'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Using provided global_max_steps: 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'use_gloo_process_groups', 'lr_mult', 'scale_lr_cond', 'no_weight_decay_cond', 'config', 'model_chunks'})
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:Training from scratch, trainer.max_steps = 4000
+INFO:__main__:LR scheduler max_steps = 60000, warmup_steps = 500
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_76780/config_bbyluc-triton-ref.json
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 6, MEMBER: 7/12
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 7, MEMBER: 8/12
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO: GPU available: True (cuda), used: True
+INFO:lightning.pytorch.utilities.rank_zero:GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+INFO:lightning.pytorch.utilities.rank_zero:TPU available: False, using: 0 TPU cores
+INFO: HPU available: False, using: 0 HPUs
+INFO:lightning.pytorch.utilities.rank_zero:HPU available: False, using: 0 HPUs
+[NeMo W 2026-02-11 09:05:09 nemo_logging:405] No version folders would be created under the log folder as 'resume_if_exists' is enabled.
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Experiments will be logged at /tmpdir/m24047brmn/nemo_1b/output/bbyluc-triton-ref
+[NeMo W 2026-02-11 09:05:09 nemo_logging:405] "update_logger_directory" is True. Overwriting tensorboard logger "save_dir" to /tmpdir/m24047brmn/nemo_1b/output/tb_logs
+[NeMo W 2026-02-11 09:05:09 nemo_logging:405] The Trainer already contains a ModelCheckpoint callback. This will be overwritten.
+[NeMo W 2026-02-11 09:05:09 nemo_logging:405] There were no checkpoints found in checkpoint_dir or no checkpoint folder at checkpoint_dir :/tmpdir/m24047brmn/nemo_1b/output/bbyluc-triton-ref/checkpoints. Training from scratch.
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Fixing mis-match between ddp-config & mcore-optimizer config
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has data parallel group : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has combined group of data parallel and context parallel : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] All data parallel group ranks with context parallel combined: [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Ranks 0 has data parallel rank: 0
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has context parallel group: [0]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] All context parallel group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11]]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Ranks 0 has context parallel rank: 0
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has model parallel group: [0]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] All model parallel group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11]]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has tensor model parallel group: [0]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] All tensor model parallel group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11]]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has tensor model parallel rank: 0
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has pipeline model parallel group: [0]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has embedding group: [0]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] All pipeline model parallel group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11]]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has pipeline model parallel rank 0
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] All embedding group ranks: [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11]]
+[NeMo I 2026-02-11 09:05:09 nemo_logging:393] Rank 0 has embedding rank: 0
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/12
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/12
+INFO: ----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 12 processes
+----------------------------------------------------------------------------------------------------
+
+INFO:lightning.pytorch.utilities.rank_zero:----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 12 processes
+----------------------------------------------------------------------------------------------------
+
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 10, MEMBER: 11/12
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 11, MEMBER: 12/12
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 4, MEMBER: 5/12
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 5, MEMBER: 6/12
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 8, MEMBER: 9/12
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 9, MEMBER: 10/12
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/12
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/12
+[NeMo I 2026-02-11 09:05:14 utils:532] Let split_matrix = [(0, 1.0), None, None]
+[NeMo I 2026-02-11 09:05:14 utils:532] Building GPTDataset splits with sizes=[3072000, 0, 24576] and config=GPTDatasetConfig(random_seed=1234, sequence_length=1024, blend=[['/tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document'], None], blend_per_split=None, split='1,0,0', split_matrix=[(0, 1.0), None, None], num_dataset_builder_threads=1, path_to_cache='/tmpdir/m24047brmn/nemo_1b/output/index_mapping', mmap_bin_files=True, mock=False, tokenizer=<nemo.collections.common.tokenizers.huggingface.auto_tokenizer.AutoTokenizer object at 0x400259791a30>, reset_position_ids=False, reset_attention_mask=False, eod_mask_loss=False, create_attention_mask=False, drop_last_partial_validation_sequence=True, add_extra_token_to_sequence=True, s3_cache_path=None)
+[NeMo I 2026-02-11 09:05:14 utils:532] Load the _IndexReader from /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document.idx
+[NeMo I 2026-02-11 09:05:14 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-02-11 09:05:14 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-02-11 09:05:14 utils:532] 	Extract the document indices
+[NeMo I 2026-02-11 09:05:14 utils:532] > total number of sequences: 9564453
+[NeMo I 2026-02-11 09:05:14 utils:532] > total number of documents: 9564453
+[NeMo I 2026-02-11 09:05:14 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-02-11 09:05:21 utils:532] > total number of samples: 9765624
+[NeMo I 2026-02-11 09:05:21 utils:532] > total number of epochs: 1
+[NeMo I 2026-02-11 09:05:21 nemo_logging:393] Use preset vocab_size: 50256, original vocab_size: 50256, dummy tokens: 0.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+[NeMo I 2026-02-11 09:05:21 nemo_logging:393] Copying Trainer's 'max_steps' (4000) to LR scheduler's 'max_steps'.
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+[NeMo I 2026-02-11 09:05:21 num_microbatches_calculator:228] setting number of microbatches to constant 8
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
+[NeMo I 2026-02-11 09:05:21 nemo_logging:393]  > number of parameters on (tensor, pipeline) model parallel rank (0 ,0): 114132492
+[NeMo I 2026-02-11 09:05:21 utils:532] Setting up DistributedDataParallel with config DistributedDataParallelConfig(grad_reduce_in_fp32=True, overlap_grad_reduce=True, overlap_param_gather=True, align_param_gather=False, use_distributed_optimizer=True, num_distributed_optimizer_instances=1, check_for_nan_in_grad=True, check_for_large_grads=False, bucket_size=40000000, pad_buckets_for_high_nccl_busbw=False, average_in_collective=True, fp8_param_gather=False, use_custom_fsdp=False, data_parallel_sharding_strategy='no_shard', gradient_reduce_div_fusion=True, suggested_communication_unit_size=None, preserve_fp32_weights=True, keep_fp8_transpose_cache_when_using_custom_fsdp=False)
+[NeMo I 2026-02-11 09:05:21 utils:553] Number of buckets for gradient all-reduce / reduce-scatter: 2
+    Params for bucket 1 (40128006 elements, 40128384 padded size):
+    	module.decoder.layers.11.pre_mlp_layernorm.weight
+    	module.decoder.layers.11.input_layernorm.bias
+    	module.decoder.layers.10.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.9.self_attention.linear_qkv.weight
+    	module.decoder.layers.8.mlp.linear_fc1.weight
+    	module.decoder.layers.6.mlp.linear_fc2.weight
+    	module.decoder.layers.10.input_layernorm.bias
+    	module.decoder.layers.10.pre_mlp_layernorm.weight
+    	module.decoder.layers.9.pre_mlp_layernorm.bias
+    	module.decoder.layers.8.self_attention.linear_proj.weight
+    	module.decoder.layers.7.mlp.linear_fc1.weight
+    	module.decoder.layers.6.self_attention.linear_qkv.weight
+    	module.decoder.layers.11.mlp.linear_fc1.weight
+    	module.decoder.layers.9.pre_mlp_layernorm.weight
+    	module.decoder.layers.9.input_layernorm.weight
+    	module.decoder.layers.8.pre_mlp_layernorm.bias
+    	module.decoder.layers.7.self_attention.linear_proj.weight
+    	module.decoder.layers.7.input_layernorm.bias
+    	module.decoder.layers.6.pre_mlp_layernorm.bias
+    	module.decoder.final_layernorm.bias
+    	module.decoder.layers.11.self_attention.linear_proj.weight
+    	module.decoder.layers.10.mlp.linear_fc1.weight
+    	module.decoder.layers.8.mlp.linear_fc2.weight
+    	module.decoder.layers.8.input_layernorm.weight
+    	module.decoder.layers.7.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.6.pre_mlp_layernorm.weight
+    	module.decoder.layers.6.input_layernorm.weight
+    	module.decoder.layers.11.pre_mlp_layernorm.bias
+    	module.decoder.layers.10.self_attention.linear_proj.weight
+    	module.decoder.layers.9.mlp.linear_fc1.weight
+    	module.decoder.layers.8.self_attention.linear_qkv.weight
+    	module.decoder.layers.7.mlp.linear_fc2.weight
+    	module.decoder.layers.5.mlp.linear_fc2.weight
+    	module.decoder.layers.11.mlp.linear_fc2.weight
+    	module.decoder.final_layernorm.weight
+    	module.decoder.layers.11.input_layernorm.weight
+    	module.decoder.layers.10.pre_mlp_layernorm.bias
+    	module.decoder.layers.9.self_attention.linear_proj.weight
+    	module.decoder.layers.9.input_layernorm.bias
+    	module.decoder.layers.7.self_attention.linear_qkv.weight
+    	module.decoder.layers.6.mlp.linear_fc1.weight
+    	module.decoder.layers.11.self_attention.linear_qkv.weight
+    	module.decoder.layers.10.mlp.linear_fc2.weight
+    	module.decoder.layers.10.input_layernorm.weight
+    	module.decoder.layers.9.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.8.pre_mlp_layernorm.weight
+    	module.decoder.layers.8.input_layernorm.bias
+    	module.decoder.layers.7.pre_mlp_layernorm.bias
+    	module.decoder.layers.6.self_attention.linear_proj.weight
+    	module.decoder.layers.6.input_layernorm.bias
+    	module.decoder.layers.11.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.10.self_attention.linear_qkv.weight
+    	module.decoder.layers.9.mlp.linear_fc2.weight
+    	module.decoder.layers.8.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.7.pre_mlp_layernorm.weight
+    	module.decoder.layers.7.input_layernorm.weight
+    	module.decoder.layers.6.self_attention.core_attention.ssa_n_raw
+    Params for bucket 2 (74004486 elements, 74004864 padded size):
+    	module.decoder.layers.5.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.4.self_attention.linear_proj.weight
+    	module.decoder.layers.4.input_layernorm.bias
+    	module.decoder.layers.3.pre_mlp_layernorm.bias
+    	module.decoder.layers.2.self_attention.linear_proj.weight
+    	module.decoder.layers.2.input_layernorm.bias
+    	module.decoder.layers.1.pre_mlp_layernorm.bias
+    	module.decoder.layers.0.self_attention.linear_qkv.weight
+    	module.embedding.word_embeddings.weight
+    	module.decoder.layers.5.mlp.linear_fc1.weight
+    	module.decoder.layers.5.self_attention.linear_qkv.weight
+    	module.decoder.layers.4.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.3.pre_mlp_layernorm.weight
+    	module.decoder.layers.3.input_layernorm.weight
+    	module.decoder.layers.2.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.1.pre_mlp_layernorm.weight
+    	module.decoder.layers.1.input_layernorm.bias
+    	module.decoder.layers.0.input_layernorm.bias
+    	module.decoder.layers.5.self_attention.linear_proj.weight
+    	module.decoder.layers.4.mlp.linear_fc2.weight
+    	module.decoder.layers.4.pre_mlp_layernorm.weight
+    	module.decoder.layers.2.mlp.linear_fc2.weight
+    	module.decoder.layers.0.pre_mlp_layernorm.bias
+    	module.decoder.layers.5.pre_mlp_layernorm.bias
+    	module.decoder.layers.4.self_attention.linear_qkv.weight
+    	module.decoder.layers.3.mlp.linear_fc1.weight
+    	module.decoder.layers.2.self_attention.linear_qkv.weight
+    	module.decoder.layers.1.mlp.linear_fc1.weight
+    	module.decoder.layers.5.input_layernorm.bias
+    	module.decoder.layers.4.mlp.linear_fc1.weight
+    	module.decoder.layers.3.self_attention.linear_proj.weight
+    	module.decoder.layers.3.input_layernorm.bias
+    	module.decoder.layers.2.pre_mlp_layernorm.bias
+    	module.decoder.layers.1.self_attention.linear_proj.weight
+    	module.decoder.layers.1.input_layernorm.weight
+    	module.decoder.layers.0.input_layernorm.weight
+    	module.decoder.layers.4.pre_mlp_layernorm.bias
+    	module.decoder.layers.4.input_layernorm.weight
+    	module.decoder.layers.3.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.2.pre_mlp_layernorm.weight
+    	module.decoder.layers.2.input_layernorm.weight
+    	module.decoder.layers.1.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.0.mlp.linear_fc1.weight
+    	module.decoder.layers.0.self_attention.linear_proj.weight
+    	module.decoder.layers.3.mlp.linear_fc2.weight
+    	module.decoder.layers.1.mlp.linear_fc2.weight
+    	module.decoder.layers.0.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.5.pre_mlp_layernorm.weight
+    	module.decoder.layers.5.input_layernorm.weight
+    	module.decoder.layers.3.self_attention.linear_qkv.weight
+    	module.decoder.layers.2.mlp.linear_fc1.weight
+    	module.decoder.layers.1.self_attention.linear_qkv.weight
+    	module.decoder.layers.0.mlp.linear_fc2.weight
+    	module.decoder.layers.0.pre_mlp_layernorm.weight
+[NeMo I 2026-02-11 09:05:21 utils:532] Setting up optimizer with config OptimizerConfig(optimizer='adam', lr=0.0003, min_lr=None, decoupled_lr=None, decoupled_min_lr=None, weight_decay=0.1, fp16=False, bf16=True, params_dtype=torch.bfloat16, use_precision_aware_optimizer=False, main_grads_dtype=torch.float32, main_params_dtype=torch.float32, exp_avg_dtype=torch.float32, exp_avg_sq_dtype=torch.float32, loss_scale=None, initial_loss_scale=4294967296, min_loss_scale=1.0, loss_scale_window=1000, hysteresis=2, adam_beta1=0.9, adam_beta2=0.95, adam_eps=1e-05, sgd_momentum=0.9, use_distributed_optimizer=True, overlap_param_gather_with_optimizer_step=False, optimizer_cpu_offload=False, optimizer_offload_fraction=0.0, use_torch_optimizer_for_cpu_offload=False, overlap_cpu_optimizer_d2h_h2d=False, pin_cpu_grads=True, pin_cpu_params=True, clip_grad=1.0, log_num_zeros_in_grad=False, barrier_with_L1_time=False, timers=None, config_logger_dir='')
+INFO: 
+  | Name   | Type | Params | Mode 
+----------------------------------------
+0 | module | DDP  | 114 M  | train
+----------------------------------------
+114 M     Trainable params
+0         Non-trainable params
+114 M     Total params
+456.530   Total estimated model params size (MB)
+203       Modules in train mode
+0         Modules in eval mode
+INFO:lightning.pytorch.callbacks.model_summary:
+  | Name   | Type | Params | Mode 
+----------------------------------------
+0 | module | DDP  | 114 M  | train
+----------------------------------------
+114 M     Trainable params
+0         Non-trainable params
+114 M     Total params
+456.530   Total estimated model params size (MB)
+203       Modules in train mode
+0         Modules in eval mode
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
+[NeMo W 2026-02-11 09:06:06 rerun_state_machine:1264] Implicit initialization of Rerun State Machine!
+[NeMo W 2026-02-11 09:06:06 rerun_state_machine:239] RerunStateMachine initialized in mode RerunMode.DISABLED
+Training epoch 0, iteration 0/3999 | lr: 5.988e-07 | global_batch_size: 768 | global_step: 0 | reduced_train_loss: 10.88
+Training epoch 0, iteration 1/3999 | lr: 1.198e-06 | global_batch_size: 768 | global_step: 1 | reduced_train_loss: 10.89 | consumed_samples: 1536
+Training epoch 0, iteration 2/3999 | lr: 1.796e-06 | global_batch_size: 768 | global_step: 2 | reduced_train_loss: 10.88 | consumed_samples: 2304
+Training epoch 0, iteration 3/3999 | lr: 2.395e-06 | global_batch_size: 768 | global_step: 3 | reduced_train_loss: 10.87 | consumed_samples: 3072
+Training epoch 0, iteration 4/3999 | lr: 2.994e-06 | global_batch_size: 768 | global_step: 4 | reduced_train_loss: 10.82 | consumed_samples: 3840
+Training epoch 0, iteration 5/3999 | lr: 3.593e-06 | global_batch_size: 768 | global_step: 5 | reduced_train_loss: 10.74 | consumed_samples: 4608
+Training epoch 0, iteration 6/3999 | lr: 4.192e-06 | global_batch_size: 768 | global_step: 6 | reduced_train_loss: 10.69 | consumed_samples: 5376
+Training epoch 0, iteration 7/3999 | lr: 4.79e-06 | global_batch_size: 768 | global_step: 7 | reduced_train_loss: 10.62 | consumed_samples: 6144
+Training epoch 0, iteration 8/3999 | lr: 5.389e-06 | global_batch_size: 768 | global_step: 8 | reduced_train_loss: 10.56 | consumed_samples: 6912
+Training epoch 0, iteration 9/3999 | lr: 5.988e-06 | global_batch_size: 768 | global_step: 9 | reduced_train_loss: 10.49 | consumed_samples: 7680
+Training epoch 0, iteration 10/3999 | lr: 6.587e-06 | global_batch_size: 768 | global_step: 10 | reduced_train_loss: 10.44 | consumed_samples: 8448
+Training epoch 0, iteration 11/3999 | lr: 7.186e-06 | global_batch_size: 768 | global_step: 11 | reduced_train_loss: 10.39 | consumed_samples: 9216
+Training epoch 0, iteration 12/3999 | lr: 7.784e-06 | global_batch_size: 768 | global_step: 12 | reduced_train_loss: 10.32 | consumed_samples: 9984
+Training epoch 0, iteration 13/3999 | lr: 8.383e-06 | global_batch_size: 768 | global_step: 13 | reduced_train_loss: 10.27 | consumed_samples: 10752
+Training epoch 0, iteration 14/3999 | lr: 8.982e-06 | global_batch_size: 768 | global_step: 14 | reduced_train_loss: 10.22 | consumed_samples: 11520
+Training epoch 0, iteration 15/3999 | lr: 9.581e-06 | global_batch_size: 768 | global_step: 15 | reduced_train_loss: 10.18 | consumed_samples: 12288
+Training epoch 0, iteration 16/3999 | lr: 1.018e-05 | global_batch_size: 768 | global_step: 16 | reduced_train_loss: 10.14 | consumed_samples: 13056
+Training epoch 0, iteration 17/3999 | lr: 1.078e-05 | global_batch_size: 768 | global_step: 17 | reduced_train_loss: 10.1 | consumed_samples: 13824
+Training epoch 0, iteration 18/3999 | lr: 1.138e-05 | global_batch_size: 768 | global_step: 18 | reduced_train_loss: 10.08 | consumed_samples: 14592
+Training epoch 0, iteration 19/3999 | lr: 1.198e-05 | global_batch_size: 768 | global_step: 19 | reduced_train_loss: 10.05 | consumed_samples: 15360
+Training epoch 0, iteration 20/3999 | lr: 1.257e-05 | global_batch_size: 768 | global_step: 20 | reduced_train_loss: 10.03 | consumed_samples: 16128
+Training epoch 0, iteration 21/3999 | lr: 1.317e-05 | global_batch_size: 768 | global_step: 21 | reduced_train_loss: 10.01 | consumed_samples: 16896
+Training epoch 0, iteration 22/3999 | lr: 1.377e-05 | global_batch_size: 768 | global_step: 22 | reduced_train_loss: 9.994 | consumed_samples: 17664
+Training epoch 0, iteration 23/3999 | lr: 1.437e-05 | global_batch_size: 768 | global_step: 23 | reduced_train_loss: 9.979 | consumed_samples: 18432
+Training epoch 0, iteration 24/3999 | lr: 1.497e-05 | global_batch_size: 768 | global_step: 24 | reduced_train_loss: 9.964 | consumed_samples: 19200
+Training epoch 0, iteration 25/3999 | lr: 1.557e-05 | global_batch_size: 768 | global_step: 25 | reduced_train_loss: 9.949 | consumed_samples: 19968
+Training epoch 0, iteration 26/3999 | lr: 1.617e-05 | global_batch_size: 768 | global_step: 26 | reduced_train_loss: 9.939 | consumed_samples: 20736
+Training epoch 0, iteration 27/3999 | lr: 1.677e-05 | global_batch_size: 768 | global_step: 27 | reduced_train_loss: 9.924 | consumed_samples: 21504
+Training epoch 0, iteration 28/3999 | lr: 1.737e-05 | global_batch_size: 768 | global_step: 28 | reduced_train_loss: 9.917 | consumed_samples: 22272
+Training epoch 0, iteration 29/3999 | lr: 1.796e-05 | global_batch_size: 768 | global_step: 29 | reduced_train_loss: 9.896 | consumed_samples: 23040

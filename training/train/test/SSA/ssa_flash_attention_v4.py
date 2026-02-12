@@ -15,7 +15,7 @@ class SSAFlashAttnV4Func(Function):
     Forward:  out = SSA_norm(Q @ K^T * scale) @ V
     where SSA weights: w(s) = (1 + b|s|)^(n*sign(s))
 
-    Saves minimal state for backward: Q, K, V, Out, L, plus scalar params.
+    Saves minimal state for backward: Q, K, V, Out, M, plus scalar params.
     No O(S^2) attention matrix is stored.
     """
 
@@ -38,9 +38,9 @@ class SSAFlashAttnV4Func(Function):
         ssa_n_f32 = ssa_n.float().contiguous()
         ssa_b_f32 = ssa_b.float().contiguous()
 
-        out, lse = ssa_flash_attn_v4_forward(q, k, v, softmax_scale, ssa_n_f32, ssa_b_f32, causal)
+        out, m = ssa_flash_attn_v4_forward(q, k, v, softmax_scale, ssa_n_f32, ssa_b_f32, causal)
 
-        ctx.save_for_backward(q, k, v, out, lse, ssa_n_f32, ssa_b_f32)
+        ctx.save_for_backward(q, k, v, out, m, ssa_n_f32, ssa_b_f32)
         ctx.softmax_scale = softmax_scale
         ctx.causal = causal
         ctx.dropout_p = dropout_p
@@ -49,14 +49,14 @@ class SSAFlashAttnV4Func(Function):
 
     @staticmethod
     def backward(ctx, dout):
-        q, k, v, out, lse, ssa_n_f32, ssa_b_f32 = ctx.saved_tensors
+        q, k, v, out, m, ssa_n_f32, ssa_b_f32 = ctx.saved_tensors
         softmax_scale = ctx.softmax_scale
         causal = ctx.causal
 
         dout = dout.contiguous()
 
         dq, dk, dv, dn, db = ssa_flash_attn_v4_backward(
-            q, k, v, out, dout, lse,
+            q, k, v, out, dout, m,
             softmax_scale, ssa_n_f32, ssa_b_f32,
             causal,
         )

@@ -10,15 +10,19 @@
 #   5. Config pruning for invalid combinations
 #
 # Key SSA differences from standard softmax:
-#   - No base-2 trick (exp2/log2) — SSA weights are bounded, no overflow risk
-#   - No online rescaling (no running max) — simple accumulate-then-divide
-#   - Extra chain rule factor df/ds = n*b/(1+b|s|) in backward
-#   - Learnable parameter gradients dn, db with Kahan summation
-#   - Stores L = sum(w) instead of M = log2(LSE)
+#   - Replaces raw logits s with transformed logits:
+#       t(s) = n * sign(s) * log(1 + b|s|)
+#   - Keeps tutorial-style online normalization (running max + running sum)
+#     for numerical stability in BF16/FP16.
+#   - Uses tutorial-style base-2 accumulation (exp2/log2) for close parity
+#     with Triton tutorial numerics.
+#   - Uses chain rule factor dt/ds = n*b/(1+b|s|) in backward.
+#   - Learnable parameter gradients dn, db with Kahan summation.
+#   - Stores M = log2(sum_j exp2(t_j / ln(2))) for backward.
 #
 # SSA formula:
-#   w(s) = exp(n * sign(s) * log(1 + b*|s|)) = (1 + b|s|)^(n*sign(s))
-#   P = w / sum(w)
+#   t(s) = n * sign(s) * log(1 + b|s|)
+#   P = softmax(t)
 #   out = P @ V
 #
 # Hardware target: NVIDIA A100/H100 (sm_80+)
@@ -35,7 +39,7 @@ import math
 
 @triton.jit
 def _ssa_attn_fwd_inner(
-    acc, w_sum_i, q,
+    acc, l_i, m_i, q,
     K, V,
     stride_kn, stride_kk,
     stride_vn, stride_vk,
@@ -50,16 +54,19 @@ def _ssa_attn_fwd_inner(
     STAGE: tl.constexpr,
     MATMUL_PRECISION: tl.constexpr,
 ):
-    # Range of KV positions handled by this stage
+    RCP_LN2: tl.constexpr = 1.4426950408889634
+    NEG_LARGE: tl.constexpr = -1.0e6
+
+    # Range of KV positions handled by this stage.
     if STAGE == 1:
-        # Off-band: all blocks before the diagonal (fully unmasked)
+        # Off-band: all blocks before the diagonal.
         lo, hi = 0, start_m * BLOCK_M
     elif STAGE == 2:
-        # On-band: the diagonal block (partially masked)
+        # On-band: the diagonal block.
         lo, hi = start_m * BLOCK_M, (start_m + 1) * BLOCK_M
         lo = tl.multiple_of(lo, BLOCK_M)
     else:
-        # Non-causal: all blocks
+        # Non-causal: all blocks.
         lo, hi = 0, N_CTX
 
     offs_d = tl.arange(0, HEAD_DIM)
@@ -68,24 +75,24 @@ def _ssa_attn_fwd_inner(
         start_n = tl.multiple_of(start_n, BLOCK_N)
         offs_n_j = start_n + offs_n
 
-        # Load K block: [BLOCK_N, HEAD_DIM]
+        # Load K block: [BLOCK_N, HEAD_DIM].
         k_ptrs = K + k_base_offset + offs_n_j[:, None] * stride_kn + offs_d[None, :] * stride_kk
         k_mask = offs_n_j[:, None] < N_CTX
         k = tl.load(k_ptrs, mask=k_mask, other=0.0)
 
-        # S = Q @ K^T * scale
+        # S = Q @ K^T * scale.
         s = tl.dot(q, tl.trans(k)) * softmax_scale
 
-        # Apply causal mask on the diagonal stage
+        # Apply causal mask on diagonal stage.
         if STAGE == 2:
             mask = offs_m[:, None] >= offs_n_j[None, :]
             s = tl.where(mask, s, float('-inf'))
 
-        # Boundary mask
+        # Boundary mask.
         kv_valid = offs_n_j[None, :] < N_CTX
         s = tl.where(kv_valid, s, float('-inf'))
 
-        # --- SSA weight computation ---
+        # --- SSA transformed logits ---
         s_fp32 = s.to(tl.float32)
         valid = s_fp32 > float('-inf')
         s_safe = tl.where(valid, s_fp32, 0.0)
@@ -93,20 +100,28 @@ def _ssa_attn_fwd_inner(
         sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
         u = ssa_b * abs_s
         one_plus_bs = 1.0 + u
-        # log1p precision: Taylor expansion for small u to avoid catastrophic cancellation
+        # log1p precision: Taylor expansion for very small u.
         log_opbs = tl.where(u < 1e-4, u - 0.5 * u * u, tl.log(one_plus_bs))
-        ssa_w = tl.where(valid, tl.exp(ssa_n * sign_s * log_opbs), 0.0)
+        t = ssa_n * sign_s * log_opbs
+        # Tutorial numerics: accumulate with exp2/log2 over base-2 logits.
+        t2 = tl.where(valid, t * RCP_LN2, NEG_LARGE)
 
-        # Load V block: [BLOCK_N, HEAD_DIM]
+        # Tutorial-style online normalization on transformed logits.
+        m_ij = tl.maximum(m_i, tl.max(t2, axis=1))
+        p = tl.math.exp2(t2 - m_ij[:, None])
+        alpha = tl.math.exp2(m_i - m_ij)
+        l_i = l_i * alpha + tl.sum(p, axis=1)
+
+        # Load V block: [BLOCK_N, HEAD_DIM].
         v_ptrs = V + v_base_offset + offs_n_j[:, None] * stride_vn + offs_d[None, :] * stride_vk
         v_mask = offs_n_j[:, None] < N_CTX
         v = tl.load(v_ptrs, mask=v_mask, other=0.0)
 
-        # Accumulate output and normalizer
-        acc += tl.dot(ssa_w.to(MATMUL_PRECISION), v).to(tl.float32)
-        w_sum_i += tl.sum(ssa_w, axis=1)
+        acc = acc * alpha[:, None]
+        acc += tl.dot(p.to(MATMUL_PRECISION), v).to(tl.float32)
+        m_i = m_ij
 
-    return acc, w_sum_i
+    return acc, l_i, m_i
 
 
 # ============================================================
@@ -165,7 +180,7 @@ def _ssa_attn_fwd(
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
 
-    # Load SSA params once
+    # Load SSA params once.
     ssa_n = tl.load(ssa_n_ptr).to(tl.float32)
     ssa_b = tl.load(ssa_b_ptr).to(tl.float32)
 
@@ -173,31 +188,33 @@ def _ssa_attn_fwd(
     offs_n = tl.arange(0, BLOCK_N)
     offs_d = tl.arange(0, HEAD_DIM)
 
-    # Q/Out/L base: indexed by off_hz (flattened Z * Hq)
-    q_base = Q + off_hz * stride_qh
-    o_base = Out + off_hz * stride_oh
-    l_base = L + off_hz * stride_lh
+    # Tutorial-style explicit z/h decomposition (no flattened stride assumptions).
+    off_z = off_hz // H_Q
+    off_h_q = off_hz % H_Q
+    off_h_kv = off_h_q // GQA_RATIO
 
-    # K/V base: GQA — map Hq index to Hkv index
-    kv_idx = off_hz // GQA_RATIO
-    k_base_offset = kv_idx * stride_kh
-    v_base_offset = kv_idx * stride_vh
+    q_base = Q + off_z * stride_qz + off_h_q * stride_qh
+    o_base = Out + off_z * stride_oz + off_h_q * stride_oh
+    l_base = L + off_z * stride_lz + off_h_q * stride_lh
+    k_base_offset = off_z * stride_kz + off_h_kv * stride_kh
+    v_base_offset = off_z * stride_vz + off_h_kv * stride_vh
 
-    # Load Q block
+    # Load Q block.
     q_ptrs = q_base + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
     q_mask = offs_m[:, None] < N_CTX
     q = tl.load(q_ptrs, mask=q_mask, other=0.0)
 
-    # Initialize accumulators
-    w_sum_i = tl.zeros([BLOCK_M], dtype=tl.float32)
+    # Tutorial-style online-softmax state.
+    m_i = tl.full([BLOCK_M], value=float("-inf"), dtype=tl.float32)
+    l_i = tl.ones([BLOCK_M], dtype=tl.float32)
     acc = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
 
     # Stage 1: off-band (no mask needed)
     # For causal: STAGE=3, so STAGE & 1 = True -> run with inner STAGE = 4-3 = 1
     # For non-causal: STAGE=1, so STAGE & 1 = True -> run with inner STAGE = 4-1 = 3
     if STAGE & 1:
-        acc, w_sum_i = _ssa_attn_fwd_inner(
-            acc, w_sum_i, q,
+        acc, l_i, m_i = _ssa_attn_fwd_inner(
+            acc, l_i, m_i, q,
             K, V,
             stride_kn, stride_kk,
             stride_vn, stride_vk,
@@ -213,8 +230,8 @@ def _ssa_attn_fwd(
     # Stage 2: on-band (diagonal, masked)
     # For causal: STAGE=3, so STAGE & 2 = True -> run with inner STAGE = 2
     if STAGE & 2:
-        acc, w_sum_i = _ssa_attn_fwd_inner(
-            acc, w_sum_i, q,
+        acc, l_i, m_i = _ssa_attn_fwd_inner(
+            acc, l_i, m_i, q,
             K, V,
             stride_kn, stride_kk,
             stride_vn, stride_vk,
@@ -227,14 +244,15 @@ def _ssa_attn_fwd(
             MATMUL_PRECISION,
         )
 
-    # Epilogue: normalize and store
-    w_sum_safe = tl.where(w_sum_i > 0.0, w_sum_i, 1.0)
-    acc = acc / w_sum_safe[:, None]
+    # Epilogue: normalize and store.
+    l_i_safe = tl.where(l_i > 0.0, l_i, 1.0)
+    acc = acc / l_i_safe[:, None]
+    m = m_i + tl.math.log2(l_i_safe)
 
-    # Store L (row-wise SSA weight sum for backward)
+    # Store M = log2-normalizer for backward.
     l_ptrs = l_base + offs_m * stride_lm
     l_mask = offs_m < N_CTX
-    tl.store(l_ptrs, w_sum_i, mask=l_mask)
+    tl.store(l_ptrs, m, mask=l_mask)
 
     # Store output
     o_ptrs = o_base + offs_m[:, None] * stride_om + offs_d[None, :] * stride_ok
@@ -304,6 +322,9 @@ def _ssa_attn_bwd_dkdv(
     start_n, start_m, num_steps,
     MASK: tl.constexpr,
 ):
+    RCP_LN2: tl.constexpr = 1.4426950408889634
+    NEG_LARGE: tl.constexpr = -1.0e6
+
     offs_d = tl.arange(0, HEAD_DIM)
 
     curr_m = start_m
@@ -318,9 +339,9 @@ def _ssa_attn_bwd_dkdv(
         do_ptrs = do_base + offs_m[:, None] * stride_dom + offs_d[None, :] * stride_dok
         do = tl.load(do_ptrs, mask=q_mask, other=0.0)
 
-        # Load saved L and Delta
+        # Load saved M = log2-normalizer and Delta.
         l_mask = offs_m < N_CTX
-        row_sum_w = tl.load(l_base + offs_m * stride_lm, mask=l_mask, other=1.0)
+        m_i = tl.load(l_base + offs_m * stride_lm, mask=l_mask, other=0.0)
         Di = tl.load(d_base + offs_m * stride_dm, mask=l_mask, other=0.0)
 
         # Recompute S = Q @ K^T * scale
@@ -335,7 +356,7 @@ def _ssa_attn_bwd_dkdv(
         kv_valid = offs_n[None, :] < N_CTX
         s = tl.where(kv_valid, s, float('-inf'))
 
-        # Recompute SSA weights
+        # Recompute transformed logits and probabilities.
         s_fp32 = s.to(tl.float32)
         valid = s_fp32 > float('-inf')
         s_safe = tl.where(valid, s_fp32, 0.0)
@@ -344,11 +365,8 @@ def _ssa_attn_bwd_dkdv(
         u = ssa_b * abs_s
         one_plus_bs = 1.0 + u
         log_opbs = tl.where(u < 1e-4, u - 0.5 * u * u, tl.log(one_plus_bs))
-        ssa_w = tl.where(valid, tl.exp(ssa_n * sign_s * log_opbs), 0.0)
-
-        # Normalize to get P
-        row_sum_w_safe = tl.where(row_sum_w > 0.0, row_sum_w, 1.0)
-        p = ssa_w / row_sum_w_safe[:, None]
+        t2 = tl.where(valid, ssa_n * sign_s * log_opbs * RCP_LN2, NEG_LARGE)
+        p = tl.where(valid, tl.math.exp2(t2 - m_i[:, None]), 0.0)
 
         # dV = P^T @ dO
         dv += tl.dot(tl.trans(p.to(MATMUL_PRECISION)), do).to(tl.float32)
@@ -405,13 +423,16 @@ def _ssa_attn_bwd_dq(
     start_m, start_n, num_steps,
     MASK: tl.constexpr,
 ):
+    RCP_LN2: tl.constexpr = 1.4426950408889634
+    NEG_LARGE: tl.constexpr = -1.0e6
+
     offs_d = tl.arange(0, HEAD_DIM)
 
     curr_n = start_n
     for blk_idx in range(num_steps):
         offs_n = curr_n + tl.arange(0, BLOCK_N2)
 
-        # Load K, V blocks
+        # Load K, V blocks.
         k_ptrs = K + k_base_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
         k_mask = offs_n[:, None] < N_CTX
         k = tl.load(k_ptrs, mask=k_mask, other=0.0)
@@ -431,7 +452,7 @@ def _ssa_attn_bwd_dq(
         kv_valid = offs_n[None, :] < N_CTX
         s = tl.where(kv_valid, s, float('-inf'))
 
-        # Recompute SSA weights
+        # Recompute transformed logits and probabilities.
         s_fp32 = s.to(tl.float32)
         valid = s_fp32 > float('-inf')
         s_safe = tl.where(valid, s_fp32, 0.0)
@@ -440,11 +461,8 @@ def _ssa_attn_bwd_dq(
         u = ssa_b * abs_s
         one_plus_bs = 1.0 + u
         log_opbs = tl.where(u < 1e-4, u - 0.5 * u * u, tl.log(one_plus_bs))
-        ssa_w = tl.where(valid, tl.exp(ssa_n * sign_s * log_opbs), 0.0)
-
-        # Normalize
-        L_safe = tl.where(L_row > 0.0, L_row, 1.0)
-        p = ssa_w / L_safe[:, None]
+        t2 = tl.where(valid, ssa_n * sign_s * log_opbs * RCP_LN2, NEG_LARGE)
+        p = tl.where(valid, tl.math.exp2(t2 - L_row[:, None]), 0.0)
 
         # dp = dO @ V^T
         dp = tl.dot(do, tl.trans(v)).to(tl.float32)
@@ -519,15 +537,20 @@ def _ssa_attn_bwd(
 
     offs_d = tl.arange(0, HEAD_DIM)
 
+    # Tutorial-style explicit z/h decomposition.
+    H_KV = H_Q // GQA_RATIO
+    off_z = off_bkv // H_KV
+    off_h_kv = off_bkv % H_KV
+
     # ========== Part 1: dK, dV ==========
     start_n = pid * BLOCK_N1
     offs_n = start_n + tl.arange(0, BLOCK_N1)
 
-    # K/V/dK/dV base — indexed by off_bkv (flattened Z * Hkv)
-    k_base = K + off_bkv * stride_kh
-    v_base = V + off_bkv * stride_vh
-    dk_base = dK + off_bkv * stride_dkh
-    dv_base = dV + off_bkv * stride_dvh
+    # K/V/dK/dV base.
+    k_base = K + off_z * stride_kz + off_h_kv * stride_kh
+    v_base = V + off_z * stride_vz + off_h_kv * stride_vh
+    dk_base = dK + off_z * stride_dkz + off_h_kv * stride_dkh
+    dv_base = dV + off_z * stride_dvz + off_h_kv * stride_dvh
 
     # Load K, V for this block (stay in SRAM throughout)
     k_ptrs = k_base + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
@@ -548,12 +571,12 @@ def _ssa_attn_bwd(
 
     # Iterate over all GQA_RATIO Q-heads sharing this KV head
     for g in range(0, GQA_RATIO):
-        off_bh_q = off_bkv * GQA_RATIO + g
+        off_h_q = off_h_kv * GQA_RATIO + g
 
-        q_base = Q + off_bh_q * stride_qh
-        do_base = dO + off_bh_q * stride_doh
-        l_base = L + off_bh_q * stride_lh
-        d_base = Delta + off_bh_q * stride_deh
+        q_base = Q + off_z * stride_qz + off_h_q * stride_qh
+        do_base = dO + off_z * stride_doz + off_h_q * stride_doh
+        l_base = L + off_z * stride_lz + off_h_q * stride_lh
+        d_base = Delta + off_z * stride_dez + off_h_q * stride_deh
 
         start_m = 0
         if CAUSAL:
@@ -618,20 +641,20 @@ def _ssa_attn_bwd(
     MASK_BLOCK_N2: tl.constexpr = BLOCK_N2 // BLK_SLICE_FACTOR
 
     for g in range(0, GQA_RATIO):
-        off_bh_q = off_bkv * GQA_RATIO + g
+        off_h_q = off_h_kv * GQA_RATIO + g
 
         start_m_q = pid * BLOCK_M2
         offs_m_q = start_m_q + tl.arange(0, BLOCK_M2)
 
-        q_base = Q + off_bh_q * stride_qh
-        do_base = dO + off_bh_q * stride_doh
-        l_base = L + off_bh_q * stride_lh
-        d_base = Delta + off_bh_q * stride_deh
-        dq_base = dQ + off_bh_q * stride_dqh
+        q_base = Q + off_z * stride_qz + off_h_q * stride_qh
+        do_base = dO + off_z * stride_doz + off_h_q * stride_doh
+        l_base = L + off_z * stride_lz + off_h_q * stride_lh
+        d_base = Delta + off_z * stride_dez + off_h_q * stride_deh
+        dq_base = dQ + off_z * stride_dqz + off_h_q * stride_dqh
 
         # K/V base for dQ iteration uses the same KV head
-        k_base_offset = off_bkv * stride_kh
-        v_base_offset = off_bkv * stride_vh
+        k_base_offset = off_z * stride_kz + off_h_kv * stride_kh
+        v_base_offset = off_z * stride_vz + off_h_kv * stride_vh
 
         # Load Q, dO
         q_ptrs = q_base + offs_m_q[:, None] * stride_qm + offs_d[None, :] * stride_qk
@@ -642,7 +665,7 @@ def _ssa_attn_bwd(
         do = tl.load(do_ptrs, mask=q_mask, other=0.0)
 
         m_mask = offs_m_q < N_CTX
-        L_row = tl.load(l_base + offs_m_q * stride_lm, mask=m_mask, other=1.0)
+        L_row = tl.load(l_base + offs_m_q * stride_lm, mask=m_mask, other=0.0)
         Di = tl.load(d_base + offs_m_q * stride_dem, mask=m_mask, other=0.0)
 
         dq = tl.zeros([BLOCK_M2, HEAD_DIM], dtype=tl.float32)
@@ -720,7 +743,7 @@ def ssa_flash_attn_v4_forward(q, k, v, softmax_scale, ssa_n, ssa_b, causal=True)
 
     Returns:
         out: [B, Hq, N, D]
-        lse: [B, Hq, N] (actually stores sum of SSA weights, not log-sum-exp)
+        m: [B, Hq, N] (log2-normalizer of transformed SSA logits)
     """
     B, Hq, N, D = q.shape
     Hkv = k.shape[1]
@@ -733,9 +756,12 @@ def ssa_flash_attn_v4_forward(q, k, v, softmax_scale, ssa_n, ssa_b, causal=True)
         ssa_b = ssa_b.contiguous()
 
     out = torch.empty_like(q)
-    lse = torch.empty((B, Hq, N), device=q.device, dtype=torch.float32)
+    m = torch.empty((B, Hq, N), device=q.device, dtype=torch.float32)
 
     HEAD_DIM = _get_block_sizes(D)
+    assert D == HEAD_DIM, (
+        f"Head dim D={D} must be power-of-two for v4 tutorial kernel; got padded HEAD_DIM={HEAD_DIM}."
+    )
     stage = 3 if causal else 1
 
     if q.dtype == torch.float16:
@@ -748,14 +774,14 @@ def ssa_flash_attn_v4_forward(q, k, v, softmax_scale, ssa_n, ssa_b, causal=True)
     grid = lambda META: (triton.cdiv(N, META["BLOCK_M"]), B * Hq)
 
     _ssa_attn_fwd[grid](
-        q, k, v, out, lse,
+        q, k, v, out, m,
         softmax_scale,
         ssa_n, ssa_b,
         q.stride(0), q.stride(1), q.stride(2), q.stride(3),
         k.stride(0), k.stride(1), k.stride(2), k.stride(3),
         v.stride(0), v.stride(1), v.stride(2), v.stride(3),
         out.stride(0), out.stride(1), out.stride(2), out.stride(3),
-        lse.stride(0), lse.stride(1), lse.stride(2),
+        m.stride(0), m.stride(1), m.stride(2),
         B, Hq, N,
         HEAD_DIM=HEAD_DIM,
         GQA_RATIO=GQA_RATIO,
@@ -763,10 +789,10 @@ def ssa_flash_attn_v4_forward(q, k, v, softmax_scale, ssa_n, ssa_b, causal=True)
         MATMUL_PRECISION=MATMUL_PRECISION,
     )
 
-    return out, lse
+    return out, m
 
 
-def ssa_flash_attn_v4_backward(q, k, v, out, dout, lse, softmax_scale, ssa_n, ssa_b, causal=True):
+def ssa_flash_attn_v4_backward(q, k, v, out, dout, m, softmax_scale, ssa_n, ssa_b, causal=True):
     """
     Backward pass wrapper.
 
@@ -778,6 +804,9 @@ def ssa_flash_attn_v4_backward(q, k, v, out, dout, lse, softmax_scale, ssa_n, ss
     GQA_RATIO = Hq // Hkv
 
     HEAD_DIM = _get_block_sizes(D)
+    assert D == HEAD_DIM, (
+        f"Head dim D={D} must be power-of-two for v4 tutorial kernel; got padded HEAD_DIM={HEAD_DIM}."
+    )
 
     # Block sizes for backward (following tutorial's choices)
     BLOCK_M1 = 32   # Q block size for dKV computation
@@ -833,7 +862,7 @@ def ssa_flash_attn_v4_backward(q, k, v, out, dout, lse, softmax_scale, ssa_n, ss
         q, k, v,
         out, dout,
         dq, dk, dv,
-        lse, delta,
+        m, delta,
         dn_partial, db_partial,
         softmax_scale,
         ssa_n, ssa_b,
@@ -845,7 +874,7 @@ def ssa_flash_attn_v4_backward(q, k, v, out, dout, lse, softmax_scale, ssa_n, ss
         dq.stride(0), dq.stride(1), dq.stride(2), dq.stride(3),
         dk.stride(0), dk.stride(1), dk.stride(2), dk.stride(3),
         dv.stride(0), dv.stride(1), dv.stride(2), dv.stride(3),
-        lse.stride(0), lse.stride(1), lse.stride(2),
+        m.stride(0), m.stride(1), m.stride(2),
         delta.stride(0), delta.stride(1), delta.stride(2),
         B, Hq, N,
         HEAD_DIM=HEAD_DIM,
@@ -889,11 +918,11 @@ def warmup_ssa_v4_kernels(
     ssa_b = torch.tensor(0.8, dtype=torch.float32, device=device)
     scale = 1.0 / (D ** 0.5)
 
-    out, lse = ssa_flash_attn_v4_forward(q, k, v, scale, ssa_n, ssa_b, causal=True)
+    out, m = ssa_flash_attn_v4_forward(q, k, v, scale, ssa_n, ssa_b, causal=True)
 
     dout = torch.randn_like(out)
     dq, dk, dv, dn, db = ssa_flash_attn_v4_backward(
-        q, k, v, out, dout, lse, scale, ssa_n, ssa_b, causal=True,
+        q, k, v, out, dout, m, scale, ssa_n, ssa_b, causal=True,
     )
 
     torch.cuda.synchronize()

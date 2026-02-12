@@ -272,19 +272,22 @@ def _compare_kernel_outputs(
     lhs: dict[str, Any],
     rhs: dict[str, Any],
     tol: PairTolerances,
+    include_l: bool = False,
 ) -> dict[str, Any]:
     stats = {
         "out": _tensor_stats(lhs["out"], rhs["out"], tol.atol, tol.rtol),
-        "l": _tensor_stats(lhs["l"], rhs["l"], tol.atol, tol.rtol),
         "dq": _tensor_stats(lhs["dq"], rhs["dq"], tol.atol, tol.rtol),
         "dk": _tensor_stats(lhs["dk"], rhs["dk"], tol.atol, tol.rtol),
         "dv": _tensor_stats(lhs["dv"], rhs["dv"], tol.atol, tol.rtol),
         "dn": _scalar_stats(float(lhs["dn"]), float(rhs["dn"]), tol.scalar_atol, tol.scalar_rtol),
         "db": _scalar_stats(float(lhs["db"]), float(rhs["db"]), tol.scalar_atol, tol.scalar_rtol),
     }
-    passed = all(
-        stats[name]["allclose"] for name in ("out", "l", "dq", "dk", "dv", "dn", "db")
-    )
+    if include_l:
+        stats["l"] = _tensor_stats(lhs["l"], rhs["l"], tol.atol, tol.rtol)
+        check_keys = ("out", "l", "dq", "dk", "dv", "dn", "db")
+    else:
+        check_keys = ("out", "dq", "dk", "dv", "dn", "db")
+    passed = all(stats[name]["allclose"] for name in check_keys)
     stats["passed"] = passed
     return stats
 
@@ -357,7 +360,7 @@ def _run_kernel_case(
         "db": float(db3.detach().item() if torch.is_tensor(db3) else db3),
     }
 
-    v4_vs_v3 = _compare_kernel_outputs(v4_bundle, v3_bundle, tol)
+    v4_vs_v3 = _compare_kernel_outputs(v4_bundle, v3_bundle, tol, include_l=False)
     result: dict[str, Any] = {
         "case": {
             "dtype": dtype_name,
@@ -376,8 +379,8 @@ def _run_kernel_case(
 
     if compare_ref:
         ref_bundle = _run_reference_grads(q, k, v, scale, ssa_n, ssa_b, dout, causal)
-        v4_vs_ref = _compare_kernel_outputs(v4_bundle, ref_bundle, tol)
-        v3_vs_ref = _compare_kernel_outputs(v3_bundle, ref_bundle, tol)
+        v4_vs_ref = _compare_kernel_outputs(v4_bundle, ref_bundle, tol, include_l=False)
+        v3_vs_ref = _compare_kernel_outputs(v3_bundle, ref_bundle, tol, include_l=False)
         result["v4_vs_ref"] = v4_vs_ref
         result["v3_vs_ref"] = v3_vs_ref
         result["passed"] = bool(result["passed"] and v4_vs_ref["passed"])

@@ -63,7 +63,12 @@ def parse_args():
     parser.add_argument("--tensor_parallelism", "--tp", default=1, type=int)
     parser.add_argument("--pipeline_parallelism", "--pp", default=1, type=int)
     parser.add_argument("--context_parallelism", "--cp", default=1, type=int)
-    parser.add_argument("--max_steps", default=5000, type=int, help="Steps to run THIS job (per-run)")
+    parser.add_argument(
+        "--max_steps",
+        default=5000,
+        type=int,
+        help="Absolute training horizon (target global step for this run series).",
+    )
     parser.add_argument("--num_nodes", default=1, type=int)
     parser.add_argument("--gpus_per_node", default=1, type=int)
     parser.add_argument("--seed", default=1234, type=int)
@@ -72,7 +77,18 @@ def parse_args():
     parser.add_argument("--performance_mode", action="store_true", default=False)
     parser.add_argument("--duration", default="00:24:00:00", type=str, help="Walltime DD:HH:MM:SS")
     parser.add_argument("--save_every_n_steps", default=500, type=int)
-    parser.add_argument("--global_max_steps", default=None, type=int, help="Total training horizon for LR decay")
+    parser.add_argument(
+        "--global_max_steps",
+        default=None,
+        type=int,
+        help="Deprecated in this launcher; --max_steps is the global LR/training horizon.",
+    )
+    parser.add_argument(
+        "--this_run_max_steps",
+        default=None,
+        type=int,
+        help="Optional per-job step budget; stop after this many optimizer steps in this run.",
+    )
     parser.add_argument("--log_ssa_every_n_steps", default=1000, type=int, help="Log SSA n values every N steps")
     # SSA hyperparameters
     parser.add_argument("--ssa_n", default=1.5, type=float, help="SSA n param initial value")
@@ -144,14 +160,18 @@ def main():
     logger.info("Tokens per batch: %s", tokens_per_batch)
     logger.info("Total tokens in datamix: %s", total_tokens)
 
-    # global_max_steps = LR decay horizon (total training, not per-run)
+    # In this launcher, --max_steps is the global horizon used by trainer and LR scheduler.
+    # --global_max_steps is kept only for backward compatibility and is ignored.
     if args.global_max_steps is not None:
-        global_max_steps = args.global_max_steps
-        logger.info("Using provided global_max_steps: %s", global_max_steps)
-    else:
-        import math
-        global_max_steps = math.floor(total_tokens / tokens_per_batch)
-        logger.info("Computed global_max_steps from datamix: %s", global_max_steps)
+        logger.warning(
+            "Ignoring deprecated --global_max_steps=%s; using --max_steps=%s as global horizon.",
+            args.global_max_steps,
+            args.max_steps,
+        )
+    global_max_steps = args.max_steps
+    logger.info("Global training/LR horizon (from --max_steps): %s", global_max_steps)
+    if args.this_run_max_steps is not None and args.this_run_max_steps <= 0:
+        raise ValueError("--this_run_max_steps must be > 0 when provided.")
 
     from nemo import lightning as nl  # noqa: E402
     from nemo.collections.llm.gpt.data import PreTrainingDataModule  # noqa: E402
@@ -222,17 +242,30 @@ def main():
         not args.disable_compiled_bda,
     )
 
-    # Per-run max_steps: detect checkpoint step, then add args.max_steps
+    # Max-step policy for Triton launcher:
+    # - --max_steps is the absolute global horizon for trainer + scheduler.
+    # - Optional --this_run_max_steps limits how many optimizer steps this job executes.
     experiment_dir = os.path.join(args.output_dir, args.name)
     detected_step = find_latest_checkpoint_step(experiment_dir)
+    effective_max_steps = global_max_steps
 
     if detected_step > 0:
-        effective_max_steps = min(detected_step + args.max_steps, global_max_steps)
-        logger.info(f"Detected checkpoint at step {detected_step}")
-        logger.info(f"trainer.max_steps = {detected_step} + {args.max_steps} = {effective_max_steps}")
+        logger.info("Detected checkpoint at step %s", detected_step)
+        if detected_step >= effective_max_steps:
+            logger.warning(
+                "Checkpoint step %s is already >= trainer.max_steps %s; "
+                "increase --max_steps to continue training.",
+                detected_step,
+                effective_max_steps,
+            )
+        else:
+            logger.info(
+                "Continuing to absolute trainer.max_steps = %s (remaining this run: %s steps)",
+                effective_max_steps,
+                effective_max_steps - detected_step,
+            )
     else:
-        effective_max_steps = min(args.max_steps, global_max_steps)
-        logger.info(f"Training from scratch, trainer.max_steps = {effective_max_steps}")
+        logger.info("Training from scratch, trainer.max_steps = %s", effective_max_steps)
 
     # Trainer
     recipe.model.config.vocab_size = 50256
@@ -258,13 +291,30 @@ def main():
 
     # Callbacks
     from nemo.lightning.pytorch.callbacks import GarbageCollectionCallback  # noqa: E402
-    from callbacks import StatelessTimer, ProgressiveIntervalCheckpoint, SSALoggingCallback  # noqa: E402
+    from callbacks import (  # noqa: E402
+        StatelessTimer,
+        ProgressiveIntervalCheckpoint,
+        SSALoggingCallback,
+        StopAfterThisRunMaxStepsCallback,
+    )
 
-    recipe.trainer.callbacks = [
+    trainer_callbacks = [
         run.Config(StatelessTimer, duration=args.duration),
         run.Config(GarbageCollectionCallback, gc_interval_train=100, gc_interval_val=100),
         run.Config(SSALoggingCallback, log_every_n_steps=args.log_ssa_every_n_steps),
     ]
+    if args.this_run_max_steps is not None:
+        trainer_callbacks.append(
+            run.Config(
+                StopAfterThisRunMaxStepsCallback,
+                this_run_max_steps=args.this_run_max_steps,
+            )
+        )
+        logger.info(
+            "Per-job step cap enabled: this_run_max_steps=%s",
+            args.this_run_max_steps,
+        )
+    recipe.trainer.callbacks = trainer_callbacks
 
     # Checkpoint config
     recipe.log.ckpt = run.Config(
@@ -287,13 +337,14 @@ def main():
     else:
         restore_config = None
 
-    # LR scheduler uses global_max_steps for decay horizon
+    # LR scheduler horizon is aligned to trainer.max_steps for consistency.
+    # NeMo may overwrite scheduler.max_steps from trainer.max_steps internally.
     if hasattr(recipe.optim, 'lr_scheduler'):
-        recipe.optim.lr_scheduler.max_steps = global_max_steps
+        recipe.optim.lr_scheduler.max_steps = effective_max_steps
         recipe.optim.lr_scheduler.warmup_steps = args.warmup_steps
         logger.info(
-            "LR scheduler max_steps = %s, warmup_steps = %s",
-            global_max_steps,
+            "LR scheduler max_steps = %s (aligned with trainer.max_steps), warmup_steps = %s",
+            effective_max_steps,
             args.warmup_steps,
         )
 

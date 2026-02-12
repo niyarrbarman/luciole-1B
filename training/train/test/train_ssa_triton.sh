@@ -24,7 +24,9 @@ SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
 LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-500}
 SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
-MAX_STEPS=${MAX_STEPS:-20000}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-60000}
+# Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
+THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-${MAX_STEPS:-0}}
 
 if [[ "${SSA_KERNEL_VERSION}" != "v4" ]]; then
     echo "ERROR: SSA_KERNEL_VERSION must be 'v4' (got '${SSA_KERNEL_VERSION}')."
@@ -56,7 +58,8 @@ echo "Kernel ver:  $SSA_KERNEL_VERSION"
 echo "Compile BDA: $SSA_TRITON_COMPILE_BDA"
 echo "Warmup step: $LR_WARMUP_STEPS"
 echo "Skip warmup: $SKIP_TRITON_WARMUP"
-echo "Max steps:   $MAX_STEPS"
+echo "Global max:  $GLOBAL_MAX_STEPS"
+echo "This-run max:${THIS_RUN_MAX_STEPS}"
 echo "=========================================="
 
 EXTRA_ARGS=()
@@ -65,6 +68,9 @@ if [[ "${SKIP_TRITON_WARMUP}" == "1" ]]; then
 fi
 if [[ "${DISABLE_COMPILED_BDA}" == "1" ]]; then
     EXTRA_ARGS+=(--disable_compiled_bda)
+fi
+if [[ "${THIS_RUN_MAX_STEPS}" != "0" ]]; then
+    EXTRA_ARGS+=(--this_run_max_steps "${THIS_RUN_MAX_STEPS}")
 fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
@@ -94,7 +100,7 @@ srun apptainer exec \
         --output_dir "$OUTPUT_DIR" \
         --name "$NAME" \
         --arch baby_luciole \
-        --max_steps ${MAX_STEPS} \
+        --max_steps ${GLOBAL_MAX_STEPS} \
         --seq_length 1024 \
         --batch_size 768 \
         --micro_batch_size 8 \
@@ -104,7 +110,6 @@ srun apptainer exec \
         --pipeline_parallelism 1 \
         --context_parallelism 1 \
         --duration "${SLURM_DURATION}" \
-        --global_max_steps 60000 \
         --save_every_n_steps 6000 \
         --log_ssa_every_n_steps 1000 \
         --ssa_n $SSA_N \

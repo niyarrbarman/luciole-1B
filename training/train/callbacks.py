@@ -82,6 +82,48 @@ class StopAtEndOfPhaseCallback(Callback, IOMixin):
             trainer.should_stop = trainer.should_stop or should_stop
 
 
+class StopAfterThisRunMaxStepsCallback(Callback, IOMixin):
+    """
+    Stop training after N optimizer steps in the current job, regardless of resume step.
+
+    This keeps a global LR horizon (trainer.max_steps / scheduler.max_steps) while allowing
+    short per-job chunks for Slurm time limits.
+    """
+
+    def __init__(self, this_run_max_steps: int):
+        self.this_run_max_steps = this_run_max_steps
+        self._start_global_step = None
+
+    def on_fit_start(self, trainer, pl_module) -> None:
+        self._start_global_step = int(trainer.global_step)
+        logging.info(
+            "StopAfterThisRunMaxStepsCallback armed: start_global_step=%s, this_run_max_steps=%s, stop_at=%s",
+            self._start_global_step,
+            self.this_run_max_steps,
+            self._start_global_step + self.this_run_max_steps,
+        )
+
+    def on_train_batch_end(
+        self, trainer, pl_module, outputs, batch, batch_idx: int
+    ) -> None:
+        if self.this_run_max_steps is None or self.this_run_max_steps <= 0:
+            return
+        if self._start_global_step is None:
+            self._start_global_step = int(trainer.global_step)
+
+        local_steps = int(trainer.global_step) - int(self._start_global_step)
+        should_stop = local_steps >= int(self.this_run_max_steps)
+        if should_stop:
+            logging.info(
+                "Reached this_run_max_steps=%s at global_step=%s (local_steps=%s). Stopping training.",
+                self.this_run_max_steps,
+                trainer.global_step,
+                local_steps,
+            )
+        should_stop = trainer.strategy.broadcast(should_stop)
+        trainer.should_stop = trainer.should_stop or should_stop
+
+
 class ProgressiveIntervalCheckpoint(nl.ModelCheckpoint):
     def __init__(
         self,

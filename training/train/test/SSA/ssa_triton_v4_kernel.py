@@ -206,7 +206,7 @@ def _ssa_attn_fwd(
 
     # Tutorial-style online-softmax state.
     m_i = tl.full([BLOCK_M], value=float("-inf"), dtype=tl.float32)
-    l_i = tl.ones([BLOCK_M], dtype=tl.float32)
+    l_i = tl.full([BLOCK_M], value=1.0, dtype=tl.float32)
     acc = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
 
     # Stage 1: off-band (no mask needed)

@@ -13,7 +13,7 @@ mkdir -p slurm
 # Defaults
 DATAMIX=${DATAMIX:-"/tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json"}
 OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output"}
-NAME=${NAME:-"baby_luciole-ssa-triton"}
+NAME=${NAME:-"baby_luciole-ssa-triton-v4"}
 SEED=${SEED:-1234}
 
 # SSA hyperparameters
@@ -26,7 +26,7 @@ SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-60000}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
-THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-${MAX_STEPS:-0}}
+THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-10000}
 
 if [[ "${SSA_KERNEL_VERSION}" != "v4" ]]; then
     echo "ERROR: SSA_KERNEL_VERSION must be 'v4' (got '${SSA_KERNEL_VERSION}')."

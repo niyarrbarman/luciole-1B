@@ -24,6 +24,7 @@ SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
 LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-500}
 SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
+FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-0}
 GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-60000}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
 THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-10000}
@@ -58,6 +59,7 @@ echo "Kernel ver:  $SSA_KERNEL_VERSION"
 echo "Compile BDA: $SSA_TRITON_COMPILE_BDA"
 echo "Warmup step: $LR_WARMUP_STEPS"
 echo "Skip warmup: $SKIP_TRITON_WARMUP"
+echo "Contig QKV:  $FORCE_CONTIGUOUS_QKV"
 echo "Global max:  $GLOBAL_MAX_STEPS"
 echo "This-run max:${THIS_RUN_MAX_STEPS}"
 echo "=========================================="
@@ -68,6 +70,9 @@ if [[ "${SKIP_TRITON_WARMUP}" == "1" ]]; then
 fi
 if [[ "${DISABLE_COMPILED_BDA}" == "1" ]]; then
     EXTRA_ARGS+=(--disable_compiled_bda)
+fi
+if [[ "${FORCE_CONTIGUOUS_QKV}" == "1" ]]; then
+    EXTRA_ARGS+=(--force_contiguous_qkv)
 fi
 if [[ "${THIS_RUN_MAX_STEPS}" != "0" ]]; then
     EXTRA_ARGS+=(--this_run_max_steps "${THIS_RUN_MAX_STEPS}")

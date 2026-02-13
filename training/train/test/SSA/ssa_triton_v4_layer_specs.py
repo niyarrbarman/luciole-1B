@@ -69,6 +69,7 @@ def get_ssa_triton_v4_gpt_layer_spec(
     learnable_ssa: bool = True,
     learnable_b: bool = False,
     use_compiled_bda: Optional[bool] = None,
+    force_contiguous_qkv: bool = False,
 ) -> ModuleSpec:
     """
     GPT layer spec using v4 fused Triton SSA attention (tutorial-based kernel).
@@ -82,6 +83,8 @@ def get_ssa_triton_v4_gpt_layer_spec(
         learnable_ssa: If True, n is learnable
         learnable_b: If True, b is also learnable
         use_compiled_bda: If None, reads SSA_TRITON_COMPILE_BDA env (default: True)
+        force_contiguous_qkv: If True, materialize Q/K/V as contiguous tensors before
+            launching the Triton attention kernel.
     """
     if use_compiled_bda is None:
         use_compiled_bda = os.environ.get("SSA_TRITON_COMPILE_BDA", "1") != "0"
@@ -97,6 +100,7 @@ def get_ssa_triton_v4_gpt_layer_spec(
             "ssa_b": ssa_b,
             "learnable_ssa": learnable_ssa,
             "learnable_b": learnable_b,
+            "force_contiguous_qkv": force_contiguous_qkv,
         },
     )
 

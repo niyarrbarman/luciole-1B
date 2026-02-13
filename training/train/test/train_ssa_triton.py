@@ -101,6 +101,12 @@ def parse_args():
         help="Use eager bias-dropout-add path (disable torch.compile'd BDA).",
     )
     parser.add_argument(
+        "--force_contiguous_qkv",
+        action="store_true",
+        default=False,
+        help="Materialize Q/K/V as contiguous tensors before Triton attention call.",
+    )
+    parser.add_argument(
         "--warmup_steps",
         default=500,
         type=int,
@@ -230,6 +236,7 @@ def main():
         learnable_ssa=True,
         learnable_b=False,
         use_compiled_bda=not args.disable_compiled_bda,
+        force_contiguous_qkv=args.force_contiguous_qkv,
     )
     recipe.model.config.transformer_layer_spec = ssa_layer_spec
     # Disable fused softmax (we use our own Triton kernel)
@@ -241,6 +248,7 @@ def main():
         args.ssa_b,
         not args.disable_compiled_bda,
     )
+    logger.info("SSA Triton: force_contiguous_qkv=%s", args.force_contiguous_qkv)
 
     # Max-step policy for Triton launcher:
     # - --max_steps is the absolute global horizon for trainer + scheduler.

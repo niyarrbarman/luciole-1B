@@ -59,6 +59,7 @@ class SSATritonV4Attention(MegatronModule):
         ssa_b: float = 0.8,
         learnable_ssa: bool = True,
         learnable_b: bool = False,
+        force_contiguous_qkv: bool = False,
     ):
         super().__init__(config=config)
 
@@ -68,6 +69,7 @@ class SSATritonV4Attention(MegatronModule):
         self.attention_type = attention_type
         self.learnable_ssa = learnable_ssa
         self.learnable_b = learnable_b
+        self.force_contiguous_qkv = force_contiguous_qkv
 
         assert (
             self.config.context_parallel_size == 1
@@ -161,6 +163,10 @@ class SSATritonV4Attention(MegatronModule):
         query_t = _megatron_to_triton_view(query, batch_size, num_heads_q)
         key_t = _megatron_to_triton_view(key, batch_size, num_heads_kv)
         value_t = _megatron_to_triton_view(value, batch_size, num_heads_kv)
+        if self.force_contiguous_qkv:
+            query_t = query_t.contiguous()
+            key_t = key_t.contiguous()
+            value_t = value_t.contiguous()
 
         ssa_n, ssa_b = self.get_ssa_params()
 

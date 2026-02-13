@@ -137,7 +137,7 @@ def load_model(
     checkpoint_path: str,
     tokenizer_name: str = DEFAULT_TOKENIZER,
     device: str = "cuda",
-    compiled_bda: bool = True,
+    compiled_bda: bool = False,
     force_contiguous_qkv: bool = True,
 ):
     """Load Baby Luciole Triton-v4 model from NeMo distributed checkpoint."""
@@ -358,6 +358,7 @@ def compute_perplexity(
     samples: list,
     batch_size: int = 8,
     device: str = "cuda",
+    compiled_bda: bool = False,
 ):
     """Compute perplexity over provided token samples."""
     model.eval()
@@ -386,6 +387,12 @@ def compute_perplexity(
         causal_mask = torch.triu(
             torch.ones(seq_len, seq_len, dtype=torch.bool, device=device), diagonal=1
         ).unsqueeze(0).unsqueeze(0)
+
+        # Mitigate torch.compile + CUDAGraph output reuse issues when compiled BDA is enabled.
+        if compiled_bda and hasattr(torch, "compiler") and hasattr(
+            torch.compiler, "cudagraph_mark_step_begin"
+        ):
+            torch.compiler.cudagraph_mark_step_begin()
 
         outputs = target_module(
             input_ids=batch,
@@ -443,6 +450,7 @@ def evaluate_dataset(
     batch_size: int,
     device: str,
     seed: int,
+    compiled_bda: bool,
 ):
     """Evaluate one dataset and return result dict."""
     samples = load_indexed_data(
@@ -458,6 +466,7 @@ def evaluate_dataset(
         samples=samples,
         batch_size=batch_size,
         device=device,
+        compiled_bda=compiled_bda,
     )
     metrics["dataset"] = dataset_name
     metrics["data_path"] = data_path
@@ -539,7 +548,7 @@ def get_parser():
     parser.add_argument(
         "--compiled-bda",
         action=argparse.BooleanOptionalAction,
-        default=True,
+        default=False,
         help="Enable/disable torch.compile'd BDA path in Triton-v4 layer spec",
     )
     parser.add_argument(
@@ -624,6 +633,7 @@ def main():
                 batch_size=args.batch_size,
                 device=args.device,
                 seed=seed,
+                compiled_bda=args.compiled_bda,
             )
             results.append(dataset_result)
             _print_dataset_result(args.checkpoint, dataset_result)

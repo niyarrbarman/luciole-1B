@@ -1,0 +1,38 @@
+==========================================
+Evaluating Perplexity: Baby Luciole SSA Triton v4
+Checkpoint:    /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton-v4/checkpoints/'baby_luciole-ssa-triton-v4-step=0019999-last
+FineWeb data:  /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document
+Wiki data:     /tmpdir/m24047brmn/nemo_1b/data_wiki/wikipedia_en_text_document
+Tokenizer:     /work/m24047/m24047brmn/tokenizers/luciole_50k
+Samples/data:  1000
+Seq length:    1024
+Batch size:    8
+Compiled BDA:  0
+Contig QKV:    1
+Output JSON:   /tmpdir/m24047brmn/nemo_1b/output/perplexity_triton_v4_fw_wiki_77224.json
+==========================================
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-02-14 00:20:35 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/eval_perplexity_triton_v4.py", line 675, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/eval_perplexity_triton_v4.py", line 612, in main
+    model, _ = load_model(
+               ^^^^^^^^^^^
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/eval_perplexity_triton_v4.py", line 150, in load_model
+    checkpoint_dir = _resolve_checkpoint_dir(checkpoint_path)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/eval_perplexity_triton_v4.py", line 123, in _resolve_checkpoint_dir
+    raise FileNotFoundError(f"Checkpoint not found at {checkpoint_dir}")
+FileNotFoundError: Checkpoint not found at /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton-v4/checkpoints/'baby_luciole-ssa-triton-v4-step=0019999-last
+==========================================
+Perplexity evaluation finished with status 1
+==========================================

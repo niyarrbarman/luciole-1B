@@ -10,7 +10,7 @@
 
 mkdir -p slurm
 
-CHECKPOINT_PATH=${CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton-v4/checkpoints/baby_luciole-ssa-triton-v4-step=0019999-last"}
+CHECKPOINT_PATH=${CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton-v4/checkpoints/baby_luciole-ssa-triton-v4-step=0029999-last"}
 
 FW_DATA_PATH=${FW_DATA_PATH:-"/tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document"}
 WIKI_DATA_PATH=${WIKI_DATA_PATH:-"/tmpdir/m24047brmn/nemo_1b/data_wiki/wikipedia_en_text_document"}

@@ -15,11 +15,11 @@ TOKENIZER_PATH=${TOKENIZER:-"/work/m24047/m24047brmn/tokenizers/luciole_50k"}
 
 CONTEXT=${CONTEXT:-"<|startoftext|> Continue each prompt clearly and concisely."}
 
-PROMPT_1=${PROMPT_1:-"Explain in simple terms what gradient clipping does in deep learning."}
-PROMPT_2=${PROMPT_2:-"Write a short paragraph describing a storm arriving over a coastal town."}
-PROMPT_3=${PROMPT_3:-"Give a practical checklist for debugging NaN loss during training."}
-PROMPT_4=${PROMPT_4:-"Summarize the difference between data parallelism and tensor parallelism."}
-PROMPT_5=${PROMPT_5:-"Draft a polite message asking a teammate for code review feedback by tomorrow."}
+PROMPT_1=${PROMPT_1:-"The water cycle begins when the sun heats the surface of the ocean. As the water warms,"}
+PROMPT_2=${PROMPT_2:-"Photosynthesis is the process by which plants convert sunlight into energy. During this process,"}
+PROMPT_3=${PROMPT_3:-"The French Revolution started in 1789 when the people of France"}
+PROMPT_4=${PROMPT_4:-"There are eight planets in our solar system. The closest planet to the sun is Mercury, and"}
+PROMPT_5=${PROMPT_5:-"Addition and subtraction are two basic operations in mathematics. For example, if you have 5 apples and"}
 
 MAX_NEW_TOKENS=${MAX_NEW_TOKENS:-128}
 TEMPERATURE=${TEMPERATURE:-0.7}

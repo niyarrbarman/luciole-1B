@@ -67,7 +67,7 @@ AVAILABLE_BENCHMARKS = {
 
 BENCHMARK_GROUPS = {
     "quick": ["arc_easy"],
-    "standard": ["arc_easy", "arc_challenge", "hellaswag", "piqa", "winogrande"],
+    "standard": ["arc_easy", "arc_challenge", "hellaswag", "winogrande"],
     "leaderboard": [
         "arc_challenge",
         "hellaswag",
@@ -76,7 +76,17 @@ BENCHMARK_GROUPS = {
         "winogrande",
         "gsm8k",
     ],
-    "all": list(AVAILABLE_BENCHMARKS.keys()),
+    "all": [
+        "arc_easy",
+        "arc_challenge",
+        "hellaswag",
+        "winogrande",
+        "mmlu",
+        "truthfulqa",
+        "gsm8k",
+        "boolq",
+        "openbookqa",
+    ],
 }
 
 

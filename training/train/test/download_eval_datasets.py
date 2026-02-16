@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 BENCHMARK_GROUPS = {
     "quick": ["arc_easy"],
-    "standard": ["arc_easy", "arc_challenge", "hellaswag", "piqa", "winogrande"],
+    "standard": ["arc_easy", "arc_challenge", "hellaswag", "winogrande"],
     "leaderboard": [
         "arc_challenge",
         "hellaswag",
@@ -32,7 +32,6 @@ BENCHMARK_GROUPS = {
         "arc_easy",
         "arc_challenge",
         "hellaswag",
-        "piqa",
         "winogrande",
         "mmlu",
         "truthfulqa",
@@ -44,8 +43,11 @@ BENCHMARK_GROUPS = {
 
 # Multiple candidates are used where dataset IDs differ across lm-eval/datasets versions.
 TASK_DATASET_CANDIDATES = {
-    "arc_easy": [("ai2_arc", "ARC-Easy")],
-    "arc_challenge": [("ai2_arc", "ARC-Challenge")],
+    "arc_easy": [("allenai/ai2_arc", "ARC-Easy"), ("ai2_arc", "ARC-Easy")],
+    "arc_challenge": [
+        ("allenai/ai2_arc", "ARC-Challenge"),
+        ("ai2_arc", "ARC-Challenge"),
+    ],
     "hellaswag": [("Rowan/hellaswag", None), ("hellaswag", None)],
     "piqa": [("piqa", None)],
     "winogrande": [("winogrande", "winogrande_xl")],

@@ -11,7 +11,7 @@ Num Fewshot:     0
 Compiled BDA:    0
 Contiguous QKV:  1
 HF Offline:      1
-Output:          benchmark_results/results_triton_v4_all_20260217_021104.json
+Output:          benchmark_results/results_triton_v4_all_20260217_022027.json
 ===========================================
 INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
 INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
@@ -19,20 +19,20 @@ INFO:numexpr.utils:NumExpr defaulting to 16 threads.
 INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
 INFO:datasets:Polars version 1.21.0 available.
 INFO:__main__:Tasks to evaluate: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa', 'gsm8k', 'openbookqa', 'lambada', 'boolq', 'cb', 'copa', 'multirc', 'record', 'rte', 'wic', 'wsc', 'axb', 'axg']
-INFO:__main__:Patched 1/10 SuperGLUE dataset_info.json files (List -> Sequence)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
 INFO:__main__:Initializing BabyLucioleSSATritonV4LM wrapper...
 INFO:faiss.loader:Loading faiss.
 INFO:faiss.loader:Successfully loaded faiss.
-[NeMo W 2026-02-17 02:11:26 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+[NeMo W 2026-02-17 02:20:49 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
       warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
     
 INFO:eval_perplexity_triton_v4:No tokenizer in checkpoint, using: /work/m24047/m24047brmn/tokenizers/luciole_50k
-[NeMo I 2026-02-17 02:11:30 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/luciole_50k, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+[NeMo I 2026-02-17 02:20:53 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/luciole_50k, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
 INFO:eval_perplexity_triton_v4:Triton-v4 SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
 INFO:eval_perplexity_triton_v4:Initialized parallel state with backend nccl
 INFO:eval_perplexity_triton_v4:Creating NemotronModel...
 INFO:eval_perplexity_triton_v4:Configuring model...
-[NeMo I 2026-02-17 02:11:32 nemo_logging:393] Use preset vocab_size: 50256, original vocab_size: 50256, dummy tokens: 0.
+[NeMo I 2026-02-17 02:20:55 nemo_logging:393] Use preset vocab_size: 50256, original vocab_size: 50256, dummy tokens: 0.
 INFO:eval_perplexity_triton_v4:Loading model weights from /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton-v4/checkpoints/baby_luciole-ssa-triton-v4-step=0029999-last...
 INFO:eval_perplexity_triton_v4:Added 'module.' prefix to sharded state dict
 INFO:eval_perplexity_triton_v4:Model weights loaded successfully
@@ -140,15 +140,19 @@ Using the latest cached version of the dataset since super_glue couldn't be foun
 WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
 Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:55 2026).
 WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:55 2026).
-ERROR:__main__:Evaluation failed: Feature type 'List' not found. Available feature types: ['Value', 'ClassLabel', 'Translation', 'TranslationVariableLanguages', 'LargeList', 'Sequence', 'Array2D', 'Array3D', 'Array4D', 'Array5D', 'Audio', 'Image', 'Video', 'Pdf']
+Map:   0%|          | 0/100730 [00:00<?, ? examples/s]Map:   1%|          | 1000/100730 [00:00<00:11, 8790.86 examples/s]Map:   2%|▏         | 2000/100730 [00:00<00:11, 8923.81 examples/s]Map:   3%|▎         | 3000/100730 [00:00<00:10, 9116.14 examples/s]Map:   4%|▍         | 4000/100730 [00:00<00:10, 9209.55 examples/s]Map:   5%|▍         | 5000/100730 [00:00<00:10, 9274.47 examples/s]Map:   6%|▌         | 6000/100730 [00:00<00:10, 9308.60 examples/s]Map:   7%|▋         | 7000/100730 [00:00<00:10, 9338.66 examples/s]Map:   8%|▊         | 8000/100730 [00:00<00:09, 9344.97 examples/s]Map:   9%|▉         | 9000/100730 [00:00<00:09, 9373.55 examples/s]Map:  10%|▉         | 10000/100730 [00:01<00:09, 9387.18 examples/s]Map:  11%|█         | 11000/100730 [00:01<00:09, 9391.37 examples/s]Map:  12%|█▏        | 12000/100730 [00:01<00:09, 9377.24 examples/s]Map:  13%|█▎        | 13000/100730 [00:01<00:09, 9399.06 examples/s]Map:  14%|█▍        | 14000/100730 [00:01<00:09, 9385.41 examples/s]Map:  15%|█▍        | 15000/100730 [00:01<00:09, 9385.92 examples/s]Map:  16%|█▌        | 16000/100730 [00:01<00:09, 9348.31 examples/s]Map:  17%|█▋        | 17000/100730 [00:01<00:08, 9360.62 examples/s]Map:  18%|█▊        | 18000/100730 [00:01<00:08, 9381.95 examples/s]Map:  19%|█▉        | 19000/100730 [00:02<00:08, 9364.79 examples/s]Map:  20%|█▉        | 20000/100730 [00:02<00:08, 9351.19 examples/s]Map:  21%|██        | 21000/100730 [00:02<00:08, 9370.86 examples/s]Map:  22%|██▏       | 22000/100730 [00:02<00:08, 9369.30 examples/s]Map:  23%|██▎       | 23000/100730 [00:02<00:08, 9343.27 examples/s]Map:  24%|██▍       | 24000/100730 [00:02<00:08, 9332.35 examples/s]Map:  25%|██▍       | 25000/100730 [00:02<00:08, 9339.70 examples/s]Map:  26%|██▌       | 26000/100730 [00:02<00:07, 9360.28 examples/s]Map:  27%|██▋       | 27000/100730 [00:02<00:07, 9359.34 examples/s]Map:  28%|██▊       | 28000/100730 [00:03<00:07, 9323.69 examples/s]Map:  29%|██▉       | 29000/100730 [00:03<00:07, 9362.69 examples/s]Map:  30%|██▉       | 30000/100730 [00:03<00:07, 9378.70 examples/s]Map:  31%|███       | 31000/100730 [00:03<00:07, 9372.75 examples/s]Map:  32%|███▏      | 32000/100730 [00:03<00:07, 9342.12 examples/s]Map:  33%|███▎      | 33000/100730 [00:03<00:07, 9348.05 examples/s]Map:  34%|███▍      | 34000/100730 [00:03<00:07, 9347.10 examples/s]Map:  35%|███▍      | 35000/100730 [00:03<00:07, 9353.64 examples/s]Map:  36%|███▌      | 36000/100730 [00:03<00:06, 9349.05 examples/s]Map:  37%|███▋      | 37000/100730 [00:03<00:06, 9339.79 examples/s]Map:  38%|███▊      | 38000/100730 [00:04<00:06, 9369.43 examples/s]Map:  39%|███▊      | 39000/100730 [00:04<00:08, 7096.31 examples/s]Map:  40%|███▉      | 40000/100730 [00:04<00:07, 7629.72 examples/s]Map:  41%|████      | 41032/100730 [00:05<00:17, 3319.46 examples/s]Map:  42%|████▏     | 42000/100730 [00:05<00:14, 4086.58 examples/s]Map:  43%|████▎     | 43000/100730 [00:05<00:11, 4914.51 examples/s]Map:  44%|████▎     | 44000/100730 [00:05<00:09, 5724.94 examples/s]Map:  45%|████▍     | 45000/100730 [00:05<00:08, 6474.48 examples/s]Map:  46%|████▌     | 46000/100730 [00:05<00:07, 7120.71 examples/s]Map:  47%|████▋     | 47000/100730 [00:05<00:07, 7640.82 examples/s]Map:  48%|████▊     | 48000/100730 [00:05<00:06, 8057.19 examples/s]Map:  49%|████▊     | 49000/100730 [00:05<00:06, 8410.07 examples/s]Map:  50%|████▉     | 50000/100730 [00:06<00:05, 8659.92 examples/s]Map:  51%|█████     | 51000/100730 [00:06<00:05, 8830.45 examples/s]Map:  52%|█████▏    | 52000/100730 [00:06<00:05, 8944.44 examples/s]Map:  53%|█████▎    | 53000/100730 [00:06<00:05, 9050.92 examples/s]Map:  54%|█████▎    | 54000/100730 [00:06<00:05, 9127.64 examples/s]Map:  55%|█████▍    | 55000/100730 [00:06<00:04, 9161.34 examples/s]Map:  56%|█████▌    | 56000/100730 [00:06<00:04, 9183.71 examples/s]Map:  57%|█████▋    | 57000/100730 [00:06<00:04, 9219.73 examples/s]Map:  58%|█████▊    | 58000/100730 [00:06<00:04, 9232.82 examples/s]Map:  59%|█████▊    | 59000/100730 [00:07<00:04, 9228.49 examples/s]Map:  60%|█████▉    | 60000/100730 [00:07<00:04, 9253.70 examples/s]Map:  61%|██████    | 61000/100730 [00:07<00:04, 9281.02 examples/s]Map:  62%|██████▏   | 62000/100730 [00:07<00:04, 9269.46 examples/s]Map:  63%|██████▎   | 63000/100730 [00:07<00:04, 9269.08 examples/s]Map:  64%|██████▎   | 64000/100730 [00:07<00:03, 9282.37 examples/s]Map:  65%|██████▍   | 65000/100730 [00:07<00:03, 9288.87 examples/s]Map:  66%|██████▌   | 66000/100730 [00:07<00:03, 9282.54 examples/s]Map:  67%|██████▋   | 67000/100730 [00:07<00:03, 9286.66 examples/s]Map:  68%|██████▊   | 68000/100730 [00:08<00:03, 9287.43 examples/s]Map:  68%|██████▊   | 69000/100730 [00:08<00:03, 9305.85 examples/s]Map:  69%|██████▉   | 70000/100730 [00:08<00:03, 9281.47 examples/s]Map:  70%|███████   | 71000/100730 [00:08<00:03, 9284.12 examples/s]Map:  71%|███████▏  | 72000/100730 [00:08<00:03, 9251.69 examples/s]Map:  72%|███████▏  | 73000/100730 [00:08<00:02, 9279.18 examples/s]Map:  73%|███████▎  | 74000/100730 [00:08<00:02, 9295.99 examples/s]Map:  74%|███████▍  | 75000/100730 [00:08<00:02, 9309.26 examples/s]Map:  75%|███████▌  | 76000/100730 [00:08<00:02, 9302.14 examples/s]Map:  76%|███████▋  | 77000/100730 [00:08<00:02, 9320.48 examples/s]Map:  77%|███████▋  | 78000/100730 [00:09<00:02, 9312.35 examples/s]Map:  78%|███████▊  | 79000/100730 [00:09<00:02, 8329.89 examples/s]Map:  79%|███████▉  | 80000/100730 [00:09<00:02, 8560.33 examples/s]Map:  80%|████████  | 81000/100730 [00:09<00:02, 8778.38 examples/s]Map:  81%|████████▏ | 82000/100730 [00:09<00:02, 8925.98 examples/s]Map:  82%|████████▏ | 83000/100730 [00:09<00:01, 9050.35 examples/s]Map:  83%|████████▎ | 84000/100730 [00:09<00:01, 9112.56 examples/s]Map:  84%|████████▍ | 85000/100730 [00:09<00:01, 9185.09 examples/s]Map:  85%|████████▌ | 86000/100730 [00:09<00:01, 9233.97 examples/s]Map:  86%|████████▋ | 87000/100730 [00:10<00:01, 9235.74 examples/s]Map:  87%|████████▋ | 88000/100730 [00:10<00:01, 9241.82 examples/s]Map:  88%|████████▊ | 89000/100730 [00:10<00:01, 9275.90 examples/s]Map:  89%|████████▉ | 90000/100730 [00:10<00:01, 9277.94 examples/s]Map:  90%|█████████ | 91000/100730 [00:10<00:01, 9267.39 examples/s]Map:  91%|█████████▏| 92000/100730 [00:10<00:00, 9253.83 examples/s]Map:  92%|█████████▏| 93000/100730 [00:10<00:00, 9287.43 examples/s]Map:  93%|█████████▎| 94000/100730 [00:10<00:00, 9304.08 examples/s]Map:  94%|█████████▍| 95000/100730 [00:10<00:00, 9276.53 examples/s]Map:  95%|█████████▌| 96000/100730 [00:11<00:00, 9249.18 examples/s]Map:  96%|█████████▋| 97000/100730 [00:11<00:00, 9283.31 examples/s]Map:  97%|█████████▋| 98000/100730 [00:11<00:00, 9293.43 examples/s]Map:  98%|█████████▊| 99000/100730 [00:11<00:00, 9280.04 examples/s]Map:  99%|█████████▉| 100000/100730 [00:11<00:00, 9271.95 examples/s]Map: 100%|██████████| 100730/100730 [00:11<00:00, 8650.83 examples/s]
+Map:   0%|          | 0/10000 [00:00<?, ? examples/s]Map:  10%|█         | 1000/10000 [00:00<00:01, 8586.04 examples/s]Map:  20%|██        | 2000/10000 [00:00<00:00, 8800.07 examples/s]Map:  30%|███       | 3000/10000 [00:00<00:00, 8895.11 examples/s]Map:  40%|████      | 4000/10000 [00:00<00:00, 8919.34 examples/s]Map:  50%|█████     | 5000/10000 [00:00<00:00, 8955.37 examples/s]Map:  60%|██████    | 6000/10000 [00:00<00:00, 8957.00 examples/s]Map:  70%|███████   | 7000/10000 [00:00<00:00, 8976.54 examples/s]Map:  80%|████████  | 8000/10000 [00:00<00:00, 9008.57 examples/s]Map:  90%|█████████ | 9000/10000 [00:01<00:00, 9000.04 examples/s]Map: 100%|██████████| 10000/10000 [00:01<00:00, 8973.37 examples/s]Map: 100%|██████████| 10000/10000 [00:01<00:00, 8804.31 examples/s]
+WARNING:lm_eval.api.task:[Task: rte] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: rte] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+ERROR:__main__:Evaluation failed: Couldn't reach 'glue' on the Hub (OfflineModeIsEnabled)
 INFO:eval_perplexity_triton_v4:Destroyed Megatron model parallel state
 INFO:eval_perplexity_triton_v4:Destroyed process group
 [rank0]: Traceback (most recent call last):
-[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks_triton_v4.py", line 708, in <module>
+[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks_triton_v4.py", line 740, in <module>
 [rank0]:     main()
-[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks_triton_v4.py", line 690, in main
+[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks_triton_v4.py", line 722, in main
 [rank0]:     run_evaluation(
-[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks_triton_v4.py", line 577, in run_evaluation
+[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/run_benchmarks_triton_v4.py", line 609, in run_evaluation
 [rank0]:     results = lm_eval.simple_evaluate(
 [rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^
 [rank0]:   File "/usr/local/lib/python3.12/dist-packages/lm_eval/utils.py", line 440, in _wrapper
@@ -176,38 +180,17 @@ INFO:eval_perplexity_triton_v4:Destroyed process group
 [rank0]:   File "/usr/local/lib/python3.12/dist-packages/lm_eval/api/task.py", line 1003, in download
 [rank0]:     self.dataset = datasets.load_dataset(
 [rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/load.py", line 2096, in load_dataset
-[rank0]:     ds = builder_instance.as_dataset(split=split, verification_mode=verification_mode, in_memory=keep_in_memory)
-[rank0]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/builder.py", line 1127, in as_dataset
-[rank0]:     datasets = map_nested(
-[rank0]:                ^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/utils/py_utils.py", line 522, in map_nested
-[rank0]:     _single_map_nested((function, obj, batched, batch_size, types, None, True, None))
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/utils/py_utils.py", line 383, in _single_map_nested
-[rank0]:     return function(data_struct)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/builder.py", line 1157, in _build_single_dataset
-[rank0]:     ds = self._as_dataset(
-[rank0]:          ^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/builder.py", line 1238, in _as_dataset
-[rank0]:     return Dataset(fingerprint=fingerprint, **dataset_kwargs)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/arrow_dataset.py", line 663, in __init__
-[rank0]:     inferred_features = Features.from_arrow_schema(arrow_table.schema)
-[rank0]:                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/features/features.py", line 1850, in from_arrow_schema
-[rank0]:     metadata_features = Features.from_dict(metadata["info"]["features"])
-[rank0]:                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/features/features.py", line 1888, in from_dict
-[rank0]:     obj = generate_from_dict(dic)
-[rank0]:           ^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/features/features.py", line 1468, in generate_from_dict
-[rank0]:     return {key: generate_from_dict(value) for key, value in obj.items()}
-[rank0]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/features/features.py", line 1474, in generate_from_dict
-[rank0]:     raise ValueError(f"Feature type '{_type}' not found. Available feature types: {list(_FEATURE_TYPES.keys())}")
-[rank0]: ValueError: Feature type 'List' not found. Available feature types: ['Value', 'ClassLabel', 'Translation', 'TranslationVariableLanguages', 'LargeList', 'Sequence', 'Array2D', 'Array3D', 'Array4D', 'Array5D', 'Audio', 'Image', 'Video', 'Pdf']
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/load.py", line 2062, in load_dataset
+[rank0]:     builder_instance = load_dataset_builder(
+[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/load.py", line 1782, in load_dataset_builder
+[rank0]:     dataset_module = dataset_module_factory(
+[rank0]:                      ^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/load.py", line 1664, in dataset_module_factory
+[rank0]:     raise e1 from None
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/datasets/load.py", line 1565, in dataset_module_factory
+[rank0]:     raise ConnectionError(f"Couldn't reach '{path}' on the Hub ({e.__class__.__name__})") from e
+[rank0]: ConnectionError: Couldn't reach 'glue' on the Hub (OfflineModeIsEnabled)
 ===========================================
 Benchmark finished with status 1
 ===========================================

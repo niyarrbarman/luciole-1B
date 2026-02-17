@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import sys
+from pathlib import Path
 from typing import List, Optional
 
 import torch
@@ -10,6 +11,52 @@ from eval_perplexity_triton_v4 import cleanup_parallel_state, load_model
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Mapping from the short/old dataset name that lm-eval task YAMLs reference
+# to the fully-qualified HF Hub name under which the data was actually cached.
+# The HF datasets library stores "owner/repo" as "owner___repo" on disk; when
+# running offline it only resolves cached entries whose directory name matches.
+# If a YAML says ``dataset_path: hellaswag`` but the cache dir is
+# ``Rowan___hellaswag``, the lookup fails in offline mode.  We fix this by
+# creating a symlink ``<cache>/hellaswag -> <cache>/Rowan___hellaswag``.
+_DATASET_CACHE_ALIASES = {
+    # short (YAML) name  →  qualified (cached) name
+    "hellaswag": "Rowan___hellaswag",
+    "truthful_qa": "truthfulqa___truthful_qa",
+    "openbookqa": "allenai___openbookqa",
+    "lambada_openai": "EleutherAI___lambada_openai",
+}
+
+
+def _ensure_dataset_cache_symlinks() -> None:
+    """Create symlinks in the HF datasets cache so that short dataset names
+    used by lm-eval task YAMLs resolve to their fully-qualified cached copies.
+
+    This is only relevant when ``HF_DATASETS_OFFLINE=1``.
+    """
+    hf_home = os.environ.get("HF_HOME", os.path.expanduser("~/.cache/huggingface"))
+    cache_dir = Path(hf_home) / "datasets"
+    if not cache_dir.is_dir():
+        return
+
+    for short_name, qualified_name in _DATASET_CACHE_ALIASES.items():
+        source = cache_dir / qualified_name
+        target = cache_dir / short_name
+        if source.is_dir() and not target.exists():
+            try:
+                target.symlink_to(source)
+                logger.info(
+                    "Created dataset cache symlink: %s -> %s", target, source
+                )
+            except OSError as exc:
+                logger.warning(
+                    "Could not create dataset cache symlink %s -> %s: %s",
+                    target,
+                    source,
+                    exc,
+                )
+        elif target.exists():
+            logger.debug("Dataset cache entry already exists: %s", target)
 
 
 AVAILABLE_BENCHMARKS = {
@@ -38,11 +85,6 @@ AVAILABLE_BENCHMARKS = {
         "description": "WinoGrande - Pronoun resolution benchmark",
         "num_fewshot": 5,
     },
-    "mmlu": {
-        "task_name": "mmlu",
-        "description": "MMLU - 57 subjects covering STEM, humanities, social sciences",
-        "num_fewshot": 5,
-    },
     "truthfulqa": {
         "task_name": "truthfulqa_mc2",
         "description": "TruthfulQA - Measuring model truthfulness",
@@ -63,6 +105,11 @@ AVAILABLE_BENCHMARKS = {
         "description": "OpenBookQA - Elementary science questions",
         "num_fewshot": 0,
     },
+    "lambada": {
+        "task_name": "lambada_openai",
+        "description": "LAMBADA - Word prediction requiring broad context",
+        "num_fewshot": 0,
+    },
 }
 
 BENCHMARK_GROUPS = {
@@ -71,7 +118,6 @@ BENCHMARK_GROUPS = {
     "leaderboard": [
         "arc_challenge",
         "hellaswag",
-        "mmlu",
         "truthfulqa",
         "winogrande",
         "gsm8k",
@@ -81,11 +127,11 @@ BENCHMARK_GROUPS = {
         "arc_challenge",
         "hellaswag",
         "winogrande",
-        "mmlu",
         "truthfulqa",
         "gsm8k",
         "boolq",
         "openbookqa",
+        "lambada",
     ],
 }
 
@@ -374,6 +420,9 @@ def run_evaluation(
             "lm-evaluation-harness not installed. Install with: pip install lm-eval"
         )
         sys.exit(1)
+
+    # Ensure offline dataset cache resolves short names used by lm-eval YAMLs
+    _ensure_dataset_cache_symlinks()
 
     model = BabyLucioleSSATritonV4LM(
         checkpoint_path=checkpoint_path,

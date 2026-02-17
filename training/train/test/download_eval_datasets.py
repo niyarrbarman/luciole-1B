@@ -23,7 +23,6 @@ BENCHMARK_GROUPS = {
     "leaderboard": [
         "arc_challenge",
         "hellaswag",
-        "mmlu",
         "truthfulqa",
         "winogrande",
         "gsm8k",
@@ -33,15 +32,17 @@ BENCHMARK_GROUPS = {
         "arc_challenge",
         "hellaswag",
         "winogrande",
-        "mmlu",
         "truthfulqa",
         "gsm8k",
         "boolq",
         "openbookqa",
+        "lambada",
     ],
 }
 
 # Multiple candidates are used where dataset IDs differ across lm-eval/datasets versions.
+# The *first* candidate that succeeds is kept.  Order matters: put the name that
+# the container's lm-eval YAML actually uses first so the cache directory matches.
 TASK_DATASET_CANDIDATES = {
     "arc_easy": [("allenai/ai2_arc", "ARC-Easy"), ("ai2_arc", "ARC-Easy")],
     "arc_challenge": [
@@ -57,8 +58,9 @@ TASK_DATASET_CANDIDATES = {
         ("truthful_qa", "multiple_choice"),
     ],
     "gsm8k": [("gsm8k", "main")],
-    "boolq": [("google/boolq", None), ("boolq", None)],
+    "boolq": [("super_glue", "boolq"), ("google/boolq", None)],
     "openbookqa": [("allenai/openbookqa", "main"), ("openbookqa", "main")],
+    "lambada": [("EleutherAI/lambada_openai", "default"), ("lambada", None)],
 }
 
 
@@ -74,11 +76,42 @@ def resolve_tasks(task_arg: str) -> list[str]:
     return tasks
 
 
+def _cache_dir() -> str:
+    """Return the HF datasets cache directory."""
+    hf_home = os.environ.get("HF_HOME", os.path.expanduser("~/.cache/huggingface"))
+    return os.path.join(hf_home, "datasets")
+
+
+def _is_cached(dataset_path: str, dataset_name: str | None) -> bool:
+    """Check whether a dataset/config pair already has arrow files in the cache."""
+    cache = _cache_dir()
+    # HF datasets stores "owner/repo" as "owner___repo" on disk
+    dir_name = dataset_path.replace("/", "___")
+    config = dataset_name or "default"
+    candidate = os.path.join(cache, dir_name, config)
+    if os.path.isdir(candidate):
+        # Look for at least one .arrow file to confirm it's a real cache entry
+        for entry in os.listdir(candidate):
+            subdir = os.path.join(candidate, entry)
+            if os.path.isdir(subdir):
+                if any(f.endswith(".arrow") for f in os.listdir(subdir)):
+                    return True
+    return False
+
+
 def download_task_dataset(task: str) -> tuple[bool, str]:
     from datasets import load_dataset
 
     last_error = ""
     for dataset_path, dataset_name in TASK_DATASET_CANDIDATES[task]:
+        # Skip download if already cached
+        if _is_cached(dataset_path, dataset_name):
+            label = f"{dataset_path}/{dataset_name}"
+            logger.info(
+                "Task %s already cached (%s), skipping download", task, label
+            )
+            return True, f"{label} (cached)"
+
         try:
             logger.info(
                 "Downloading task=%s with dataset=%s name=%s",

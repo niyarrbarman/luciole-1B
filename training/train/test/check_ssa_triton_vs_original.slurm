@@ -29,7 +29,7 @@ export MASTER_PORT=${MASTER_PORT:-$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 
 export RANK=0
 export WORLD_SIZE=1
 
-EXTRA_FLAGS=()
+EXTRA_FLAGS=()  
 if [[ "${FORCE_APPLY_QK_LAYER_SCALING}" == "1" ]]; then
     EXTRA_FLAGS+=(--force_apply_query_key_layer_scaling)
 elif [[ "${FORCE_APPLY_QK_LAYER_SCALING}" == "0" ]]; then

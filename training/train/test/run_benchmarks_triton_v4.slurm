@@ -12,11 +12,11 @@ mkdir -p slurm
 
 CHECKPOINT_PATH=${CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton-v4/checkpoints/baby_luciole-ssa-triton-v4-step=0029999-last"}
 TOKENIZER_PATH=${TOKENIZER:-"/work/m24047/m24047brmn/tokenizers/luciole_50k"}
-TASKS=${TASKS:-"arc_easy"}
-BATCH_SIZE=${BATCH_SIZE:-1}
+TASKS=${TASKS:-"all"}
+BATCH_SIZE=${BATCH_SIZE:-8}
 MAX_LENGTH=${MAX_LENGTH:-2048}
 LIMIT=${LIMIT:-""}
-NUM_FEWSHOT=${NUM_FEWSHOT:-""}
+NUM_FEWSHOT=${NUM_FEWSHOT:-0}
 COMPILED_BDA=${COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 HF_DATASETS_OFFLINE=${HF_DATASETS_OFFLINE:-1}

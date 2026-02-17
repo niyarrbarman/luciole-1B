@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 import os
+import re
 import sys
 from pathlib import Path
 from typing import List, Optional, Set
@@ -42,6 +43,13 @@ SUPERGLUE_CORE_TASKS = [
 ]
 SUPERGLUE_DIAGNOSTIC_TASKS = ["axb", "axg"]
 SUPERGLUE_ALL_TASKS = SUPERGLUE_CORE_TASKS + SUPERGLUE_DIAGNOSTIC_TASKS
+
+# When running fully offline, some lm-eval task names may map to datasets that
+# are not cached in this environment (e.g., `rte` -> `glue`).
+# We skip only the impacted tasks and continue evaluating the rest.
+_OFFLINE_DATASET_TASK_FALLBACKS = {
+    "glue": {"rte"},
+}
 
 
 def _ensure_dataset_cache_symlinks() -> None:
@@ -372,6 +380,16 @@ def _resolve_lm_eval_task_name(task_key: str, available_task_names: Set[str]) ->
     return default_name
 
 
+def _extract_missing_hub_dataset(exc: Exception) -> Optional[str]:
+    """Parse datasets offline hub error, returning the missing dataset path."""
+
+    msg = str(exc)
+    match = re.search(r"Couldn't reach '([^']+)' on the Hub", msg)
+    if not match:
+        return None
+    return match.group(1)
+
+
 try:
     from lm_eval.api.model import LM as LMBase
 except ImportError:
@@ -682,18 +700,50 @@ def run_evaluation(
         sys.exit(1)
 
     logger.info("Running evaluation on tasks: %s", task_names)
-    try:
-        results = lm_eval.simple_evaluate(
-            model=model,
-            tasks=task_names,
-            num_fewshot=num_fewshot,
-            batch_size=batch_size,
-            limit=limit,
-            log_samples=False,
-        )
-    except Exception as exc:
-        logger.error("Evaluation failed: %s", exc)
-        raise
+    pending_task_names = list(task_names)
+    skipped_tasks = []
+    while True:
+        if not pending_task_names:
+            logger.error("No tasks left to evaluate after offline fallbacks")
+            sys.exit(1)
+
+        try:
+            results = lm_eval.simple_evaluate(
+                model=model,
+                tasks=pending_task_names,
+                num_fewshot=num_fewshot,
+                batch_size=batch_size,
+                limit=limit,
+                log_samples=False,
+            )
+            break
+        except Exception as exc:
+            missing_dataset = _extract_missing_hub_dataset(exc)
+            is_offline_error = (
+                missing_dataset is not None and "OfflineModeIsEnabled" in str(exc)
+            )
+            if not is_offline_error:
+                logger.error("Evaluation failed: %s", exc)
+                raise
+
+            drop_candidates = _OFFLINE_DATASET_TASK_FALLBACKS.get(
+                missing_dataset, set()
+            )
+            tasks_to_drop = [t for t in pending_task_names if t in drop_candidates]
+            if not tasks_to_drop:
+                logger.error("Evaluation failed: %s", exc)
+                raise
+
+            logger.warning(
+                "Offline cache miss for dataset '%s'; skipping tasks: %s",
+                missing_dataset,
+                tasks_to_drop,
+            )
+            skipped_tasks.extend(tasks_to_drop)
+            pending_task_names = [
+                t for t in pending_task_names if t not in tasks_to_drop
+            ]
+            logger.info("Retrying evaluation with tasks: %s", pending_task_names)
 
     print("\n" + "=" * 70)
     print("BENCHMARK RESULTS")
@@ -710,6 +760,8 @@ def run_evaluation(
 
     if output_path:
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
+        if skipped_tasks:
+            results.setdefault("config", {})["skipped_tasks"] = skipped_tasks
         with open(output_path, "w", encoding="utf-8") as handle:
             json.dump(results, handle, indent=2, default=str)
         logger.info("Results saved to: %s", output_path)

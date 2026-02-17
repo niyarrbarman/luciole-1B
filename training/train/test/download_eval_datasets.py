@@ -79,7 +79,9 @@ TASK_DATASET_CANDIDATES = {
     "copa": [("super_glue", "copa")],
     "multirc": [("super_glue", "multirc")],
     "record": [("super_glue", "record")],
-    "rte": [("super_glue", "rte")],
+    # In lm-eval 0.4.10 on this container, task `rte` resolves to GLUE RTE.
+    # Cache GLUE first, then SuperGLUE as fallback for compatibility.
+    "rte": [("glue", "rte"), ("super_glue", "rte")],
     "wic": [("super_glue", "wic")],
     "wsc": [("super_glue", "wsc")],
     "axb": [("super_glue", "axb")],

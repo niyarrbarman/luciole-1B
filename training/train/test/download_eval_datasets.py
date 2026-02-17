@@ -17,6 +17,20 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+SUPERGLUE_CORE_TASKS = [
+    "boolq",
+    "cb",
+    "copa",
+    "multirc",
+    "record",
+    "rte",
+    "wic",
+    "wsc",
+]
+SUPERGLUE_DIAGNOSTIC_TASKS = ["axb", "axg"]
+SUPERGLUE_ALL_TASKS = SUPERGLUE_CORE_TASKS + SUPERGLUE_DIAGNOSTIC_TASKS
+
+
 BENCHMARK_GROUPS = {
     "quick": ["arc_easy"],
     "standard": ["arc_easy", "arc_challenge", "hellaswag", "winogrande"],
@@ -27,6 +41,8 @@ BENCHMARK_GROUPS = {
         "winogrande",
         "gsm8k",
     ],
+    "superglue_core": SUPERGLUE_CORE_TASKS,
+    "superglue": SUPERGLUE_ALL_TASKS,
     "all": [
         "arc_easy",
         "arc_challenge",
@@ -34,10 +50,10 @@ BENCHMARK_GROUPS = {
         "winogrande",
         "truthfulqa",
         "gsm8k",
-        "boolq",
         "openbookqa",
         "lambada",
-    ],
+    ]
+    + SUPERGLUE_ALL_TASKS,
 }
 
 # Multiple candidates are used where dataset IDs differ across lm-eval/datasets versions.
@@ -59,6 +75,15 @@ TASK_DATASET_CANDIDATES = {
     ],
     "gsm8k": [("gsm8k", "main")],
     "boolq": [("super_glue", "boolq"), ("google/boolq", None)],
+    "cb": [("super_glue", "cb")],
+    "copa": [("super_glue", "copa")],
+    "multirc": [("super_glue", "multirc")],
+    "record": [("super_glue", "record")],
+    "rte": [("super_glue", "rte")],
+    "wic": [("super_glue", "wic")],
+    "wsc": [("super_glue", "wsc")],
+    "axb": [("super_glue", "axb")],
+    "axg": [("super_glue", "axg")],
     "openbookqa": [("allenai/openbookqa", "main"), ("openbookqa", "main")],
     "lambada": [("EleutherAI/lambada_openai", "default"), ("lambada", None)],
 }
@@ -107,9 +132,7 @@ def download_task_dataset(task: str) -> tuple[bool, str]:
         # Skip download if already cached
         if _is_cached(dataset_path, dataset_name):
             label = f"{dataset_path}/{dataset_name}"
-            logger.info(
-                "Task %s already cached (%s), skipping download", task, label
-            )
+            logger.info("Task %s already cached (%s), skipping download", task, label)
             return True, f"{label} (cached)"
 
         try:
@@ -146,7 +169,10 @@ def main():
         "--tasks",
         type=str,
         default="standard",
-        help="Task list or group: quick, standard, leaderboard, all, or comma-separated task names",
+        help=(
+            "Task list or group: quick, standard, leaderboard, superglue_core, "
+            "superglue, all, or comma-separated task names"
+        ),
     )
     parser.add_argument(
         "--hf-home",

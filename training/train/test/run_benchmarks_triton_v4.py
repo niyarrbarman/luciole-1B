@@ -28,6 +28,20 @@ _DATASET_CACHE_ALIASES = {
 }
 
 
+SUPERGLUE_CORE_TASKS = [
+    "boolq",
+    "cb",
+    "copa",
+    "multirc",
+    "record",
+    "rte",
+    "wic",
+    "wsc",
+]
+SUPERGLUE_DIAGNOSTIC_TASKS = ["axb", "axg"]
+SUPERGLUE_ALL_TASKS = SUPERGLUE_CORE_TASKS + SUPERGLUE_DIAGNOSTIC_TASKS
+
+
 def _ensure_dataset_cache_symlinks() -> None:
     """Create symlinks in the HF datasets cache so that short dataset names
     used by lm-eval task YAMLs resolve to their fully-qualified cached copies.
@@ -45,9 +59,7 @@ def _ensure_dataset_cache_symlinks() -> None:
         if source.is_dir() and not target.exists():
             try:
                 target.symlink_to(source)
-                logger.info(
-                    "Created dataset cache symlink: %s -> %s", target, source
-                )
+                logger.info("Created dataset cache symlink: %s -> %s", target, source)
             except OSError as exc:
                 logger.warning(
                     "Could not create dataset cache symlink %s -> %s: %s",
@@ -100,6 +112,51 @@ AVAILABLE_BENCHMARKS = {
         "description": "BoolQ - Boolean question answering",
         "num_fewshot": 0,
     },
+    "cb": {
+        "task_name": "cb",
+        "description": "CB - CommitmentBank natural language inference",
+        "num_fewshot": 0,
+    },
+    "copa": {
+        "task_name": "copa",
+        "description": "COPA - Causal reasoning with alternatives",
+        "num_fewshot": 0,
+    },
+    "multirc": {
+        "task_name": "multirc",
+        "description": "MultiRC - Multi-sentence reading comprehension",
+        "num_fewshot": 0,
+    },
+    "record": {
+        "task_name": "record",
+        "description": "ReCoRD - Reading comprehension with commonsense reasoning",
+        "num_fewshot": 0,
+    },
+    "rte": {
+        "task_name": "rte",
+        "description": "RTE - Recognizing textual entailment",
+        "num_fewshot": 0,
+    },
+    "wic": {
+        "task_name": "wic",
+        "description": "WiC - Word-in-context disambiguation",
+        "num_fewshot": 0,
+    },
+    "wsc": {
+        "task_name": "wsc",
+        "description": "WSC - Winograd Schema Challenge coreference",
+        "num_fewshot": 0,
+    },
+    "axb": {
+        "task_name": "axb",
+        "description": "AX-b - Broad-coverage diagnostics from SuperGLUE",
+        "num_fewshot": 0,
+    },
+    "axg": {
+        "task_name": "axg",
+        "description": "AX-g - Winogender diagnostics from SuperGLUE",
+        "num_fewshot": 0,
+    },
     "openbookqa": {
         "task_name": "openbookqa",
         "description": "OpenBookQA - Elementary science questions",
@@ -122,6 +179,8 @@ BENCHMARK_GROUPS = {
         "winogrande",
         "gsm8k",
     ],
+    "superglue_core": SUPERGLUE_CORE_TASKS,
+    "superglue": SUPERGLUE_ALL_TASKS,
     "all": [
         "arc_easy",
         "arc_challenge",
@@ -129,10 +188,10 @@ BENCHMARK_GROUPS = {
         "winogrande",
         "truthfulqa",
         "gsm8k",
-        "boolq",
         "openbookqa",
         "lambada",
-    ],
+    ]
+    + SUPERGLUE_ALL_TASKS,
 }
 
 
@@ -140,7 +199,7 @@ def get_task_list(task_string: str) -> List[str]:
     if task_string.lower() in BENCHMARK_GROUPS:
         return BENCHMARK_GROUPS[task_string.lower()]
 
-    tasks = [t.strip().lower() for t in task_string.split(",")]
+    tasks = [t.strip().lower() for t in task_string.split(",") if t.strip()]
     invalid_tasks = [t for t in tasks if t not in AVAILABLE_BENCHMARKS]
     if invalid_tasks:
         logger.warning("Unknown tasks: %s", invalid_tasks)
@@ -499,7 +558,10 @@ def get_parser():
         "--tasks",
         type=str,
         default="arc_easy",
-        help="Comma-separated list of tasks or a preset group name",
+        help=(
+            "Comma-separated list of tasks or group name "
+            "(quick, standard, leaderboard, superglue_core, superglue, all)"
+        ),
     )
     parser.add_argument(
         "--tokenizer",

@@ -111,7 +111,7 @@ def _patch_hf_datasets_cache_metadata() -> None:
         except OSError:
             continue
 
-        if '"_type": "List"' not in text and "\"_type\":\"List\"" not in text:
+        if '"_type": "List"' not in text and '"_type":"List"' not in text:
             continue
 
         try:
@@ -132,6 +132,37 @@ def _patch_hf_datasets_cache_metadata() -> None:
             patched,
             scanned,
         )
+
+
+def _enable_datasets_list_feature_compat() -> None:
+    """Make `datasets` accept legacy `_type: "List"` metadata.
+
+    Some cached datasets (including embedded Arrow metadata) still use "List".
+    Recent `datasets` versions removed this alias, which raises:
+    `ValueError: Feature type 'List' not found`.
+    """
+
+    try:
+        from datasets.features import features as ds_features
+    except Exception as exc:  # pragma: no cover - defensive import guard
+        logger.warning("Could not import datasets features module: %s", exc)
+        return
+
+    feature_types = getattr(ds_features, "_FEATURE_TYPES", None)
+    if not isinstance(feature_types, dict):
+        logger.warning("datasets _FEATURE_TYPES registry not found; skipping shim")
+        return
+
+    if "List" in feature_types:
+        return
+
+    sequence_type = feature_types.get("Sequence")
+    if sequence_type is None:
+        logger.warning("datasets Sequence feature type missing; skipping List shim")
+        return
+
+    feature_types["List"] = sequence_type
+    logger.info("Enabled datasets compatibility shim: List -> Sequence")
 
 
 AVAILABLE_BENCHMARKS = {
@@ -546,6 +577,7 @@ def run_evaluation(
     # Ensure offline dataset cache resolves short names used by lm-eval YAMLs
     _ensure_dataset_cache_symlinks()
     _patch_hf_datasets_cache_metadata()
+    _enable_datasets_list_feature_compat()
 
     model = BabyLucioleSSATritonV4LM(
         checkpoint_path=checkpoint_path,

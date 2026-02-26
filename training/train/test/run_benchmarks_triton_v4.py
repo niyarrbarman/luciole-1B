@@ -71,67 +71,27 @@ def _ensure_dataset_cache_symlinks() -> None:
             logger.debug("Dataset cache entry already exists: %s", target)
 
 
-def _rewrite_feature_types(obj):
-    if isinstance(obj, dict):
-        if obj.get("_type") == "List":
-            # Newer `datasets` versions dropped the legacy "List" feature type.
-            # The closest supported equivalent is "Sequence".
-            obj["_type"] = "Sequence"
-        for value in obj.values():
-            _rewrite_feature_types(value)
-    elif isinstance(obj, list):
-        for value in obj:
-            _rewrite_feature_types(value)
+def _patch_datasets_list_feature_type() -> None:
+    """Register 'List' as an alias for 'Sequence' in the datasets feature registry.
 
+    Some cached Arrow tables (notably SuperGLUE/ReCoRD) embed ``_type: "List"``
+    in their schema metadata.  Recent ``datasets`` releases removed the ``List``
+    feature type, causing:
+        ``ValueError: Feature type 'List' not found``
 
-def _patch_hf_datasets_cache_metadata() -> None:
-    """Patch cached dataset metadata for compatibility with current `datasets`.
-
-    Some cached `dataset_info.json` files (notably SuperGLUE/ReCoRD) may contain
-    feature specs with `_type: "List"`. Recent `datasets` releases removed that
-    alias, causing: `ValueError: Feature type 'List' not found`.
+    Monkey-patching ``_FEATURE_TYPES`` fixes this at the root — it covers both
+    ``dataset_info.json`` and Arrow-schema-embedded metadata.
     """
+    try:
+        from datasets.features.features import _FEATURE_TYPES
 
-    hf_home = os.environ.get("HF_HOME", os.path.expanduser("~/.cache/huggingface"))
-    cache_dir = Path(hf_home) / "datasets"
-    if not cache_dir.is_dir():
-        return
+        if "List" not in _FEATURE_TYPES:
+            from datasets.features import Sequence
 
-    # Keep scope tight: only patch SuperGLUE caches which are known to include List.
-    super_glue_dir = cache_dir / "super_glue"
-    if not super_glue_dir.is_dir():
-        return
-
-    patched = 0
-    scanned = 0
-    for info_path in super_glue_dir.rglob("dataset_info.json"):
-        scanned += 1
-        try:
-            text = info_path.read_text(encoding="utf-8")
-        except OSError:
-            continue
-
-        if '"_type": "List"' not in text and "\"_type\":\"List\"" not in text:
-            continue
-
-        try:
-            data = json.loads(text)
-        except json.JSONDecodeError:
-            continue
-
-        _rewrite_feature_types(data)
-        try:
-            info_path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
-            patched += 1
-        except OSError:
-            continue
-
-    if patched:
-        logger.info(
-            "Patched %d/%d SuperGLUE dataset_info.json files (List -> Sequence)",
-            patched,
-            scanned,
-        )
+            _FEATURE_TYPES["List"] = Sequence
+            logger.info("Enabled datasets compatibility shim: List -> Sequence")
+    except (ImportError, AttributeError):
+        pass
 
 
 AVAILABLE_BENCHMARKS = {
@@ -545,7 +505,7 @@ def run_evaluation(
 
     # Ensure offline dataset cache resolves short names used by lm-eval YAMLs
     _ensure_dataset_cache_symlinks()
-    _patch_hf_datasets_cache_metadata()
+    _patch_datasets_list_feature_type()
 
     model = BabyLucioleSSATritonV4LM(
         checkpoint_path=checkpoint_path,

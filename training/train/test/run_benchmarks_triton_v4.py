@@ -2,10 +2,9 @@ import argparse
 import json
 import logging
 import os
-import re
 import sys
 from pathlib import Path
-from typing import List, Optional, Set
+from typing import List, Optional
 
 import torch
 from eval_perplexity_triton_v4 import cleanup_parallel_state, load_model
@@ -26,8 +25,6 @@ _DATASET_CACHE_ALIASES = {
     "truthful_qa": "truthfulqa___truthful_qa",
     "openbookqa": "allenai___openbookqa",
     "lambada_openai": "EleutherAI___lambada_openai",
-    # Some lm-eval versions map `rte` to GLUE (dataset_path: glue).
-    "glue": "nyu-mll___glue",
 }
 
 
@@ -43,13 +40,6 @@ SUPERGLUE_CORE_TASKS = [
 ]
 SUPERGLUE_DIAGNOSTIC_TASKS = ["axb", "axg"]
 SUPERGLUE_ALL_TASKS = SUPERGLUE_CORE_TASKS + SUPERGLUE_DIAGNOSTIC_TASKS
-
-# When running fully offline, some lm-eval task names may map to datasets that
-# are not cached in this environment (e.g., `rte` -> `glue`).
-# We skip only the impacted tasks and continue evaluating the rest.
-_OFFLINE_DATASET_TASK_FALLBACKS = {
-    "glue": {"rte"},
-}
 
 
 def _ensure_dataset_cache_symlinks() -> None:
@@ -121,7 +111,7 @@ def _patch_hf_datasets_cache_metadata() -> None:
         except OSError:
             continue
 
-        if '"_type": "List"' not in text and '"_type":"List"' not in text:
+        if '"_type": "List"' not in text and "\"_type\":\"List\"" not in text:
             continue
 
         try:
@@ -142,37 +132,6 @@ def _patch_hf_datasets_cache_metadata() -> None:
             patched,
             scanned,
         )
-
-
-def _enable_datasets_list_feature_compat() -> None:
-    """Make `datasets` accept legacy `_type: "List"` metadata.
-
-    Some cached datasets (including embedded Arrow metadata) still use "List".
-    Recent `datasets` versions removed this alias, which raises:
-    `ValueError: Feature type 'List' not found`.
-    """
-
-    try:
-        from datasets.features import features as ds_features
-    except Exception as exc:  # pragma: no cover - defensive import guard
-        logger.warning("Could not import datasets features module: %s", exc)
-        return
-
-    feature_types = getattr(ds_features, "_FEATURE_TYPES", None)
-    if not isinstance(feature_types, dict):
-        logger.warning("datasets _FEATURE_TYPES registry not found; skipping shim")
-        return
-
-    if "List" in feature_types:
-        return
-
-    sequence_type = feature_types.get("Sequence")
-    if sequence_type is None:
-        logger.warning("datasets Sequence feature type missing; skipping List shim")
-        return
-
-    feature_types["List"] = sequence_type
-    logger.info("Enabled datasets compatibility shim: List -> Sequence")
 
 
 AVAILABLE_BENCHMARKS = {
@@ -238,19 +197,16 @@ AVAILABLE_BENCHMARKS = {
     },
     "rte": {
         "task_name": "rte",
-        "task_name_candidates": ["super_glue_rte", "rte"],
         "description": "RTE - Recognizing textual entailment",
         "num_fewshot": 0,
     },
     "wic": {
         "task_name": "wic",
-        "task_name_candidates": ["super_glue_wic", "wic"],
         "description": "WiC - Word-in-context disambiguation",
         "num_fewshot": 0,
     },
     "wsc": {
         "task_name": "wsc",
-        "task_name_candidates": ["super_glue_wsc", "wsc"],
         "description": "WSC - Winograd Schema Challenge coreference",
         "num_fewshot": 0,
     },
@@ -314,80 +270,6 @@ def get_task_list(task_string: str) -> List[str]:
         logger.info("Available groups: %s", list(BENCHMARK_GROUPS.keys()))
         tasks = [t for t in tasks if t in AVAILABLE_BENCHMARKS]
     return tasks
-
-
-def _collect_available_lm_eval_tasks() -> Set[str]:
-    """Best-effort task inventory from lm-eval for name disambiguation."""
-
-    try:
-        from lm_eval.tasks import TaskManager
-    except Exception:
-        return set()
-
-    try:
-        task_manager = TaskManager()
-    except Exception as exc:
-        logger.warning("Could not initialize lm-eval TaskManager: %s", exc)
-        return set()
-
-    task_names: Set[str] = set()
-
-    def _add_names(value) -> None:
-        if isinstance(value, dict):
-            for key in value.keys():
-                if isinstance(key, str):
-                    task_names.add(key)
-        elif isinstance(value, (list, tuple, set)):
-            for item in value:
-                if isinstance(item, str):
-                    task_names.add(item)
-
-    for attr_name in ("all_tasks", "task_index", "_task_index"):
-        if hasattr(task_manager, attr_name):
-            _add_names(getattr(task_manager, attr_name))
-
-    list_all_tasks = getattr(task_manager, "list_all_tasks", None)
-    if callable(list_all_tasks):
-        try:
-            _add_names(list_all_tasks())
-        except Exception:
-            pass
-
-    return task_names
-
-
-def _resolve_lm_eval_task_name(task_key: str, available_task_names: Set[str]) -> str:
-    """Pick the best lm-eval task name for this benchmark task."""
-
-    config = AVAILABLE_BENCHMARKS[task_key]
-    default_name = config["task_name"]
-    candidates = config.get("task_name_candidates", [default_name])
-
-    if not available_task_names:
-        return default_name
-
-    for candidate in candidates:
-        if candidate in available_task_names:
-            if candidate != default_name:
-                logger.info(
-                    "Resolved task alias: %s -> %s (default=%s)",
-                    task_key,
-                    candidate,
-                    default_name,
-                )
-            return candidate
-
-    return default_name
-
-
-def _extract_missing_hub_dataset(exc: Exception) -> Optional[str]:
-    """Parse datasets offline hub error, returning the missing dataset path."""
-
-    msg = str(exc)
-    match = re.search(r"Couldn't reach '([^']+)' on the Hub", msg)
-    if not match:
-        return None
-    return match.group(1)
 
 
 try:
@@ -664,14 +546,6 @@ def run_evaluation(
     # Ensure offline dataset cache resolves short names used by lm-eval YAMLs
     _ensure_dataset_cache_symlinks()
     _patch_hf_datasets_cache_metadata()
-    _enable_datasets_list_feature_compat()
-
-    available_lm_eval_tasks = _collect_available_lm_eval_tasks()
-    if available_lm_eval_tasks:
-        logger.info(
-            "Discovered %d lm-eval task names for compatibility resolution",
-            len(available_lm_eval_tasks),
-        )
 
     model = BabyLucioleSSATritonV4LM(
         checkpoint_path=checkpoint_path,
@@ -686,11 +560,10 @@ def run_evaluation(
     task_names = []
     for task in tasks:
         if task in AVAILABLE_BENCHMARKS:
-            resolved_task_name = _resolve_lm_eval_task_name(
-                task, available_lm_eval_tasks
+            task_names.append(AVAILABLE_BENCHMARKS[task]["task_name"])
+            logger.info(
+                "Added task: %s -> %s", task, AVAILABLE_BENCHMARKS[task]["task_name"]
             )
-            task_names.append(resolved_task_name)
-            logger.info("Added task: %s -> %s", task, resolved_task_name)
             logger.info("  Description: %s", AVAILABLE_BENCHMARKS[task]["description"])
         else:
             logger.warning("Unknown task: %s, skipping", task)
@@ -700,50 +573,18 @@ def run_evaluation(
         sys.exit(1)
 
     logger.info("Running evaluation on tasks: %s", task_names)
-    pending_task_names = list(task_names)
-    skipped_tasks = []
-    while True:
-        if not pending_task_names:
-            logger.error("No tasks left to evaluate after offline fallbacks")
-            sys.exit(1)
-
-        try:
-            results = lm_eval.simple_evaluate(
-                model=model,
-                tasks=pending_task_names,
-                num_fewshot=num_fewshot,
-                batch_size=batch_size,
-                limit=limit,
-                log_samples=False,
-            )
-            break
-        except Exception as exc:
-            missing_dataset = _extract_missing_hub_dataset(exc)
-            is_offline_error = (
-                missing_dataset is not None and "OfflineModeIsEnabled" in str(exc)
-            )
-            if not is_offline_error:
-                logger.error("Evaluation failed: %s", exc)
-                raise
-
-            drop_candidates = _OFFLINE_DATASET_TASK_FALLBACKS.get(
-                missing_dataset, set()
-            )
-            tasks_to_drop = [t for t in pending_task_names if t in drop_candidates]
-            if not tasks_to_drop:
-                logger.error("Evaluation failed: %s", exc)
-                raise
-
-            logger.warning(
-                "Offline cache miss for dataset '%s'; skipping tasks: %s",
-                missing_dataset,
-                tasks_to_drop,
-            )
-            skipped_tasks.extend(tasks_to_drop)
-            pending_task_names = [
-                t for t in pending_task_names if t not in tasks_to_drop
-            ]
-            logger.info("Retrying evaluation with tasks: %s", pending_task_names)
+    try:
+        results = lm_eval.simple_evaluate(
+            model=model,
+            tasks=task_names,
+            num_fewshot=num_fewshot,
+            batch_size=batch_size,
+            limit=limit,
+            log_samples=False,
+        )
+    except Exception as exc:
+        logger.error("Evaluation failed: %s", exc)
+        raise
 
     print("\n" + "=" * 70)
     print("BENCHMARK RESULTS")
@@ -760,8 +601,6 @@ def run_evaluation(
 
     if output_path:
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
-        if skipped_tasks:
-            results.setdefault("config", {})["skipped_tasks"] = skipped_tasks
         with open(output_path, "w", encoding="utf-8") as handle:
             json.dump(results, handle, indent=2, default=str)
         logger.info("Results saved to: %s", output_path)

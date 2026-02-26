@@ -74,16 +74,17 @@ TASK_DATASET_CANDIDATES = {
         ("truthful_qa", "multiple_choice"),
     ],
     "gsm8k": [("gsm8k", "main")],
+    # SuperGLUE tasks - note the exact config names lm-eval expects
     "boolq": [("super_glue", "boolq"), ("google/boolq", None)],
     "cb": [("super_glue", "cb")],
     "copa": [("super_glue", "copa")],
     "multirc": [("super_glue", "multirc")],
     "record": [("super_glue", "record")],
-    # In lm-eval 0.4.10 on this container, task `rte` resolves to GLUE RTE.
-    # Cache GLUE first, then SuperGLUE as fallback for compatibility.
-    "rte": [("glue", "rte"), ("super_glue", "rte")],
+    # lm-eval's `rte` task uses GLUE RTE (nyu-mll/glue), not SuperGLUE RTE
+    "rte": [("nyu-mll/glue", "rte"), ("glue", "rte")],
     "wic": [("super_glue", "wic")],
-    "wsc": [("super_glue", "wsc")],
+    # lm-eval's `wsc` task uses super_glue config "wsc.fixed", not "wsc"
+    "wsc": [("super_glue", "wsc.fixed")],
     "axb": [("super_glue", "axb")],
     "axg": [("super_glue", "axg")],
     "openbookqa": [("allenai/openbookqa", "main"), ("openbookqa", "main")],

@@ -3,14 +3,45 @@ import json
 import logging
 import os
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
 import torch
-from eval_perplexity_triton_v4 import cleanup_parallel_state, load_model
+from eval_perplexity import (
+    cleanup_parallel_state as cleanup_default_parallel_state,
+    load_model as load_baby_luciole_model,
+)
+from eval_perplexity_triton_v4 import (
+    cleanup_parallel_state as cleanup_triton_parallel_state,
+    load_model as load_triton_v4_model,
+)
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+DEFAULT_TOKENIZER = "/work/m24047/m24047brmn/tokenizers/luciole_50k"
+MODEL_TYPE_SSA_TRITON_V4 = "ssa_triton_v4"
+MODEL_TYPE_SSA = "ssa"
+MODEL_TYPE_SOFTMAX = "softmax"
+MODEL_TYPES = (MODEL_TYPE_SSA_TRITON_V4, MODEL_TYPE_SSA, MODEL_TYPE_SOFTMAX)
+GSM8K_BENCHMARK_KEY = "gsm8k"
+
+DEFAULT_SSA_TRITON_V4_CHECKPOINT = (
+    "/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton-v4/checkpoints/"
+    "baby_luciole-ssa-triton-v4-step=0023999"
+)
+DEFAULT_SOFTMAX_CHECKPOINT = (
+    "/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/"
+    "baby_luciole-softmax-test-step=0020998-last"
+)
+
+
+@dataclass
+class ModelSpec:
+    name: str
+    model_type: str
+    checkpoint_path: str
 
 # Mapping from the short/old dataset name that lm-eval task YAMLs reference
 # to the fully-qualified HF Hub name under which the data was actually cached.
@@ -210,11 +241,96 @@ BENCHMARK_GROUPS = {
         "hellaswag",
         "winogrande",
         "truthfulqa",
+        "gsm8k",
         "openbookqa",
         "lambada",
     ]
     + SUPERGLUE_ALL_TASKS,
 }
+
+
+def _parse_model_spec(value: str) -> ModelSpec:
+    """
+    Parse model spec in format:
+        name|model_type|/path/to/checkpoint
+    """
+    parts = [part.strip() for part in value.split("|", 2)]
+    if len(parts) != 3 or not all(parts):
+        raise ValueError(
+            f"Invalid --model value '{value}'. Expected: name|model_type|checkpoint_path"
+        )
+
+    name, model_type, checkpoint_path = parts
+    if model_type not in MODEL_TYPES:
+        raise ValueError(
+            f"Invalid model_type '{model_type}' in --model '{value}'. "
+            f"Valid types: {MODEL_TYPES}"
+        )
+
+    return ModelSpec(name=name, model_type=model_type, checkpoint_path=checkpoint_path)
+
+
+def _sanitize_model_name(name: str) -> str:
+    safe_chars = []
+    for char in name:
+        if char.isalnum() or char in ("-", "_", "."):
+            safe_chars.append(char)
+        else:
+            safe_chars.append("_")
+    sanitized = "".join(safe_chars).strip("._")
+    return sanitized or "model"
+
+
+def _build_model_specs(args) -> List[ModelSpec]:
+    if args.model:
+        return [_parse_model_spec(value) for value in args.model]
+
+    if args.checkpoint:
+        model_name = args.model_name or Path(args.checkpoint).name
+        return [
+            ModelSpec(
+                name=model_name,
+                model_type=args.model_type,
+                checkpoint_path=args.checkpoint,
+            )
+        ]
+
+    logger.info(
+        "No --model/--checkpoint provided; using default SSA and softmax checkpoints"
+    )
+    return [
+        ModelSpec(
+            name="baby_luciole_ssa_triton_v4",
+            model_type=MODEL_TYPE_SSA_TRITON_V4,
+            checkpoint_path=DEFAULT_SSA_TRITON_V4_CHECKPOINT,
+        ),
+        ModelSpec(
+            name="baby_luciole_softmax",
+            model_type=MODEL_TYPE_SOFTMAX,
+            checkpoint_path=DEFAULT_SOFTMAX_CHECKPOINT,
+        ),
+    ]
+
+
+def _model_output_path(base_output_path: Optional[str], model_name: str, multi_model: bool) -> Optional[str]:
+    if not base_output_path:
+        return None
+
+    if not multi_model:
+        return base_output_path
+
+    output = Path(base_output_path)
+    suffix = output.suffix or ".json"
+    filename = f"{output.stem}_{_sanitize_model_name(model_name)}{suffix}"
+    return str(output.with_name(filename))
+
+
+def _cleanup_parallel_state():
+    for cleanup_fn in (cleanup_triton_parallel_state, cleanup_default_parallel_state):
+        try:
+            cleanup_fn()
+        except Exception as exc:
+            logger.debug("Parallel state cleanup via %s failed: %s", cleanup_fn.__name__, exc)
 
 
 def get_task_list(task_string: str) -> List[str]:
@@ -231,19 +347,71 @@ def get_task_list(task_string: str) -> List[str]:
     return tasks
 
 
+def _merge_lm_eval_results(results_list: List[dict]) -> dict:
+    """Merge multiple lm-eval result payloads into one."""
+    if not results_list:
+        return {}
+    if len(results_list) == 1:
+        return results_list[0]
+
+    merged = {}
+    for result in results_list:
+        for key, value in result.items():
+            if isinstance(value, dict):
+                merged.setdefault(key, {})
+                merged[key].update(value)
+            elif isinstance(value, list):
+                merged.setdefault(key, [])
+                merged[key].extend(value)
+            else:
+                merged[key] = value
+    return merged
+
+
+def _build_eval_groups(task_names: List[str], default_limit: Optional[int], gsm8k_limit: Optional[int]):
+    """
+    Split tasks so gsm8k can use its own limit without affecting other tasks.
+    """
+    gsm8k_task_name = AVAILABLE_BENCHMARKS[GSM8K_BENCHMARK_KEY]["task_name"]
+    has_gsm8k = gsm8k_task_name in task_names
+
+    regular_tasks = [t for t in task_names if t != gsm8k_task_name]
+    groups = []
+    if regular_tasks:
+        groups.append(
+            {
+                "name": "regular",
+                "tasks": regular_tasks,
+                "limit": default_limit,
+            }
+        )
+
+    if has_gsm8k:
+        groups.append(
+            {
+                "name": gsm8k_task_name,
+                "tasks": [gsm8k_task_name],
+                "limit": gsm8k_limit if gsm8k_limit is not None else default_limit,
+            }
+        )
+
+    return groups
+
+
 try:
     from lm_eval.api.model import LM as LMBase
 except ImportError:
     LMBase = object
 
 
-class BabyLucioleSSATritonV4LM(LMBase):
-    """lm-eval wrapper around Baby Luciole SSA Triton-v4 checkpoint."""
+class BabyLucioleLM(LMBase):
+    """lm-eval wrapper for Baby Luciole checkpoints (SSA Triton-v4 / SSA / softmax)."""
 
     def __init__(
         self,
         checkpoint_path: str,
-        tokenizer_name: str = "/work/m24047/m24047brmn/tokenizers/luciole_50k",
+        model_type: str = MODEL_TYPE_SSA_TRITON_V4,
+        tokenizer_name: str = DEFAULT_TOKENIZER,
         device: str = "cuda",
         batch_size: int = 1,
         max_length: int = 2048,
@@ -252,20 +420,44 @@ class BabyLucioleSSATritonV4LM(LMBase):
     ):
         super().__init__()
         self.checkpoint_path = checkpoint_path
+        self.model_type = model_type
         self._device = device
         self._batch_size = batch_size
         self._max_length = max_length
 
-        logger.info("Initializing BabyLucioleSSATritonV4LM wrapper...")
-        self.model, self.tokenizer = load_model(
-            checkpoint_path=checkpoint_path,
-            tokenizer_name=tokenizer_name,
-            device=device,
-            compiled_bda=compiled_bda,
-            force_contiguous_qkv=force_contiguous_qkv,
+        logger.info(
+            "Initializing BabyLucioleLM wrapper (model_type=%s, checkpoint=%s)...",
+            model_type,
+            checkpoint_path,
         )
+
+        if model_type == MODEL_TYPE_SSA_TRITON_V4:
+            self.model, self.tokenizer = load_triton_v4_model(
+                checkpoint_path=checkpoint_path,
+                tokenizer_name=tokenizer_name,
+                device=device,
+                compiled_bda=compiled_bda,
+                force_contiguous_qkv=force_contiguous_qkv,
+            )
+        elif model_type in (MODEL_TYPE_SSA, MODEL_TYPE_SOFTMAX):
+            if compiled_bda or not force_contiguous_qkv:
+                logger.warning(
+                    "compiled_bda/force_contiguous_qkv are only used for %s; ignoring for %s",
+                    MODEL_TYPE_SSA_TRITON_V4,
+                    model_type,
+                )
+
+            self.model, self.tokenizer = load_baby_luciole_model(
+                checkpoint_path=checkpoint_path,
+                tokenizer_name=tokenizer_name,
+                device=device,
+                use_ssa=(model_type == MODEL_TYPE_SSA),
+            )
+        else:
+            raise ValueError(f"Unsupported model_type: {model_type}")
+
         self._setup_tokenizer()
-        logger.info("BabyLucioleSSATritonV4LM wrapper initialized successfully")
+        logger.info("BabyLucioleLM wrapper initialized successfully")
 
     def _setup_tokenizer(self):
         if hasattr(self.tokenizer, "vocab_size"):
@@ -482,14 +674,16 @@ class BabyLucioleSSATritonV4LM(LMBase):
 
 
 def run_evaluation(
-    checkpoint_path: str,
+    model_spec: ModelSpec,
     tasks: List[str],
-    tokenizer_name: str = "/work/m24047/m24047brmn/tokenizers/luciole_50k",
+    tokenizer_name: str = DEFAULT_TOKENIZER,
     device: str = "cuda",
     batch_size: int = 1,
     max_length: int = 2048,
     num_fewshot: Optional[int] = None,
     limit: Optional[int] = None,
+    gsm8k_limit: Optional[int] = 100,
+    gsm8k_random_seed: int = 42,
     output_path: Optional[str] = None,
     compiled_bda: bool = False,
     force_contiguous_qkv: bool = True,
@@ -506,8 +700,9 @@ def run_evaluation(
     _ensure_dataset_cache_symlinks()
     _patch_datasets_list_feature_type()
 
-    model = BabyLucioleSSATritonV4LM(
-        checkpoint_path=checkpoint_path,
+    model = BabyLucioleLM(
+        checkpoint_path=model_spec.checkpoint_path,
+        model_type=model_spec.model_type,
         tokenizer_name=tokenizer_name,
         device=device,
         batch_size=batch_size,
@@ -552,23 +747,67 @@ def run_evaluation(
         skipped = [t for t in task_names if t not in verified_tasks]
         logger.info("Skipped %d task(s) due to offline cache issues: %s", len(skipped), skipped)
 
+    eval_groups = _build_eval_groups(
+        task_names=verified_tasks,
+        default_limit=limit,
+        gsm8k_limit=gsm8k_limit,
+    )
+
+    if not eval_groups:
+        logger.error("No evaluation groups were generated")
+        sys.exit(1)
+
     logger.info("Running evaluation on tasks: %s", verified_tasks)
-    try:
-        results = lm_eval.simple_evaluate(
-            model=model,
-            tasks=verified_tasks,
-            num_fewshot=num_fewshot,
-            batch_size=batch_size,
-            limit=limit,
-            log_samples=False,
+    partial_results = []
+    for group in eval_groups:
+        group_name = group["name"]
+        group_tasks = group["tasks"]
+        group_limit = group["limit"]
+
+        logger.info(
+            "Evaluating group '%s' tasks=%s limit=%s",
+            group_name,
+            group_tasks,
+            group_limit,
         )
-    except Exception as exc:
-        logger.error("Evaluation failed: %s", exc)
-        raise
+
+        eval_kwargs = {
+            "model": model,
+            "tasks": group_tasks,
+            "num_fewshot": num_fewshot,
+            "batch_size": batch_size,
+            "limit": group_limit,
+            "log_samples": False,
+        }
+
+        if group_name == AVAILABLE_BENCHMARKS[GSM8K_BENCHMARK_KEY]["task_name"]:
+            # Keep subset reproducible while avoiding always using the same head slice.
+            eval_kwargs["random_seed"] = gsm8k_random_seed
+            eval_kwargs["numpy_random_seed"] = gsm8k_random_seed + 1
+            eval_kwargs["fewshot_random_seed"] = gsm8k_random_seed + 2
+            logger.info(
+                "gsm8k subset config: limit=%s, random_seed=%s",
+                group_limit,
+                gsm8k_random_seed,
+            )
+
+        try:
+            partial = lm_eval.simple_evaluate(**eval_kwargs)
+        except Exception as exc:
+            logger.error("Evaluation failed for group '%s': %s", group_name, exc)
+            raise
+
+        partial_results.append(partial)
+
+    results = _merge_lm_eval_results(partial_results)
 
     print("\n" + "=" * 70)
     print("BENCHMARK RESULTS")
     print("=" * 70)
+    print(f"Model name:   {model_spec.name}")
+    print(f"Model type:   {model_spec.model_type}")
+    print(f"Checkpoint:   {model_spec.checkpoint_path}")
+    print("-" * 70)
     for task_name, task_results in results.get("results", {}).items():
         print(f"\n{task_name}:")
         print("-" * 50)
@@ -579,24 +818,70 @@ def run_evaluation(
                 print(f"  {metric}: {value}")
     print("\n" + "=" * 70)
 
+    payload = {
+        "model_name": model_spec.name,
+        "model_type": model_spec.model_type,
+        "checkpoint": model_spec.checkpoint_path,
+        "tasks": verified_tasks,
+        "num_fewshot": num_fewshot,
+        "batch_size": batch_size,
+        "max_length": max_length,
+        "limit": limit,
+        "gsm8k_limit": gsm8k_limit,
+        "gsm8k_random_seed": gsm8k_random_seed,
+        "results": results,
+    }
+
     if output_path:
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
         with open(output_path, "w", encoding="utf-8") as handle:
-            json.dump(results, handle, indent=2, default=str)
+            json.dump(payload, handle, indent=2, default=str)
         logger.info("Results saved to: %s", output_path)
 
-    return results
+    return payload
 
 
 def get_parser():
     parser = argparse.ArgumentParser(
-        description="Run LM Evaluation Harness benchmarks on Baby Luciole SSA Triton-v4 model"
+        description=(
+            "Run LM Evaluation Harness benchmarks on Baby Luciole models "
+            "(SSA Triton-v4 / SSA / softmax)."
+        )
+    )
+    parser.add_argument(
+        "--model",
+        action="append",
+        default=None,
+        help=(
+            "Model spec in format 'name|model_type|checkpoint_path'. "
+            "Repeat --model to evaluate multiple models in one run."
+        ),
     )
     parser.add_argument(
         "--checkpoint",
         type=str,
-        required=True,
-        help="Path to NeMo checkpoint directory",
+        required=False,
+        default=None,
+        help=(
+            "Path to NeMo checkpoint directory for single-model mode. "
+            "Ignored when --model is provided."
+        ),
+    )
+    parser.add_argument(
+        "--model-type",
+        type=str,
+        default=MODEL_TYPE_SSA_TRITON_V4,
+        choices=MODEL_TYPES,
+        help=(
+            "Single-model mode type used with --checkpoint "
+            f"(choices: {MODEL_TYPES})."
+        ),
+    )
+    parser.add_argument(
+        "--model-name",
+        type=str,
+        default=None,
+        help="Optional display name for single-model mode (--checkpoint).",
     )
     parser.add_argument(
         "--tasks",
@@ -610,7 +895,7 @@ def get_parser():
     parser.add_argument(
         "--tokenizer",
         type=str,
-        default="/work/m24047/m24047brmn/tokenizers/luciole_50k",
+        default=DEFAULT_TOKENIZER,
         help="Tokenizer name or path",
     )
     parser.add_argument(
@@ -630,6 +915,21 @@ def get_parser():
     )
     parser.add_argument(
         "--limit", type=int, default=None, help="Limit examples per task"
+    )
+    parser.add_argument(
+        "--gsm8k-limit",
+        type=int,
+        default=100,
+        help=(
+            "When gsm8k is selected, evaluate only this many examples. "
+            "Set to 0 or a negative number to disable gsm8k-specific override."
+        ),
+    )
+    parser.add_argument(
+        "--gsm8k-random-seed",
+        type=int,
+        default=42,
+        help="Seed used for gsm8k subset evaluation randomness.",
     )
     parser.add_argument(
         "--output", type=str, default=None, help="Path to save results JSON"
@@ -665,23 +965,94 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    logger.info("Tasks to evaluate: %s", tasks)
     try:
-        run_evaluation(
-            checkpoint_path=args.checkpoint,
-            tasks=tasks,
-            tokenizer_name=args.tokenizer,
-            device=args.device,
-            batch_size=args.batch_size,
-            max_length=args.max_length,
-            num_fewshot=args.num_fewshot,
-            limit=args.limit,
-            output_path=args.output,
-            compiled_bda=args.compiled_bda,
-            force_contiguous_qkv=args.force_contiguous_qkv,
-        )
+        model_specs = _build_model_specs(args)
+    except ValueError as exc:
+        logger.error("%s", exc)
+        parser.print_help()
+        sys.exit(1)
+
+    logger.info("Tasks to evaluate: %s", tasks)
+    effective_gsm8k_limit = args.gsm8k_limit if args.gsm8k_limit and args.gsm8k_limit > 0 else None
+    logger.info(
+        "gsm8k subset override: limit=%s (seed=%s)",
+        effective_gsm8k_limit,
+        args.gsm8k_random_seed,
+    )
+    logger.info(
+        "Models to evaluate: %s",
+        [
+            {
+                "name": spec.name,
+                "type": spec.model_type,
+                "checkpoint": spec.checkpoint_path,
+            }
+            for spec in model_specs
+        ],
+    )
+
+    all_results = []
+    multi_model = len(model_specs) > 1
+
+    try:
+        for spec in model_specs:
+            logger.info(
+                "Starting evaluation for model '%s' (%s)",
+                spec.name,
+                spec.model_type,
+            )
+
+            per_model_output = _model_output_path(
+                base_output_path=args.output,
+                model_name=spec.name,
+                multi_model=multi_model,
+            )
+
+            model_result = run_evaluation(
+                model_spec=spec,
+                tasks=tasks,
+                tokenizer_name=args.tokenizer,
+                device=args.device,
+                batch_size=args.batch_size,
+                max_length=args.max_length,
+                num_fewshot=args.num_fewshot,
+                limit=args.limit,
+                gsm8k_limit=effective_gsm8k_limit,
+                gsm8k_random_seed=args.gsm8k_random_seed,
+                output_path=per_model_output,
+                compiled_bda=args.compiled_bda,
+                force_contiguous_qkv=args.force_contiguous_qkv,
+            )
+            all_results.append(model_result)
+
+            # Reset Megatron parallel/distributed state before loading next model.
+            _cleanup_parallel_state()
+
     finally:
-        cleanup_parallel_state()
+        _cleanup_parallel_state()
+
+    if multi_model:
+        print("\n" + "=" * 70)
+        print("MULTI-MODEL BENCHMARK SUMMARY")
+        print("=" * 70)
+        for model_result in all_results:
+            task_count = len(model_result.get("results", {}).get("results", {}))
+            print(
+                f"- {model_result['model_name']} ({model_result['model_type']}): "
+                f"{task_count} evaluated task(s)"
+            )
+        print("=" * 70)
+
+        if args.output:
+            combined_payload = {
+                "tasks_requested": tasks,
+                "num_models": len(all_results),
+                "models": all_results,
+            }
+            os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
+            with open(args.output, "w", encoding="utf-8") as handle:
+                json.dump(combined_payload, handle, indent=2, default=str)
+            logger.info("Combined results saved to: %s", args.output)
 
 
 if __name__ == "__main__":

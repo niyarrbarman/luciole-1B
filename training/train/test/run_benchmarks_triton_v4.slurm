@@ -5,7 +5,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH -p small
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=02:00:00
+#SBATCH --time=24:00:00
 #SBATCH --output=slurm/%x_%j.out
 
 mkdir -p slurm
@@ -13,7 +13,7 @@ mkdir -p slurm
 CHECKPOINT_PATH=${CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton-v4/checkpoints/baby_luciole-ssa-triton-v4-step=0029999-last"}
 TOKENIZER_PATH=${TOKENIZER:-"/work/m24047/m24047brmn/tokenizers/luciole_50k"}
 TASKS=${TASKS:-"all"}
-BATCH_SIZE=${BATCH_SIZE:-8}
+BATCH_SIZE=${BATCH_SIZE:-16}
 MAX_LENGTH=${MAX_LENGTH:-2048}
 LIMIT=${LIMIT:-""}
 NUM_FEWSHOT=${NUM_FEWSHOT:-5}

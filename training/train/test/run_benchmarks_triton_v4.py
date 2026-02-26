@@ -532,11 +532,32 @@ def run_evaluation(
         logger.error("No valid tasks specified")
         sys.exit(1)
 
-    logger.info("Running evaluation on tasks: %s", task_names)
+    # Pre-check: verify each task's dataset is loadable offline.
+    # lm-eval loads all tasks eagerly and fails on the first broken one,
+    # so we probe each task individually and drop those that can't load.
+    verified_tasks = []
+    from lm_eval.tasks import get_task_dict
+
+    for t in task_names:
+        try:
+            get_task_dict([t])
+            verified_tasks.append(t)
+        except Exception as exc:
+            logger.warning("Skipping task '%s' (dataset unavailable offline): %s", t, exc)
+
+    if not verified_tasks:
+        logger.error("No tasks could be loaded (all datasets unavailable offline)")
+        sys.exit(1)
+
+    if len(verified_tasks) < len(task_names):
+        skipped = [t for t in task_names if t not in verified_tasks]
+        logger.info("Skipped %d task(s) due to offline cache issues: %s", len(skipped), skipped)
+
+    logger.info("Running evaluation on tasks: %s", verified_tasks)
     try:
         results = lm_eval.simple_evaluate(
             model=model,
-            tasks=task_names,
+            tasks=verified_tasks,
             num_fewshot=num_fewshot,
             batch_size=batch_size,
             limit=limit,

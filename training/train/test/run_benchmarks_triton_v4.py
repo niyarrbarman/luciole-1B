@@ -210,7 +210,6 @@ BENCHMARK_GROUPS = {
         "hellaswag",
         "winogrande",
         "truthfulqa",
-        "gsm8k",
         "openbookqa",
         "lambada",
     ]

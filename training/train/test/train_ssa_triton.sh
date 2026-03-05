@@ -16,6 +16,21 @@ OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output"}
 NAME=${NAME:-"baby_luciole-ssa-triton-v4"}
 SEED=${SEED:-1234}
 
+# W&B logging (optional)
+USE_WANDB=${USE_WANDB:-0}
+WANDB_PROJECT=${WANDB_PROJECT:-""}
+WANDB_ENTITY=${WANDB_ENTITY:-""}
+WANDB_GROUP=${WANDB_GROUP:-""}
+WANDB_RUN_NAME=${WANDB_RUN_NAME:-""}
+WANDB_TAGS=${WANDB_TAGS:-""}
+WANDB_NOTES=${WANDB_NOTES:-""}
+WANDB_JOB_TYPE=${WANDB_JOB_TYPE:-"train"}
+WANDB_MODE=${WANDB_MODE:-"offline"}
+WANDB_DIR=${WANDB_DIR:-"${OUTPUT_DIR}/${NAME}/wandb"}
+WANDB_RUN_ID=${WANDB_RUN_ID:-""}
+WANDB_RESUME=${WANDB_RESUME:-"allow"}
+WANDB_LOG_MODEL=${WANDB_LOG_MODEL:-0}
+
 # SSA hyperparameters
 SSA_N=1.5   # fixed
 SSA_B=0.8   # fixed
@@ -62,6 +77,7 @@ echo "Skip warmup: $SKIP_TRITON_WARMUP"
 echo "Contig QKV:  $FORCE_CONTIGUOUS_QKV"
 echo "Global max:  $GLOBAL_MAX_STEPS"
 echo "This-run max:${THIS_RUN_MAX_STEPS}"
+echo "W&B:         $USE_WANDB (mode=${WANDB_MODE})"
 echo "=========================================="
 
 EXTRA_ARGS=()
@@ -77,11 +93,52 @@ fi
 if [[ "${THIS_RUN_MAX_STEPS}" != "0" ]]; then
     EXTRA_ARGS+=(--this_run_max_steps "${THIS_RUN_MAX_STEPS}")
 fi
+if [[ "${USE_WANDB}" == "1" ]]; then
+    EXTRA_ARGS+=(--wandb --wandb_mode "${WANDB_MODE}" --wandb_dir "${WANDB_DIR}" --wandb_job_type "${WANDB_JOB_TYPE}" --wandb_resume "${WANDB_RESUME}")
+    if [[ -n "${WANDB_PROJECT}" ]]; then
+        EXTRA_ARGS+=(--wandb_project "${WANDB_PROJECT}")
+    fi
+    if [[ -n "${WANDB_ENTITY}" ]]; then
+        EXTRA_ARGS+=(--wandb_entity "${WANDB_ENTITY}")
+    fi
+    if [[ -n "${WANDB_GROUP}" ]]; then
+        EXTRA_ARGS+=(--wandb_group "${WANDB_GROUP}")
+    else
+        EXTRA_ARGS+=(--wandb_group "${NAME}")
+    fi
+    if [[ -n "${WANDB_RUN_NAME}" ]]; then
+        EXTRA_ARGS+=(--wandb_run_name "${WANDB_RUN_NAME}")
+    else
+        EXTRA_ARGS+=(--wandb_run_name "${NAME}")
+    fi
+    if [[ -n "${WANDB_TAGS}" ]]; then
+        EXTRA_ARGS+=(--wandb_tags "${WANDB_TAGS}")
+    fi
+    if [[ -n "${WANDB_NOTES}" ]]; then
+        EXTRA_ARGS+=(--wandb_notes "${WANDB_NOTES}")
+    fi
+    if [[ -n "${WANDB_RUN_ID}" ]]; then
+        EXTRA_ARGS+=(--wandb_id "${WANDB_RUN_ID}")
+    fi
+    if [[ "${WANDB_LOG_MODEL}" == "1" ]]; then
+        EXTRA_ARGS+=(--wandb_log_model)
+    fi
+fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
 export TRITON_CACHE_DIR="/tmpdir/m24047brmn/triton_cache"
 mkdir -p "$TRITON_CACHE_DIR"
+
+WANDB_ENV_ARGS=()
+if [[ "${USE_WANDB}" == "1" ]]; then
+    WANDB_ENV_ARGS+=(--env "WANDB_MODE=${WANDB_MODE}")
+    WANDB_ENV_ARGS+=(--env "WANDB_DIR=${WANDB_DIR}")
+    WANDB_ENV_ARGS+=(--env "WANDB_START_METHOD=${WANDB_START_METHOD:-thread}")
+    if [[ -n "${WANDB_API_KEY}" ]]; then
+        WANDB_ENV_ARGS+=(--env "WANDB_API_KEY=${WANDB_API_KEY}")
+    fi
+fi
 
 srun apptainer exec \
     --env "PYTHONUSERBASE=${MYENVS}/nemo" \
@@ -93,6 +150,7 @@ srun apptainer exec \
     --env "TRITON_CACHE_DIR=${TRITON_CACHE_DIR}" \
     --env "SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION}" \
     --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
+    "${WANDB_ENV_ARGS[@]}" \
     --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
     torchrun \
         --nnodes=${SLURM_NNODES} \

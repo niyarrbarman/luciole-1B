@@ -3,7 +3,9 @@ import logging
 import os
 import re
 import sys
+import uuid
 from pathlib import Path
+from typing import Optional
 
 import pytorch_lightning as pl
 import torch
@@ -118,7 +120,167 @@ def parse_args():
         default=False,
         help="Skip Triton pre-warm JIT/autotune step.",
     )
+
+    # Weights & Biases logging (rank 0 only)
+    default_wandb_mode = os.environ.get("WANDB_MODE")
+    if default_wandb_mode is None:
+        default_wandb_mode = "offline" if os.environ.get("SLURM_JOB_ID") else "online"
+    parser.add_argument("--wandb", action="store_true", default=False, help="Enable Weights & Biases logging.")
+    parser.add_argument("--wandb_project", default=os.environ.get("WANDB_PROJECT", None), type=str)
+    parser.add_argument("--wandb_entity", default=os.environ.get("WANDB_ENTITY", None), type=str)
+    parser.add_argument("--wandb_group", default=os.environ.get("WANDB_GROUP", None), type=str)
+    parser.add_argument("--wandb_run_name", default=os.environ.get("WANDB_NAME", None), type=str)
+    parser.add_argument(
+        "--wandb_tags",
+        default=os.environ.get("WANDB_TAGS", ""),
+        type=str,
+        help="Comma-separated W&B tags.",
+    )
+    parser.add_argument("--wandb_notes", default=os.environ.get("WANDB_NOTES", None), type=str)
+    parser.add_argument("--wandb_job_type", default=os.environ.get("WANDB_JOB_TYPE", "train"), type=str)
+    parser.add_argument("--wandb_dir", default=os.environ.get("WANDB_DIR", None), type=str)
+    parser.add_argument("--wandb_id", default=os.environ.get("WANDB_RUN_ID", None), type=str)
+    parser.add_argument(
+        "--wandb_resume",
+        default=os.environ.get("WANDB_RESUME", "allow"),
+        type=str,
+        help="W&B resume policy (e.g. allow|must|never).",
+    )
+    parser.add_argument(
+        "--wandb_mode",
+        default=default_wandb_mode,
+        choices=["online", "offline", "disabled"],
+        type=str,
+        help="W&B mode (online/offline/disabled). Defaults to $WANDB_MODE or offline on Slurm.",
+    )
+    parser.add_argument("--wandb_log_model", action="store_true", default=False, help="Log checkpoints as W&B artifacts.")
     return parser.parse_args()
+
+
+def _get_global_rank() -> int:
+    for key in ("RANK", "SLURM_PROCID", "OMPI_COMM_WORLD_RANK", "PMI_RANK", "MV2_COMM_WORLD_RANK"):
+        value = os.environ.get(key)
+        if value is None:
+            continue
+        try:
+            return int(value)
+        except ValueError:
+            continue
+    return 0
+
+
+def _parse_wandb_tags(raw: str):
+    if not raw:
+        return []
+    return [t.strip() for t in raw.split(",") if t.strip()]
+
+
+def _resolve_wandb_run_id(experiment_dir: str, provided_id: Optional[str]) -> str:
+    if provided_id:
+        return provided_id
+    run_id_file = Path(experiment_dir) / "wandb_run_id.txt"
+    try:
+        if run_id_file.exists():
+            existing = run_id_file.read_text(encoding="utf-8").strip()
+            if existing:
+                return existing
+    except Exception:
+        pass
+    run_id = uuid.uuid4().hex
+    try:
+        run_id_file.write_text(run_id, encoding="utf-8")
+    except Exception:
+        pass
+    return run_id
+
+
+def _maybe_enable_wandb_logger(*, recipe, args, run, logger, experiment_dir: str) -> None:
+    if not getattr(args, "wandb", False):
+        return
+    if getattr(args, "wandb_mode", "online") == "disabled":
+        logger.info("W&B logging requested but disabled via --wandb_mode=disabled.")
+        return
+
+    global_rank = _get_global_rank()
+    if global_rank != 0:
+        # Avoid multiple W&B runs in torchrun/DDP. Rank 0 is enough.
+        try:
+            recipe.trainer.logger = False
+        except Exception:
+            pass
+        return
+
+    try:
+        try:
+            from lightning.pytorch.loggers import WandbLogger  # type: ignore
+        except Exception:
+            from pytorch_lightning.loggers import WandbLogger  # type: ignore
+    except Exception as e:
+        logger.warning("W&B requested but WandbLogger import failed; continuing without W&B. Error: %s", e)
+        return
+
+    wandb_dir = args.wandb_dir or os.path.join(experiment_dir, "wandb")
+    os.makedirs(wandb_dir, exist_ok=True)
+
+    # Prefer env vars for cross-version compatibility with wandb/Lightning.
+    os.environ.setdefault("WANDB_DIR", wandb_dir)
+    os.environ.setdefault("WANDB_START_METHOD", "thread")
+    os.environ["WANDB_MODE"] = args.wandb_mode
+
+    wandb_id = _resolve_wandb_run_id(experiment_dir, args.wandb_id)
+    wandb_name = args.wandb_run_name or args.name
+    wandb_group = args.wandb_group or args.name
+    wandb_tags = _parse_wandb_tags(args.wandb_tags)
+
+    # Build kwargs defensively across Lightning versions.
+    import inspect
+
+    sig = inspect.signature(WandbLogger.__init__)
+    params = sig.parameters
+    allowed = {k for k in params.keys() if k != "self"}
+    accepts_var_kwargs = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
+
+    base_kwargs = {
+        "project": args.wandb_project,
+        "name": wandb_name,
+        "save_dir": wandb_dir,
+        "id": wandb_id,
+        "log_model": args.wandb_log_model,
+        # Some Lightning versions use `offline` instead of `mode`.
+        "offline": args.wandb_mode == "offline",
+    }
+    wandb_init_kwargs = {
+        "entity": args.wandb_entity,
+        "group": wandb_group,
+        "tags": wandb_tags if wandb_tags else None,
+        "notes": args.wandb_notes,
+        "job_type": args.wandb_job_type,
+        "resume": args.wandb_resume,
+        "config": vars(args),
+    }
+
+    cfg_kwargs = {}
+    for k, v in base_kwargs.items():
+        if v is None:
+            continue
+        if k in allowed or accepts_var_kwargs:
+            cfg_kwargs[k] = v
+
+    if accepts_var_kwargs:
+        cfg_kwargs.update({k: v for k, v in wandb_init_kwargs.items() if v is not None})
+    else:
+        cfg_kwargs.update({k: v for k, v in wandb_init_kwargs.items() if v is not None and k in allowed})
+
+    recipe.trainer.logger = run.Config(WandbLogger, **cfg_kwargs)
+    logger.info(
+        "Enabled W&B logging: project=%s name=%s group=%s mode=%s id=%s dir=%s",
+        args.wandb_project,
+        wandb_name,
+        wandb_group,
+        args.wandb_mode,
+        wandb_id,
+        wandb_dir,
+    )
 
 
 def main():
@@ -364,11 +526,20 @@ def main():
         restore_config=restore_config,
     )
 
-    # Save config snapshot
-    job_id = os.environ.get("SLURM_JOB_ID", "0")
-    job_output = os.path.join(args.output_dir, f"job_{job_id}")
-    os.makedirs(job_output, exist_ok=True)
-    save_config(job_output, args, recipe)
+    _maybe_enable_wandb_logger(
+        recipe=recipe,
+        args=args,
+        run=run,
+        logger=logger,
+        experiment_dir=experiment_dir,
+    )
+
+    # Save config snapshot (rank 0 only to avoid races under torchrun).
+    if _get_global_rank() == 0:
+        job_id = os.environ.get("SLURM_JOB_ID", "0")
+        job_output = os.path.join(args.output_dir, f"job_{job_id}")
+        os.makedirs(job_output, exist_ok=True)
+        save_config(job_output, args, recipe)
 
     # ============================================================
     # Pre-warm Triton kernels (compile ahead of step 0)

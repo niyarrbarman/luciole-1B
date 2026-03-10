@@ -1,0 +1,1347 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output
+Name:        luciole-114M-SSA-Triton
+Nodes:       6
+Duration:    00:24:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 500
+Skip warmup: 0
+Contig QKV:  1
+Global max:  60000
+This-run max:8000
+W&B:         0 (mode=offline)
+==========================================
+W0310 04:07:03.749000 3115459 torch/distributed/run.py:763] 
+W0310 04:07:03.749000 3115459 torch/distributed/run.py:763] *****************************************
+W0310 04:07:03.749000 3115459 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0310 04:07:03.749000 3115459 torch/distributed/run.py:763] *****************************************
+W0310 04:07:03.811000 1987234 torch/distributed/run.py:763] 
+W0310 04:07:03.811000 1987234 torch/distributed/run.py:763] *****************************************
+W0310 04:07:03.811000 1987234 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0310 04:07:03.811000 1987234 torch/distributed/run.py:763] *****************************************
+W0310 04:07:03.864000 2555449 torch/distributed/run.py:763] 
+W0310 04:07:03.864000 2555449 torch/distributed/run.py:763] *****************************************
+W0310 04:07:03.864000 2555449 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0310 04:07:03.864000 2555449 torch/distributed/run.py:763] *****************************************
+W0310 04:07:04.047000 591717 torch/distributed/run.py:763] 
+W0310 04:07:04.047000 591717 torch/distributed/run.py:763] *****************************************
+W0310 04:07:04.047000 591717 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0310 04:07:04.047000 591717 torch/distributed/run.py:763] *****************************************
+W0310 04:07:04.054000 3419568 torch/distributed/run.py:763] 
+W0310 04:07:04.054000 3419568 torch/distributed/run.py:763] *****************************************
+W0310 04:07:04.054000 3419568 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0310 04:07:04.054000 3419568 torch/distributed/run.py:763] *****************************************
+W0310 04:07:04.090000 426250 torch/distributed/run.py:763] 
+W0310 04:07:04.090000 426250 torch/distributed/run.py:763] *****************************************
+W0310 04:07:04.090000 426250 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0310 04:07:04.090000 426250 torch/distributed/run.py:763] *****************************************
+[rank: 0] Seed set to 1234
+[rank: 1] Seed set to 1234
+[rank: 4] Seed set to 1234
+[rank: 7] Seed set to 1234
+[rank: 5] Seed set to 1234
+[rank: 11] Seed set to 1234
+[rank: 6] Seed set to 1234
+[rank: 10] Seed set to 1234
+[rank: 9] Seed set to 1234
+[rank: 8] Seed set to 1234
+[rank: 2] Seed set to 1234
+[rank: 3] Seed set to 1234
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-03-10 04:07:38 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'no_weight_decay_cond', 'config', 'scale_lr_cond', 'lr_mult', 'model_chunks', 'use_gloo_process_groups'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'config', 'model_chunks', 'scale_lr_cond', 'use_gloo_process_groups', 'no_weight_decay_cond', 'lr_mult'})
+[NeMo I 2026-03-10 04:07:47 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/luciole_50k, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'no_weight_decay_cond', 'scale_lr_cond', 'model_chunks', 'use_gloo_process_groups', 'config', 'lr_mult'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'use_gloo_process_groups', 'model_chunks', 'scale_lr_cond', 'config', 'lr_mult', 'no_weight_decay_cond'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'lr_mult', 'use_gloo_process_groups', 'no_weight_decay_cond', 'scale_lr_cond', 'model_chunks', 'config'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'scale_lr_cond', 'use_gloo_process_groups', 'config', 'no_weight_decay_cond', 'model_chunks', 'lr_mult'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'lr_mult', 'scale_lr_cond', 'model_chunks', 'use_gloo_process_groups', 'no_weight_decay_cond', 'config'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'no_weight_decay_cond', 'lr_mult', 'model_chunks', 'scale_lr_cond', 'config', 'use_gloo_process_groups'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'config', 'scale_lr_cond', 'model_chunks', 'use_gloo_process_groups', 'no_weight_decay_cond', 'lr_mult'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'scale_lr_cond', 'use_gloo_process_groups', 'no_weight_decay_cond', 'model_chunks', 'config', 'lr_mult'})
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'config', 'scale_lr_cond', 'no_weight_decay_cond', 'lr_mult', 'use_gloo_process_groups', 'model_chunks'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
+INFO:__main__:Global batch size: 768
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 10000000000
+INFO:__main__:Global training/LR horizon (from --max_steps): 60000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'lr_mult', 'scale_lr_cond', 'model_chunks', 'config', 'use_gloo_process_groups', 'no_weight_decay_cond'})
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_79298/config_luciole-114M-SSA-Triton.json
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Training from scratch, trainer.max_steps = 60000
+INFO:__main__:Applied training log interval=100 to: recipe.trainer.log_every_n_steps
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=8000
+INFO:__main__:LR scheduler max_steps = 60000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=24, Hkv=8, D=32)...
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40023e1f9df0>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40023e1f9d30>, <callbacks.StatelessTimer object at 0x40023e1f9d90>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40023e1fb290>, <callbacks.SSALoggingCallback object at 0x40023e1fb2f0>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40023e1fb4a0>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x40023e234a40>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x40010b5e4a10>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40023e1f9a90>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40023e1fb470>).
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+INFO:__main__:Triton kernel warmup complete.
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+INFO:__main__:Restored RNG state after Triton warmup.
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x4002665160f0>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x400266516060>, <callbacks.StatelessTimer object at 0x400266517350>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x4002665176b0>, <callbacks.SSALoggingCallback object at 0x400266517500>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x400266517680>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x400266558e60>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x4002664fc7a0>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x400266515e20>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x400266517650>).
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40024b6e2120>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40024b6e2060>, <callbacks.StatelessTimer object at 0x40024b6e20c0>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40024b6e34a0>, <callbacks.SSALoggingCallback object at 0x40024b6e3530>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40024b6e3620>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x40024b72c9b0>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x40012fe5aea0>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x400246bec500>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40024b6e3410>).
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40026dcbe3c0>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40026dcbe330>, <callbacks.StatelessTimer object at 0x40026dcbf620>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40026dcbf980>, <callbacks.SSALoggingCallback object at 0x40026dcbf7d0>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40026dcbf950>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x400269309a90>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x40024ed6e840>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40026dcbe180>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40026dcbf920>).
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+    recipe_obj = fiddle.build(recipe)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+                 ^^^^^^^^^^^^^^^^^^^^
+    sub_traversal = state.flattened_map_children(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return self._flattened_map_children(value, node_traverser)
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    result = self.traversal_fn(value, state)
+    self.gen.throw(value)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40024cdbdfa0>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40024cdbdf10>, <callbacks.StatelessTimer object at 0x40024cdbf200>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40024cdbf2c0>, <callbacks.SSALoggingCallback object at 0x40024cdbf380>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40024825e600>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x40024cdd8ad0>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x4001314faed0>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40024cdbdcd0>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40024cdbde80>).
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x4002726c2510>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x4002726c2420>, <callbacks.StatelessTimer object at 0x4002726c2480>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x4002726c3800>, <callbacks.SSALoggingCallback object at 0x4002726c3830>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x4002726c24b0>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x4002726c5010>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x40026db8dd30>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40026db627b0>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x4002726c3890>).
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40025eef61b0>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40025eef6120>, <callbacks.StatelessTimer object at 0x40025eef7410>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40025eef74d0>, <callbacks.SSALoggingCallback object at 0x40025eef75c0>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40025eef7740>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x40025ef50c80>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x40025cfd8ce0>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40025eef5f70>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40025eef6090>).
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    self.call(subvalue, path_element)
+    return call_buildable(value, arguments, current_path=state.current_path)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    return self.traversal.apply(value, new_state)
+    raise decorate_exception(exc, message) from None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+    result = self.traversal_fn(value, state)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return fn(self, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+           ^^^^^^^^^^^^^^^^^^
+    return call_buildable(value, arguments, current_path=state.current_path)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40027aece420>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40027aece390>, <callbacks.StatelessTimer object at 0x40027aecf680>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40027aecf740>, <callbacks.SSALoggingCallback object at 0x40027aecf830>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40027aecf9b0>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x40027ae97d70>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x40027af28fb0>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40027aece150>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40027aece300>).
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40023cfe5c10>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40023cfe5b50>, <callbacks.StatelessTimer object at 0x40023cfe5bb0>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40023cfe6f30>, <callbacks.SSALoggingCallback object at 0x40023cfe6f90>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40023cfe7140>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x40023cfd0620>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x40023cfd0710>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40023cfe5910>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40023cfe7110>).
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x400241299f40>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x400241299eb0>, <callbacks.StatelessTimer object at 0x40024129b230>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40024129b2f0>, <callbacks.SSALoggingCallback object at 0x40024129b3b0>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40024129b560>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x4002412d4b00>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x4002412d4ad0>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x400241299c10>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40024129b530>).
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40026140e5a0>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40026140e510>, <callbacks.StatelessTimer object at 0x40026140f890>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40026140f950>, <callbacks.SSALoggingCallback object at 0x40026140f9b0>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40026140fb60>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x4002614690d0>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x400145839c70>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40026140e2d0>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40026140e480>).
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 692, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 685, in main
+    recipe_obj = fiddle.build(recipe)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 185, in build
+    result = daglish.MemoizedTraversal.run(_build, buildable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 477, in run
+    return fn(root_obj, state)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 176, in _build
+    sub_traversal = state.flattened_map_children(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 631, in flattened_map_children
+    return self._flattened_map_children(value, node_traverser)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 580, in _flattened_map_children
+    self.call(subvalue, path_element)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 694, in call
+    return self.traversal.apply(value, new_state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/daglish.py", line 786, in apply
+    result = self.traversal_fn(value, state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 180, in _build
+    return call_buildable(value, arguments, current_path=state.current_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 119, in call_buildable
+    with reraised_exception.try_with_lazy_message(make_message):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 82, in try_with_lazy_message
+    raise decorate_exception(exc, message) from None
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/reraised_exception.py", line 74, in try_with_lazy_message
+    yield
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/building.py", line 120, in call_buildable
+    return buildable.__build__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fiddle/_src/config.py", line 783, in __build__
+    return self.__fn_or_cls__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/mixin.py", line 590, in wrapped_init
+    original_init(self, *args, **kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 425, in __init__
+    self._callback_connector.on_trainer_init(
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 79, in on_trainer_init
+    _validate_callbacks_list(self.trainer.callbacks)
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/connectors/callback_connector.py", line 227, in _validate_callbacks_list
+    stateful_callbacks = [cb for cb in callbacks if is_overridden("state_dict", instance=cb)]
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/utilities/model_helpers.py", line 42, in is_overridden
+    raise ValueError("Expected a parent")
+ValueError: Expected a parent
+
+Fiddle context: failed to construct or call Trainer at <root>.trainer with positional arguments: (), keyword arguments: (accelerator='gpu', strategy=<nemo.lightning.pytorch.strategies.megatron_strategy.MegatronStrategy object at 0x40026ca2e240>, devices=2, num_nodes=6, callbacks=[<__main__.MegatronLogIntervalCallback object at 0x40026ca2e1b0>, <callbacks.StatelessTimer object at 0x40026ca2f590>, <nemo.lightning.pytorch.callbacks.garbage_collection.GarbageCollectionCallback object at 0x40026ca2f5f0>, <callbacks.SSALoggingCallback object at 0x40026ca2f680>, <callbacks.StopAfterThisRunMaxStepsCallback object at 0x40026ca2f800>, <lightning.pytorch.callbacks.model_checkpoint.ModelCheckpoint object at 0x40026ca48c20>, <lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar object at 0x40026c9b2ea0>, <lightning.pytorch.callbacks.model_summary.ModelSummary object at 0x40026ca2df70>], max_steps=60000, limit_val_batches=0.0, limit_test_batches=32, val_check_interval=60000, log_every_n_steps=100, accumulate_grad_batches=1, use_distributed_sampler=False, plugins=<nemo.lightning.pytorch.plugins.mixed_precision.MegatronMixedPrecision object at 0x40026ca2f7d0>).
+W0310 04:08:03.988000 1987234 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 1987322 closing signal SIGTERM
+E0310 04:08:04.010000 1987234 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 1987321) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-10_04:08:03
+  host      : turpancomp7.calmip.local
+  rank      : 6 (local_rank: 0)
+  exitcode  : 1 (pid: 1987321)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+E0310 04:08:04.051000 426250 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 426336) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-03-10_04:08:04
+  host      : turpancomp8.calmip.local
+  rank      : 9 (local_rank: 1)
+  exitcode  : 1 (pid: 426337)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-10_04:08:04
+  host      : turpancomp8.calmip.local
+  rank      : 8 (local_rank: 0)
+  exitcode  : 1 (pid: 426336)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+E0310 04:08:04.061000 3419568 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 3419655) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-03-10_04:08:04
+  host      : turpancomp9.calmip.local
+  rank      : 11 (local_rank: 1)
+  exitcode  : 1 (pid: 3419656)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-10_04:08:04
+  host      : turpancomp9.calmip.local
+  rank      : 10 (local_rank: 0)
+  exitcode  : 1 (pid: 3419655)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+W0310 04:08:04.084000 3115459 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 3115548 closing signal SIGTERM
+E0310 04:08:04.104000 3115459 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 1 (pid: 3115549) of binary: /usr/bin/python
+E0310 04:08:04.104000 2555449 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 2555536) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-10_04:08:04
+  host      : turpancomp4.calmip.local
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 3115549)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-03-10_04:08:04
+  host      : turpancomp6.calmip.local
+  rank      : 5 (local_rank: 1)
+  exitcode  : 1 (pid: 2555537)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-10_04:08:04
+  host      : turpancomp6.calmip.local
+  rank      : 4 (local_rank: 0)
+  exitcode  : 1 (pid: 2555536)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+W0310 04:08:04.287000 591717 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 591803 closing signal SIGTERM
+E0310 04:08:04.309000 591717 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 1 (pid: 591804) of binary: /usr/bin/python
+[W310 04:08:04.362796282 TCPStore.cpp:115] [c10d] recvVector failed on SocketImpl(fd=3, addr=[turpancomp5]:42494, remote=[turpancomp4]:39299): failed to recv, got 0 bytes
+Exception raised from recvBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:671 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x40006f8b3cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x4000255c91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2ae44 (0x4000255cae44 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2b878 (0x4000255cb878 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: <unknown function> + 0x5a2d0b4 (0x4000255cd0b4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1bc (0x4000255ce41c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #6: <unknown function> + 0xf50c90 (0x40001fa60c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x594060 (0x40001f0a4060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #8: /usr/bin/python() [0x5036b4]
+frame #9: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #10: /usr/bin/python() [0x4c6f6c]
+frame #11: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #12: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #13: /usr/bin/python() [0x528ba0]
+frame #14: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #15: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #16: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #17: /usr/bin/python() [0x59c3c4]
+frame #18: /usr/bin/python() [0x680e94]
+frame #19: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #20: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #21: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #22: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #23: <unknown function> + 0x284c4 (0x40001de284c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: __libc_start_main + 0x98 (0x40001de28598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #25: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0310 04:08:04.326000 591717 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp5.calmip.local_591717_0' has failed to shutdown the rendezvous '79298' due to an error of type RendezvousConnectionError.
+[W310 04:08:04.370622443 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[turpancomp5]:42494, remote=[turpancomp4]:39299): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x40006f8b3cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x4000255c91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x4000255cb0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x4000255cd704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1ac (0x4000255ce40c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xf50c90 (0x40001fa60c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x594060 (0x40001f0a4060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: /usr/bin/python() [0x5036b4]
+frame #8: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #9: /usr/bin/python() [0x4c6f6c]
+frame #10: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #11: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #12: /usr/bin/python() [0x528ba0]
+frame #13: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #15: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #16: /usr/bin/python() [0x59c3c4]
+frame #17: /usr/bin/python() [0x680e94]
+frame #18: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #19: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #20: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #21: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #22: <unknown function> + 0x284c4 (0x40001de284c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #23: __libc_start_main + 0x98 (0x40001de28598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0310 04:08:04.330000 591717 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp5.calmip.local_591717_0' has failed to shutdown the rendezvous '79298' due to an error of type RendezvousConnectionError.
+[W310 04:08:04.374686544 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[turpancomp5]:42494, remote=[turpancomp4]:39299): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x40006f8b3cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x4000255c91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x4000255cb0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x4000255cd704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1ac (0x4000255ce40c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xf50c90 (0x40001fa60c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x594060 (0x40001f0a4060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: /usr/bin/python() [0x5036b4]
+frame #8: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #9: /usr/bin/python() [0x4c6f6c]
+frame #10: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #11: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #12: /usr/bin/python() [0x528ba0]
+frame #13: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #15: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #16: /usr/bin/python() [0x59c3c4]
+frame #17: /usr/bin/python() [0x680e94]
+frame #18: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #19: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #20: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #21: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #22: <unknown function> + 0x284c4 (0x40001de284c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #23: __libc_start_main + 0x98 (0x40001de28598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0310 04:08:04.334000 591717 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp5.calmip.local_591717_0' has failed to shutdown the rendezvous '79298' due to an error of type RendezvousConnectionError.
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-10_04:08:04
+  host      : turpancomp5.calmip.local
+  rank      : 3 (local_rank: 1)
+  exitcode  : 1 (pid: 591804)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: turpancomp7: task 3: Exited with exit code 1
+srun: error: turpancomp8: task 4: Exited with exit code 1
+srun: error: turpancomp9: task 5: Exited with exit code 1
+srun: error: turpancomp4: task 0: Exited with exit code 1
+srun: error: turpancomp6: task 2: Exited with exit code 1
+srun: error: turpancomp5: task 1: Exited with exit code 1
+==========================================
+SSA Triton Training finished with status 1
+==========================================

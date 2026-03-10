@@ -1,0 +1,97 @@
+==========================================
+Starting 1-layer Nemotron training
+Datamix: /tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json
+Output:  /tmpdir/m24047brmn/nemo_1b/output
+==========================================
+/usr/local/lib/python3.12/dist-packages/torch/__init__.py:1605: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /opt/pytorch/pytorch/aten/src/ATen/Context.cpp:80.)
+  _C._set_float32_matmul_precision(precision)
+[rank: 0] Seed set to 1234
+[NeMo W 2026-01-10 03:02:42 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-01-10 03:02:42 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+[NeMo W 2026-01-10 03:02:59 nemo_logging:405] The deploy module could not be imported: cannot import name 'deploy' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+[NeMo W 2026-01-10 03:02:59 nemo_logging:405] The evaluate module could not be imported: cannot import name 'evaluate' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 128
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 131072
+INFO:__main__:Total tokens in datamix: 1000000
+[NeMo I 2026-01-10 03:02:59 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None,  merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_73411/config_nemotron1b-1layer-test.json
+INFO: GPU available: True (cuda), used: True
+INFO:lightning.pytorch.utilities.rank_zero:GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+INFO:lightning.pytorch.utilities.rank_zero:TPU available: False, using: 0 TPU cores
+INFO: HPU available: False, using: 0 HPUs
+INFO:lightning.pytorch.utilities.rank_zero:HPU available: False, using: 0 HPUs
+[NeMo I 2026-01-10 03:03:00 nemo_logging:393] Experiments will be logged at /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-10_03-03-00
+[NeMo W 2026-01-10 03:03:00 nemo_logging:405] "update_logger_directory" is True. Overwriting tensorboard logger "save_dir" to /tmpdir/m24047brmn/nemo_1b/output/tb_logs
+[NeMo W 2026-01-10 03:03:00 nemo_logging:405] The Trainer already contains a ModelCheckpoint callback. This will be overwritten.
+[NeMo W 2026-01-10 03:03:00 nemo_logging:405] The checkpoint callback was told to monitor a validation value and trainer's max_steps was set to 10. Please ensure that max_steps will run for at least 1 epochs to ensure that checkpointing will not error out.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/./train_model_1L.py", line 167, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/./train_model_1L.py", line 161, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 174, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 129, in train
+    trainer.fit(model, data)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 538, in fit
+    call._call_and_handle_interrupt(
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/call.py", line 46, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 99, in launch
+    self.cluster_environment.validate_settings(num_devices=self.num_processes, num_nodes=self.num_nodes)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/fabric/plugins/environments/torchelastic.py", line 90, in validate_settings
+    raise ValueError(
+ValueError: You set `devices=1` and `num_nodes=2` in Lightning, but the product (1 * 2) does not match the world size (1).
+E0110 03:03:03.930000 1431961 torch/distributed/elastic/multiprocessing/api.py:880] failed (exitcode: 1) local_rank: 0 (pid: 1432156) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/tmpdir/m24047brmn/envs/sleb/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 151, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 288, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+./train_model_1L.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-10_03:03:03
+  host      : turpancomp2.calmip.local
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 1432156)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+==========================================
+Training finished with status 1
+==========================================

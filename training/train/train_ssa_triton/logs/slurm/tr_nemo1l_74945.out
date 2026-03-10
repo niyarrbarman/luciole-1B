@@ -1,0 +1,187 @@
+==========================================
+Starting Nemotron training (2 nodes x 2 GPUs)
+Datamix:     /tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output
+Nodes:       2
+Resume Ckpt: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last
+MASTER_ADDR: 10.158.1.100
+MASTER_PORT: 34946
+==========================================
+W0122 23:27:40.958000 3380696 torch/distributed/run.py:763] 
+W0122 23:27:40.958000 3380696 torch/distributed/run.py:763] *****************************************
+W0122 23:27:40.958000 3380696 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0122 23:27:40.958000 3380696 torch/distributed/run.py:763] *****************************************
+W0122 23:27:40.958000 147348 torch/distributed/run.py:763] 
+W0122 23:27:40.958000 147348 torch/distributed/run.py:763] *****************************************
+W0122 23:27:40.958000 147348 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0122 23:27:40.958000 147348 torch/distributed/run.py:763] *****************************************
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-01-22 23:28:27 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:Polars version 1.21.0 available.
+usage: train_model_1L.py [-h] [--datamix DATAMIX] [--arch ARCH] [--name NAME]
+                         [--mode {debug,benchmark,phase1,phase2,annealing}]
+                         [--output_dir OUTPUT_DIR] [--batch_size BATCH_SIZE]
+                         [--micro_batch_size MICRO_BATCH_SIZE]
+                         [--seq_length SEQ_LENGTH]
+                         [--tensor_parallelism TENSOR_PARALLELISM]
+                         [--pipeline_parallelism PIPELINE_PARALLELISM]
+                         [--context_parallelism CONTEXT_PARALLELISM]
+                         [--max_steps MAX_STEPS] [--num_nodes NUM_NODES]
+                         [--gpus_per_node GPUS_PER_NODE] [--seed SEED]
+                         [--base_checkpoint BASE_CHECKPOINT]
+                         [--resume_checkpoint RESUME_CHECKPOINT] [--fp8]
+                         [--performance_mode]
+                         [--generate_every_n_steps GENERATE_EVERY_N_STEPS]
+                         [--generate_prompt GENERATE_PROMPT]
+                         [--generate_max_tokens GENERATE_MAX_TOKENS]
+train_model_1L.py: error: unrecognized arguments: future of artificial intelligence is"
+usage: train_model_1L.py [-h] [--datamix DATAMIX] [--arch ARCH] [--name NAME]
+                         [--mode {debug,benchmark,phase1,phase2,annealing}]
+                         [--output_dir OUTPUT_DIR] [--batch_size BATCH_SIZE]
+                         [--micro_batch_size MICRO_BATCH_SIZE]
+                         [--seq_length SEQ_LENGTH]
+                         [--tensor_parallelism TENSOR_PARALLELISM]
+                         [--pipeline_parallelism PIPELINE_PARALLELISM]
+                         [--context_parallelism CONTEXT_PARALLELISM]
+                         [--max_steps MAX_STEPS] [--num_nodes NUM_NODES]
+                         [--gpus_per_node GPUS_PER_NODE] [--seed SEED]
+                         [--base_checkpoint BASE_CHECKPOINT]
+                         [--resume_checkpoint RESUME_CHECKPOINT] [--fp8]
+                         [--performance_mode]
+                         [--generate_every_n_steps GENERATE_EVERY_N_STEPS]
+                         [--generate_prompt GENERATE_PROMPT]
+                         [--generate_max_tokens GENERATE_MAX_TOKENS]
+train_model_1L.py: error: unrecognized arguments: future of artificial intelligence is"
+usage: train_model_1L.py [-h] [--datamix DATAMIX] [--arch ARCH] [--name NAME]
+                         [--mode {debug,benchmark,phase1,phase2,annealing}]
+                         [--output_dir OUTPUT_DIR] [--batch_size BATCH_SIZE]
+                         [--micro_batch_size MICRO_BATCH_SIZE]
+                         [--seq_length SEQ_LENGTH]
+                         [--tensor_parallelism TENSOR_PARALLELISM]
+                         [--pipeline_parallelism PIPELINE_PARALLELISM]
+                         [--context_parallelism CONTEXT_PARALLELISM]
+                         [--max_steps MAX_STEPS] [--num_nodes NUM_NODES]
+                         [--gpus_per_node GPUS_PER_NODE] [--seed SEED]
+                         [--base_checkpoint BASE_CHECKPOINT]
+                         [--resume_checkpoint RESUME_CHECKPOINT] [--fp8]
+                         [--performance_mode]
+                         [--generate_every_n_steps GENERATE_EVERY_N_STEPS]
+                         [--generate_prompt GENERATE_PROMPT]
+                         [--generate_max_tokens GENERATE_MAX_TOKENS]
+train_model_1L.py: error: unrecognized arguments: future of artificial intelligence is"
+usage: train_model_1L.py [-h] [--datamix DATAMIX] [--arch ARCH] [--name NAME]
+                         [--mode {debug,benchmark,phase1,phase2,annealing}]
+                         [--output_dir OUTPUT_DIR] [--batch_size BATCH_SIZE]
+                         [--micro_batch_size MICRO_BATCH_SIZE]
+                         [--seq_length SEQ_LENGTH]
+                         [--tensor_parallelism TENSOR_PARALLELISM]
+                         [--pipeline_parallelism PIPELINE_PARALLELISM]
+                         [--context_parallelism CONTEXT_PARALLELISM]
+                         [--max_steps MAX_STEPS] [--num_nodes NUM_NODES]
+                         [--gpus_per_node GPUS_PER_NODE] [--seed SEED]
+                         [--base_checkpoint BASE_CHECKPOINT]
+                         [--resume_checkpoint RESUME_CHECKPOINT] [--fp8]
+                         [--performance_mode]
+                         [--generate_every_n_steps GENERATE_EVERY_N_STEPS]
+                         [--generate_prompt GENERATE_PROMPT]
+                         [--generate_max_tokens GENERATE_MAX_TOKENS]
+train_model_1L.py: error: unrecognized arguments: future of artificial intelligence is"
+E0122 23:28:42.766000 3380696 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 2) local_rank: 0 (pid: 3380785) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-01-22_23:28:42
+  host      : turpancomp1.calmip.local
+  rank      : 3 (local_rank: 1)
+  exitcode  : 2 (pid: 3380786)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-22_23:28:42
+  host      : turpancomp1.calmip.local
+  rank      : 2 (local_rank: 0)
+  exitcode  : 2 (pid: 3380785)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+E0122 23:28:42.807000 147348 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 2) local_rank: 0 (pid: 147457) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-01-22_23:28:42
+  host      : turpancomp0.calmip.local
+  rank      : 1 (local_rank: 1)
+  exitcode  : 2 (pid: 147458)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-22_23:28:42
+  host      : turpancomp0.calmip.local
+  rank      : 0 (local_rank: 0)
+  exitcode  : 2 (pid: 147457)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: turpancomp1: task 1: Exited with exit code 1
+srun: error: turpancomp0: task 0: Exited with exit code 1
+==========================================
+Training finished with status 1
+==========================================

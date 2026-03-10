@@ -1,0 +1,33 @@
+============================================================
+FORWARD COMPARISON
+============================================================
+out_orig shape: torch.Size([8, 24, 1024, 32])
+lse_orig shape: torch.Size([8, 24, 1024])
+out max diff: 0.000000
+lse max diff: 0.000000
+
+============================================================
+BACKWARD COMPARISON (identical inputs)
+============================================================
+dQ max diff: 0.0009765625
+dK max diff: 0.001953125
+dV max diff: 0.0
+
+dn_orig = -56.206711
+dn_opt  = -29.431473
+dn diff = 26.775238
+
+db_orig = 16.121677
+db_opt  = 34.026600
+db diff = 17.904922
+
+============================================================
+NON-CAUSAL test
+============================================================
+NON-CAUSAL dn_orig = 18.359749
+NON-CAUSAL dn_opt  = -30.240604
+NON-CAUSAL dn diff = 48.600353
+
+NON-CAUSAL db_orig = 36.002090
+NON-CAUSAL db_opt  = -28.804245
+NON-CAUSAL db diff = 64.806335

@@ -1,0 +1,16 @@
+===========================================
+Starting SSA FlexAttention Training
+Datamix:     /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output
+Nodes:       6
+Duration:    00:24:00:00
+SSA n:       1.5
+SSA b:       0.8
+SSA fixed:   0
+Learnable b: 0
+Backend:     AUTO
+Compile:     1
+===========================================
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 76806.0 ON turpancomp2 CANCELLED AT 2026-02-11T13:57:16 ***
+slurmstepd: error: *** JOB 76806 ON turpancomp2 CANCELLED AT 2026-02-11T13:57:16 ***

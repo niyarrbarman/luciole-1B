@@ -1,0 +1,89 @@
+==========================================
+SSA Triton v4 Comprehensive Parity Checks
+Arch:            baby_luciole
+Seed:            1234
+SSA n/b:         1.5 / 0.8
+Quick:           1
+Fail-fast:       1
+Kernel matrix:
+  dtypes:        bf16,fp16
+  B:             1,2
+  N:             128,512,1024
+  heads:         8x8,16x8,24x8
+  D:             32
+  causal modes:  1,0
+  layouts:       contig,strided
+  use ref:       1
+  ref max seq:   512
+Module: dtype=bf16, layers=1,6,12, B=2, N=256
+Training drift: dtype=bf16, steps=80, B=2, N=128, learnable_b=0
+Script:          /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/check_ssa_triton_v4_parity.py
+JSON report:     /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/parity_reports/ssa_triton_v4_parity_76891.json
+MASTER_ADDR:     10.158.1.100
+MASTER_PORT:     36892
+TRITON_CACHE:    /tmpdir/m24047brmn/triton_cache
+==========================================
+=== SSA Triton v4 Parity Check ===
+seed=1234
+v3_kernel_impl=optimized
+USE_OPTIMIZED_KERNEL=True
+quick_mode=True
+arch=baby_luciole
+skip_kernel=False skip_determinism=False skip_module=False skip_training=False
+[Kernel 1/8] dtype=bf16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=1 layout=contig
+[Kernel 2/8] dtype=bf16 B=1 Hq=8 Hkv=8 N=128 D=32 causal=0 layout=contig
+[Kernel 3/8] dtype=bf16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=1 layout=contig
+[Kernel 4/8] dtype=bf16 B=1 Hq=8 Hkv=8 N=512 D=32 causal=0 layout=contig
+[Kernel 5/8] dtype=bf16 B=1 Hq=24 Hkv=8 N=128 D=32 causal=1 layout=contig
+
+=== kernel_suite :: FAIL ===
+cases=5, failed=1
+first failure case: {'dtype': 'bf16', 'B': 1, 'Hq': 24, 'Hkv': 8, 'N': 128, 'D': 32, 'causal': True, 'layout': 'contig'}
+[Determinism 1/8] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': True, 'layout': 'contig'}
+[Determinism 2/8] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': True, 'layout': 'strided'}
+[Determinism 3/8] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': False, 'layout': 'contig'}
+[Determinism 4/8] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 128, 'd_head': 32, 'causal': False, 'layout': 'strided'}
+[Determinism 5/8] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': True, 'layout': 'contig'}
+[Determinism 6/8] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': True, 'layout': 'strided'}
+[Determinism 7/8] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': False, 'layout': 'contig'}
+[Determinism 8/8] {'dtype_name': 'bf16', 'bsz': 1, 'hq': 8, 'hkv': 8, 'n_ctx': 1024, 'd_head': 32, 'causal': False, 'layout': 'strided'}
+
+=== determinism_suite :: PASS ===
+cases=8, failed=0
+INFO:load_model:Initialized parallel state with backend nccl
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-02-12 01:49:22 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+[Module 1/2] layer=1 dtype=bf16
+[Module 2/2] layer=12 dtype=bf16
+INFO:load_model:Destroyed Megatron model parallel state
+INFO:load_model:Destroyed process group
+
+=== module_suite :: PASS ===
+cases=2, failed=0
+[Train 0001/20] loss_diff(v4,ref)=0.000e+00 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=1.345e-03 param_diff(v4,v3)=2.654e-04
+[Train 0002/20] loss_diff(v4,ref)=1.192e-07 loss_diff(v4,v3)=3.576e-07 param_diff(v4,ref)=1.555e-03 param_diff(v4,v3)=3.331e-04
+[Train 0004/20] loss_diff(v4,ref)=1.192e-07 loss_diff(v4,v3)=0.000e+00 param_diff(v4,ref)=3.321e-03 param_diff(v4,v3)=3.912e-04
+[Train 0006/20] loss_diff(v4,ref)=1.192e-07 loss_diff(v4,v3)=4.768e-07 param_diff(v4,ref)=4.180e-03 param_diff(v4,v3)=3.946e-04
+[Train 0008/20] loss_diff(v4,ref)=0.000e+00 loss_diff(v4,v3)=4.768e-07 param_diff(v4,ref)=4.585e-03 param_diff(v4,v3)=5.298e-04
+[Train 0010/20] loss_diff(v4,ref)=0.000e+00 loss_diff(v4,v3)=4.768e-07 param_diff(v4,ref)=4.828e-03 param_diff(v4,v3)=6.627e-04
+[Train 0012/20] loss_diff(v4,ref)=2.384e-07 loss_diff(v4,v3)=7.153e-07 param_diff(v4,ref)=5.000e-03 param_diff(v4,v3)=7.897e-04
+[Train 0014/20] loss_diff(v4,ref)=0.000e+00 loss_diff(v4,v3)=5.960e-07 param_diff(v4,ref)=5.134e-03 param_diff(v4,v3)=9.079e-04
+[Train 0016/20] loss_diff(v4,ref)=1.192e-07 loss_diff(v4,v3)=7.153e-07 param_diff(v4,ref)=5.212e-03 param_diff(v4,v3)=1.018e-03
+[Train 0018/20] loss_diff(v4,ref)=0.000e+00 loss_diff(v4,v3)=5.960e-07 param_diff(v4,ref)=5.257e-03 param_diff(v4,v3)=1.120e-03
+[Train 0020/20] loss_diff(v4,ref)=0.000e+00 loss_diff(v4,v3)=7.749e-07 param_diff(v4,ref)=5.279e-03 param_diff(v4,v3)=1.216e-03
+
+=== training_drift_suite :: PASS ===
+worst drift: loss(v4,ref)=2.384e-07, loss(v4,v3)=9.537e-07, param(v4,ref)=5.279e-03, param(v4,v3)=1.216e-03
+
+JSON report written to: /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/parity_reports/ssa_triton_v4_parity_76891.json
+
+=== OVERALL: FAIL ===
+srun: error: turpancomp0: task 0: Exited with exit code 2

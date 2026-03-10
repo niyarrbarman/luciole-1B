@@ -1,0 +1,111 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output
+Name:        baby_luciole-ssa-triton-v4
+Nodes:       6
+Duration:    00:24:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  v4
+Compile BDA: 1
+Warmup step: 500
+Skip warmup: 0
+Max steps:   20
+==========================================
+W0212 01:44:52.792000 1095771 torch/distributed/run.py:763] 
+W0212 01:44:52.792000 1095771 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.792000 1095771 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0212 01:44:52.792000 1095771 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.794000 969187 torch/distributed/run.py:763] 
+W0212 01:44:52.794000 969187 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.794000 969187 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0212 01:44:52.794000 969187 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.802000 1389939 torch/distributed/run.py:763] 
+W0212 01:44:52.802000 1389939 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.802000 1389939 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0212 01:44:52.802000 1389939 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.833000 3388082 torch/distributed/run.py:763] 
+W0212 01:44:52.833000 3388082 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.833000 3388082 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0212 01:44:52.833000 3388082 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.835000 1833903 torch/distributed/run.py:763] 
+W0212 01:44:52.835000 1833903 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.835000 1833903 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0212 01:44:52.835000 1833903 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.866000 2840910 torch/distributed/run.py:763] 
+W0212 01:44:52.866000 2840910 torch/distributed/run.py:763] *****************************************
+W0212 01:44:52.866000 2840910 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0212 01:44:52.866000 2840910 torch/distributed/run.py:763] *****************************************
+[rank: 5] Seed set to 1234
+[rank: 4] Seed set to 1234
+[rank: 6] Seed set to 1234
+[rank: 7] Seed set to 1234
+[rank: 10] Seed set to 1234
+[rank: 11] Seed set to 1234
+[rank: 9] Seed set to 1234
+[rank: 8] Seed set to 1234
+[rank: 1] Seed set to 1234
+[rank: 0] Seed set to 1234
+[rank: 3] Seed set to 1234
+[rank: 2] Seed set to 1234
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-02-12 01:45:28 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 76890 ON turpancomp1 CANCELLED AT 2026-02-12T01:45:34 ***
+slurmstepd: error: *** STEP 76890.0 ON turpancomp1 CANCELLED AT 2026-02-12T01:45:34 ***
+W0212 01:45:34.817000 2840910 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0212 01:45:34.817000 969187 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0212 01:45:34.817000 1833903 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0212 01:45:34.817000 2840910 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2840997 closing signal SIGTERM
+W0212 01:45:34.818000 969187 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 969273 closing signal SIGTERM
+W0212 01:45:34.818000 1833903 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 1833989 closing signal SIGTERM

@@ -1,0 +1,36 @@
+Loading gnu/11.2.0
+  Loading requirement: binutils/11.2.0
+==========================================
+Loading Nemotron 1B model (NeMo)
+No checkpoint provided - initializing model from scratch
+==========================================
+/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+WARNING:__main__:CUDA not available, falling back to CPU
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/load_model.py", line 460, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/load_model.py", line 391, in main
+    model, tokenizer = load_model(
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/load_model.py", line 56, in load_model
+    from nemo.collections.llm.gpt.model.nemotron import NemotronModel
+  File "/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/nemo/collections/llm/__init__.py", line 20, in <module>
+    from nemo.collections.llm import peft
+  File "/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/nemo/collections/llm/peft/__init__.py", line 15, in <module>
+    from nemo.collections.llm.peft.api import export_lora, gpt_lora, merge_lora
+  File "/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/nemo/collections/llm/peft/api.py", line 22, in <module>
+    from megatron.core import dist_checkpointing
+  File "/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/megatron/core/__init__.py", line 5, in <module>
+    from megatron.core.distributed import DistributedDataParallel
+  File "/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/megatron/core/distributed/__init__.py", line 7, in <module>
+    from .finalize_model_grads import finalize_model_grads
+  File "/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/megatron/core/distributed/finalize_model_grads.py", line 16, in <module>
+    from ..transformer.moe.moe_utils import get_updated_expert_bias
+  File "/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/megatron/core/transformer/moe/moe_utils.py", line 12, in <module>
+    from megatron.core.extensions.transformer_engine import (
+  File "/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/megatron/core/extensions/transformer_engine.py", line 95, in <module>
+    class TELinear(te.pytorch.Linear):
+AttributeError: module 'transformer_engine' has no attribute 'pytorch'
+==========================================
+Generation completed!
+==========================================

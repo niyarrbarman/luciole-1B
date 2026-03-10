@@ -1,0 +1,11 @@
+Loading gnu/11.2.0
+  Loading requirement: binutils/11.2.0
+==========================================
+Loading Nemotron 1B model (NeMo)
+No checkpoint provided - initializing model from scratch
+==========================================
+/tmpdir/m24047brmn/envs/nemo/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+==========================================
+Generation completed!
+==========================================

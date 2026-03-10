@@ -1,0 +1,54 @@
+==========================================
+Loading Nemotron 1B model (NeMo)
+No checkpoint provided - initializing model from scratch
+==========================================
+/usr/local/lib/python3.12/dist-packages/torch/__init__.py:1605: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /opt/pytorch/pytorch/aten/src/ATen/Context.cpp:80.)
+  _C._set_float32_matmul_precision(precision)
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+[NeMo W 2026-01-10 01:43:07 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-01-10 01:43:07 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+WARNING:nv_one_logger.api.config:OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+INFO 01-10 01:43:21 [__init__.py:241] Automatically detected platform cuda.
+[NeMo W 2026-01-10 01:43:26 nemo_logging:405] The deploy module could not be imported: cannot import name 'deploy' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+[NeMo W 2026-01-10 01:43:26 nemo_logging:405] The evaluate module could not be imported: cannot import name 'evaluate' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+INFO:__main__:Using tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+[NeMo I 2026-01-10 01:43:26 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None,  merges_files: None, special_tokens_dict: {}, and use_fast: True
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+INFO:__main__:Initialized parallel state with backend nccl
+INFO:__main__:Creating Nemotron 1B model...
+INFO:__main__:Configuring model (setting up internal module)...
+[NeMo I 2026-01-10 01:43:27 nemo_logging:393] Padded vocab_size: 256000, original vocab_size: 256000, dummy tokens: 0.
+INFO:__main__:No checkpoint provided, model initialized with random weights
+INFO:__main__:Model ready for inference
+INFO:__main__:Generating with prompt: The future of artificial intelligence is...
+
+==================================================
+Prompt:
+==================================================
+The future of artificial intelligence is
+
+==================================================
+Generated text:
+==================================================
+The future of artificial intelligence isビスicher высокой высокой высокой erhöhte erhöhte erhöhte erhöhte erhöhte erhöhte erhöhte erhöhte Detail enlighten Tempe GCS GCS GCS GCS GCS GCS GCS GCS GCS GCS GCS GCS sermon médií médií médií hudbykazμως вно вно médií médií médiíheftheftheft Aixíकालकालकालकालकालकालero spar Enthusiast Shares erhöhte erhöhte erhöhte terze population population population自身自身自身
+==================================================
+INFO:__main__:Destroyed Megatron model parallel state
+INFO:__main__:Destroyed process group
+==========================================
+Generation completed!
+==========================================

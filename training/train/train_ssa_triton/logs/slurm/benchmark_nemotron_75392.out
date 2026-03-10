@@ -1,0 +1,89 @@
+===========================================
+LM Evaluation Harness - Nemotron Model
+===========================================
+Checkpoint:  /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last
+Tokenizer:   /work/m24047/m24047brmn/tokenizers/minitron-4b
+Tasks:       arc_easy
+Num Layers:  24
+Batch Size:  1
+Limit:       'None (full dataset)'
+Num Fewshot: 'Task default'
+Output:      benchmark_results/results_arc_easy_20260128_030547.json
+===========================================
+/usr/local/lib/python3.12/dist-packages/torch/__init__.py:1605: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /opt/pytorch/pytorch/aten/src/ATen/Context.cpp:80.)
+  _C._set_float32_matmul_precision(precision)
+INFO:__main__:Tasks to evaluate: ['arc_easy']
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+INFO:__main__:Initializing NemotronLM wrapper...
+[NeMo W 2026-01-28 03:06:00 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-01-28 03:06:00 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+WARNING:nv_one_logger.api.config:OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+[NeMo W 2026-01-28 03:06:17 nemo_logging:405] The deploy module could not be imported: cannot import name 'deploy' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+[NeMo W 2026-01-28 03:06:17 nemo_logging:405] The evaluate module could not be imported: cannot import name 'evaluate' from 'nemo.collections.llm.api' (/opt/NeMo/nemo/collections/llm/api.py)
+INFO:load_model:No tokenizer in checkpoint, using default: /work/m24047/m24047brmn/tokenizers/minitron-4b
+[NeMo I 2026-01-28 03:06:17 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None,  merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:load_model:Model config: 24 layers, hidden_size=2048
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+INFO:load_model:Initialized parallel state with backend nccl
+INFO:load_model:Creating Nemotron model...
+INFO:load_model:Configuring model (setting up internal module)...
+[NeMo I 2026-01-28 03:06:19 nemo_logging:393] Padded vocab_size: 256000, original vocab_size: 256000, dummy tokens: 0.
+INFO:load_model:Loading model weights from /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-11_19-11-56/checkpoints/model_name=0--val_loss=0.00-step=3627-consumed_samples=464384.0-last...
+INFO:load_model:Using StrictHandling from megatron.core.dist_checkpointing.validation
+WARNING:megatron.core.utils:make_tp_sharded_tensor_for_checkpoint received extra kwargs: ['allow_shape_mismatch']
+INFO:load_model:Added 'module.' prefix to sharded state dict
+INFO:load_model:Model weights loaded via Megatron dist_checkpointing.load
+INFO:load_model:Model ready for inference
+INFO:__main__:Tokenizer setup: vocab_size=256000, eot_token_id=3, prefix_token_id=2
+INFO:__main__:NemotronLM wrapper initialized successfully
+INFO:__main__:Added task: arc_easy -> arc_easy
+INFO:__main__:  Description: ARC Easy - Science questions from standardized tests
+INFO:__main__:
+Running evaluation on tasks: ['arc_easy']
+INFO:lm_eval.evaluator:Setting random seed to 0 | Setting numpy seed to 1234 | Setting torch manual seed to 1234 | Setting fewshot manual seed to 1234
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+INFO:lm_eval.tasks:Selected tasks:
+INFO:lm_eval.tasks:Task: arc_easy (arc/arc_easy.yaml)
+INFO:lm_eval.api.task:Building contexts for arc_easy on rank 0...
+  0%|          | 0/2376 [00:00<?, ?it/s]  3%|▎         | 66/2376 [00:00<00:03, 659.93it/s]  6%|▌         | 133/2376 [00:00<00:03, 663.15it/s]  8%|▊         | 200/2376 [00:00<00:03, 664.78it/s] 11%|█         | 267/2376 [00:00<00:03, 664.87it/s] 14%|█▍        | 334/2376 [00:00<00:03, 665.25it/s] 17%|█▋        | 401/2376 [00:00<00:02, 664.58it/s] 20%|█▉        | 468/2376 [00:00<00:02, 664.36it/s] 23%|██▎       | 535/2376 [00:00<00:02, 662.83it/s] 25%|██▌       | 602/2376 [00:00<00:02, 662.50it/s] 28%|██▊       | 669/2376 [00:01<00:02, 662.43it/s] 31%|███       | 736/2376 [00:01<00:02, 661.11it/s] 34%|███▍      | 803/2376 [00:01<00:02, 660.01it/s] 37%|███▋      | 870/2376 [00:01<00:02, 659.59it/s] 39%|███▉      | 936/2376 [00:01<00:02, 659.55it/s] 42%|████▏     | 1003/2376 [00:01<00:02, 660.08it/s] 45%|████▌     | 1070/2376 [00:01<00:01, 660.61it/s] 48%|████▊     | 1137/2376 [00:01<00:01, 660.78it/s] 51%|█████     | 1204/2376 [00:01<00:01, 660.11it/s] 53%|█████▎    | 1271/2376 [00:01<00:01, 660.18it/s] 56%|█████▋    | 1338/2376 [00:02<00:01, 660.51it/s] 59%|█████▉    | 1405/2376 [00:02<00:01, 660.33it/s] 62%|██████▏   | 1472/2376 [00:02<00:01, 660.84it/s] 65%|██████▍   | 1539/2376 [00:02<00:01, 660.76it/s] 68%|██████▊   | 1606/2376 [00:02<00:01, 661.52it/s] 70%|███████   | 1673/2376 [00:02<00:01, 661.50it/s] 73%|███████▎  | 1740/2376 [00:02<00:00, 660.72it/s] 76%|███████▌  | 1807/2376 [00:02<00:00, 660.65it/s] 79%|███████▉  | 1874/2376 [00:02<00:00, 660.75it/s] 82%|████████▏ | 1941/2376 [00:02<00:00, 661.10it/s] 85%|████████▍ | 2008/2376 [00:03<00:00, 660.72it/s] 87%|████████▋ | 2075/2376 [00:03<00:00, 660.51it/s] 90%|█████████ | 2142/2376 [00:03<00:00, 660.31it/s] 93%|█████████▎| 2209/2376 [00:03<00:00, 659.61it/s] 96%|█████████▌| 2275/2376 [00:03<00:00, 659.68it/s] 99%|█████████▊| 2341/2376 [00:03<00:00, 659.21it/s]100%|██████████| 2376/2376 [00:03<00:00, 660.99it/s]
+INFO:lm_eval.evaluator:Running loglikelihood requests
+
+======================================================================
+BENCHMARK RESULTS
+======================================================================
+
+arc_easy:
+--------------------------------------------------
+  alias: arc_easy
+  acc,none: 0.2757
+  acc_stderr,none: 0.0092
+  acc_norm,none: 0.2816
+  acc_norm_stderr,none: 0.0092
+
+======================================================================
+INFO:__main__:Results saved to: benchmark_results/results_arc_easy_20260128_030547.json
+INFO:load_model:Destroyed Megatron model parallel state
+INFO:load_model:Destroyed process group
+===========================================
+Benchmark finished with status 0
+Results saved to: benchmark_results/results_arc_easy_20260128_030547.json
+===========================================

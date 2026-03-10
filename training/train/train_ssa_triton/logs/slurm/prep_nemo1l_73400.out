@@ -1,0 +1,39 @@
+==========================================
+Preprocessing text to indexed dataset
+Input:      /tmpdir/m24047brmn/nemo_1b/data/train_data.txt
+Tokenizer:  /work/m24047/m24047brmn/tokenizers/minitron-4b
+Output:     /tmpdir/m24047brmn/nemo_1b/data/train_text_document.{bin,idx}
+Max tokens: 1000000
+==========================================
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+[NeMo W 2026-01-10 02:31:36 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:323: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+", " ", text)
+    
+[NeMo W 2026-01-10 02:31:36 nemo_logging:405] /opt/venv/lib/python3.12/site-packages/lhotse/recipes/iwslt22_ta.py:324: SyntaxWarning: invalid escape sequence '\s'
+      text = re.sub("\s+\.\s+", ".", text)
+    
+INFO:megatron.core.msc_utils:The multistorageclient package is available.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.megatron_fsdp:Detected Megatron Core, using Megatron-FSDP with Megatron.
+INFO:megatron.core.distributed.fsdp.src.megatron_fsdp.param_and_grad_buffer:Detected Megatron Core, using Megatron-FSDP with Megatron.
+WARNING:nv_one_logger.api.config:OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+INFO:nv_one_logger.exporter.export_config_manager:Final configuration contains 0 exporter(s)
+WARNING:nv_one_logger.training_telemetry.api.training_telemetry_provider:No exporters were provided. This means that no telemetry data will be collected.
+Multiple distributions found for package modelopt. Picked distribution: nvidia-modelopt
+INFO:datasets:PyTorch version 2.9.0a0+50eac811a6.nv25.9 available.
+[NeMo I 2026-01-10 02:31:50 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None,  merges_files: None, special_tokens_dict: {}, and use_fast: True
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/preprocess_mock.py", line 68, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/preprocess_mock.py", line 64, in main
+    build_indexed_dataset(args.input_txt, args.tokenizer, args.output_prefix, args.max_tokens)
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/preprocess_mock.py", line 44, in build_indexed_dataset
+    builder.add_item(np.array(ids, dtype=np.int64))
+  File "/opt/megatron-lm/megatron/core/datasets/indexed_dataset.py", line 865, in add_item
+    np_array = numpy.array(tensor.numpy(), dtype=self.dtype)
+                           ^^^^^^^^^^^^
+AttributeError: 'numpy.ndarray' object has no attribute 'numpy'. Did you mean: 'dump'?
+==========================================
+Preprocessing finished with status 1
+==========================================

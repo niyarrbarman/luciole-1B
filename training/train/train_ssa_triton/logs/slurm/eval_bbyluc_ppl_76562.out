@@ -1,0 +1,70 @@
+==========================================
+Evaluating Perplexity: Baby Luciole SSA
+Checkpoint: /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0010499-last
+Data:       /tmpdir/m24047brmn/nemo_1b/data_wiki/wikipedia_en_text_document
+Tokenizer:  /work/m24047/m24047brmn/tokenizers/luciole_50k
+Samples:    1000
+Seq Length: 1024
+Batch Size: 8
+Output:     /tmpdir/m24047brmn/nemo_1b/output/perplexity_results_76562.json
+==========================================
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-02-09 10:59:42 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:No tokenizer in checkpoint, using default: /work/m24047/m24047brmn/tokenizers/luciole_50k
+[NeMo I 2026-02-09 10:59:46 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/luciole_50k, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:__main__:Model config: 12 layers, hidden_size=768
+INFO:__main__:Initialized parallel state with backend nccl
+INFO:__main__:Creating NemotronModel...
+INFO:__main__:Configuring model...
+[NeMo I 2026-02-09 10:59:49 nemo_logging:393] Use preset vocab_size: 50256, original vocab_size: 50256, dummy tokens: 0.
+INFO:__main__:Loading model weights from /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0010499-last...
+INFO:__main__:Added 'module.' prefix to sharded state dict
+INFO:__main__:Model weights loaded successfully
+INFO:__main__:Model ready for evaluation
+INFO:__main__:Loading FineWeb data from /tmpdir/m24047brmn/nemo_1b/data_wiki/wikipedia_en_text_document
+INFO:megatron.core.datasets.indexed_dataset:Load the _IndexReader from /tmpdir/m24047brmn/nemo_1b/data_wiki/wikipedia_en_text_document.idx
+INFO:megatron.core.datasets.indexed_dataset:	Extract the sequence lengths
+INFO:megatron.core.datasets.indexed_dataset:	Extract the sequence pointers
+INFO:megatron.core.datasets.indexed_dataset:	Extract the document indices
+INFO:megatron.core.datasets.indexed_dataset:> total number of sequences: 1968
+INFO:megatron.core.datasets.indexed_dataset:> total number of documents: 1968
+INFO:__main__:Loaded indexed dataset with 1968 documents
+INFO:__main__:Loaded 1000 samples of length 1024
+INFO:__main__:Computing perplexity on 1000 samples...
+INFO:__main__:Batch 10/125: running perplexity = 26.7864
+INFO:__main__:Batch 20/125: running perplexity = 26.9291
+INFO:__main__:Batch 30/125: running perplexity = 27.5243
+INFO:__main__:Batch 40/125: running perplexity = 27.1917
+INFO:__main__:Batch 50/125: running perplexity = 26.8833
+INFO:__main__:Batch 60/125: running perplexity = 26.8918
+INFO:__main__:Batch 70/125: running perplexity = 26.8365
+INFO:__main__:Batch 80/125: running perplexity = 26.7160
+INFO:__main__:Batch 90/125: running perplexity = 26.8444
+INFO:__main__:Batch 100/125: running perplexity = 26.8541
+INFO:__main__:Batch 110/125: running perplexity = 26.7192
+INFO:__main__:Batch 120/125: running perplexity = 26.5582
+INFO:__main__:Batch 125/125: running perplexity = 26.5785
+
+============================================================
+PERPLEXITY EVALUATION RESULTS
+============================================================
+Checkpoint: /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0010499-last
+Num samples: 1000
+Total tokens: 1023000
+Average loss: 3.2801
+Perplexity: 26.5785
+============================================================
+INFO:__main__:Results saved to /tmpdir/m24047brmn/nemo_1b/output/perplexity_results_76562.json
+INFO:__main__:Destroyed Megatron model parallel state
+INFO:__main__:Destroyed process group
+==========================================
+Perplexity evaluation finished with status 0
+==========================================

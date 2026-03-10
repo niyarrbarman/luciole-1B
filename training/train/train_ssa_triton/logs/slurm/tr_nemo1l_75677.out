@@ -1,0 +1,922 @@
+==========================================
+Starting Nemotron training (5 nodes x 2 GPUs)
+Datamix:     /tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output
+Nodes:       5
+Resume Ckpt: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+Duration:    00:24:00:00
+MASTER_ADDR: 10.158.1.104
+MASTER_PORT: 35678
+==========================================
+W0129 19:50:06.282000 287860 torch/distributed/run.py:763] 
+W0129 19:50:06.282000 287860 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.282000 287860 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0129 19:50:06.282000 287860 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.349000 129924 torch/distributed/run.py:763] 
+W0129 19:50:06.349000 129924 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.349000 129924 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0129 19:50:06.349000 129924 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.355000 3051716 torch/distributed/run.py:763] 
+W0129 19:50:06.355000 3051716 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.355000 3051716 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0129 19:50:06.355000 3051716 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.391000 2656581 torch/distributed/run.py:763] 
+W0129 19:50:06.391000 2656581 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.391000 2656581 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0129 19:50:06.391000 2656581 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.503000 2890043 torch/distributed/run.py:763] 
+W0129 19:50:06.503000 2890043 torch/distributed/run.py:763] *****************************************
+W0129 19:50:06.503000 2890043 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0129 19:50:06.503000 2890043 torch/distributed/run.py:763] *****************************************
+[rank: 0] Seed set to 1234
+[rank: 1] Seed set to 1234
+[rank: 9] Seed set to 1234
+[rank: 8] Seed set to 1234
+[rank: 2] Seed set to 1234
+[rank: 3] Seed set to 1234
+[rank: 7] Seed set to 1234
+[rank: 6] Seed set to 1234
+[rank: 5] Seed set to 1234
+[rank: 4] Seed set to 1234
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-01-29 19:50:41 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'no_weight_decay_cond', 'scale_lr_cond', 'config', 'lr_mult', 'use_gloo_process_groups', 'model_chunks'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'model_chunks', 'no_weight_decay_cond', 'use_gloo_process_groups', 'config', 'scale_lr_cond', 'lr_mult'})
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'config', 'no_weight_decay_cond', 'model_chunks', 'scale_lr_cond', 'lr_mult', 'use_gloo_process_groups'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'lr_mult', 'config', 'use_gloo_process_groups', 'no_weight_decay_cond', 'scale_lr_cond', 'model_chunks'})
+[NeMo I 2026-01-29 19:50:49 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'config', 'model_chunks', 'scale_lr_cond', 'use_gloo_process_groups', 'no_weight_decay_cond', 'lr_mult'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'use_gloo_process_groups', 'lr_mult', 'config', 'model_chunks', 'no_weight_decay_cond', 'scale_lr_cond'})
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'no_weight_decay_cond', 'lr_mult', 'config', 'use_gloo_process_groups', 'scale_lr_cond', 'model_chunks'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'model_chunks', 'config', 'scale_lr_cond', 'no_weight_decay_cond', 'lr_mult', 'use_gloo_process_groups'})
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:{'data_path': '/tmpdir/m24047brmn/nemo_1b/data', 'train': [{'name': 'train_text_document', 'weight': 1.0}], 'total_tokens': 1000000}
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'scale_lr_cond', 'lr_mult', 'no_weight_decay_cond', 'model_chunks', 'use_gloo_process_groups', 'config'})
+INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
+INFO:__main__:Global batch size: 1280
+INFO:__main__:Sequence length: 1024
+INFO:__main__:Tokens per batch: 1310720
+INFO:__main__:Total tokens in datamix: 1000000
+INFO:__main__:Patched megatron.core.optimizer.get_megatron_optimizer (accepted params: {'config', 'model_chunks', 'no_weight_decay_cond', 'lr_mult', 'use_gloo_process_groups', 'scale_lr_cond'})
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO:__main__:Configuring resume from checkpoint: /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/2026-01-29_19-31-03/checkpoints/nemotron1b-1layer-test-step=0000004
+INFO: GPU available: True (cuda), used: True
+INFO:lightning.pytorch.utilities.rank_zero:GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+INFO:lightning.pytorch.utilities.rank_zero:TPU available: False, using: 0 TPU cores
+INFO: HPU available: False, using: 0 HPUs
+INFO:lightning.pytorch.utilities.rank_zero:HPU available: False, using: 0 HPUs
+[NeMo W 2026-01-29 19:50:52 nemo_logging:405] No version folders would be created under the log folder as 'resume_if_exists' is enabled.
+[NeMo I 2026-01-29 19:50:52 nemo_logging:393] Experiments will be logged at /tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test
+[NeMo W 2026-01-29 19:50:52 nemo_logging:405] "update_logger_directory" is True. Overwriting tensorboard logger "save_dir" to /tmpdir/m24047brmn/nemo_1b/output/tb_logs
+[NeMo W 2026-01-29 19:50:52 nemo_logging:405] The Trainer already contains a ModelCheckpoint callback. This will be overwritten.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+[NeMo W 2026-01-29 19:50:52 nemo_logging:405] There were no checkpoints found in checkpoint_dir or no checkpoint folder at checkpoint_dir :/tmpdir/m24047brmn/nemo_1b/output/nemotron1b-1layer-test/checkpoints. Training from scratch.
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output/job_75677/config_nemotron1b-1layer-test.json
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+Traceback (most recent call last):
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 246, in <module>
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    main()
+  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py", line 240, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+    return train(
+           ^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 116, in train
+    app_state = _setup(
+                ^^^^^^^
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1170, in _setup
+    resume.setup(trainer, model)
+  File "/opt/NeMo/nemo/lightning/resume.py", line 120, in setup
+    model = _try_restore_tokenizer(model, context_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/resume.py", line 44, in _try_restore_tokenizer
+    tokenizer = load_context(ckpt_path, "model.tokenizer")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/NeMo/nemo/lightning/io/api.py", line 56, in load_context
+    path = Path(path)
+           ^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1164, in __init__
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    super().__init__(*args)
+  File "/usr/lib/python3.12/pathlib.py", line 373, in __init__
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+E0129 19:50:58.385000 2890043 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 2890129) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp8.calmip.local
+  rank      : 9 (local_rank: 1)
+  exitcode  : 1 (pid: 2890130)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp8.calmip.local
+  rank      : 8 (local_rank: 0)
+  exitcode  : 1 (pid: 2890129)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+E0129 19:50:58.539000 2656581 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 2656669) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp4.calmip.local
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 2656670)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp4.calmip.local
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 2656669)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+E0129 19:50:58.707000 287860 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 287946) of binary: /usr/bin/python
+E0129 19:50:58.711000 129924 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 130010) of binary: /usr/bin/python
+[W129 19:50:58.289978607 TCPStore.cpp:115] [c10d] recvVector failed on SocketImpl(fd=4, addr=[turpancomp7]:36354, remote=[turpancomp4]:35678): failed to recv, got 0 bytes
+Exception raised from recvBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:671 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x400079ea3cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x40002fbb91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2ae44 (0x40002fbbae44 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2b878 (0x40002fbbb878 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: <unknown function> + 0x5a2d0b4 (0x40002fbbd0b4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1bc (0x40002fbbe41c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #6: <unknown function> + 0xf50c90 (0x40002a050c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x594060 (0x400029694060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #8: /usr/bin/python() [0x5036b4]
+frame #9: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #10: /usr/bin/python() [0x4c6f6c]
+frame #11: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #12: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #13: /usr/bin/python() [0x528ba0]
+frame #14: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #15: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #16: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #17: /usr/bin/python() [0x59c3c4]
+frame #18: /usr/bin/python() [0x680e94]
+frame #19: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #20: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #21: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #22: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #23: <unknown function> + 0x284c4 (0x4000284184c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: __libc_start_main + 0x98 (0x400028418598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #25: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+[W129 19:50:58.697385207 TCPStore.cpp:115] [c10d] recvVector failed on SocketImpl(fd=4, addr=[turpancomp5]:54594, remote=[turpancomp4]:35678): failed to recv, got 0 bytes
+Exception raised from recvBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:671 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x400058393cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x40000e0a91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2ae44 (0x40000e0aae44 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2b878 (0x40000e0ab878 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: <unknown function> + 0x5a2d0b4 (0x40000e0ad0b4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1bc (0x40000e0ae41c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #6: <unknown function> + 0xf50c90 (0x400008540c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x594060 (0x400007b84060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #8: /usr/bin/python() [0x5036b4]
+frame #9: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #10: /usr/bin/python() [0x4c6f6c]
+frame #11: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #12: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #13: /usr/bin/python() [0x528ba0]
+frame #14: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #15: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #16: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #17: /usr/bin/python() [0x59c3c4]
+frame #18: /usr/bin/python() [0x680e94]
+frame #19: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #20: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #21: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #22: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #23: <unknown function> + 0x284c4 (0x4000069084c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: __libc_start_main + 0x98 (0x400006908598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #25: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0129 19:50:58.724000 287860 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp7.calmip.local_287860_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+[W129 19:50:58.297802072 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[turpancomp7]:36354, remote=[turpancomp4]:35678): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x400079ea3cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x40002fbb91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40002fbbb0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40002fbbd704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1ac (0x40002fbbe40c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xf50c90 (0x40002a050c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x594060 (0x400029694060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: /usr/bin/python() [0x5036b4]
+frame #8: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #9: /usr/bin/python() [0x4c6f6c]
+frame #10: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #11: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #12: /usr/bin/python() [0x528ba0]
+frame #13: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #15: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #16: /usr/bin/python() [0x59c3c4]
+frame #17: /usr/bin/python() [0x680e94]
+frame #18: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #19: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #20: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #21: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #22: <unknown function> + 0x284c4 (0x4000284184c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #23: __libc_start_main + 0x98 (0x400028418598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0129 19:50:58.728000 129924 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp5.calmip.local_129924_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+W0129 19:50:58.729000 287860 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp7.calmip.local_287860_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+[W129 19:50:58.705048244 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[turpancomp5]:54594, remote=[turpancomp4]:35678): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x400058393cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x40000e0a91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40000e0ab0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40000e0ad704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1ac (0x40000e0ae40c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xf50c90 (0x400008540c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x594060 (0x400007b84060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: /usr/bin/python() [0x5036b4]
+frame #8: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #9: /usr/bin/python() [0x4c6f6c]
+frame #10: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #11: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #12: /usr/bin/python() [0x528ba0]
+frame #13: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #15: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #16: /usr/bin/python() [0x59c3c4]
+frame #17: /usr/bin/python() [0x680e94]
+frame #18: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #19: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #20: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #21: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #22: <unknown function> + 0x284c4 (0x4000069084c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #23: __libc_start_main + 0x98 (0x400006908598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+[W129 19:50:58.301918826 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[turpancomp7]:36354, remote=[turpancomp4]:35678): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x400079ea3cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x40002fbb91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40002fbbb0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40002fbbd704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1ac (0x40002fbbe40c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xf50c90 (0x40002a050c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x594060 (0x400029694060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: /usr/bin/python() [0x5036b4]
+frame #8: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #9: /usr/bin/python() [0x4c6f6c]
+frame #10: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #11: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #12: /usr/bin/python() [0x528ba0]
+frame #13: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #15: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #16: /usr/bin/python() [0x59c3c4]
+frame #17: /usr/bin/python() [0x680e94]
+frame #18: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #19: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #20: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #21: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #22: <unknown function> + 0x284c4 (0x4000284184c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #23: __libc_start_main + 0x98 (0x400028418598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0129 19:50:58.732000 129924 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp5.calmip.local_129924_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+W0129 19:50:58.733000 287860 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp7.calmip.local_287860_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp7.calmip.local
+  rank      : 7 (local_rank: 1)
+  exitcode  : 1 (pid: 287947)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp7.calmip.local
+  rank      : 6 (local_rank: 0)
+  exitcode  : 1 (pid: 287946)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+[W129 19:50:58.709135824 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[turpancomp5]:54594, remote=[turpancomp4]:35678): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x400058393cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x40000e0a91f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40000e0ab0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40000e0ad704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1ac (0x40000e0ae40c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xf50c90 (0x400008540c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x594060 (0x400007b84060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: /usr/bin/python() [0x5036b4]
+frame #8: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #9: /usr/bin/python() [0x4c6f6c]
+frame #10: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #11: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #12: /usr/bin/python() [0x528ba0]
+frame #13: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #15: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #16: /usr/bin/python() [0x59c3c4]
+frame #17: /usr/bin/python() [0x680e94]
+frame #18: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #19: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #20: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #21: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #22: <unknown function> + 0x284c4 (0x4000069084c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #23: __libc_start_main + 0x98 (0x400006908598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0129 19:50:58.736000 129924 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp5.calmip.local_129924_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp5.calmip.local
+  rank      : 3 (local_rank: 1)
+  exitcode  : 1 (pid: 130011)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp5.calmip.local
+  rank      : 2 (local_rank: 0)
+  exitcode  : 1 (pid: 130010)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+E0129 19:50:58.779000 3051716 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 3051802) of binary: /usr/bin/python
+[W129 19:50:58.657142414 TCPStore.cpp:115] [c10d] recvVector failed on SocketImpl(fd=4, addr=[turpancomp6]:39904, remote=[turpancomp4]:35678): failed to recv, got 0 bytes
+Exception raised from recvBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:671 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x40005b953cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x4000116691f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2ae44 (0x40001166ae44 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2b878 (0x40001166b878 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: <unknown function> + 0x5a2d0b4 (0x40001166d0b4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1bc (0x40001166e41c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #6: <unknown function> + 0xf50c90 (0x40000bb00c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x594060 (0x40000b144060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #8: /usr/bin/python() [0x5036b4]
+frame #9: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #10: /usr/bin/python() [0x4c6f6c]
+frame #11: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #12: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #13: /usr/bin/python() [0x528ba0]
+frame #14: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #15: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #16: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #17: /usr/bin/python() [0x59c3c4]
+frame #18: /usr/bin/python() [0x680e94]
+frame #19: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #20: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #21: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #22: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #23: <unknown function> + 0x284c4 (0x400009ec84c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: __libc_start_main + 0x98 (0x400009ec8598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #25: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0129 19:50:58.797000 3051716 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp6.calmip.local_3051716_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+[W129 19:50:58.664805805 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[turpancomp6]:39904, remote=[turpancomp4]:35678): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x40005b953cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x4000116691f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40001166b0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40001166d704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1ac (0x40001166e40c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xf50c90 (0x40000bb00c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x594060 (0x40000b144060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: /usr/bin/python() [0x5036b4]
+frame #8: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #9: /usr/bin/python() [0x4c6f6c]
+frame #10: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #11: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #12: /usr/bin/python() [0x528ba0]
+frame #13: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #15: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #16: /usr/bin/python() [0x59c3c4]
+frame #17: /usr/bin/python() [0x680e94]
+frame #18: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #19: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #20: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #21: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #22: <unknown function> + 0x284c4 (0x400009ec84c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #23: __libc_start_main + 0x98 (0x400009ec8598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0129 19:50:58.801000 3051716 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp6.calmip.local_3051716_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+[W129 19:50:58.668883802 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[turpancomp6]:39904, remote=[turpancomp4]:35678): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x40005b953cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x4000116691f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40001166b0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40001166d704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x1ac (0x40001166e40c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xf50c90 (0x40000bb00c90 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x594060 (0x40000b144060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #7: /usr/bin/python() [0x5036b4]
+frame #8: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #9: /usr/bin/python() [0x4c6f6c]
+frame #10: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #11: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #12: /usr/bin/python() [0x528ba0]
+frame #13: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #15: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #16: /usr/bin/python() [0x59c3c4]
+frame #17: /usr/bin/python() [0x680e94]
+frame #18: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #19: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #20: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #21: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #22: <unknown function> + 0x284c4 (0x400009ec84c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #23: __libc_start_main + 0x98 (0x400009ec8598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #24: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0129 19:50:58.805000 3051716 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'turpancomp6.calmip.local_3051716_0' has failed to shutdown the rendezvous '75677' due to an error of type RendezvousConnectionError.
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_model_1L.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp6.calmip.local
+  rank      : 5 (local_rank: 1)
+  exitcode  : 1 (pid: 3051803)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-29_19:50:58
+  host      : turpancomp6.calmip.local
+  rank      : 4 (local_rank: 0)
+  exitcode  : 1 (pid: 3051802)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: turpancomp8: task 4: Exited with exit code 1
+srun: error: turpancomp7: task 3: Exited with exit code 1
+srun: error: turpancomp4: task 0: Exited with exit code 1
+srun: error: turpancomp5: task 1: Exited with exit code 1
+srun: error: turpancomp6: task 2: Exited with exit code 1
+==========================================
+Training finished with status 1
+==========================================

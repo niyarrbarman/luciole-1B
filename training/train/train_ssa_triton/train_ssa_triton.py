@@ -1,4 +1,5 @@
 import argparse
+import importlib
 import logging
 import os
 import re
@@ -10,6 +11,7 @@ from typing import Optional
 import pytorch_lightning as pl
 import torch
 import fiddle
+from pytorch_lightning.callbacks import Callback
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
@@ -90,6 +92,12 @@ def parse_args():
         default=None,
         type=int,
         help="Optional per-job step budget; stop after this many optimizer steps in this run.",
+    )
+    parser.add_argument(
+        "--train_log_every_n_steps",
+        default=100,
+        type=int,
+        help="Log train metrics/printouts every N steps (Lightning + Megatron best effort).",
     )
     parser.add_argument("--log_ssa_every_n_steps", default=1000, type=int, help="Log SSA n values every N steps")
     # SSA hyperparameters
@@ -283,6 +291,84 @@ def _maybe_enable_wandb_logger(*, recipe, args, run, logger, experiment_dir: str
     )
 
 
+def _set_megatron_runtime_log_interval(log_interval: int, logger: logging.Logger) -> bool:
+    """Best-effort patch for Megatron's stdout training logger interval."""
+    getter_locations = [
+        ("megatron.training.global_vars", "get_args"),
+        ("megatron.training", "get_args"),
+    ]
+    for module_name, getter_name in getter_locations:
+        try:
+            module = importlib.import_module(module_name)
+        except Exception:
+            continue
+        getter = getattr(module, getter_name, None)
+        if getter is None:
+            continue
+        try:
+            margs = getter()
+        except Exception:
+            continue
+        if margs is None or not hasattr(margs, "log_interval"):
+            continue
+        prev = getattr(margs, "log_interval", None)
+        try:
+            setattr(margs, "log_interval", int(log_interval))
+        except Exception:
+            continue
+        logger.info(
+            "Set Megatron runtime log_interval: %s -> %s (via %s).",
+            prev,
+            log_interval,
+            module_name,
+        )
+        return True
+    return False
+
+
+def _apply_recipe_log_interval(recipe, log_interval: int, logger: logging.Logger) -> None:
+    """
+    Best-effort config-level log interval updates.
+    Some NeMo recipes expose Megatron logging interval on recipe.log.
+    """
+    touched = []
+    for obj, attr, path in (
+        (getattr(recipe, "trainer", None), "log_every_n_steps", "recipe.trainer.log_every_n_steps"),
+        (getattr(recipe, "log", None), "log_interval", "recipe.log.log_interval"),
+        (getattr(recipe, "log", None), "train_log_interval", "recipe.log.train_log_interval"),
+        (getattr(getattr(recipe, "model", None), "config", None), "log_interval", "recipe.model.config.log_interval"),
+        (getattr(getattr(recipe, "trainer", None), "strategy", None), "log_interval", "recipe.trainer.strategy.log_interval"),
+    ):
+        if obj is None:
+            continue
+        try:
+            if hasattr(obj, attr):
+                setattr(obj, attr, int(log_interval))
+                touched.append(path)
+        except Exception:
+            continue
+    if touched:
+        logger.info("Applied training log interval=%s to: %s", log_interval, ", ".join(touched))
+    else:
+        logger.warning("No recipe-level Megatron log interval field found; using runtime patch callback only.")
+
+
+class MegatronLogIntervalCallback(Callback):
+    def __init__(self, log_interval: int):
+        self.log_interval = int(log_interval)
+
+    def on_fit_start(self, trainer, pl_module) -> None:
+        logger = logging.getLogger(__name__)
+        if self.log_interval <= 0:
+            return
+        ok = _set_megatron_runtime_log_interval(self.log_interval, logger)
+        if not ok and _get_global_rank() == 0:
+            logger.warning(
+                "Could not patch Megatron runtime log_interval; "
+                "per-step 'Training epoch..., iteration...' prints may persist."
+            )
+
+
 def main():
     args = parse_args()
 
@@ -340,6 +426,8 @@ def main():
     logger.info("Global training/LR horizon (from --max_steps): %s", global_max_steps)
     if args.this_run_max_steps is not None and args.this_run_max_steps <= 0:
         raise ValueError("--this_run_max_steps must be > 0 when provided.")
+    if args.train_log_every_n_steps <= 0:
+        raise ValueError("--train_log_every_n_steps must be > 0.")
 
     from nemo import lightning as nl  # noqa: E402
     from nemo.collections.llm.gpt.data import PreTrainingDataModule  # noqa: E402
@@ -442,7 +530,7 @@ def main():
     recipe.trainer.max_steps = effective_max_steps
     recipe.trainer.val_check_interval = effective_max_steps
     recipe.trainer.limit_val_batches = 0.0
-    recipe.trainer.log_every_n_steps = 100
+    recipe.trainer.log_every_n_steps = args.train_log_every_n_steps
     recipe.trainer.devices = gpus_per_node
     recipe.trainer.strategy.tensor_model_parallel_size = args.tensor_parallelism
     recipe.trainer.strategy.pipeline_model_parallel_size = args.pipeline_parallelism
@@ -450,6 +538,7 @@ def main():
     recipe.trainer.strategy.virtual_pipeline_model_parallel_size = None
     recipe.trainer.strategy.sequence_parallel = False
     recipe.trainer.strategy.pipeline_dtype = torch.bfloat16
+    _apply_recipe_log_interval(recipe, args.train_log_every_n_steps, logger)
 
     # Remove unsupported optimizer kwargs
     optim_cfg = getattr(recipe, "optim", None)
@@ -469,6 +558,7 @@ def main():
     )
 
     trainer_callbacks = [
+        run.Config(MegatronLogIntervalCallback, log_interval=args.train_log_every_n_steps),
         run.Config(StatelessTimer, duration=args.duration),
         run.Config(GarbageCollectionCallback, gc_interval_train=100, gc_interval_val=100),
         run.Config(SSALoggingCallback, log_every_n_steps=args.log_ssa_every_n_steps),

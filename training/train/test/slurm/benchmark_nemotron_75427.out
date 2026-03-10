@@ -1,69 +1,0 @@
-===========================================
-LM Evaluation Harness - Nemotron Model
-===========================================
-Checkpoint:  
-Tokenizer:   /work/m24047/m24047brmn/tokenizers/minitron-4b
-Tasks:       arc_easy
-Num Layers:  24
-Batch Size:  1
-Limit:       'None (full dataset)'
-Num Fewshot: 'Task default'
-Output:      benchmark_results/results_arc_easy_20260128_140532.json
-===========================================
-INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
-INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
-INFO:numexpr.utils:NumExpr defaulting to 16 threads.
-INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
-INFO:datasets:Polars version 1.21.0 available.
-INFO:__main__:Tasks to evaluate: ['arc_easy']
-INFO:__main__:Initializing NemotronLM wrapper...
-INFO:faiss.loader:Loading faiss.
-INFO:faiss.loader:Successfully loaded faiss.
-[NeMo W 2026-01-28 14:05:54 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
-      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
-    
-INFO:load_model:Using tokenizer: /work/m24047/m24047brmn/tokenizers/minitron-4b
-[NeMo I 2026-01-28 14:05:59 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/minitron-4b, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
-INFO:load_model:Model config: 24 layers, hidden_size=2048
-INFO:load_model:Initialized parallel state with backend nccl
-INFO:load_model:Creating Nemotron model...
-INFO:load_model:Configuring model (setting up internal module)...
-[NeMo I 2026-01-28 14:06:00 nemo_logging:393] Padded vocab_size: 256000, original vocab_size: 256000, dummy tokens: 0.
-INFO:load_model:No checkpoint provided, model initialized with random weights
-INFO:load_model:Model ready for inference
-INFO:__main__:Tokenizer setup: vocab_size=256000, eot_token_id=3, prefix_token_id=2
-INFO:__main__:NemotronLM wrapper initialized successfully
-INFO:__main__:Added task: arc_easy -> arc_easy
-INFO:__main__:  Description: ARC Easy - Science questions from standardized tests
-INFO:__main__:
-Running evaluation on tasks: ['arc_easy']
-INFO:lm_eval.evaluator:Setting random seed to 0 | Setting numpy seed to 1234 | Setting fewshot manual seed to 1234
-INFO:lm_eval.evaluator:Using pre-initialized model
-Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
-WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
-Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
-WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
-INFO:lm_eval.api.task:Building contexts for arc_easy on rank 0...
-  0%|          | 0/2376 [00:00<?, ?it/s]  6%|▌         | 144/2376 [00:00<00:01, 1431.36it/s] 12%|█▏        | 290/2376 [00:00<00:01, 1444.05it/s] 18%|█▊        | 435/2376 [00:00<00:01, 1446.24it/s] 24%|██▍       | 581/2376 [00:00<00:01, 1448.69it/s] 31%|███       | 727/2376 [00:00<00:01, 1450.87it/s] 37%|███▋      | 873/2376 [00:00<00:01, 1452.83it/s] 43%|████▎     | 1019/2376 [00:00<00:00, 1450.15it/s] 49%|████▉     | 1165/2376 [00:00<00:00, 1449.95it/s] 55%|█████▌    | 1311/2376 [00:00<00:00, 1451.60it/s] 61%|██████▏   | 1457/2376 [00:01<00:00, 1448.68it/s] 67%|██████▋   | 1602/2376 [00:01<00:00, 1448.41it/s] 74%|███████▎  | 1747/2376 [00:01<00:00, 1448.54it/s] 80%|███████▉  | 1892/2376 [00:01<00:00, 1448.73it/s] 86%|████████▌ | 2037/2376 [00:01<00:00, 1448.03it/s] 92%|█████████▏| 2183/2376 [00:01<00:00, 1448.57it/s] 98%|█████████▊| 2329/2376 [00:01<00:00, 1450.11it/s]100%|██████████| 2376/2376 [00:01<00:00, 1448.97it/s]
-INFO:lm_eval.evaluator:Running loglikelihood requests
-
-======================================================================
-BENCHMARK RESULTS
-======================================================================
-
-arc_easy:
---------------------------------------------------
-  alias: arc_easy
-  acc,none: 0.2445
-  acc_stderr,none: 0.0088
-  acc_norm,none: 0.2525
-  acc_norm_stderr,none: 0.0089
-
-======================================================================
-INFO:__main__:Results saved to: benchmark_results/results_arc_easy_20260128_140532.json
-INFO:load_model:Destroyed Megatron model parallel state
-INFO:load_model:Destroyed process group
-===========================================
-Benchmark finished with status 0
-Results saved to: benchmark_results/results_arc_easy_20260128_140532.json
-===========================================

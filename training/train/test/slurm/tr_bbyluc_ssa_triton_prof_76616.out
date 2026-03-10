@@ -1,822 +1,0 @@
-==========================================
-Starting SSA Triton Profiling
-Datamix:     /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json
-Output:      /tmpdir/m24047brmn/nemo_1b/output_prof
-Name:        baby_luciole-ssa-triton-prof
-Nodes:       1
-Duration:    00:02:00:00
-SSA n:       1.5
-SSA b:       0.8
-==========================================
-W0210 00:45:47.701000 1224125 torch/distributed/run.py:763] 
-W0210 00:45:47.701000 1224125 torch/distributed/run.py:763] *****************************************
-W0210 00:45:47.701000 1224125 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
-W0210 00:45:47.701000 1224125 torch/distributed/run.py:763] *****************************************
-[rank: 0] Seed set to 1234
-[rank: 1] Seed set to 1234
-INFO:faiss.loader:Loading faiss.
-INFO:faiss.loader:Loading faiss.
-INFO:faiss.loader:Successfully loaded faiss.
-INFO:faiss.loader:Successfully loaded faiss.
-[NeMo W 2026-02-10 00:46:25 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
-      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
-    
-INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
-INFO:datasets:Polars version 1.21.0 available.
-INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
-INFO:datasets:Polars version 1.21.0 available.
-INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
-INFO:utils:{'tokenizer': '/work/m24047/m24047brmn/tokenizers/luciole_50k', 'data_path': '/tmpdir/m24047brmn/nemo_1b/data_fwe_50k', 'total_tokens': 10000000000, 'train': [{'name': 'fineweb_edu_text_document', 'weight': 1.0}]}
-INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
-[NeMo I 2026-02-10 00:46:34 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/luciole_50k, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
-INFO:__main__:Global batch size: 768
-INFO:__main__:Sequence length: 1024
-INFO:__main__:Tokens per batch: 786432
-INFO:__main__:Total tokens in datamix: 10000000000
-INFO:__main__:Using provided global_max_steps: 60000
-INFO:__main__:Patched megatron.core.optimizer (accepted params: {'lr_mult', 'model_chunks', 'scale_lr_cond', 'use_gloo_process_groups', 'config', 'no_weight_decay_cond'})
-INFO:utils:Find tokenizer: /work/m24047/m24047brmn/tokenizers/luciole_50k
-INFO:__main__:Global batch size: 768
-INFO:__main__:Sequence length: 1024
-INFO:__main__:Tokens per batch: 786432
-INFO:__main__:Total tokens in datamix: 10000000000
-INFO:__main__:Using provided global_max_steps: 60000
-INFO:__main__:Patched megatron.core.optimizer (accepted params: {'no_weight_decay_cond', 'lr_mult', 'model_chunks', 'scale_lr_cond', 'use_gloo_process_groups', 'config'})
-INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80)
-INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention (n=1.50, b=0.80)
-INFO:__main__:Training from scratch, trainer.max_steps = 10
-INFO:__main__:Training from scratch, trainer.max_steps = 10
-INFO:__main__:LR scheduler max_steps = 60000
-INFO:__main__:LR scheduler max_steps = 60000
-INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output_prof/job_76616/config_baby_luciole-ssa-triton-prof.json
-INFO:__main__:Warming up Triton kernels (Hq=24, Hkv=8, D=32)...
-INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output_prof/job_76616/config_baby_luciole-ssa-triton-prof.json
-INFO:__main__:Warming up Triton kernels (Hq=24, Hkv=8, D=32)...
-INFO:__main__:Triton kernel warmup complete.
-INFO:__main__:Triton kernel warmup complete.
-INFO: GPU available: True (cuda), used: True
-INFO:lightning.pytorch.utilities.rank_zero:GPU available: True (cuda), used: True
-INFO: TPU available: False, using: 0 TPU cores
-INFO:lightning.pytorch.utilities.rank_zero:TPU available: False, using: 0 TPU cores
-INFO: HPU available: False, using: 0 HPUs
-INFO:lightning.pytorch.utilities.rank_zero:HPU available: False, using: 0 HPUs
-[NeMo W 2026-02-10 00:46:41 nemo_logging:405] No version folders would be created under the log folder as 'resume_if_exists' is enabled.
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Experiments will be logged at /tmpdir/m24047brmn/nemo_1b/output_prof/baby_luciole-ssa-triton-prof
-[NeMo W 2026-02-10 00:46:41 nemo_logging:405] "update_logger_directory" is True. Overwriting tensorboard logger "save_dir" to /tmpdir/m24047brmn/nemo_1b/output_prof/tb_logs
-[NeMo W 2026-02-10 00:46:41 nemo_logging:405] The Trainer already contains a ModelCheckpoint callback. This will be overwritten.
-[NeMo W 2026-02-10 00:46:41 nemo_logging:405] There were no checkpoints found in checkpoint_dir or no checkpoint folder at checkpoint_dir :/tmpdir/m24047brmn/nemo_1b/output_prof/baby_luciole-ssa-triton-prof/checkpoints. Training from scratch.
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Fixing mis-match between ddp-config & mcore-optimizer config
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has data parallel group : [0, 1]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has combined group of data parallel and context parallel : [0, 1]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] All data parallel group ranks with context parallel combined: [[0, 1]]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Ranks 0 has data parallel rank: 0
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has context parallel group: [0]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] All context parallel group ranks: [[0], [1]]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Ranks 0 has context parallel rank: 0
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has model parallel group: [0]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] All model parallel group ranks: [[0], [1]]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has tensor model parallel group: [0]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] All tensor model parallel group ranks: [[0], [1]]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has tensor model parallel rank: 0
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has pipeline model parallel group: [0]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has embedding group: [0]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] All pipeline model parallel group ranks: [[0], [1]]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has pipeline model parallel rank 0
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] All embedding group ranks: [[0], [1]]
-[NeMo I 2026-02-10 00:46:41 nemo_logging:393] Rank 0 has embedding rank: 0
-INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/2
-INFO: ----------------------------------------------------------------------------------------------------
-distributed_backend=nccl
-All distributed processes registered. Starting with 2 processes
-----------------------------------------------------------------------------------------------------
-
-INFO:lightning.pytorch.utilities.rank_zero:----------------------------------------------------------------------------------------------------
-distributed_backend=nccl
-All distributed processes registered. Starting with 2 processes
-----------------------------------------------------------------------------------------------------
-
-INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/2
-[NeMo I 2026-02-10 00:46:44 utils:532] Let split_matrix = [(0, 1.0), None, None]
-[NeMo I 2026-02-10 00:46:44 utils:532] Building GPTDataset splits with sizes=[7680, 0, 24576] and config=GPTDatasetConfig(random_seed=1234, sequence_length=1024, blend=[['/tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document'], None], blend_per_split=None, split='1,0,0', split_matrix=[(0, 1.0), None, None], num_dataset_builder_threads=1, path_to_cache='/tmpdir/m24047brmn/nemo_1b/output_prof/index_mapping', mmap_bin_files=True, mock=False, tokenizer=<nemo.collections.common.tokenizers.huggingface.auto_tokenizer.AutoTokenizer object at 0x40026ee62840>, reset_position_ids=False, reset_attention_mask=False, eod_mask_loss=False, create_attention_mask=False, drop_last_partial_validation_sequence=True, add_extra_token_to_sequence=True, s3_cache_path=None)
-[NeMo I 2026-02-10 00:46:44 utils:532] Load the _IndexReader from /tmpdir/m24047brmn/nemo_1b/data_fwe_50k/fineweb_edu_text_document.idx
-[NeMo I 2026-02-10 00:46:44 utils:532] 	Extract the sequence lengths
-[NeMo I 2026-02-10 00:46:44 utils:532] 	Extract the sequence pointers
-[NeMo I 2026-02-10 00:46:44 utils:532] 	Extract the document indices
-[NeMo I 2026-02-10 00:46:44 utils:532] > total number of sequences: 9564453
-[NeMo I 2026-02-10 00:46:44 utils:532] > total number of documents: 9564453
-[NeMo I 2026-02-10 00:46:44 utils:532] Build and save the GPTDataset train indices
-[NeMo I 2026-02-10 00:46:51 utils:532] > total number of samples: 9765624
-[NeMo I 2026-02-10 00:46:51 utils:532] > total number of epochs: 1
-[NeMo I 2026-02-10 00:46:51 nemo_logging:393] Use preset vocab_size: 50256, original vocab_size: 50256, dummy tokens: 0.
-INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
-INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
-INFO: LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
-INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1]
-[NeMo I 2026-02-10 00:46:51 nemo_logging:393] Copying Trainer's 'max_steps' (10) to LR scheduler's 'max_steps'.
-[NeMo I 2026-02-10 00:46:51 num_microbatches_calculator:228] setting number of microbatches to constant 48
-[NeMo I 2026-02-10 00:46:51 nemo_logging:393]  > number of parameters on (tensor, pipeline) model parallel rank (0 ,0): 114132492
-[NeMo I 2026-02-10 00:46:51 utils:532] Setting up DistributedDataParallel with config DistributedDataParallelConfig(grad_reduce_in_fp32=True, overlap_grad_reduce=True, overlap_param_gather=True, align_param_gather=False, use_distributed_optimizer=True, num_distributed_optimizer_instances=1, check_for_nan_in_grad=True, check_for_large_grads=False, bucket_size=40000000, pad_buckets_for_high_nccl_busbw=False, average_in_collective=True, fp8_param_gather=False, use_custom_fsdp=False, data_parallel_sharding_strategy='no_shard', gradient_reduce_div_fusion=True, suggested_communication_unit_size=None, preserve_fp32_weights=True, keep_fp8_transpose_cache_when_using_custom_fsdp=False)
-[NeMo I 2026-02-10 00:46:51 utils:553] Number of buckets for gradient all-reduce / reduce-scatter: 2
-    Params for bucket 1 (40128006 elements, 40128384 padded size):
-    	module.decoder.final_layernorm.weight
-    	module.decoder.layers.10.self_attention.linear_qkv.weight
-    	module.decoder.layers.9.pre_mlp_layernorm.weight
-    	module.decoder.layers.8.mlp.linear_fc1.weight
-    	module.decoder.layers.8.input_layernorm.weight
-    	module.decoder.layers.6.self_attention.linear_qkv.weight
-    	module.decoder.layers.5.mlp.linear_fc2.weight
-    	module.decoder.layers.11.mlp.linear_fc2.weight
-    	module.decoder.layers.11.input_layernorm.bias
-    	module.decoder.layers.10.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.9.pre_mlp_layernorm.bias
-    	module.decoder.layers.8.self_attention.linear_proj.weight
-    	module.decoder.layers.7.mlp.linear_fc2.weight
-    	module.decoder.layers.7.input_layernorm.bias
-    	module.decoder.layers.6.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.11.self_attention.linear_qkv.weight
-    	module.decoder.layers.10.pre_mlp_layernorm.weight
-    	module.decoder.layers.9.mlp.linear_fc1.weight
-    	module.decoder.layers.9.input_layernorm.weight
-    	module.decoder.layers.7.self_attention.linear_qkv.weight
-    	module.decoder.layers.6.pre_mlp_layernorm.weight
-    	module.decoder.layers.6.input_layernorm.bias
-    	module.decoder.layers.11.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.10.pre_mlp_layernorm.bias
-    	module.decoder.layers.9.self_attention.linear_proj.weight
-    	module.decoder.layers.8.mlp.linear_fc2.weight
-    	module.decoder.layers.8.input_layernorm.bias
-    	module.decoder.layers.7.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.11.pre_mlp_layernorm.weight
-    	module.decoder.layers.10.mlp.linear_fc1.weight
-    	module.decoder.layers.10.input_layernorm.weight
-    	module.decoder.layers.8.self_attention.linear_qkv.weight
-    	module.decoder.layers.7.pre_mlp_layernorm.weight
-    	module.decoder.layers.6.mlp.linear_fc1.weight
-    	module.decoder.layers.11.pre_mlp_layernorm.bias
-    	module.decoder.layers.10.self_attention.linear_proj.weight
-    	module.decoder.layers.9.mlp.linear_fc2.weight
-    	module.decoder.layers.9.input_layernorm.bias
-    	module.decoder.layers.8.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.7.pre_mlp_layernorm.bias
-    	module.decoder.layers.6.self_attention.linear_proj.weight
-    	module.decoder.final_layernorm.bias
-    	module.decoder.layers.11.mlp.linear_fc1.weight
-    	module.decoder.layers.11.input_layernorm.weight
-    	module.decoder.layers.9.self_attention.linear_qkv.weight
-    	module.decoder.layers.8.pre_mlp_layernorm.weight
-    	module.decoder.layers.7.mlp.linear_fc1.weight
-    	module.decoder.layers.7.input_layernorm.weight
-    	module.decoder.layers.6.pre_mlp_layernorm.bias
-    	module.decoder.layers.11.self_attention.linear_proj.weight
-    	module.decoder.layers.10.mlp.linear_fc2.weight
-    	module.decoder.layers.10.input_layernorm.bias
-    	module.decoder.layers.9.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.8.pre_mlp_layernorm.bias
-    	module.decoder.layers.7.self_attention.linear_proj.weight
-    	module.decoder.layers.6.mlp.linear_fc2.weight
-    	module.decoder.layers.6.input_layernorm.weight
-    Params for bucket 2 (74004486 elements, 74004864 padded size):
-    	module.decoder.layers.5.input_layernorm.weight
-    	module.decoder.layers.4.pre_mlp_layernorm.bias
-    	module.decoder.layers.3.self_attention.linear_proj.weight
-    	module.decoder.layers.2.mlp.linear_fc1.weight
-    	module.decoder.layers.0.pre_mlp_layernorm.weight
-    	module.decoder.layers.5.self_attention.linear_qkv.weight
-    	module.decoder.layers.4.mlp.linear_fc2.weight
-    	module.decoder.layers.4.input_layernorm.weight
-    	module.decoder.layers.3.pre_mlp_layernorm.bias
-    	module.decoder.layers.2.self_attention.linear_proj.weight
-    	module.decoder.layers.1.mlp.linear_fc1.weight
-    	module.decoder.layers.0.pre_mlp_layernorm.bias
-    	module.decoder.layers.5.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.4.self_attention.linear_qkv.weight
-    	module.decoder.layers.3.mlp.linear_fc2.weight
-    	module.decoder.layers.3.input_layernorm.weight
-    	module.decoder.layers.2.pre_mlp_layernorm.bias
-    	module.decoder.layers.1.self_attention.linear_proj.weight
-    	module.decoder.layers.0.mlp.linear_fc1.weight
-    	module.decoder.layers.0.input_layernorm.bias
-    	module.decoder.layers.5.pre_mlp_layernorm.weight
-    	module.decoder.layers.5.input_layernorm.bias
-    	module.decoder.layers.4.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.3.self_attention.linear_qkv.weight
-    	module.decoder.layers.2.mlp.linear_fc2.weight
-    	module.decoder.layers.2.input_layernorm.weight
-    	module.decoder.layers.1.pre_mlp_layernorm.bias
-    	module.decoder.layers.0.self_attention.linear_proj.weight
-    	module.decoder.layers.4.pre_mlp_layernorm.weight
-    	module.decoder.layers.4.input_layernorm.bias
-    	module.decoder.layers.3.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.2.self_attention.linear_qkv.weight
-    	module.decoder.layers.1.mlp.linear_fc2.weight
-    	module.decoder.layers.1.input_layernorm.weight
-    	module.decoder.layers.0.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.5.mlp.linear_fc1.weight
-    	module.decoder.layers.3.pre_mlp_layernorm.weight
-    	module.decoder.layers.3.input_layernorm.bias
-    	module.decoder.layers.2.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.1.self_attention.linear_qkv.weight
-    	module.decoder.layers.0.mlp.linear_fc2.weight
-    	module.decoder.layers.0.input_layernorm.weight
-    	module.embedding.word_embeddings.weight
-    	module.decoder.layers.5.self_attention.linear_proj.weight
-    	module.decoder.layers.4.mlp.linear_fc1.weight
-    	module.decoder.layers.2.pre_mlp_layernorm.weight
-    	module.decoder.layers.2.input_layernorm.bias
-    	module.decoder.layers.1.self_attention.core_attention.ssa_n_raw
-    	module.decoder.layers.0.self_attention.linear_qkv.weight
-    	module.decoder.layers.5.pre_mlp_layernorm.bias
-    	module.decoder.layers.4.self_attention.linear_proj.weight
-    	module.decoder.layers.3.mlp.linear_fc1.weight
-    	module.decoder.layers.1.pre_mlp_layernorm.weight
-    	module.decoder.layers.1.input_layernorm.bias
-[NeMo I 2026-02-10 00:46:51 utils:532] Setting up optimizer with config OptimizerConfig(optimizer='adam', lr=0.0003, min_lr=None, decoupled_lr=None, decoupled_min_lr=None, weight_decay=0.1, fp16=False, bf16=True, params_dtype=torch.bfloat16, use_precision_aware_optimizer=False, main_grads_dtype=torch.float32, main_params_dtype=torch.float32, exp_avg_dtype=torch.float32, exp_avg_sq_dtype=torch.float32, loss_scale=None, initial_loss_scale=4294967296, min_loss_scale=1.0, loss_scale_window=1000, hysteresis=2, adam_beta1=0.9, adam_beta2=0.95, adam_eps=1e-05, sgd_momentum=0.9, use_distributed_optimizer=True, overlap_param_gather_with_optimizer_step=False, optimizer_cpu_offload=False, optimizer_offload_fraction=0.0, use_torch_optimizer_for_cpu_offload=False, overlap_cpu_optimizer_d2h_h2d=False, pin_cpu_grads=True, pin_cpu_params=True, clip_grad=1.0, log_num_zeros_in_grad=False, barrier_with_L1_time=False, timers=None, config_logger_dir='')
-INFO: 
-  | Name   | Type | Params | Mode 
-----------------------------------------
-0 | module | DDP  | 114 M  | train
-----------------------------------------
-114 M     Trainable params
-0         Non-trainable params
-114 M     Total params
-456.530   Total estimated model params size (MB)
-203       Modules in train mode
-0         Modules in eval mode
-INFO:lightning.pytorch.callbacks.model_summary:
-  | Name   | Type | Params | Mode 
-----------------------------------------
-0 | module | DDP  | 114 M  | train
-----------------------------------------
-114 M     Trainable params
-0         Non-trainable params
-114 M     Total params
-456.530   Total estimated model params size (MB)
-203       Modules in train mode
-0         Modules in eval mode
-INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
-INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 9765624 and consumed_samples: 0
-[NeMo W 2026-02-10 00:47:58 rerun_state_machine:1264] Implicit initialization of Rerun State Machine!
-[NeMo W 2026-02-10 00:47:58 rerun_state_machine:239] RerunStateMachine initialized in mode RerunMode.DISABLED
-Training epoch 0, iteration 0/9 | lr: 5.988e-07 | global_batch_size: 768 | global_step: 0 | reduced_train_loss: 10.88
-Training epoch 0, iteration 1/9 | lr: 1.198e-06 | global_batch_size: 768 | global_step: 1 | reduced_train_loss: 10.88 | consumed_samples: 1536
-Training epoch 0, iteration 2/9 | lr: 1.796e-06 | global_batch_size: 768 | global_step: 2 | reduced_train_loss: 10.88 | consumed_samples: 2304
-Training epoch 0, iteration 3/9 | lr: 2.395e-06 | global_batch_size: 768 | global_step: 3 | reduced_train_loss: 10.87 | consumed_samples: 3072
-Training epoch 0, iteration 4/9 | lr: 2.994e-06 | global_batch_size: 768 | global_step: 4 | reduced_train_loss: 10.82 | consumed_samples: 3840
-W0210 00:50:13.803000 1224125 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
-W0210 00:50:13.804000 1224125 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 1224148 closing signal SIGTERM
-W0210 00:50:13.804000 1224125 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 1224149 closing signal SIGTERM
-INFO: [rank: 0] Received SIGTERM: 15
-INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 0] Received SIGTERM: 15
-INFO: [rank: 1] Received SIGTERM: 15
-INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 1] Received SIGTERM: 15
-[rank0]: Traceback (most recent call last):
-[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_ssa_triton.py", line 304, in <module>
-[rank0]:     main()
-[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_ssa_triton.py", line 298, in main
-[rank0]:     recipe_obj()
-[rank0]:   File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
-[rank0]:     return train(
-[rank0]:            ^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/collections/llm/api.py", line 127, in train
-[rank0]:     trainer.fit(model, data)
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 538, in fit
-[rank0]:     call._call_and_handle_interrupt(
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/call.py", line 46, in _call_and_handle_interrupt
-[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
-[rank0]:     return function(*args, **kwargs)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 574, in _fit_impl
-[rank0]:     self._run(model, ckpt_path=ckpt_path)
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 981, in _run
-[rank0]:     results = self._run_stage()
-[rank0]:               ^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 1025, in _run_stage
-[rank0]:     self.fit_loop.run()
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/fit_loop.py", line 205, in run
-[rank0]:     self.advance()
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/fit_loop.py", line 363, in advance
-[rank0]:     self.epoch_loop.run(self._data_fetcher)
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/training_epoch_loop.py", line 140, in run
-[rank0]:     self.advance(data_fetcher)
-[rank0]:   File "/opt/NeMo/nemo/lightning/pytorch/trainer.py", line 47, in advance
-[rank0]:     super().advance(data_fetcher)
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/training_epoch_loop.py", line 250, in advance
-[rank0]:     batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
-[rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 190, in run
-[rank0]:     self._optimizer_step(batch_idx, closure)
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 268, in _optimizer_step
-[rank0]:     call._call_lightning_module_hook(
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/call.py", line 167, in _call_lightning_module_hook
-[rank0]:     output = fn(*args, **kwargs)
-[rank0]:              ^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/core/module.py", line 1306, in optimizer_step
-[rank0]:     optimizer.step(closure=optimizer_closure)
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/core/optimizer.py", line 153, in step
-[rank0]:     step_output = self._strategy.optimizer_step(self._optimizer, closure, **kwargs)
-[rank0]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/lightning/pytorch/strategies/megatron_strategy.py", line 761, in optimizer_step
-[rank0]:     optimizer_output = super().optimizer_step(optimizer, closure, model, **kwargs)
-[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/strategies/ddp.py", line 270, in optimizer_step
-[rank0]:     optimizer_output = super().optimizer_step(optimizer, closure, model, **kwargs)
-[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/strategies/strategy.py", line 238, in optimizer_step
-[rank0]:     return self.precision_plugin.optimizer_step(optimizer, model=model, closure=closure, **kwargs)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/plugins/precision/precision.py", line 122, in optimizer_step
-[rank0]:     return optimizer.step(closure=closure, **kwargs)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/optim/lr_scheduler.py", line 137, in wrapper
-[rank0]:     return func.__get__(opt, opt.__class__)(*args, **kwargs)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/core/optim/mcore_optim.py", line 129, in step
-[rank0]:     loss = closure()
-[rank0]:            ^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/plugins/precision/precision.py", line 108, in _wrap_closure
-[rank0]:     closure_result = closure()
-[rank0]:                      ^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 144, in __call__
-[rank0]:     self._result = self.closure(*args, **kwargs)
-[rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 116, in decorate_context
-[rank0]:     return func(*args, **kwargs)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 129, in closure
-[rank0]:     step_output = self._step_fn()
-[rank0]:                   ^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 317, in _training_step
-[rank0]:     training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
-[rank0]:                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/call.py", line 319, in _call_strategy_hook
-[rank0]:     output = fn(*args, **kwargs)
-[rank0]:              ^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/lightning/pytorch/strategies/megatron_strategy.py", line 695, in training_step
-[rank0]:     out = self.model.training_step(dataloader_iter, *args, **kwargs)
-[rank0]:           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 389, in training_step
-[rank0]:     return self._step(
-[rank0]:            ^^^^^^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 501, in _step
-[rank0]:     return self.forward(
-[rank0]:            ^^^^^^^^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 351, in forward
-[rank0]:     microbatch_outputs = step()
-[rank0]:                          ^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 1287, in __call__
-[rank0]:     return self.forward_backward_func(
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/opt/megatron-lm/megatron/core/pipeline_parallel/schedules.py", line 480, in forward_backward_no_pipelining
-[rank0]:     output_tensor, num_tokens = forward_step(
-[rank0]:                                 ^^^^^^^^^^^^^
-[rank0]:   File "/opt/megatron-lm/megatron/core/pipeline_parallel/schedules.py", line 286, in forward_step
-[rank0]:     outputs = loss_func(output_tensor)
-[rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-[rank0]:     return self._call_impl(*args, **kwargs)
-[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1857, in _call_impl
-[rank0]:     return inner()
-[rank0]:            ^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1805, in inner
-[rank0]:     result = forward_call(*args, **kwargs)
-[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 1800, in forward
-[rank0]:     num_valid_tokens_in_ub = num_valid_tokens_in_ub.clone().detach().to(torch.int)
-[rank0]:                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/utils/data/_utils/signal_handling.py", line 73, in handler
-[rank0]:     _error_if_any_worker_fails()
-[rank0]: RuntimeError: DataLoader worker (pid 1224427) is killed by signal: Terminated. 
-[rank1]: Traceback (most recent call last):
-[rank1]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_ssa_triton.py", line 304, in <module>
-[rank1]:     main()
-[rank1]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/train_ssa_triton.py", line 298, in main
-[rank1]:     recipe_obj()
-[rank1]:   File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
-[rank1]:     return train(
-[rank1]:            ^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/collections/llm/api.py", line 127, in train
-[rank1]:     trainer.fit(model, data)
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 538, in fit
-[rank1]:     call._call_and_handle_interrupt(
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/call.py", line 46, in _call_and_handle_interrupt
-[rank1]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
-[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
-[rank1]:     return function(*args, **kwargs)
-[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 574, in _fit_impl
-[rank1]:     self._run(model, ckpt_path=ckpt_path)
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 981, in _run
-[rank1]:     results = self._run_stage()
-[rank1]:               ^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 1025, in _run_stage
-[rank1]:     self.fit_loop.run()
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/fit_loop.py", line 205, in run
-[rank1]:     self.advance()
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/fit_loop.py", line 363, in advance
-[rank1]:     self.epoch_loop.run(self._data_fetcher)
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/training_epoch_loop.py", line 140, in run
-[rank1]:     self.advance(data_fetcher)
-[rank1]:   File "/opt/NeMo/nemo/lightning/pytorch/trainer.py", line 47, in advance
-[rank1]:     super().advance(data_fetcher)
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/training_epoch_loop.py", line 250, in advance
-[rank1]:     batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
-[rank1]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 190, in run
-[rank1]:     self._optimizer_step(batch_idx, closure)
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 268, in _optimizer_step
-[rank1]:     call._call_lightning_module_hook(
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/call.py", line 167, in _call_lightning_module_hook
-[rank1]:     output = fn(*args, **kwargs)
-[rank1]:              ^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/core/module.py", line 1306, in optimizer_step
-[rank1]:     optimizer.step(closure=optimizer_closure)
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/core/optimizer.py", line 153, in step
-[rank1]:     step_output = self._strategy.optimizer_step(self._optimizer, closure, **kwargs)
-[rank1]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/lightning/pytorch/strategies/megatron_strategy.py", line 761, in optimizer_step
-[rank1]:     optimizer_output = super().optimizer_step(optimizer, closure, model, **kwargs)
-[rank1]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/strategies/ddp.py", line 270, in optimizer_step
-[rank1]:     optimizer_output = super().optimizer_step(optimizer, closure, model, **kwargs)
-[rank1]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/strategies/strategy.py", line 238, in optimizer_step
-[rank1]:     return self.precision_plugin.optimizer_step(optimizer, model=model, closure=closure, **kwargs)
-[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/plugins/precision/precision.py", line 122, in optimizer_step
-[rank1]:     return optimizer.step(closure=closure, **kwargs)
-[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/torch/optim/lr_scheduler.py", line 137, in wrapper
-[rank1]:     return func.__get__(opt, opt.__class__)(*args, **kwargs)
-[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/core/optim/mcore_optim.py", line 129, in step
-[rank1]:     loss = closure()
-[rank1]:            ^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/plugins/precision/precision.py", line 108, in _wrap_closure
-[rank1]:     closure_result = closure()
-[rank1]:                      ^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 144, in __call__
-[rank1]:     self._result = self.closure(*args, **kwargs)
-[rank1]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 116, in decorate_context
-[rank1]:     return func(*args, **kwargs)
-[rank1]:            ^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 129, in closure
-[rank1]:     step_output = self._step_fn()
-[rank1]:                   ^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/optimization/automatic.py", line 317, in _training_step
-[rank1]:     training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
-[rank1]:                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/call.py", line 319, in _call_strategy_hook
-[rank1]:     output = fn(*args, **kwargs)
-[rank1]:              ^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/lightning/pytorch/strategies/megatron_strategy.py", line 695, in training_step
-[rank1]:     out = self.model.training_step(dataloader_iter, *args, **kwargs)
-[rank1]:           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 389, in training_step
-[rank1]:     return self._step(
-[rank1]:            ^^^^^^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 501, in _step
-[rank1]:     return self.forward(
-[rank1]:            ^^^^^^^^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 351, in forward
-[rank1]:     microbatch_outputs = step()
-[rank1]:                          ^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 1287, in __call__
-[rank1]:     return self.forward_backward_func(
-[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/opt/megatron-lm/megatron/core/pipeline_parallel/schedules.py", line 480, in forward_backward_no_pipelining
-[rank1]:     output_tensor, num_tokens = forward_step(
-[rank1]:                                 ^^^^^^^^^^^^^
-[rank1]:   File "/opt/megatron-lm/megatron/core/pipeline_parallel/schedules.py", line 286, in forward_step
-[rank1]:     outputs = loss_func(output_tensor)
-[rank1]:               ^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-[rank1]:     return self._call_impl(*args, **kwargs)
-[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1857, in _call_impl
-[rank1]:     return inner()
-[rank1]:            ^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1805, in inner
-[rank1]:     result = forward_call(*args, **kwargs)
-[rank1]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/opt/NeMo/nemo/lightning/megatron_parallel.py", line 1800, in forward
-[rank1]:     num_valid_tokens_in_ub = num_valid_tokens_in_ub.clone().detach().to(torch.int)
-[rank1]:                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[rank1]:   File "/usr/local/lib/python3.12/dist-packages/torch/utils/data/_utils/signal_handling.py", line 73, in handler
-[rank1]:     _error_if_any_worker_fails()
-[rank1]: RuntimeError: DataLoader worker (pid 1224432) is killed by signal: Terminated. 
-Collecting data...
-Generating '/tmp/nsys-report-d7b3.qdstrm'
-[1/8] [0%                          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [0%                          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [0%                          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [10%                         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [9%                          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [8%                          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [7%                          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [12%                         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [11%                         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [10%                         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [14%                         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [13%                         ] baby_luTraceback (most recent call last):
-  File "/usr/local/bin/torchrun", line 33, in <module>
-    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
-    return f(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
-    run(args)
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
-    elastic_launch(
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
-    return launch_agent(self._config, self._entrypoint, list(args))
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 261, in launch_agent
-    result = agent.run()
-             ^^^^^^^^^^^
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
-    result = f(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 711, in run
-    result = self._invoke_run(role)
-             ^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 870, in _invoke_run
-    time.sleep(monitor_interval)
-  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/api.py", line 84, in _terminate_process_handler
-    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
-torch.distributed.elastic.multiprocessing.api.SignalException: Process 1224125 got signal: 15
-ciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [12%                         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [11%                         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [14%                         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=17%                        ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==19%                       ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==20%                       ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==21%                       ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===22%                      ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===23%                      ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===24%                      ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [====25%                     ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [====26%                     ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [====27%                     ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [====28%                     ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=====29%                    ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=====30%                    ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=====31%                    ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=====32%                    ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [======33%                   ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [======34%                   ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [======35%                   ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=======36%                  ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=======37%                  ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=======38%                  ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=======39%                  ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [========40%                 ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [========41%                 ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [========42%                 ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=========43%                ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=========44%                ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=========45%                ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=========46%                ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==========47%               ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==========48%               ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==========49%               ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===========50%              ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===========51%              ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===========52%              ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===========53%              ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [============54%             ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [============55%             ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [============56%             ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [============57%             ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=============58%            ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=============59%            ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=============60%            ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==============61%           ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==============62%           ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==============63%           ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [==============64%           ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===============65%          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===============66%          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [===============67%          ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [================68%         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [================69%         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [================70%         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [================71%         ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=================72%        ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=================73%        ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [=================74%        ] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [========================100%] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep[1/8] [========================100%] baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep
-[2/8] [0%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [1%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [2%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [3%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [4%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [5%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [6%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [7%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [8%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [9%                          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [10%                         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [11%                         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [12%                         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [13%                         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [14%                         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=15%                        ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=16%                        ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=17%                        ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==18%                       ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==19%                       ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==20%                       ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==21%                       ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===22%                      ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===23%                      ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===24%                      ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [====25%                     ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [====26%                     ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [====27%                     ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [====28%                     ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=====29%                    ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=====30%                    ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=====31%                    ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=====32%                    ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [======33%                   ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [======34%                   ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [======35%                   ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=======36%                  ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=======37%                  ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=======38%                  ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=======39%                  ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [========40%                 ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [========41%                 ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [========42%                 ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=========43%                ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=========44%                ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=========45%                ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=========46%                ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==========47%               ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==========48%               ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==========49%               ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===========50%              ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===========51%              ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===========52%              ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===========53%              ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [============54%             ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [============55%             ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [============56%             ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [============57%             ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=============58%            ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=============59%            ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=============60%            ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==============61%           ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==============62%           ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==============63%           ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==============64%           ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===============65%          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===============66%          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===============67%          ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [================68%         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [================69%         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [================70%         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [================71%         ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=================72%        ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=================73%        ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=================74%        ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==================75%       ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==================76%       ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==================77%       ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [==================78%       ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===================79%      ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===================80%      ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===================81%      ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [===================82%      ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [====================83%     ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [====================84%     ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [====================85%     ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=====================86%    ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=====================87%    ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=====================88%    ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=====================89%    ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [======================90%   ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [======================91%   ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [======================92%   ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=======================93%  ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=======================94%  ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=======================95%  ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [=======================96%  ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [========================97% ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [========================98% ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [========================99% ] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [========================100%] baby_luciole-ssa-triton-prof_76616_1224125.sqlite[2/8] [========================100%] baby_luciole-ssa-triton-prof_76616_1224125.sqlite
-[3/8] Executing 'nvtx_sum' stats report
-
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)   Style                  Range               
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  -------  -----------------------------------
-     41.3       3667120480          8  458390060.0  461939800.0  120090320  787124360  248653140.2  PushPop  NCCL:ncclCommInitRankConfig        
-     19.9       1764429680         20   88221484.0      32240.0      22040  894408760  271474239.9  PushPop  NCCL:ncclBroadcast                 
-     18.2       1614048520         20   80702426.0      33040.0      24160  808853760  248299698.8  PushPop  NCCL:ncclGroupEnd                  
-     15.5       1374645800        780    1762366.4       3080.0       1840  678454200   33846677.8  PushPop  NCCL:ncclAllReduce                 
-      2.2        198168600        248     799066.9     102680.0      99160   65838280    6332284.4  PushPop  CCCL:cub::DeviceRadixSort          
-      1.2        106862280        500     213724.6      19960.0       2200   60963240    3251700.1  PushPop  :nvte_layernorm_fwd                
-      1.0         88459120        496     178345.0      25440.0       2360   41058800    2567614.2  PushPop  :nvte_layernorm_bwd                
-      0.5         45952320        248     185291.6      21920.0      19960   25609280    1873335.2  PushPop  CCCL:cub::DeviceScan::ExclusiveScan
-      0.3         25655680        248     103450.3      22200.0      21040   10595520     894531.2  PushPop  CCCL:cub::DeviceSelect::UniqueByKey
-      0.0            64480         14       4605.7       4420.0       2040       7680       1740.8  PushPop  NCCL:ncclAllGather                 
-      0.0            46320          8       5790.0       5300.0       4720       7520       1058.5  PushPop  NCCL:ncclReduceScatter             
-      0.0            23960         20       1198.0       1040.0        600       3000        560.1  PushPop  NCCL:ncclGroupStart                
-
-[4/8] Executing 'osrt_sum' stats report
-
- Time (%)  Total Time (ns)  Num Calls    Avg (ns)      Med (ns)    Min (ns)   Max (ns)    StdDev (ns)            Name         
- --------  ---------------  ---------  ------------  ------------  --------  -----------  ------------  ----------------------
-     41.5    4404580263840      41463   106229174.5   100864440.0      9480   1019845560    71678222.7  pthread_cond_timedwait
-     22.4    2379650229320       7816   304458831.8   111767620.0      1040   5157775800   301946199.2  poll                  
-     16.9    1792241345360        317  5653758187.3  4659700320.0    271520  42740591880  8212523195.0  sem_wait              
-     10.2    1082499331600      53654    20175556.9    10131940.0      1040  54086388480   243952085.3  epoll_wait            
-      4.7     494801398400         59  8386464379.7  5007891200.0    798240  75156209640  9683993335.3  sem_clockwait         
-      2.0     211855609320        608   348446725.9    70887500.0     59120  26251414040  1540880330.5  pthread_cond_wait     
-      1.7     175995345560       1690   104139257.7   100560460.0  98591360    127358080     5300901.0  clock_nanosleep       
-      0.2      17963460240      64612      278020.5        2760.0      1000    410239360     2077145.5  read                  
-      0.1      13532051760      54910      246440.6       62300.0      1200     52385400     1041058.9  open64                
-      0.1      13271074240     294828       45012.9        3800.0      1000     62014840      325973.1  stat64                
-      0.1       8327646280      39945      208477.8       54840.0     12240     70261120     1305411.2  usleep                
-      0.1       5465328920        867     6303724.2        6480.0      1000    115014200    17144957.3  pthread_cond_signal   
-      0.0       2888475400      13003      222139.2        9840.0      1000     75265640     2931835.6  recv                  
-      0.0       2281349240       8916      255871.4       18440.0      1000    218671880     3510714.7  ioctl                 
-      0.0       1953208040     354074        5516.4        1240.0      1080    379024960      708077.7  accept                
-      0.0        722016320       2207      327148.3        5000.0      1600     72206120     3491563.8  send                  
-      0.0        474918400     147672        3216.0        1200.0      1000     32360080      141756.2  mmap64                
-      0.0        451529440      91858        4915.5        1280.0      1000     41095400      260822.6  lstat64               
-      0.0        449349600         90     4992773.3       81240.0      8400     60471240    12524197.1  pthread_mutex_lock    
-      0.0        254972760      28746        8869.9        1200.0      1000     19493960      226678.1  fstat64               
-      0.0        183494560        676      271441.7        3380.0      1040     69808240     3647255.4  fopen                 
-      0.0        127262800       1315       96777.8       46280.0      1000     13400920      435585.1  recvmsg               
-      0.0        126544720         16     7909045.0     5667160.0   4776680     27305800     6527929.0  fork                  
-      0.0         99083080        488      203039.1        1400.0      1000     45243800     2662378.0  fclose                
-      0.0         97959320        328      298656.5        3600.0      2680     53232240     3718628.5  fread                 
-      0.0         87460040       5748       15215.7        1600.0      1000     19515680      383411.0  write                 
-      0.0         82832080        107      774131.6        7960.0      1520     66721560     6451091.4  fopen64               
-      0.0         49389720        135      365849.8        3280.0      1040     48909400     4209142.9  pipe2                 
-      0.0         44063360          6     7343893.3     5067860.0   5060600     18246800     5344879.6  nanosleep             
-      0.0         37922000         10     3792200.0       34640.0     19320     21299960     7033460.5  backtrace             
-      0.0         34840240         27     1290379.3       25440.0     14840     11549120     3322842.5  sem_timedwait         
-      0.0         30448600       1201       25352.7        8200.0      6560     17763080      512668.6  connect               
-      0.0         20030840       1731       11571.8        2160.0      1080      8078360      232728.5  waitpid               
-      0.0         18188880         30      606296.0        6200.0      1400     13256680     2510640.6  close_range           
-      0.0         16405760         10     1640576.0        3080.0      1480      8159120     2858116.6  fwrite                
-      0.0         13189280        164       80422.4       76880.0     52840       235320       20298.9  pthread_create        
-      0.0         11029520        102      108132.5        5160.0      2440      6136200      625996.1  sendmsg               
-      0.0          6283080       1378        4559.6        4000.0      1280        26120        1691.8  socket                
-      0.0          6041240       4300        1404.9        1240.0      1160        86280        1539.0  munmap                
-      0.0          4204560       1023        4110.0        3840.0      1280        22880        1783.2  open                  
-      0.0          4034520          3     1344840.0      606440.0     81000      3347080     1753780.4  pthread_rwlock_wrlock 
-      0.0          1980840         49       40425.3       31080.0      1000       493680       76442.3  fgets                 
-      0.0           835640          2      417820.0      417820.0      8320       827320      579120.5  kill                  
-      0.0           806000         93        8666.7        2880.0      1440        36760        8686.4  shutdown              
-      0.0           630760        445        1417.4        1440.0      1000         3320         280.1  epoll_ctl             
-      0.0           575840        535        1076.3        1040.0      1000         1760          93.7  fcntl64               
-      0.0           466880          3      155626.7      164200.0     81720       220960       70014.8  pthread_rwlock_rdlock 
-      0.0           292720          6       48786.7       32680.0     27640        90560       28141.1  pthread_join          
-      0.0           273160        153        1785.4        1360.0      1000         6520        1032.7  bind                  
-      0.0            55320         37        1495.1        1040.0      1000         8280        1431.4  dup                   
-      0.0            45800         42        1090.5        1080.0      1000         1320          82.9  fcntl                 
-      0.0            39840         28        1422.9        1280.0      1000         2320         391.1  listen                
-      0.0            36120          8        4515.0        4440.0      4080         5160         336.3  accept4               
-      0.0            33720         12        2810.0        2800.0      1200         4400         873.9  stat                  
-      0.0            32760          5        6552.0        6960.0      4920         8200        1518.8  fflush                
-      0.0            29840         12        2486.7        2520.0      1680         3560         645.2  pthread_cond_broadcast
-      0.0            26440          4        6610.0        4960.0      2280        14240        5509.5  statx                 
-      0.0            24040         20        1202.0        1160.0      1000         1880         199.1  sigaction             
-      0.0            10000          6        1666.7        1680.0      1360         1920         208.1  waitid                
-      0.0             7880          5        1576.0        1600.0      1360         1720         134.5  getentropy            
-      0.0             6760          6        1126.7        1120.0      1040         1240          81.6  dup2                  
-      0.0             5560          2        2780.0        2780.0      2680         2880         141.4  mprotect              
-      0.0             5160          2        2580.0        2580.0      2440         2720         198.0  pipe                  
-      0.0             3680          3        1226.7        1240.0      1080         1360         140.5  getc                  
-      0.0             3520          2        1760.0        1760.0      1760         1760           0.0  fputs_unlocked        
-      0.0             3360          3        1120.0        1160.0      1000         1200         105.8  prctl                 
-      0.0             2520          1        2520.0        2520.0      2520         2520           0.0  fputs                 
-      0.0             2400          2        1200.0        1200.0      1160         1240          56.6  fstat                 
-      0.0             1360          1        1360.0        1360.0      1360         1360           0.0  pread64               
-      0.0             1160          1        1160.0        1160.0      1160         1160           0.0  futex                 
-      0.0             1080          1        1080.0        1080.0      1080         1080           0.0  fallocate64           
-
-[5/8] Executing 'cuda_api_sum' stats report
-
- Time (%)  Total Time (ns)  Num Calls   Avg (ns)    Med (ns)   Min (ns)   Max (ns)   StdDev (ns)                     Name                   
- --------  ---------------  ---------  -----------  ---------  --------  ----------  -----------  ------------------------------------------
-     88.5     121397776000        799  151937141.4     6960.0      1920  6841869400  318880352.5  cudaStreamSynchronize                     
-      5.5       7529280000        442   17034570.1    13000.0      4000   395391640   61988597.6  cudaDeviceSynchronize                     
-      4.0       5490088840     187496      29281.1     9840.0      3480   239570360    1083329.9  cudaLaunchKernel                          
-      0.5        665429120        664    1002152.3    55680.0     40080    78893800    5495766.1  cuMemSetAccess                            
-      0.4        533962000        183    2917825.1     9120.0      3800   267455840   27428024.2  cudaHostAlloc                             
-      0.3        384851480      16128      23862.3    10080.0      3920    42538600     587328.7  cuLaunchKernel                            
-      0.2        250814800        396     633370.7   129700.0      4760    31108160    3069063.8  cudaMalloc                                
-      0.1        158523240      47470       3339.4     1920.0       520    20115800     159460.6  cudaEventQuery                            
-      0.1        144106480      12238      11775.3     7320.0      2360    20641760     319469.7  cudaMemsetAsync                           
-      0.1        141721480       5952      23810.7    13320.0     11880    41419880     555208.7  cudaGraphLaunch_v10000                    
-      0.1        129356360       6783      19070.7    16840.0      2440    20109440     270914.2  cudaMemcpyAsync                           
-      0.1         73353720        176     416782.5    96260.0      1600    32073480    2511437.1  cudaFree                                  
-      0.0         29936840         48     623684.2   607460.0    599080      850000      58072.6  cuMemExportToShareableHandle              
-      0.0         29751320        520      57214.1    22920.0     18320     3313320     169332.1  cuMemCreate                               
-      0.0         21769560       8770       2482.3     2600.0       560      130480       2023.5  cudaEventRecord                           
-      0.0         18728880         32     585277.5   661500.0     27040     1270120     345284.0  cuLibraryLoadData                         
-      0.0         18572040         32     580376.3    65260.0      8000     3303640     963225.4  cuLibraryGetKernel                        
-      0.0         13663800        568      24056.0    20900.0      7440      399200      18686.8  cuMemAddressReserve                       
-      0.0         10762600       4838       2224.6     1960.0       360      750480      10889.3  cudaEventCreateWithFlags                  
-      0.0          9999360       8300       1204.7     1080.0       320      112320       1813.5  cudaStreamIsCapturing_v10000              
-      0.0          9127040         52     175520.0    60840.0     36160     4125840     565282.8  cuModuleLoadData                          
-      0.0          9099440        568      16020.1    15320.0      2960      305240      14686.7  cuMemMap                                  
-      0.0          6904880        320      21577.8    13160.0      7920     2505080     139336.6  cuLaunchKernelEx                          
-      0.0          5697680          4    1424420.0  1424180.0   1413160     1436160      10903.6  cudaGetDeviceProperties_v2_v12000         
-      0.0          5350880        256      20901.9     4280.0      3240     1641000     111363.2  cudaStreamCreateWithPriority              
-      0.0          4202640       2692       1561.2     1680.0       440       86120       1804.8  cudaStreamWaitEvent                       
-      0.0          3523760       4704        749.1      520.0       440        4280        401.5  cudaEventDestroy                          
-      0.0          3305200         48      68858.3    56020.0     42040      552400      74064.9  cuMemImportFromShareableHandle            
-      0.0          2585200         50      51704.0    46900.0     41600       94920      11546.7  cudaGraphInstantiateWithFlags_v11040      
-      0.0          2540920         50      50818.4     9020.0      6920      959320     161364.3  cudaStreamBeginCapture_v10000             
-      0.0          1133720         16      70857.5    11380.0      4520      318040     102415.0  cudaStreamCreateWithFlags                 
-      0.0           687560       1684        408.3      240.0       200       89520       2314.6  cudaThreadExchangeStreamCaptureMode_v10010
-      0.0           562160        418       1344.9     1360.0       720        2720        296.2  cudaStreamGetCaptureInfo_v2_v11030        
-      0.0           540720       2520        214.6      200.0        80         720        103.8  cuGetProcAddress_v2                       
-      0.0           477320          8      59665.0    48080.0     42560      102160      22785.3  cudaMemPoolCreate_v11020                  
-      0.0           219600        320        686.3      680.0       200        1400        181.6  cudaGetFuncBySymbol_v11000                
-      0.0           166720         50       3334.4     3320.0      1840        4080        316.2  cudaGraphDestroy_v10000                   
-      0.0           165360        568        291.1      160.0        80       60200       2525.7  cuMemGetAllocationGranularity             
-      0.0           110160         50       2203.2     2000.0      1560       11720       1387.5  cudaStreamEndCapture_v10000               
-      0.0            73240         50       1464.8     1440.0      1240        1880        157.7  cudaGraphGetNodes_v10000                  
-      0.0            25520         68        375.3      320.0       240        1360        223.4  cudaGetDriverEntryPoint_v11030            
-      0.0            17720         10       1772.0     1700.0      1480        2360        256.5  cuInit                                    
-      0.0            10040          8       1255.0     1300.0       960        1520        203.9  cudaMemPoolSetAttribute_v11020            
-      0.0             1520          8        190.0      160.0        80         480        126.0  cuModuleGetLoadingMode                    
-      0.0              600          2        300.0      300.0       240         360         84.9  cuKernelGetFunction                       
-
-[6/8] Executing 'cuda_gpu_kern_sum' stats report
-
- Time (%)  Total Time (ns)  Instances   Avg (ns)    Med (ns)   Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  ----------  ----------  --------  ----------  -----------  ----------------------------------------------------------------------------------------------------
-     48.1      71947848510       2961  24298496.6  24325495.0    630272    25468618     656379.6  _ssa_attn_bwd_dkv_kernel                                                                            
-     28.1      42054815316       2962  14198114.6  14206979.0    172224    14745222     376783.6  _ssa_attn_bwd_dq_kernel                                                                             
-      8.5      12698791296        276  46010113.4    370272.0      8224  6825357377  414282600.2  ncclDevKernel_AllReduce_Sum_f32_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)              
-      6.2       9254375971       2978   3107580.9   3126031.5     50784     3269640      92390.2  _ssa_attn_fwd_kernel                                                                                
-      0.8       1173953932       3224    364129.6    169760.0    167360     2728040     673643.8  ampere_bf16_s16816gemm_bf16_128x128_ldg8_f2f_stages_32x5_tn                                         
-      0.7       1085073092        248   4375294.7   4375243.5   4341526     4393320       7756.1  triton_red_fused_exp_sub_sum_2                                                                      
-      0.7       1054592545       3208    328738.3    164735.0    160608     2312455     567251.3  ampere_s16816gemm_bf16_256x128_ldg8_stages_64x3_nt                                                  
-      0.5        715061447        276   2590802.3   2591169.5   2568089     2611039       6216.1  triton_poi_fused__to_copy_mul_2                                                                     
-      0.4        628849074        320   1965153.4   1962579.0   1947837     2000384      13555.7  triton_poi_fused__to_copy_index_index_put_rsub_sub_0                                                
-      0.4        570837812        248   2301765.4   2299086.0   2281692     2323879      11539.5  ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_64x3_nn                                         
-      0.4        562761661        276   2038991.5   2031423.0   1950523     2073729      26594.3  triton_poi_fused_div_1                                                                              
-      0.3        490639492       2960    165756.6    165696.0    163712      168448        782.2  ampere_bf16_s16816gemm_bf16_128x128_ldg8_f2f_stages_32x5_nn                                         
-      0.3        480603726       2976    161493.2    161488.0    160193      163456        492.7  ampere_bf16_s16816gemm_bf16_128x256_ldg8_f2f_stages_64x3_tn                                         
-      0.3        477090283       2960    161179.1    161055.0    158432      289280       3432.5  ampere_s16816gemm_bf16_128x256_ldg8_stages_64x3_nt                                                  
-      0.3        474094913       2960    160167.2    160159.5    158752      192800        833.7  ampere_bf16_s16816gemm_bf16_128x256_ldg8_f2f_stages_64x3_nn                                         
-      0.3        446691512        248   1801175.5   1801220.0   1784188     1821888       6798.7  triton_red_fused__to_copy_max_0                                                                     
-      0.3        401580536      12366     32474.6     32960.0     24864      119360       2297.7  void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::n…
-      0.3        378414852         12  31534571.0   4282102.0   2942015   171113643   63956781.4  ncclDevKernel_AllGather_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)                      
-      0.2        366766607       5918     61974.8     73232.5     48960      159872      12330.7  ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_nn                                         
-      0.2        364764473       5952     61284.4     61552.0     48768      144800      11981.3  ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn                                         
-      0.2        286663589       2960     96845.8     96832.0     95744      117216        579.7  void at::native::vectorized_elementwise_kernel<(int)8, at::native::BinaryFunctor<c10::BFloat16, c10…
-      0.2        274668125       5918     46412.3     46368.0     43296       65984       1458.3  void cuComputePartGradGammaBeta<c10::BFloat16, float, c10::BFloat16, (bool)0>(const T3 *, const T1 …
-      0.2        269037799       2960     90891.1     90784.0     89088      113184        792.4  void at::native::vectorized_elementwise_kernel<(int)8, at::native::BinaryFunctor<c10::BFloat16, c10…
-      0.2        236262525       2958     79872.4     79872.0     79168       80928        229.4  ampere_s16816gemm_bf16_128x128_ldg8_stages_32x5_nt                                                  
-      0.2        233226880       5918     39409.7     39360.0     38528       72672        641.3  void cuComputeGradInput<c10::BFloat16, float, c10::BFloat16, (bool)0>(const T3 *, const T1 *, int, …
-      0.2        233039776       5916     39391.4     39391.5     23552       55584      15504.7  void <unnamed>::fused_rope_backward<c10::BFloat16>(int, int, int, int, int, int, int, int, int, int…
-      0.1        223075473       5952     37479.1     37473.0     35232       92257       1221.1  void cuApplyLayerNorm<c10::BFloat16, float, c10::BFloat16>(T3 *, T2 *, T2 *, const T1 *, int, int, …
-      0.1        214805785       2958     72618.6     72576.0     71904       74400        261.3  void at::native::<unnamed>::CatArrayBatchedCopy<at::native::<unnamed>::OpaqueType<(unsigned int)2>,…
-      0.1        201051754      15762     12755.5      7520.0      2528      325824      39000.2  void at::native::unrolled_elementwise_kernel<at::native::CUDAFunctor_add<float>, std::array<char *,…
-      0.1        200438425       5952     33675.8     44560.0     21184      202623      12376.7  void <unnamed>::fused_rope_forward<c10::BFloat16>(int, int, int, int, int, int, int, int, int, int,…
-      0.1        180522750       2976     60659.5     60641.0     59968       64064        227.8  void at::native::vectorized_elementwise_kernel<(int)8, at::native::<unnamed>::launch_clamp_scalar(a…
-      0.1        178501232       2976     59980.3     59936.0     59328       63552        282.9  void at::native::vectorized_elementwise_kernel<(int)8, void at::native::<unnamed>::pow_tensor_scala…
-      0.1        178197884       2960     60202.0     60128.0     59456      104768        990.4  void at::native::vectorized_elementwise_kernel<(int)8, at::native::AUnaryFunctor<c10::BFloat16, c10…
-      0.1        175194206          8  21899275.8  10911368.0   5958928    76273540   24178291.5  ncclDevKernel_ReduceScatter_Sum_f32_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)          
-      0.1        155783517       5904     26386.1     26896.0     22688       42240       3551.7  void at::native::<unnamed>::multi_tensor_apply_kernel<at::native::<unnamed>::TensorListMetadata<(in…
-      0.1        128222661       6164     20801.9     16032.0     14560      136832      23058.4  void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctor_add<c10::BFloat16>, …
-      0.1        125068254       5058     24726.8     24096.0      1632       31712       1959.5  void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<int>, std::array<cha…
-      0.1        123226877       2960     41630.7     41568.0     40576       97888       1748.0  ampere_s16816gemm_bf16_128x128_ldg8_stages_64x3_nt                                                  
-      0.0         64824978       9386      6906.6      4096.0      1376      121056       8341.3  void at::native::vectorized_elementwise_kernel<(int)8, at::native::FillFunctor<c10::BFloat16>, std:…
-      0.0         46734293         20   2336714.6      8128.0      6528    18214819    5849229.2  ncclDevKernel_Broadcast_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)                      
-      0.0         41168183          4  10292045.8   1056640.0      9248    39045655   19194481.9  ncclDevKernel_AllReduce_Sum_u64_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)              
-      0.0         31304178       2960     10575.7     10560.0      9824       45664        774.4  void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)0, floa…
-      0.0         28043777       2962      9467.9      9440.0      3200       48800        859.3  _ssa_attn_bwd_preprocess_kernel                                                                     
-      0.0         24702057       6416      3850.1      4064.0      3008        5184        516.2  void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::func_wrapp…
-      0.0         20128738       5918      3401.3      3360.0      3264       29184        395.1  void cuComputeGradGammaBeta<float, c10::BFloat16>(const T1 *, const T1 *, int, int, int, T2 *, T2 *…
-      0.0         18732932        248     75536.0     72736.0     71040      336096      25837.4  void at::native::<unnamed>::indexSelectLargeIndex<c10::BFloat16, long, unsigned int, (int)2, (int)2…
-      0.0         17862442       1968      9076.4      8416.0      8192       12032       1215.2  void at_cuda_detail::cub::DeviceRadixSortOnesweepKernel<at_cuda_detail::cub::DeviceRadixSortPolicy<…
-      0.0         15968967       6065      2633.0      2624.0      1887      232383       3260.2  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIterator…
-      0.0         15779847       5952      2651.2      2624.0      1856       58272       1069.2  void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctorOnSelf_add<c10::BFloa…
-      0.0         15261732        246     62039.6     62016.0     60608       63840        536.1  void at::native::<unnamed>::compute_grad_weight<c10::BFloat16, long>(const T2 *, const T1 *, const …
-      0.0         13392717        472     28374.4     28863.5     16416       34464       2908.0  triton_poi_fused_add_0                                                                              
-      0.0         11275653       6430      1753.6      1408.0      1216      239519       8440.3  void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<float>, std::array<c…
-      0.0         10731113        246     43622.4     43552.0     41087       46336        886.6  void at::native::<unnamed>::sum_and_scatter<c10::BFloat16, long>(const T2 *, T1 *, long, const T2 *…
-      0.0          7667137        248     30915.9     30880.0     30176       32576        363.3  void transformer_engine::normalization::ln_bwd_tuned_kernel<transformer_engine::normalization::Kern…
-      0.0          6913309       3328      2077.3      1856.0      1600      133600       3402.0  void at::native::vectorized_elementwise_kernel<(int)8, at::native::bfloat16_copy_kernel_cuda(at::Te…
-      0.0          4469315         18    248295.3    305200.0      4800      418080     181350.6  void multi_tensor_apply_kernel<TensorListMetadata<(int)4, (bool)0>, AdamFunctor<float, float, float…
-      0.0          3242975        248     13076.5     13024.0     11872       14688        431.0  void transformer_engine::normalization::ln_fwd_tuned_kernel<transformer_engine::normalization::Kern…
-      0.0          2869566        672      4270.2      4256.0      2560       10496        375.8  triton_poi_fused_bitwise_or_ge_index_index_put_lift_fresh_lt_sub_0                                  
-      0.0          2327715        226     10299.6      5408.0      2592      260352      24103.8  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIterator…
-      0.0          2087713        744      2806.1      2464.0      2272        3936        505.8  void at::native::unrolled_elementwise_kernel<at::native::BinaryFunctor<float, float, float, at::nat…
-      0.0          1847553        672      2749.3      2752.0      2048        3264        154.3  triton_poi_fused_log_sub_0                                                                          
-      0.0          1836611        231      7950.7      3520.0      3040      190528      17436.8  void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<long, at::native::func_wrappe…
-      0.0          1613376        672      2400.9      2496.0      1920        2944        230.5  triton_poi_fused_cat_index_put_lift_fresh_1                                                         
-      0.0          1585278        106     14955.5     11520.0      4288      163743      21008.3  void at::native::<unnamed>::distribution_elementwise_grid_stride_kernel<float, (int)4, void at::nat…
-      0.0          1393796        246      5665.8      5664.0      5536        5856         48.6  void at_cuda_detail::cub::DeviceRadixSortHistogramKernel<at_cuda_detail::cub::DeviceRadixSortPolicy…
-      0.0          1301474        276      4715.5      4736.0      2848        5376        262.3  triton_poi_fused__to_copy_index_index_put_rsub_sub_1                                                
-      0.0          1296801        246      5271.5      5248.0      4928        5728        142.3  void at_cuda_detail::cub::DeviceUniqueByKeySweepKernel<at_cuda_detail::cub::DeviceUniqueByKeyPolicy…
-      0.0          1239042        234      5295.1      2208.5      1600      114336      10616.6  void at::native::vectorized_elementwise_kernel<(int)4, at::native::AUnaryFunctor<float, float, bool…
-      0.0          1237761          8    154720.1    155056.0     99712      209280      57810.7  void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::NormTwoOps…
-      0.0          1192418        248      4808.1      4800.0      4640        5120        109.4  void transformer_engine::normalization::ln_bwd_finalize_tuned_kernel<transformer_engine::normalizat…
-      0.0          1180095        750      1573.5      1504.0      1344        2112        146.2  void at::native::vectorized_elementwise_kernel<(int)4, at::native::BUnaryFunctor<float, float, floa…
-      0.0          1130208         12     94184.0     93088.0     81824      106368       9836.5  void multi_tensor_apply_kernel<TensorListMetadata<(int)2, (bool)0>, ScaleFunctor<float, float>, flo…
-      0.0          1125696        248      4539.1      4512.0      4064        5888        175.7  void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::n…
-      0.0          1044192        246      4244.7      4256.0      4032        4672        124.7  void at_cuda_detail::cub::DeviceScanKernel<at_cuda_detail::cub::DeviceScanPolicy<long, at::cuda::cu…
-      0.0          1035776        248      4176.5      4160.0      3520        4640        143.8  void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::n…
-      0.0           783168        498      1572.6      1536.0      1344        1984        128.8  void at::native::vectorized_elementwise_kernel<(int)4, at::native::AUnaryFunctor<float, float, floa…
-      0.0           781121        250      3124.5      3136.0      3040        3648         59.5  void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::n…
-      0.0           700384        246      2847.1      2880.0      2560        3168        138.3  void at::native::<unnamed>::krn_partial_segment_offset<long>(T1 *, const T1 *, const T1 *, const T1…
-      0.0           664352        248      2678.8      2656.0      2464        3072         97.2  void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, floa…
-      0.0           637345        248      2569.9      2544.0      1920        3040        208.1  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIterator…
-      0.0           625954         12     52162.8     50720.0     40864       65089       9668.9  void multi_tensor_apply_kernel<TensorListMetadata<(int)1, (bool)0>, L2NormFunctor<float>, float *, …
-      0.0           608960        246      2475.4      2464.0      2272        2912        122.8  void at::native::<unnamed>::krn_partials_per_segment<long>(T1 *, const T1 *, const long *, long)    
-      0.0           579360        246      2355.1      2368.0      2304        2400         18.4  void at_cuda_detail::cub::DeviceRadixSortExclusiveSumKernel<at_cuda_detail::cub::DeviceRadixSortPol…
-      0.0           530369        248      2138.6      2144.0      2016        2368         65.8  void at::native::vectorized_elementwise_kernel<(int)4, void at::native::compare_scalar_kernel<float…
-      0.0           484706        246      1970.3      1952.0      1728        2144         80.2  void at_cuda_detail::cub::DeviceCompactInitKernel<at_cuda_detail::cub::ScanTileState<unsigned long …
-      0.0           479903        246      1950.8      1952.0      1920        2112         23.0  void <unnamed>::elementwise_kernel_with_index<int, at::native::arange_cuda_out(const c10::Scalar &,…
-      0.0           443007        248      1786.3      1824.0      1600        2208         94.5  void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<int>, std::array…
-      0.0           442849        246      1800.2      1824.0      1600        1856         49.9  void at::native::<unnamed>::compute_num_of_partial_segments<long>(const T1 *, const T1 *, const lon…
-      0.0           378720        226      1675.8      1632.0      1504        2656        160.2  void at::native::vectorized_elementwise_kernel<(int)2, at::native::CUDAFunctorOnOther_add<long>, st…
-      0.0           332353        246      1351.0      1376.0      1248        1408         42.6  void at_cuda_detail::cub::DeviceScanInitKernel<at_cuda_detail::cub::ScanTileState<long, (bool)1>>(T…
-      0.0           185407        102      1817.7      1775.5      1216        2976        341.7  void at::native::vectorized_elementwise_kernel<(int)2, at::native::FillFunctor<long>, std::array<ch…
-      0.0            19488          8      2436.0      2496.0      2176        2528        126.2  void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, bool…
-      0.0            15744          8      1968.0      1952.0      1920        2080         61.7  void at::native::vectorized_elementwise_kernel<(int)4, at::native::AbsFunctor<float>, std::array<ch…
-      0.0            15680         10      1568.0      1536.0      1408        1952        150.8  void at::native::vectorized_elementwise_kernel<(int)2, at::native::CUDAFunctorOnSelf_add<long>, std…
-      0.0            14880          4      3720.0      3696.0      3328        4160        341.0  void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::MeanOps<fl…
-      0.0            14304          4      3576.0      3520.0      3296        3968        300.6  void at::native::<unnamed>::CatArrayBatchedCopy_aligned16_contig<at::native::<unnamed>::OpaqueType<…
-      0.0            10912          4      2728.0      2768.0      2496        2880        187.3  cleanup(float *, float *, float *, float *, bool, int)                                              
-      0.0             8544          4      2136.0      2144.0      2048        2208         71.0  void at::native::vectorized_elementwise_kernel<(int)4, void at::native::<unnamed>::pow_tensor_scala…
-      0.0             7616          4      1904.0      1920.0      1696        2080        204.9  void at::native::vectorized_elementwise_kernel<(int)4, void at::native::compare_scalar_kernel<long>…
-      0.0             7264          4      1816.0      1824.0      1632        1984        164.0  void <unnamed>::elementwise_kernel_with_index<int, at::native::arange_cuda_out(const c10::Scalar &,…
-      0.0             7072          4      1768.0      1728.0      1664        1952        136.7  void at::native::vectorized_elementwise_kernel<(int)4, at::native::AUnaryFunctor<long, long, bool, …
-      0.0             6944          2      3472.0      3472.0      3360        3584        158.4  void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl<at::native::…
-      0.0             6624          2      3312.0      3312.0      3296        3328         22.6  void at::native::<unnamed>::CatArrayBatchedCopy_aligned16_contig<at::native::<unnamed>::OpaqueType<…
-      0.0             3616          2      1808.0      1808.0      1760        1856         67.9  void at::native::vectorized_elementwise_kernel<(int)4, at::native::reciprocal_kernel_cuda(at::Tenso…
-      0.0             3296          2      1648.0      1648.0      1600        1696         67.9  void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctorOnSelf_add<float>, st…
-
-[7/8] Executing 'cuda_gpu_mem_time_sum' stats report
-
- Time (%)  Total Time (ns)  Count  Avg (ns)   Med (ns)  Min (ns)  Max (ns)  StdDev (ns)            Operation           
- --------  ---------------  -----  ---------  --------  --------  --------  -----------  ------------------------------
-     85.5       5830421271   1786  3264513.6    3584.0       992  70645958   14684437.8  [CUDA memcpy Host-to-Device]  
-     11.0        751221117    387  1941139.8    1664.0      1472  62966899   10855812.4  [CUDA memcpy Device-to-Host]  
-      3.2        220275609   4584    48053.1   54305.0      1344   1974111     151841.2  [CUDA memcpy Device-to-Device]
-      0.3         18646109  12168     1532.4    1472.0       992     37281        356.8  [CUDA memset]                 
-
-[8/8] Executing 'cuda_gpu_mem_size_sum' stats report
-
- Total (MB)  Count  Avg (MB)  Med (MB)  Min (MB)  Max (MB)  StdDev (MB)            Operation           
- ----------  -----  --------  --------  --------  --------  -----------  ------------------------------
- 195790.451   4584    42.712    50.332     0.000  1646.789      128.001  [CUDA memcpy Device-to-Device]
- 138402.293   1786    77.493     0.033     0.000  1647.313      348.766  [CUDA memcpy Host-to-Device]  
-  19763.561    387    51.069     0.000     0.000  1647.313      285.852  [CUDA memcpy Device-to-Host]  
-     12.982  12168     0.001     0.000     0.000     0.023        0.002  [CUDA memset]                 
-
-Generated:
-	/work/m24047/m24047brmn/nsys/baby_luciole-ssa-triton-prof_76616_1224125.nsys-rep
-	/work/m24047/m24047brmn/nsys/baby_luciole-ssa-triton-prof_76616_1224125.sqlite
-srun: error: turpancomp0: task 0: Exited with exit code 1
-==========================================
-SSA Triton Profiling finished with status 1
-Nsight Systems report: /work/m24047/m24047brmn/nsys/baby_luciole-ssa-triton-prof_76616_%p.nsys-rep
-==========================================

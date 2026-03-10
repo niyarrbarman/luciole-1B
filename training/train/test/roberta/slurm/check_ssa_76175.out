@@ -1,8 +1,0 @@
-Checking SSA parameter groups and learning rates...
-Traceback (most recent call last):
-  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/roberta/check_ssa_lr.py", line 7, in <module>
-    from train_roberta import SSATrainer
-  File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/test/roberta/train_roberta.py", line 50, in <module>
-    from babyberta.io import load_sentences_from_file
-ModuleNotFoundError: No module named 'babyberta'
-Done with status 1

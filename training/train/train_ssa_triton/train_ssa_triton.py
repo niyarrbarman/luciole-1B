@@ -442,7 +442,7 @@ def main():
     recipe.trainer.max_steps = effective_max_steps
     recipe.trainer.val_check_interval = effective_max_steps
     recipe.trainer.limit_val_batches = 0.0
-    recipe.trainer.log_every_n_steps = 1
+    recipe.trainer.log_every_n_steps = 100
     recipe.trainer.devices = gpus_per_node
     recipe.trainer.strategy.tensor_model_parallel_size = args.tensor_parallelism
     recipe.trainer.strategy.pipeline_model_parallel_size = args.pipeline_parallelism

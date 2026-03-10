@@ -174,3 +174,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Archived markdown docs in test workspace
+training/train/train_ssa_triton/archive/docs_md/
+training/train/train_ssa_triton/SSA/archive/docs_md/

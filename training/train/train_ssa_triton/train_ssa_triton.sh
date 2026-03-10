@@ -13,7 +13,7 @@ mkdir -p slurm
 # Defaults
 DATAMIX=${DATAMIX:-"/tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json"}
 OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output"}
-NAME=${NAME:-"baby_luciole-ssa-triton"}
+NAME=${NAME:-"luciole-114M-SSA-Triton"}
 SEED=${SEED:-1234}
 
 # W&B logging (optional)
@@ -44,7 +44,7 @@ DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-60000}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
-THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-30000}
+THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-8000}
 
 if [[ "${SSA_KERNEL_VERSION}" != "triton" ]]; then
     echo "ERROR: SSA_KERNEL_VERSION must be 'triton' (got '${SSA_KERNEL_VERSION}')."

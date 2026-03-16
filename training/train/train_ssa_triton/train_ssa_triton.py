@@ -19,6 +19,8 @@ from recipes.recipe_utils import get_recipe  # noqa: E402
 from utils import (  # noqa: E402
     check_tokenizer,
     process_datamix_file,
+    read_datamix_file,
+    get_data_paths,
     save_config,
 )
 
@@ -55,6 +57,7 @@ def find_latest_checkpoint_step(checkpoint_dir: str) -> int:
 def parse_args():
     parser = argparse.ArgumentParser(description="SSA Triton-fused training harness")
     parser.add_argument("--datamix", default="/tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json", type=str)
+    parser.add_argument("--tokenizer", default=None, type=str, help="Tokenizer path (overrides datamix tokenizer)")
     parser.add_argument("--arch", default="nemotron1b", type=str)
     parser.add_argument("--name", default="nemotron1b-ssa-triton-test", type=str)
     parser.add_argument("--mode", default="debug", choices=["debug", "benchmark", "phase1", "phase2", "annealing"], type=str)
@@ -315,7 +318,15 @@ def main():
     )
 
     # Data
-    tokenizer_name, data_paths, total_tokens = process_datamix_file(args.datamix)
+    if args.tokenizer:
+        # --tokenizer provided: skip datamix tokenizer lookup (tokenizer_name.txt may not exist)
+        loaded_data = read_datamix_file(args.datamix)
+        data_paths = get_data_paths(loaded_data)
+        total_tokens = loaded_data.get("total_tokens", None)
+        tokenizer_name = args.tokenizer
+        logger.info("Using CLI tokenizer override: %s", tokenizer_name)
+    else:
+        tokenizer_name, data_paths, total_tokens = process_datamix_file(args.datamix)
     check_tokenizer(tokenizer_name, args.base_checkpoint)
 
     global_batch_size = args.batch_size
@@ -434,12 +445,18 @@ def main():
     else:
         logger.info("Training from scratch, trainer.max_steps = %s", effective_max_steps)
 
-    # Trainer
-    recipe.model.config.vocab_size = 50256
+    # Trainer — detect vocab size from tokenizer
+    vocab_size = getattr(tokenizer, 'vocab_size', None)
+    if vocab_size is None:
+        vocab_size = 50256
+        logger.warning("Could not detect vocab_size from tokenizer, falling back to %s", vocab_size)
+    else:
+        logger.info("Detected vocab_size from tokenizer: %s", vocab_size)
+    recipe.model.config.vocab_size = vocab_size
     recipe.trainer.max_steps = effective_max_steps
     recipe.trainer.val_check_interval = effective_max_steps
     recipe.trainer.limit_val_batches = 0.0
-    recipe.trainer.log_every_n_steps = 100
+    recipe.trainer.log_every_n_steps = 200
     recipe.trainer.devices = gpus_per_node
     recipe.trainer.strategy.tensor_model_parallel_size = args.tensor_parallelism
     recipe.trainer.strategy.pipeline_model_parallel_size = args.pipeline_parallelism
@@ -448,7 +465,7 @@ def main():
     recipe.trainer.strategy.sequence_parallel = False
     recipe.trainer.strategy.pipeline_dtype = torch.bfloat16
     if hasattr(recipe.log, "log_interval"):
-        recipe.log.log_interval = 100
+        recipe.log.log_interval = 200
 
     # Remove unsupported optimizer kwargs
     optim_cfg = getattr(recipe, "optim", None)
@@ -465,6 +482,7 @@ def main():
         ProgressiveIntervalCheckpoint,
         SSALoggingCallback,
         StopAfterThisRunMaxStepsCallback,
+        WandbMetricsCallback,
     )
 
     trainer_callbacks = [
@@ -472,6 +490,8 @@ def main():
         run.Config(GarbageCollectionCallback, gc_interval_train=100, gc_interval_val=100),
         run.Config(SSALoggingCallback, log_every_n_steps=args.log_ssa_every_n_steps),
     ]
+    if args.wandb:
+        trainer_callbacks.append(run.Config(WandbMetricsCallback, log_every_n_steps=1))
     if args.this_run_max_steps is not None:
         trainer_callbacks.append(
             run.Config(

@@ -371,6 +371,67 @@ class PytorchProfilerCallback(Callback, IOMixin):
                 logging.warning(f"ExecutionTraceObserver cleanup failed: {e}")
 
 
+class WandbMetricsCallback(Callback, IOMixin):
+    """
+    Explicitly push training metrics (loss, lr, etc.) from trainer.callback_metrics
+    to the W&B logger every N steps.  NeMo logs these to stdout but they may not
+    flow through Lightning's logger interface to W&B.
+    """
+
+    def __init__(self, log_every_n_steps: int = 1):
+        self.log_every_n_steps = log_every_n_steps
+
+    def on_train_batch_end(
+        self, trainer, pl_module, outputs, batch, batch_idx: int
+    ) -> None:
+        global_step = trainer.global_step
+        if global_step % self.log_every_n_steps != 0:
+            return
+        if get_rank() != 0:
+            return
+
+        wandb_logger = None
+        try:
+            from lightning.pytorch.loggers import WandbLogger
+        except ImportError:
+            from pytorch_lightning.loggers import WandbLogger
+        if trainer.logger is not None:
+            if isinstance(trainer.logger, WandbLogger):
+                wandb_logger = trainer.logger
+            elif hasattr(trainer.logger, '_loggers'):
+                for lg in trainer.logger._loggers:
+                    if isinstance(lg, WandbLogger):
+                        wandb_logger = lg
+                        break
+        if wandb_logger is None:
+            return
+
+        metrics = {}
+        cb = trainer.callback_metrics
+        for key in ("reduced_train_loss", "lr", "global_step", "consumed_samples",
+                     "train_loss", "grad_norm"):
+            if key in cb:
+                val = cb[key]
+                if isinstance(val, torch.Tensor):
+                    val = val.item()
+                metrics[key] = val
+
+        # Also grab LR from the optimizer directly in case it's missing
+        if "lr" not in metrics:
+            try:
+                opt = trainer.optimizers
+                if isinstance(opt, list):
+                    opt = opt[0]
+                lr = opt.param_groups[0].get("lr")
+                if lr is not None:
+                    metrics["lr"] = lr
+            except Exception:
+                pass
+
+        if metrics:
+            wandb_logger.log_metrics(metrics, step=global_step)
+
+
 class SSALoggingCallback(Callback, IOMixin):
     """
     Callback to log SSA n parameter values at specified intervals.
@@ -415,10 +476,19 @@ class SSALoggingCallback(Callback, IOMixin):
             if n_values:
                 logging.info(f"Step {global_step} - SSA n values:")
                 import re
+                wandb_metrics = {}
                 for name, val in n_values:
                     # Extract layer number: module.decoder.layers.X.self_attention...
                     match = re.search(r'layers\.(\d+)\.', name)
                     layer_num = match.group(1) if match else '?'
                     logging.info(f"  Layer {layer_num}: n = {val:.6f}")
+                    wandb_metrics[f"ssa_n/layer_{layer_num}"] = val
+
+                # Log SSA n values to W&B as well
+                if wandb_metrics and trainer.logger is not None:
+                    try:
+                        trainer.logger.log_metrics(wandb_metrics, step=global_step)
+                    except Exception:
+                        pass
         except Exception as e:
             logging.warning(f"Could not log SSA params: {e}")

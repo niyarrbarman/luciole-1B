@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J tr_bbyluc_ssa_triton
+#SBATCH -J tr_nemo1b_ssa_triton
 #SBATCH -N 6
 #SBATCH -n 6
 #SBATCH --ntasks-per-node=1
@@ -11,9 +11,9 @@
 mkdir -p slurm
 
 # Defaults
-DATAMIX=${DATAMIX:-"/tmpdir/m24047brmn/nemo_1b/data_fwe_50k/datamix_fineweb_edu_50k.json"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output"}
-NAME=${NAME:-"luciole-114M-SSA-Triton"}
+DATAMIX=${DATAMIX:-"/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output_1b"}
+NAME=${NAME:-"nemotron-1B-SSA-Triton"}
 SEED=${SEED:-1234}
 
 # W&B logging (optional)
@@ -23,7 +23,7 @@ WANDB_ENTITY=${WANDB_ENTITY:-""}
 WANDB_GROUP=${WANDB_GROUP:-"${NAME}"}
 WANDB_RUN_NAME=${WANDB_RUN_NAME:-"${NAME}"}
 WANDB_TAGS=${WANDB_TAGS:-"ssa,triton,wandb,test"}
-WANDB_NOTES=${WANDB_NOTES:-"200-step SSA Triton W&B test run"}
+WANDB_NOTES=${WANDB_NOTES:-"Nemotron-1B SSA Triton phase1 training"}
 WANDB_JOB_TYPE=${WANDB_JOB_TYPE:-"train"}
 WANDB_MODE=${WANDB_MODE:-"offline"}
 WANDB_DIR=${WANDB_DIR:-"${OUTPUT_DIR}/${NAME}/wandb"}
@@ -171,11 +171,12 @@ srun apptainer exec \
         --datamix "$DATAMIX" \
         --output_dir "$OUTPUT_DIR" \
         --name "$NAME" \
-        --arch baby_luciole \
+        --arch nemotron1b \
+        --tokenizer /work/m24047/m24047brmn/Luciole-23B-Base \
         --max_steps ${GLOBAL_MAX_STEPS} \
-        --seq_length 1024 \
-        --batch_size 768 \
-        --micro_batch_size 8 \
+        --seq_length 2048 \
+        --batch_size 384 \
+        --micro_batch_size 2 \
         --num_nodes ${SLURM_NNODES} \
         --gpus_per_node 2 \
         --tensor_parallelism 1 \

@@ -38,13 +38,14 @@ SSA_N=1.5   # fixed
 SSA_B=0.8   # fixed
 SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton}  # pinned to tutorial-based triton kernel
 SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
-LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-500}
+LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-2000}
 SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-60000}
+# GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-5000}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
-THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-8000}
+THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-0}
 
 if [[ "${SSA_KERNEL_VERSION}" != "triton" ]]; then
     echo "ERROR: SSA_KERNEL_VERSION must be 'triton' (got '${SSA_KERNEL_VERSION}')."
@@ -159,6 +160,7 @@ srun apptainer exec \
     --env "TRITON_CACHE_DIR=${TRITON_CACHE_DIR}" \
     --env "SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION}" \
     --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
+    --env "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600" \
     "${WANDB_ENV_ARGS[@]}" \
     --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
     torchrun \
@@ -183,7 +185,7 @@ srun apptainer exec \
         --pipeline_parallelism 1 \
         --context_parallelism 1 \
         --duration "${SLURM_DURATION}" \
-        --save_every_n_steps 6000 \
+        --save_every_n_steps 1000 \
         --log_ssa_every_n_steps 1000 \
         --ssa_n $SSA_N \
         --ssa_b $SSA_B \

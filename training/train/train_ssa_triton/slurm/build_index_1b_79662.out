@@ -1,0 +1,1146 @@
+==========================================
+Building Index Mappings
+Datamix:     /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/m24047brmn/nemo_1b/output_1b
+Max steps:   5000
+==========================================
+[rank: 0] Seed set to 1234
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-03-16 02:39:28 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:utils:{'data_path': '/work/shares/IA-Datasets/private/tokens_luciole_phase1', 'total_tokens': 3002228277248, 'train': [{'name': 'claire_open_en_text_document', 'weight': 29003.0}, {'name': 'claire_open_fr_text_document', 'weight': 92129.0}, {'name': 'common-corpus_bnl-newspapers-1841-1879_fr_text_document', 'weight': 66237.0}, {'name': 'common-corpus_eurlex_multi_text_document', 'weight': 3601664.0}, {'name': 'common-corpus_gatt-library_multi_text_document', 'weight': 41322.0}, {'name': 'common-corpus_oecd_multi_text_document', 'weight': 121969.0}, {'name': 'common-corpus_tedeutenders_multi_text_document', 'weight': 31276.0}, {'name': 'common-corpus_wto_multi_text_document', 'weight': 577279.0}, {'name': 'common-pile_arxiv-abstracts_en_text_document', 'weight': 140138.0}, {'name': 'common-pile_arxiv-papers_en_text_document', 'weight': 1299034.0}, {'name': 'common-pile_biodiversity-heritage-library_en_text_document', 'weight': 107772.0}, {'name': 'common-pile_caselaw-access-project_en_text_document', 'weight': 929697.0}, {'name': 'common-pile_doab_en_text_document', 'weight': 712786.0}, {'name': 'common-pile_foodista_en_text_document', 'weight': 5603.0}, {'name': 'common-pile_github-archive_en_text_document', 'weight': 2244221.0}, {'name': 'common-pile_library-of-congress_en_text_document', 'weight': 101533.0}, {'name': 'common-pile_libretexts_en_text_document', 'weight': 21049.0}, {'name': 'common-pile_news_en_text_document', 'weight': 14354.0}, {'name': 'common-pile_oercommons_en_text_document', 'weight': 2748.0}, {'name': 'common-pile_peS2o_en_text_document', 'weight': 10166525.0}, {'name': 'common-pile_pre-1929-books_en_text_document', 'weight': 531517.0}, {'name': 'common-pile_pressbooks_en_text_document', 'weight': 31891.0}, {'name': 'common-pile_public-domain-review_en_text_document', 'weight': 382.0}, {'name': 'common-pile_pubmed_en_text_document', 'weight': 1869301.0}, {'name': 'common-pile_python-enhancement-proposals_en_text_document', 'weight': 652.0}, {'name': 'common-pile_regulations_en_text_document', 'weight': 266173.0}, {'name': 'common-pile_stackexchange_en_text_document', 'weight': 4985359.0}, {'name': 'common-pile_ubuntu-irc_en_text_document', 'weight': 482830.0}, {'name': 'common-pile_youtube_en_text_document', 'weight': 204765.0}, {'name': 'croissant-aligned_aligned_text_document', 'weight': 11618464.0}, {'name': 'culturax_fr_text_document_ratio1.30_phase0', 'weight': 57012131.0}, {'name': 'dclm-dolmino_en_text_document_ratio0.75_phase0', 'weight': 93003263.0}, {'name': 'europarl_aligned_text_document', 'weight': 215607.0}, {'name': 'europarl_multi_text_document', 'weight': 99752.0}, {'name': 'eurovoc_filtered_multi_text_document', 'weight': 2150091.0}, {'name': 'fineweb-edu_en_text_document_ratio0.75_phase0', 'weight': 214754282.0}, {'name': 'fineweb2_ar_text_document_ratio0.50_phase0', 'weight': 3350461.0}, {'name': 'fineweb2_ca_text_document_ratio0.05_phase0', 'weight': 92529.0}, {'name': 'fineweb2_de_text_document_ratio0.50_phase0', 'weight': 27173931.0}, {'name': 'fineweb2_es_text_document_ratio0.50_phase0', 'weight': 24393496.0}, {'name': 'fineweb2_fr_text_document_ratio1.30_phase0', 'weight': 50038822.0}, {'name': 'fineweb2_it_text_document_ratio0.50_phase0', 'weight': 13377940.0}, {'name': 'fineweb2_nl_text_document_ratio0.50_phase0', 'weight': 7435763.0}, {'name': 'fineweb2_pt_text_document_ratio0.50_phase0', 'weight': 9800040.0}, {'name': 'fineweb2_regional_text_document', 'weight': 2132152.0}, {'name': 'gallica_monographies_fr_text_document', 'weight': 5842786.0}, {'name': 'gallica_press_fr_text_document', 'weight': 22850320.0}, {'name': 'gutenberg_de_text_document', 'weight': 42330.0}, {'name': 'gutenberg_en_text_document', 'weight': 1187655.0}, {'name': 'gutenberg_es_text_document', 'weight': 21778.0}, {'name': 'gutenberg_fr_text_document', 'weight': 91991.0}, {'name': 'gutenberg_it_text_document', 'weight': 29909.0}, {'name': 'gutenberg_nl_text_document', 'weight': 24430.0}, {'name': 'gutenberg_pt_text_document', 'weight': 9241.0}, {'name': 'hal-cea_full-filtered_fr_text_document', 'weight': 7828031.0}, {'name': 'hplt2_fr_text_document_ratio1.30_phase0', 'weight': 70401931.0}, {'name': 'insee_fr_text_document', 'weight': 55377.0}, {'name': 'math-pile_math_text_document', 'weight': 2345197.0}, {'name': 'opendata_fr_text_document', 'weight': 2749409.0}, {'name': 'parlement_fr_text_document', 'weight': 282826.0}, {'name': 'starcoder-data_code_text_document', 'weight': 62922795.0}, {'name': 'theses_fr_text_document', 'weight': 3239718.0}, {'name': 'wikimedia-vikidia_ar_text_document', 'weight': 265451.0}, {'name': 'wikimedia-vikidia_ca_text_document_ratio0.20_phase0', 'weight': 58530.0}, {'name': 'wikimedia-vikidia_de_text_document', 'weight': 1098595.0}, {'name': 'wikimedia-vikidia_en_text_document', 'weight': 2882825.0}, {'name': 'wikimedia-vikidia_es_text_document', 'weight': 631843.0}, {'name': 'wikimedia-vikidia_fr_text_document', 'weight': 1276052.0}, {'name': 'wikimedia-vikidia_it_text_document', 'weight': 654077.0}, {'name': 'wikimedia-vikidia_pt_text_document', 'weight': 304392.0}, {'name': 'wikimedia-vikidia_regional_text_document', 'weight': 119234.0}, {'name': 'wikimedia_nl_text_document', 'weight': 345319.0}, {'name': 'youtube_fr_text_document', 'weight': 76194.0}]}
+INFO:__main__:Using CLI tokenizer override: /work/m24047/m24047brmn/Luciole-23B-Base
+INFO:__main__:Global batch size: 384
+INFO:__main__:Sequence length: 2048
+INFO:__main__:Tokens per batch: 786432
+INFO:__main__:Total tokens in datamix: 3002228277248
+INFO:__main__:Global training/LR horizon (from --max_steps): 5000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'scale_lr_cond', 'no_weight_decay_cond', 'config', 'use_gloo_process_groups', 'model_chunks', 'lr_mult'})
+[NeMo I 2026-03-16 02:39:32 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/Luciole-23B-Base, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 5000
+INFO:__main__:Detected vocab_size from tokenizer: 128000
+INFO:__main__:Per-job step cap enabled: this_run_max_steps=1
+INFO:__main__:LR scheduler max_steps = 5000 (aligned with trainer.max_steps), warmup_steps = 500
+INFO:utils:Config saved to /tmpdir/m24047brmn/nemo_1b/output_1b/job_79662/config_nemotron-1B-SSA-Triton.json
+INFO:__main__:Skipping Triton warmup (--skip_triton_warmup).
+INFO: GPU available: True (cuda), used: True
+INFO:lightning.pytorch.utilities.rank_zero:GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+INFO:lightning.pytorch.utilities.rank_zero:TPU available: False, using: 0 TPU cores
+INFO: HPU available: False, using: 0 HPUs
+INFO:lightning.pytorch.utilities.rank_zero:HPU available: False, using: 0 HPUs
+[NeMo W 2026-03-16 02:39:33 nemo_logging:405] No version folders would be created under the log folder as 'resume_if_exists' is enabled.
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Experiments will be logged at /tmpdir/m24047brmn/nemo_1b/output_1b/nemotron-1B-SSA-Triton
+[NeMo W 2026-03-16 02:39:33 nemo_logging:405] "update_logger_directory" is True. Overwriting tensorboard logger "save_dir" to /tmpdir/m24047brmn/nemo_1b/output_1b/tb_logs
+[NeMo W 2026-03-16 02:39:33 nemo_logging:405] The Trainer already contains a ModelCheckpoint callback. This will be overwritten.
+[NeMo W 2026-03-16 02:39:33 nemo_logging:405] There were no checkpoints found in checkpoint_dir or no checkpoint folder at checkpoint_dir :/tmpdir/m24047brmn/nemo_1b/output_1b/nemotron-1B-SSA-Triton/checkpoints. Training from scratch.
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Fixing mis-match between ddp-config & mcore-optimizer config
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has data parallel group : [0]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has combined group of data parallel and context parallel : [0]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] All data parallel group ranks with context parallel combined: [[0]]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Ranks 0 has data parallel rank: 0
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has context parallel group: [0]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] All context parallel group ranks: [[0]]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Ranks 0 has context parallel rank: 0
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has model parallel group: [0]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] All model parallel group ranks: [[0]]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has tensor model parallel group: [0]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] All tensor model parallel group ranks: [[0]]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has tensor model parallel rank: 0
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has pipeline model parallel group: [0]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has embedding group: [0]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] All pipeline model parallel group ranks: [[0]]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has pipeline model parallel rank 0
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] All embedding group ranks: [[0]]
+[NeMo I 2026-03-16 02:39:33 nemo_logging:393] Rank 0 has embedding rank: 0
+INFO:nemo.lightning.pytorch.strategies.megatron_strategy:Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+INFO: ----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+INFO:lightning.pytorch.utilities.rank_zero:----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+[NeMo I 2026-03-16 02:39:33 utils:532] Let split_matrix = [(0, 1.0), None, None]
+[NeMo I 2026-03-16 02:39:33 utils:532] Building GPTDataset splits with sizes=[1920000, 0, 12288] and config=GPTDatasetConfig(random_seed=1234, sequence_length=2048, blend=[['/work/shares/IA-Datasets/private/tokens_luciole_phase1/claire_open_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/claire_open_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_bnl-newspapers-1841-1879_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_eurlex_multi_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_gatt-library_multi_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_oecd_multi_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_tedeutenders_multi_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_wto_multi_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_arxiv-abstracts_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_arxiv-papers_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_biodiversity-heritage-library_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_caselaw-access-project_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_doab_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_foodista_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_github-archive_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_library-of-congress_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_libretexts_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_news_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_oercommons_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_peS2o_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_pre-1929-books_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_pressbooks_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_public-domain-review_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_pubmed_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_python-enhancement-proposals_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_regulations_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_stackexchange_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_ubuntu-irc_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_youtube_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/croissant-aligned_aligned_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/culturax_fr_text_document_ratio1.30_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/dclm-dolmino_en_text_document_ratio0.75_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/europarl_aligned_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/europarl_multi_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/eurovoc_filtered_multi_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb-edu_en_text_document_ratio0.75_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_ar_text_document_ratio0.50_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_ca_text_document_ratio0.05_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_de_text_document_ratio0.50_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_es_text_document_ratio0.50_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_fr_text_document_ratio1.30_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_it_text_document_ratio0.50_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_nl_text_document_ratio0.50_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_pt_text_document_ratio0.50_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_regional_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gallica_monographies_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gallica_press_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_de_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_es_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_it_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_nl_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_pt_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/hal-cea_full-filtered_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/hplt2_fr_text_document_ratio1.30_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/insee_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/math-pile_math_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/opendata_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/parlement_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/starcoder-data_code_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/theses_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_ar_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_ca_text_document_ratio0.20_phase0', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_de_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_en_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_es_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_fr_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_it_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_pt_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_regional_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia_nl_text_document', '/work/shares/IA-Datasets/private/tokens_luciole_phase1/youtube_fr_text_document'], [29003.0, 92129.0, 66237.0, 3601664.0, 41322.0, 121969.0, 31276.0, 577279.0, 140138.0, 1299034.0, 107772.0, 929697.0, 712786.0, 5603.0, 2244221.0, 101533.0, 21049.0, 14354.0, 2748.0, 10166525.0, 531517.0, 31891.0, 382.0, 1869301.0, 652.0, 266173.0, 4985359.0, 482830.0, 204765.0, 11618464.0, 57012131.0, 93003263.0, 215607.0, 99752.0, 2150091.0, 214754282.0, 3350461.0, 92529.0, 27173931.0, 24393496.0, 50038822.0, 13377940.0, 7435763.0, 9800040.0, 2132152.0, 5842786.0, 22850320.0, 42330.0, 1187655.0, 21778.0, 91991.0, 29909.0, 24430.0, 9241.0, 7828031.0, 70401931.0, 55377.0, 2345197.0, 2749409.0, 282826.0, 62922795.0, 3239718.0, 265451.0, 58530.0, 1098595.0, 2882825.0, 631843.0, 1276052.0, 654077.0, 304392.0, 119234.0, 345319.0, 76194.0]], blend_per_split=None, split='1,0,0', split_matrix=[(0, 1.0), None, None], num_dataset_builder_threads=1, path_to_cache='/tmpdir/m24047brmn/nemo_1b/output_1b/index_mapping', mmap_bin_files=True, mock=False, tokenizer=<nemo.collections.common.tokenizers.huggingface.auto_tokenizer.AutoTokenizer object at 0x40021168fcb0>, reset_position_ids=False, reset_attention_mask=False, eod_mask_loss=False, create_attention_mask=False, drop_last_partial_validation_sequence=True, add_extra_token_to_sequence=True, s3_cache_path=None)
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/claire_open_en_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 462740
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 462740
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of samples: 58006
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/claire_open_fr_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 14526
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 14526
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of samples: 92129
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_bnl-newspapers-1841-1879_fr_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 315272
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 315272
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of samples: 132475
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_eurlex_multi_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 1803972
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 1803972
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of samples: 7203329
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_gatt-library_multi_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 55289
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 55289
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of samples: 82644
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_oecd_multi_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 68581
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 68581
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of samples: 243939
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_tedeutenders_multi_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 51785
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 51785
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of samples: 62552
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-corpus_wto_multi_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 644356
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 644356
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of samples: 1154559
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:34 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_arxiv-abstracts_en_text_document.idx
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:34 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of sequences: 2494948
+[NeMo I 2026-03-16 02:39:34 utils:532] > total number of documents: 2494948
+[NeMo I 2026-03-16 02:39:34 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:35 utils:532] > total number of samples: 280276
+[NeMo I 2026-03-16 02:39:35 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:35 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_arxiv-papers_en_text_document.idx
+[NeMo I 2026-03-16 02:39:35 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:35 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:35 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:35 utils:532] > total number of sequences: 265829
+[NeMo I 2026-03-16 02:39:35 utils:532] > total number of documents: 265829
+[NeMo I 2026-03-16 02:39:35 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:35 utils:532] > total number of samples: 2598069
+[NeMo I 2026-03-16 02:39:35 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:35 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_biodiversity-heritage-library_en_text_document.idx
+[NeMo I 2026-03-16 02:39:35 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:35 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:35 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:35 utils:532] > total number of sequences: 14559324
+[NeMo I 2026-03-16 02:39:35 utils:532] > total number of documents: 14559324
+[NeMo I 2026-03-16 02:39:35 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:37 utils:532] > total number of samples: 4310886
+[NeMo I 2026-03-16 02:39:37 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:37 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_caselaw-access-project_en_text_document.idx
+[NeMo I 2026-03-16 02:39:37 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:37 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:37 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:37 utils:532] > total number of sequences: 6675458
+[NeMo I 2026-03-16 02:39:37 utils:532] > total number of documents: 6675458
+[NeMo I 2026-03-16 02:39:37 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of samples: 9296974
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:38 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_doab_en_text_document.idx
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of sequences: 392508
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of documents: 392508
+[NeMo I 2026-03-16 02:39:38 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of samples: 1425572
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:38 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_foodista_en_text_document.idx
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of sequences: 64362
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of documents: 64362
+[NeMo I 2026-03-16 02:39:38 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of samples: 11206
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:38 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_github-archive_en_text_document.idx
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:38 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of sequences: 21453611
+[NeMo I 2026-03-16 02:39:38 utils:532] > total number of documents: 21453611
+[NeMo I 2026-03-16 02:39:38 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of samples: 4488442
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:41 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_library-of-congress_en_text_document.idx
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of sequences: 128517
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of documents: 128517
+[NeMo I 2026-03-16 02:39:41 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of samples: 4061328
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:41 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_libretexts_en_text_document.idx
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of sequences: 39197
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of documents: 39197
+[NeMo I 2026-03-16 02:39:41 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of samples: 42098
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:41 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_news_en_text_document.idx
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of sequences: 124462
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of documents: 124462
+[NeMo I 2026-03-16 02:39:41 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of samples: 28708
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:41 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_oercommons_en_text_document.idx
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of sequences: 5209
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of documents: 5209
+[NeMo I 2026-03-16 02:39:41 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of samples: 5497
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:41 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_peS2o_en_text_document.idx
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:41 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of sequences: 6108597
+[NeMo I 2026-03-16 02:39:41 utils:532] > total number of documents: 6108597
+[NeMo I 2026-03-16 02:39:41 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of samples: 20333050
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:44 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_pre-1929-books_en_text_document.idx
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of sequences: 124257
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of documents: 124257
+[NeMo I 2026-03-16 02:39:44 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of samples: 5315175
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:44 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_pressbooks_en_text_document.idx
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of sequences: 53819
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of documents: 53819
+[NeMo I 2026-03-16 02:39:44 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of samples: 63783
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:44 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_public-domain-review_en_text_document.idx
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of sequences: 1406
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of documents: 1406
+[NeMo I 2026-03-16 02:39:44 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of samples: 765
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:44 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_pubmed_en_text_document.idx
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:44 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of sequences: 3775036
+[NeMo I 2026-03-16 02:39:44 utils:532] > total number of documents: 3775036
+[NeMo I 2026-03-16 02:39:44 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of samples: 18693011
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:46 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_python-enhancement-proposals_en_text_document.idx
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of sequences: 646
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of documents: 646
+[NeMo I 2026-03-16 02:39:46 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of samples: 1305
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:46 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_regulations_en_text_document.idx
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of sequences: 188458
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of documents: 188458
+[NeMo I 2026-03-16 02:39:46 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of samples: 532346
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:46 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_stackexchange_en_text_document.idx
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:46 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of sequences: 27698689
+[NeMo I 2026-03-16 02:39:46 utils:532] > total number of documents: 27698689
+[NeMo I 2026-03-16 02:39:46 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of samples: 9970719
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:50 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_ubuntu-irc_en_text_document.idx
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of sequences: 214985
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of documents: 214985
+[NeMo I 2026-03-16 02:39:50 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of samples: 965661
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:50 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/common-pile_youtube_en_text_document.idx
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of sequences: 984915
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of documents: 984915
+[NeMo I 2026-03-16 02:39:50 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of samples: 2047658
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:39:50 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/croissant-aligned_aligned_text_document.idx
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:39:50 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of sequences: 408028865
+[NeMo I 2026-03-16 02:39:50 utils:532] > total number of documents: 408028865
+[NeMo I 2026-03-16 02:39:51 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:40:57 utils:532] > total number of samples: 11618464
+[NeMo I 2026-03-16 02:40:57 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:40:57 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/culturax_fr_text_document_ratio1.30_phase0.idx
+[NeMo I 2026-03-16 02:40:57 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:40:57 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:40:57 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:40:57 utils:532] > total number of sequences: 315407250
+[NeMo I 2026-03-16 02:40:57 utils:532] > total number of documents: 315407250
+[NeMo I 2026-03-16 02:40:57 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:42:02 utils:532] > total number of samples: 114034914
+[NeMo I 2026-03-16 02:42:02 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:42:02 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/dclm-dolmino_en_text_document_ratio0.75_phase0.idx
+[NeMo I 2026-03-16 02:42:02 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:42:02 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:42:02 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:42:02 utils:532] > total number of sequences: 298566785
+[NeMo I 2026-03-16 02:42:02 utils:532] > total number of documents: 298566785
+[NeMo I 2026-03-16 02:42:02 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:43:17 utils:532] > total number of samples: 186006443
+[NeMo I 2026-03-16 02:43:17 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:43:17 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/europarl_aligned_text_document.idx
+[NeMo I 2026-03-16 02:43:17 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:43:17 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:43:17 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:43:17 utils:532] > total number of sequences: 11600886
+[NeMo I 2026-03-16 02:43:17 utils:532] > total number of documents: 11600886
+[NeMo I 2026-03-16 02:43:17 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of samples: 431215
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:43:19 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/europarl_multi_text_document.idx
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of sequences: 62440
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of documents: 62440
+[NeMo I 2026-03-16 02:43:19 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of samples: 199504
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:43:19 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/eurovoc_filtered_multi_text_document.idx
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of sequences: 1748652
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of documents: 1748652
+[NeMo I 2026-03-16 02:43:19 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of samples: 4300183
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:43:19 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb-edu_en_text_document_ratio0.75_phase0.idx
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:43:19 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of sequences: 835116868
+[NeMo I 2026-03-16 02:43:19 utils:532] > total number of documents: 835116868
+[NeMo I 2026-03-16 02:43:20 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:46:42 utils:532] > total number of samples: 429535986
+[NeMo I 2026-03-16 02:46:42 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:46:42 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_ar_text_document_ratio0.50_phase0.idx
+[NeMo I 2026-03-16 02:46:42 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:46:42 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:46:42 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:46:42 utils:532] > total number of sequences: 20389602
+[NeMo I 2026-03-16 02:46:42 utils:532] > total number of documents: 20389602
+[NeMo I 2026-03-16 02:46:42 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:46:45 utils:532] > total number of samples: 6701245
+[NeMo I 2026-03-16 02:46:45 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:46:45 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_ca_text_document_ratio0.05_phase0.idx
+[NeMo I 2026-03-16 02:46:45 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:46:45 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:46:45 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:46:45 utils:532] > total number of sequences: 535774
+[NeMo I 2026-03-16 02:46:45 utils:532] > total number of documents: 535774
+[NeMo I 2026-03-16 02:46:45 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:46:45 utils:532] > total number of samples: 185293
+[NeMo I 2026-03-16 02:46:45 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:46:45 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_de_text_document_ratio0.50_phase0.idx
+[NeMo I 2026-03-16 02:46:46 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:46:46 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:46:46 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:46:46 utils:532] > total number of sequences: 160974108
+[NeMo I 2026-03-16 02:46:46 utils:532] > total number of documents: 160974108
+[NeMo I 2026-03-16 02:46:46 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:47:17 utils:532] > total number of samples: 54348639
+[NeMo I 2026-03-16 02:47:17 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:47:17 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_es_text_document_ratio0.50_phase0.idx
+[NeMo I 2026-03-16 02:47:17 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:47:17 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:47:17 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:47:17 utils:532] > total number of sequences: 141473237
+[NeMo I 2026-03-16 02:47:17 utils:532] > total number of documents: 141473237
+[NeMo I 2026-03-16 02:47:17 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:47:46 utils:532] > total number of samples: 48782622
+[NeMo I 2026-03-16 02:47:46 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:47:46 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_fr_text_document_ratio1.30_phase0.idx
+[NeMo I 2026-03-16 02:47:46 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:47:46 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:47:46 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:47:46 utils:532] > total number of sequences: 302262109
+[NeMo I 2026-03-16 02:47:46 utils:532] > total number of documents: 302262109
+[NeMo I 2026-03-16 02:47:46 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:48:48 utils:532] > total number of samples: 100072398
+[NeMo I 2026-03-16 02:48:48 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:48:48 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_it_text_document_ratio0.50_phase0.idx
+[NeMo I 2026-03-16 02:48:48 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:48:48 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:48:48 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:48:48 utils:532] > total number of sequences: 77577376
+[NeMo I 2026-03-16 02:48:48 utils:532] > total number of documents: 77577376
+[NeMo I 2026-03-16 02:48:48 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:03 utils:532] > total number of samples: 26751866
+[NeMo I 2026-03-16 02:49:03 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:03 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_nl_text_document_ratio0.50_phase0.idx
+[NeMo I 2026-03-16 02:49:03 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:03 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:03 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:03 utils:532] > total number of sequences: 48546971
+[NeMo I 2026-03-16 02:49:03 utils:532] > total number of documents: 48546971
+[NeMo I 2026-03-16 02:49:03 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:12 utils:532] > total number of samples: 14868064
+[NeMo I 2026-03-16 02:49:12 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:12 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_pt_text_document_ratio0.50_phase0.idx
+[NeMo I 2026-03-16 02:49:12 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:12 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:12 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:12 utils:532] > total number of sequences: 58989768
+[NeMo I 2026-03-16 02:49:12 utils:532] > total number of documents: 58989768
+[NeMo I 2026-03-16 02:49:12 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:23 utils:532] > total number of samples: 19600760
+[NeMo I 2026-03-16 02:49:23 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:23 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/fineweb2_regional_text_document.idx
+[NeMo I 2026-03-16 02:49:23 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:23 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:23 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:23 utils:532] > total number of sequences: 12082034
+[NeMo I 2026-03-16 02:49:23 utils:532] > total number of documents: 12082034
+[NeMo I 2026-03-16 02:49:23 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:25 utils:532] > total number of samples: 4264304
+[NeMo I 2026-03-16 02:49:25 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:25 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gallica_monographies_fr_text_document.idx
+[NeMo I 2026-03-16 02:49:25 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:25 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:25 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:25 utils:532] > total number of sequences: 279810
+[NeMo I 2026-03-16 02:49:25 utils:532] > total number of documents: 279810
+[NeMo I 2026-03-16 02:49:25 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:26 utils:532] > total number of samples: 11685572
+[NeMo I 2026-03-16 02:49:26 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:26 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gallica_press_fr_text_document.idx
+[NeMo I 2026-03-16 02:49:26 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:26 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:26 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:26 utils:532] > total number of sequences: 2855626
+[NeMo I 2026-03-16 02:49:26 utils:532] > total number of documents: 2855626
+[NeMo I 2026-03-16 02:49:26 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of samples: 45700641
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:31 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_de_text_document.idx
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of sequences: 1777
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of documents: 1777
+[NeMo I 2026-03-16 02:49:31 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of samples: 84660
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:31 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_en_text_document.idx
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of sequences: 49900
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of documents: 49900
+[NeMo I 2026-03-16 02:49:31 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of samples: 2375310
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:31 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_es_text_document.idx
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of sequences: 759
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of documents: 759
+[NeMo I 2026-03-16 02:49:31 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of samples: 43557
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:31 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_fr_text_document.idx
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of sequences: 3544
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of documents: 3544
+[NeMo I 2026-03-16 02:49:31 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of samples: 183982
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:31 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_it_text_document.idx
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of sequences: 985
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of documents: 985
+[NeMo I 2026-03-16 02:49:31 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of samples: 59818
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:31 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_nl_text_document.idx
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of sequences: 993
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of documents: 993
+[NeMo I 2026-03-16 02:49:31 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of samples: 48860
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:31 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/gutenberg_pt_text_document.idx
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:31 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of sequences: 623
+[NeMo I 2026-03-16 02:49:31 utils:532] > total number of documents: 623
+[NeMo I 2026-03-16 02:49:31 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:32 utils:532] > total number of samples: 18482
+[NeMo I 2026-03-16 02:49:32 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:32 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/hal-cea_full-filtered_fr_text_document.idx
+[NeMo I 2026-03-16 02:49:32 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:32 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:32 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:32 utils:532] > total number of sequences: 188005
+[NeMo I 2026-03-16 02:49:32 utils:532] > total number of documents: 188005
+[NeMo I 2026-03-16 02:49:32 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:49:32 utils:532] > total number of samples: 7828031
+[NeMo I 2026-03-16 02:49:32 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:49:32 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/hplt2_fr_text_document_ratio1.30_phase0.idx
+[NeMo I 2026-03-16 02:49:32 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:49:32 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:49:32 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:49:32 utils:532] > total number of sequences: 335406888
+[NeMo I 2026-03-16 02:49:32 utils:532] > total number of documents: 335406888
+[NeMo I 2026-03-16 02:49:32 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of samples: 140805832
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:50:49 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/insee_fr_text_document.idx
+[NeMo I 2026-03-16 02:50:49 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:50:49 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:50:49 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of sequences: 17175
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of documents: 17175
+[NeMo I 2026-03-16 02:50:49 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of samples: 55377
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:50:49 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/math-pile_math_text_document.idx
+[NeMo I 2026-03-16 02:50:49 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:50:49 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:50:49 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of sequences: 729213
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of documents: 729213
+[NeMo I 2026-03-16 02:50:49 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of samples: 4690394
+[NeMo I 2026-03-16 02:50:49 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:50:49 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/opendata_fr_text_document.idx
+[NeMo I 2026-03-16 02:50:50 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:50:50 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:50:50 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:50:50 utils:532] > total number of sequences: 8078669
+[NeMo I 2026-03-16 02:50:50 utils:532] > total number of documents: 8078669
+[NeMo I 2026-03-16 02:50:50 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:50:51 utils:532] > total number of samples: 2749409
+[NeMo I 2026-03-16 02:50:51 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:50:51 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/parlement_fr_text_document.idx
+[NeMo I 2026-03-16 02:50:51 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:50:51 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:50:51 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:50:51 utils:532] > total number of sequences: 2803517
+[NeMo I 2026-03-16 02:50:51 utils:532] > total number of documents: 2803517
+[NeMo I 2026-03-16 02:50:51 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:50:51 utils:532] > total number of samples: 282826
+[NeMo I 2026-03-16 02:50:51 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:50:51 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/starcoder-data_code_text_document.idx
+[NeMo I 2026-03-16 02:50:51 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:50:51 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:50:51 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:50:51 utils:532] > total number of sequences: 206642239
+[NeMo I 2026-03-16 02:50:51 utils:532] > total number of documents: 206642239
+[NeMo I 2026-03-16 02:50:52 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of samples: 125845590
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:41 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/theses_fr_text_document.idx
+[NeMo I 2026-03-16 02:51:41 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:41 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:41 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of sequences: 102412
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of documents: 102412
+[NeMo I 2026-03-16 02:51:41 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of samples: 6479437
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:41 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_ar_text_document.idx
+[NeMo I 2026-03-16 02:51:41 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:41 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:41 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of sequences: 1460875
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of documents: 1460875
+[NeMo I 2026-03-16 02:51:41 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of samples: 530903
+[NeMo I 2026-03-16 02:51:41 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:41 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_ca_text_document_ratio0.20_phase0.idx
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of sequences: 289424
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of documents: 289424
+[NeMo I 2026-03-16 02:51:42 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of samples: 117447
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:42 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_de_text_document.idx
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of sequences: 4561076
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of documents: 4561076
+[NeMo I 2026-03-16 02:51:42 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of samples: 2197190
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:42 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_en_text_document.idx
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:42 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of sequences: 16464277
+[NeMo I 2026-03-16 02:51:42 utils:532] > total number of documents: 16464277
+[NeMo I 2026-03-16 02:51:42 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:45 utils:532] > total number of samples: 5765650
+[NeMo I 2026-03-16 02:51:45 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:45 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_es_text_document.idx
+[NeMo I 2026-03-16 02:51:45 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:45 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:45 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:45 utils:532] > total number of sequences: 3065035
+[NeMo I 2026-03-16 02:51:45 utils:532] > total number of documents: 3065035
+[NeMo I 2026-03-16 02:51:45 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:45 utils:532] > total number of samples: 1263687
+[NeMo I 2026-03-16 02:51:45 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:45 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_fr_text_document.idx
+[NeMo I 2026-03-16 02:51:46 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:46 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:46 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:46 utils:532] > total number of sequences: 9702359
+[NeMo I 2026-03-16 02:51:46 utils:532] > total number of documents: 9702359
+[NeMo I 2026-03-16 02:51:46 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:47 utils:532] > total number of samples: 2552104
+[NeMo I 2026-03-16 02:51:47 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:47 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_it_text_document.idx
+[NeMo I 2026-03-16 02:51:47 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:47 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:47 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:47 utils:532] > total number of sequences: 2760467
+[NeMo I 2026-03-16 02:51:47 utils:532] > total number of documents: 2760467
+[NeMo I 2026-03-16 02:51:47 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:47 utils:532] > total number of samples: 1308154
+[NeMo I 2026-03-16 02:51:47 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:47 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_pt_text_document.idx
+[NeMo I 2026-03-16 02:51:47 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:47 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:47 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:47 utils:532] > total number of sequences: 1764890
+[NeMo I 2026-03-16 02:51:47 utils:532] > total number of documents: 1764890
+[NeMo I 2026-03-16 02:51:47 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of samples: 608784
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:48 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia-vikidia_regional_text_document.idx
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of sequences: 851598
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of documents: 851598
+[NeMo I 2026-03-16 02:51:48 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of samples: 238469
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:48 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/wikimedia_nl_text_document.idx
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of sequences: 3157316
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of documents: 3157316
+[NeMo I 2026-03-16 02:51:48 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of samples: 690639
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:48 utils:532] Load the _IndexReader from /work/shares/IA-Datasets/private/tokens_luciole_phase1/youtube_fr_text_document.idx
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the sequence lengths
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the sequence pointers
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Extract the document indices
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of sequences: 37513
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of documents: 37513
+[NeMo I 2026-03-16 02:51:48 utils:532] Build and save the GPTDataset train indices
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of samples: 152389
+[NeMo I 2026-03-16 02:51:48 utils:532] > total number of epochs: 1
+[NeMo I 2026-03-16 02:51:48 utils:532] Build and save the BlendedDataset indices
+[NeMo I 2026-03-16 02:51:48 utils:532] 	Build and save the dataset and dataset sample indexes
+[NeMo I 2026-03-16 02:51:48 utils:532] Verifying NumPy indices for BlendedDataset train split
+[NeMo I 2026-03-16 02:51:49 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO:lightning.pytorch.accelerators.cuda:LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+[NeMo I 2026-03-16 02:51:49 nemo_logging:393] Copying Trainer's 'max_steps' (5000) to LR scheduler's 'max_steps'.
+[NeMo I 2026-03-16 02:51:49 num_microbatches_calculator:228] setting number of microbatches to constant 384
+[NeMo I 2026-03-16 02:51:49 nemo_logging:393]  > number of parameters on (tensor, pipeline) model parallel rank (0 ,0): 1319309336
+[NeMo I 2026-03-16 02:51:49 utils:532] Setting up DistributedDataParallel with config DistributedDataParallelConfig(grad_reduce_in_fp32=True, overlap_grad_reduce=True, overlap_param_gather=True, align_param_gather=False, use_distributed_optimizer=True, num_distributed_optimizer_instances=1, check_for_nan_in_grad=True, check_for_large_grads=False, bucket_size=40000000, pad_buckets_for_high_nccl_busbw=False, average_in_collective=True, fp8_param_gather=False, use_custom_fsdp=False, data_parallel_sharding_strategy='no_shard', gradient_reduce_div_fusion=True, suggested_communication_unit_size=None, preserve_fp32_weights=True, keep_fp8_transpose_cache_when_using_custom_fsdp=False)
+[NeMo I 2026-03-16 02:51:49 utils:553] Number of buckets for gradient all-reduce / reduce-scatter: 25
+    Params for bucket 1 (44048384 elements, 44048384 padded size):
+    	module.decoder.final_layernorm.bias
+    	module.decoder.final_layernorm.weight
+    	module.decoder.layers.23.mlp.linear_fc2.weight
+    	module.decoder.layers.23.self_attention.linear_proj.weight
+    	module.decoder.layers.23.pre_mlp_layernorm.bias
+    	module.decoder.layers.23.mlp.linear_fc1.weight
+    	module.decoder.layers.23.pre_mlp_layernorm.weight
+    	module.decoder.layers.23.self_attention.linear_qkv.weight
+    Params for bucket 2 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.22.mlp.linear_fc2.weight
+    	module.decoder.layers.23.input_layernorm.weight
+    	module.decoder.layers.22.self_attention.linear_qkv.weight
+    	module.decoder.layers.23.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.23.input_layernorm.bias
+    	module.decoder.layers.22.mlp.linear_fc1.weight
+    	module.decoder.layers.22.pre_mlp_layernorm.bias
+    	module.decoder.layers.22.pre_mlp_layernorm.weight
+    	module.decoder.layers.22.self_attention.linear_proj.weight
+    Params for bucket 3 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.22.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.21.mlp.linear_fc2.weight
+    	module.decoder.layers.22.input_layernorm.bias
+    	module.decoder.layers.21.self_attention.linear_proj.weight
+    	module.decoder.layers.22.input_layernorm.weight
+    	module.decoder.layers.21.mlp.linear_fc1.weight
+    	module.decoder.layers.21.pre_mlp_layernorm.bias
+    	module.decoder.layers.21.pre_mlp_layernorm.weight
+    	module.decoder.layers.21.self_attention.linear_qkv.weight
+    Params for bucket 4 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.20.mlp.linear_fc2.weight
+    	module.decoder.layers.21.input_layernorm.bias
+    	module.decoder.layers.20.pre_mlp_layernorm.bias
+    	module.decoder.layers.21.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.21.input_layernorm.weight
+    	module.decoder.layers.20.mlp.linear_fc1.weight
+    	module.decoder.layers.20.pre_mlp_layernorm.weight
+    	module.decoder.layers.20.self_attention.linear_qkv.weight
+    	module.decoder.layers.20.self_attention.linear_proj.weight
+    Params for bucket 5 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.20.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.20.input_layernorm.bias
+    	module.decoder.layers.19.mlp.linear_fc2.weight
+    	module.decoder.layers.19.self_attention.linear_proj.weight
+    	module.decoder.layers.19.mlp.linear_fc1.weight
+    	module.decoder.layers.20.input_layernorm.weight
+    	module.decoder.layers.19.pre_mlp_layernorm.bias
+    	module.decoder.layers.19.pre_mlp_layernorm.weight
+    	module.decoder.layers.19.self_attention.linear_qkv.weight
+    Params for bucket 6 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.18.mlp.linear_fc2.weight
+    	module.decoder.layers.19.input_layernorm.weight
+    	module.decoder.layers.18.pre_mlp_layernorm.bias
+    	module.decoder.layers.18.self_attention.linear_qkv.weight
+    	module.decoder.layers.19.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.19.input_layernorm.bias
+    	module.decoder.layers.18.mlp.linear_fc1.weight
+    	module.decoder.layers.18.pre_mlp_layernorm.weight
+    	module.decoder.layers.18.self_attention.linear_proj.weight
+    Params for bucket 7 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.17.mlp.linear_fc2.weight
+    	module.decoder.layers.18.input_layernorm.weight
+    	module.decoder.layers.17.self_attention.linear_proj.weight
+    	module.decoder.layers.18.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.17.mlp.linear_fc1.weight
+    	module.decoder.layers.18.input_layernorm.bias
+    	module.decoder.layers.17.pre_mlp_layernorm.bias
+    	module.decoder.layers.17.pre_mlp_layernorm.weight
+    	module.decoder.layers.17.self_attention.linear_qkv.weight
+    Params for bucket 8 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.17.input_layernorm.weight
+    	module.decoder.layers.16.mlp.linear_fc1.weight
+    	module.decoder.layers.16.pre_mlp_layernorm.bias
+    	module.decoder.layers.16.pre_mlp_layernorm.weight
+    	module.decoder.layers.17.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.17.input_layernorm.bias
+    	module.decoder.layers.16.mlp.linear_fc2.weight
+    	module.decoder.layers.16.self_attention.linear_qkv.weight
+    	module.decoder.layers.16.self_attention.linear_proj.weight
+    Params for bucket 9 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.16.input_layernorm.weight
+    	module.decoder.layers.15.mlp.linear_fc1.weight
+    	module.decoder.layers.15.pre_mlp_layernorm.bias
+    	module.decoder.layers.15.pre_mlp_layernorm.weight
+    	module.decoder.layers.15.self_attention.linear_qkv.weight
+    	module.decoder.layers.16.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.16.input_layernorm.bias
+    	module.decoder.layers.15.mlp.linear_fc2.weight
+    	module.decoder.layers.15.self_attention.linear_proj.weight
+    Params for bucket 10 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.15.input_layernorm.bias
+    	module.decoder.layers.14.pre_mlp_layernorm.bias
+    	module.decoder.layers.14.self_attention.linear_qkv.weight
+    	module.decoder.layers.15.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.14.mlp.linear_fc1.weight
+    	module.decoder.layers.15.input_layernorm.weight
+    	module.decoder.layers.14.mlp.linear_fc2.weight
+    	module.decoder.layers.14.pre_mlp_layernorm.weight
+    	module.decoder.layers.14.self_attention.linear_proj.weight
+    Params for bucket 11 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.14.input_layernorm.bias
+    	module.decoder.layers.13.mlp.linear_fc2.weight
+    	module.decoder.layers.14.input_layernorm.weight
+    	module.decoder.layers.13.self_attention.linear_proj.weight
+    	module.decoder.layers.14.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.13.mlp.linear_fc1.weight
+    	module.decoder.layers.13.pre_mlp_layernorm.bias
+    	module.decoder.layers.13.pre_mlp_layernorm.weight
+    	module.decoder.layers.13.self_attention.linear_qkv.weight
+    Params for bucket 12 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.13.input_layernorm.weight
+    	module.decoder.layers.12.mlp.linear_fc2.weight
+    	module.decoder.layers.12.pre_mlp_layernorm.bias
+    	module.decoder.layers.12.self_attention.linear_qkv.weight
+    	module.decoder.layers.13.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.12.mlp.linear_fc1.weight
+    	module.decoder.layers.13.input_layernorm.bias
+    	module.decoder.layers.12.pre_mlp_layernorm.weight
+    	module.decoder.layers.12.self_attention.linear_proj.weight
+    Params for bucket 13 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.12.input_layernorm.weight
+    	module.decoder.layers.11.pre_mlp_layernorm.bias
+    	module.decoder.layers.11.pre_mlp_layernorm.weight
+    	module.decoder.layers.11.self_attention.linear_qkv.weight
+    	module.decoder.layers.12.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.11.mlp.linear_fc1.weight
+    	module.decoder.layers.12.input_layernorm.bias
+    	module.decoder.layers.11.mlp.linear_fc2.weight
+    	module.decoder.layers.11.self_attention.linear_proj.weight
+    Params for bucket 14 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.10.mlp.linear_fc1.weight
+    	module.decoder.layers.11.input_layernorm.bias
+    	module.decoder.layers.10.pre_mlp_layernorm.weight
+    	module.decoder.layers.11.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.11.input_layernorm.weight
+    	module.decoder.layers.10.mlp.linear_fc2.weight
+    	module.decoder.layers.10.pre_mlp_layernorm.bias
+    	module.decoder.layers.10.self_attention.linear_qkv.weight
+    	module.decoder.layers.10.self_attention.linear_proj.weight
+    Params for bucket 15 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.10.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.10.input_layernorm.bias
+    	module.decoder.layers.9.mlp.linear_fc2.weight
+    	module.decoder.layers.9.self_attention.linear_proj.weight
+    	module.decoder.layers.10.input_layernorm.weight
+    	module.decoder.layers.9.mlp.linear_fc1.weight
+    	module.decoder.layers.9.pre_mlp_layernorm.bias
+    	module.decoder.layers.9.pre_mlp_layernorm.weight
+    	module.decoder.layers.9.self_attention.linear_qkv.weight
+    Params for bucket 16 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.9.input_layernorm.weight
+    	module.decoder.layers.8.mlp.linear_fc2.weight
+    	module.decoder.layers.8.pre_mlp_layernorm.bias
+    	module.decoder.layers.8.self_attention.linear_qkv.weight
+    	module.decoder.layers.9.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.8.mlp.linear_fc1.weight
+    	module.decoder.layers.9.input_layernorm.bias
+    	module.decoder.layers.8.pre_mlp_layernorm.weight
+    	module.decoder.layers.8.self_attention.linear_proj.weight
+    Params for bucket 17 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.8.input_layernorm.weight
+    	module.decoder.layers.7.mlp.linear_fc1.weight
+    	module.decoder.layers.7.pre_mlp_layernorm.bias
+    	module.decoder.layers.7.pre_mlp_layernorm.weight
+    	module.decoder.layers.7.self_attention.linear_qkv.weight
+    	module.decoder.layers.8.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.7.mlp.linear_fc2.weight
+    	module.decoder.layers.8.input_layernorm.bias
+    	module.decoder.layers.7.self_attention.linear_proj.weight
+    Params for bucket 18 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.7.input_layernorm.weight
+    	module.decoder.layers.6.mlp.linear_fc1.weight
+    	module.decoder.layers.6.self_attention.linear_proj.weight
+    	module.decoder.layers.7.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.6.mlp.linear_fc2.weight
+    	module.decoder.layers.7.input_layernorm.bias
+    	module.decoder.layers.6.pre_mlp_layernorm.bias
+    	module.decoder.layers.6.pre_mlp_layernorm.weight
+    	module.decoder.layers.6.self_attention.linear_qkv.weight
+    Params for bucket 19 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.5.mlp.linear_fc1.weight
+    	module.decoder.layers.6.input_layernorm.weight
+    	module.decoder.layers.5.pre_mlp_layernorm.weight
+    	module.decoder.layers.6.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.5.mlp.linear_fc2.weight
+    	module.decoder.layers.6.input_layernorm.bias
+    	module.decoder.layers.5.pre_mlp_layernorm.bias
+    	module.decoder.layers.5.self_attention.linear_qkv.weight
+    	module.decoder.layers.5.self_attention.linear_proj.weight
+    Params for bucket 20 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.5.input_layernorm.weight
+    	module.decoder.layers.4.mlp.linear_fc2.weight
+    	module.decoder.layers.4.self_attention.linear_proj.weight
+    	module.decoder.layers.5.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.5.input_layernorm.bias
+    	module.decoder.layers.4.mlp.linear_fc1.weight
+    	module.decoder.layers.4.pre_mlp_layernorm.bias
+    	module.decoder.layers.4.pre_mlp_layernorm.weight
+    	module.decoder.layers.4.self_attention.linear_qkv.weight
+    Params for bucket 21 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.3.mlp.linear_fc1.weight
+    	module.decoder.layers.4.input_layernorm.weight
+    	module.decoder.layers.3.pre_mlp_layernorm.bias
+    	module.decoder.layers.3.self_attention.linear_proj.weight
+    	module.decoder.layers.4.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.4.input_layernorm.bias
+    	module.decoder.layers.3.mlp.linear_fc2.weight
+    	module.decoder.layers.3.pre_mlp_layernorm.weight
+    	module.decoder.layers.3.self_attention.linear_qkv.weight
+    Params for bucket 22 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.3.input_layernorm.bias
+    	module.decoder.layers.2.pre_mlp_layernorm.weight
+    	module.decoder.layers.2.self_attention.linear_proj.weight
+    	module.decoder.layers.3.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.2.mlp.linear_fc1.weight
+    	module.decoder.layers.3.input_layernorm.weight
+    	module.decoder.layers.2.mlp.linear_fc2.weight
+    	module.decoder.layers.2.pre_mlp_layernorm.bias
+    	module.decoder.layers.2.self_attention.linear_qkv.weight
+    Params for bucket 23 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.2.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.2.input_layernorm.weight
+    	module.decoder.layers.1.mlp.linear_fc2.weight
+    	module.decoder.layers.1.self_attention.linear_qkv.weight
+    	module.decoder.layers.1.self_attention.linear_proj.weight
+    	module.decoder.layers.2.input_layernorm.bias
+    	module.decoder.layers.1.mlp.linear_fc1.weight
+    	module.decoder.layers.1.pre_mlp_layernorm.bias
+    	module.decoder.layers.1.pre_mlp_layernorm.weight
+    Params for bucket 24 (44048385 elements, 44048512 padded size):
+    	module.decoder.layers.1.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.0.mlp.linear_fc2.weight
+    	module.decoder.layers.1.input_layernorm.bias
+    	module.decoder.layers.0.pre_mlp_layernorm.bias
+    	module.decoder.layers.0.self_attention.linear_qkv.weight
+    	module.decoder.layers.1.input_layernorm.weight
+    	module.decoder.layers.0.mlp.linear_fc1.weight
+    	module.decoder.layers.0.pre_mlp_layernorm.weight
+    	module.decoder.layers.0.self_attention.linear_proj.weight
+    Params for bucket 25 (262148097 elements, 262148224 padded size):
+    	module.decoder.layers.0.self_attention.core_attention.ssa_n_raw
+    	module.decoder.layers.0.input_layernorm.weight
+    	module.embedding.word_embeddings.weight
+    	module.decoder.layers.0.input_layernorm.bias
+[NeMo I 2026-03-16 02:51:49 utils:532] Setting up optimizer with config OptimizerConfig(optimizer='adam', lr=0.0003, min_lr=None, decoupled_lr=None, decoupled_min_lr=None, weight_decay=0.1, fp16=False, bf16=True, params_dtype=torch.bfloat16, use_precision_aware_optimizer=False, main_grads_dtype=torch.float32, main_params_dtype=torch.float32, exp_avg_dtype=torch.float32, exp_avg_sq_dtype=torch.float32, loss_scale=None, initial_loss_scale=4294967296, min_loss_scale=1.0, loss_scale_window=1000, hysteresis=2, adam_beta1=0.9, adam_beta2=0.95, adam_eps=1e-05, sgd_momentum=0.9, use_distributed_optimizer=True, overlap_param_gather_with_optimizer_step=False, optimizer_cpu_offload=False, optimizer_offload_fraction=0.0, use_torch_optimizer_for_cpu_offload=False, overlap_cpu_optimizer_d2h_h2d=False, pin_cpu_grads=True, pin_cpu_params=True, clip_grad=1.0, log_num_zeros_in_grad=False, barrier_with_L1_time=False, timers=None, config_logger_dir='')
+[NeMo I 2026-03-16 02:51:49 nemo_logging:393] StopAfterThisRunMaxStepsCallback armed: start_global_step=0, this_run_max_steps=1, stop_at=1
+INFO: 
+  | Name   | Type | Params | Mode 
+----------------------------------------
+0 | module | DDP  | 1.3 B  | train
+----------------------------------------
+1.3 B     Trainable params
+0         Non-trainable params
+1.3 B     Total params
+5,277.237 Total estimated model params size (MB)
+395       Modules in train mode
+0         Modules in eval mode
+INFO:lightning.pytorch.callbacks.model_summary:
+  | Name   | Type | Params | Mode 
+----------------------------------------
+0 | module | DDP  | 1.3 B  | train
+----------------------------------------
+1.3 B     Trainable params
+0         Non-trainable params
+1.3 B     Total params
+5,277.237 Total estimated model params size (MB)
+395       Modules in train mode
+0         Modules in eval mode
+INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 1920040 and consumed_samples: 0
+[NeMo W 2026-03-16 02:56:33 rerun_state_machine:1264] Implicit initialization of Rerun State Machine!
+[NeMo W 2026-03-16 02:56:33 rerun_state_machine:239] RerunStateMachine initialized in mode RerunMode.DISABLED
+[NeMo I 2026-03-16 02:56:34 nemo_logging:393] Reached this_run_max_steps=1 at global_step=1 (local_steps=1). Stopping training.
+Training epoch 0, iteration 0/4999 | lr: 5.988e-07 | global_batch_size: 384 | global_step: 0 | reduced_train_loss: 11.9
+[NeMo I 2026-03-16 02:56:34 nemo_logging:393] Using FullyParallelSaveStrategyWrapper(torch_dist, 1) dist-ckpt save strategy.
+[NeMo I 2026-03-16 02:56:43 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 1 : Start time: 1773626194.705s : Save duration: 8.852s
+[NeMo W 2026-03-16 02:56:49 nemo_logging:405] Some async checkpoint saves might be not finalized properly.
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 621, in <module>
+[rank0]:     main()
+[rank0]:   File "/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py", line 615, in main
+[rank0]:     recipe_obj()
+[rank0]:   File "/opt/NeMo/nemo/collections/llm/api.py", line 171, in pretrain
+[rank0]:     return train(
+[rank0]:            ^^^^^^
+[rank0]:   File "/opt/NeMo/nemo/collections/llm/api.py", line 127, in train
+[rank0]:     trainer.fit(model, data)
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 538, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/call.py", line 46, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 574, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=ckpt_path)
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 981, in _run
+[rank0]:     results = self._run_stage()
+[rank0]:               ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/trainer.py", line 1025, in _run_stage
+[rank0]:     self.fit_loop.run()
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/fit_loop.py", line 211, in run
+[rank0]:     self.on_run_end()
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/loops/fit_loop.py", line 405, in on_run_end
+[rank0]:     call._call_callback_hooks(trainer, "on_train_end")
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/trainer/call.py", line 218, in _call_callback_hooks
+[rank0]:     fn(trainer, trainer.lightning_module, *args, **kwargs)
+[rank0]:   File "/opt/NeMo/nemo/lightning/pytorch/callbacks/model_checkpoint.py", line 391, in on_train_end
+[rank0]:     super()._save_last_checkpoint(trainer, monitor_candidates)
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 696, in _save_last_checkpoint
+[rank0]:     self._save_checkpoint(trainer, filepath)
+[rank0]:   File "/opt/NeMo/nemo/lightning/pytorch/callbacks/model_checkpoint.py", line 628, in _save_checkpoint
+[rank0]:     TrainerContext.from_trainer(trainer).io_dump(ckpt_to_dir(filepath) / "context", yaml_attrs=["model"])
+[rank0]:   File "/opt/NeMo/nemo/lightning/io/mixin.py", line 248, in io_dump
+[rank0]:     io = _artifact_transform_save(self, deepcopy(self.__io__), output_path, local_artifacts_dir)
+[rank0]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/opt/NeMo/nemo/lightning/io/mixin.py", line 677, in _artifact_transform_save
+[rank0]:     _artifact_transform_save(
+[rank0]:   File "/opt/NeMo/nemo/lightning/io/mixin.py", line 677, in _artifact_transform_save
+[rank0]:     _artifact_transform_save(
+[rank0]:   File "/opt/NeMo/nemo/lightning/io/mixin.py", line 663, in _artifact_transform_save
+[rank0]:     new_val = artifact.dump(instance, current_val, output_path, relative_dir)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/opt/NeMo/nemo/lightning/io/artifact/file.py", line 83, in dump
+[rank0]:     return super().dump(instance, value, absolute_dir, relative_dir)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/opt/NeMo/nemo/lightning/io/artifact/file.py", line 71, in dump
+[rank0]:     copy_file(file, absolute_dir, relative_dir)
+[rank0]:   File "/opt/NeMo/nemo/lightning/io/artifact/file.py", line 56, in copy_file
+[rank0]:     shutil.copy2(src, output)
+[rank0]:   File "/usr/lib/python3.12/shutil.py", line 475, in copy2
+[rank0]:     copyfile(src, dst, follow_symlinks=follow_symlinks)
+[rank0]:   File "/usr/lib/python3.12/shutil.py", line 260, in copyfile
+[rank0]:     with open(src, 'rb') as fsrc:
+[rank0]:          ^^^^^^^^^^^^^^^
+[rank0]: IsADirectoryError: [Errno 21] Is a directory: '/work/m24047/m24047brmn/Luciole-23B-Base/.cache'
+Process ForkProcess-10:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/managers.py", line 813, in _callmethod
+    conn = self._tls.connection
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ForkAwareLocal' object has no attribute 'connection'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/lib/python3.12/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/megatron-lm/megatron/core/dist_checkpointing/strategies/filesystem_async.py", line 282, in write_preloaded_data_multiproc
+    global_results_queue.put(write_results_or_exc)
+  File "<string>", line 2, in put
+  File "/usr/lib/python3.12/multiprocessing/managers.py", line 817, in _callmethod
+    self._connect()
+  File "/usr/lib/python3.12/multiprocessing/managers.py", line 804, in _connect
+    conn = self._Client(self._token.address, authkey=self._authkey)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 519, in Client
+    c = SocketClient(address)
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 647, in SocketClient
+    s.connect(address)
+FileNotFoundError: [Errno 2] No such file or directory
+E0316 02:57:07.616000 1032100 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 1032183) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-16_02:57:07
+  host      : turpancomp0.calmip.local
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 1032183)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: turpancomp0: task 0: Exited with exit code 1
+==========================================
+Index build finished with status 1
+==========================================

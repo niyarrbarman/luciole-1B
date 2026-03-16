@@ -531,10 +531,14 @@ def main():
     if hasattr(recipe.optim, 'lr_scheduler'):
         recipe.optim.lr_scheduler.max_steps = effective_max_steps
         recipe.optim.lr_scheduler.warmup_steps = args.warmup_steps
+        # Set min_lr to 10% of max lr so LR doesn't decay to zero
+        max_lr = recipe.optim.config.lr
+        recipe.optim.lr_scheduler.min_lr = max_lr * 0.1
         logger.info(
-            "LR scheduler max_steps = %s (aligned with trainer.max_steps), warmup_steps = %s",
+            "LR scheduler max_steps = %s, warmup_steps = %s, min_lr = %s",
             effective_max_steps,
             args.warmup_steps,
+            recipe.optim.lr_scheduler.min_lr,
         )
 
     recipe.resume = run.Config(

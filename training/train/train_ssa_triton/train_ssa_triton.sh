@@ -17,7 +17,7 @@ NAME=${NAME:-"nemotron-1B-SSA-Triton"}
 SEED=${SEED:-1234}
 
 # W&B logging (optional)
-USE_WANDB=${USE_WANDB:-0}
+USE_WANDB=${USE_WANDB:-1}
 WANDB_PROJECT=${WANDB_PROJECT:-"luciole_ssa"}
 WANDB_ENTITY=${WANDB_ENTITY:-""}
 WANDB_GROUP=${WANDB_GROUP:-"${NAME}"}
@@ -27,36 +27,36 @@ WANDB_NOTES=${WANDB_NOTES:-"Nemotron-1B SSA Triton phase1 training"}
 WANDB_JOB_TYPE=${WANDB_JOB_TYPE:-"train"}
 WANDB_MODE=${WANDB_MODE:-"offline"}
 WANDB_DIR=${WANDB_DIR:-"${OUTPUT_DIR}/${NAME}/wandb"}
-WANDB_RUN_ID=${WANDB_RUN_ID:-""}
+WANDB_RUN_ID=${WANDB_RUN_ID:-"nemo1b-ssa-triton-v1"}
 WANDB_RESUME=${WANDB_RESUME:-"allow"}
 WANDB_LOG_MODEL=${WANDB_LOG_MODEL:-0}
 # Allow `api_key=... sbatch ...` while supporting WANDB_API_KEY.
 WANDB_API_KEY=${WANDB_API_KEY:-${api_key:-""}}
 
 # SSA hyperparameters
-SSA_N=1.5   # fixed
-SSA_B=0.8   # fixed
-SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton}  # pinned to tutorial-based triton kernel
+SSA_N=1.5                                        # fixed
+SSA_B=0.8                                        # fixed
+SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton} # pinned to tutorial-based triton kernel
 SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
 LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-2000}
 SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-5000}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3000}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
 THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-0}
 
 if [[ "${SSA_KERNEL_VERSION}" != "triton" ]]; then
-    echo "ERROR: SSA_KERNEL_VERSION must be 'triton' (got '${SSA_KERNEL_VERSION}')."
-    exit 2
+  echo "ERROR: SSA_KERNEL_VERSION must be 'triton' (got '${SSA_KERNEL_VERSION}')."
+  exit 2
 fi
 
 if [[ "${USE_WANDB}" == "1" && "${WANDB_MODE}" == "online" && -z "${WANDB_API_KEY}" ]]; then
-    echo "ERROR: USE_WANDB=1 and WANDB_MODE=online but no API key provided."
-    echo "Use: WANDB_API_KEY='...' sbatch train_ssa_triton.sh"
-    echo "or:  api_key='...' sbatch train_ssa_triton.sh"
-    exit 2
+  echo "ERROR: USE_WANDB=1 and WANDB_MODE=online but no API key provided."
+  echo "Use: WANDB_API_KEY='...' sbatch train_ssa_triton.sh"
+  echo "or:  api_key='...' sbatch train_ssa_triton.sh"
+  exit 2
 fi
 
 # Multi-node coordination
@@ -66,9 +66,9 @@ export MASTER_ADDR=$(hostname --ip-address)
 # Convert SBATCH time to DD:HH:MM:SS for StatelessTimer
 SBATCH_TIME=$(grep -E '^#SBATCH --time=' "$0" | head -n1 | sed -E 's/^#SBATCH --time=//')
 if [[ "$SBATCH_TIME" == *-* ]]; then
-    SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F'[-:]' '{printf "%02d:%02d:%02d:%02d", $1, $2, $3, $4}')
+  SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F'[-:]' '{printf "%02d:%02d:%02d:%02d", $1, $2, $3, $4}')
 else
-    SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F':' '{printf "00:%02d:%02d:%02d", $1, $2, $3}')
+  SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F':' '{printf "00:%02d:%02d:%02d", $1, $2, $3}')
 fi
 
 echo "=========================================="
@@ -92,47 +92,47 @@ echo "=========================================="
 
 EXTRA_ARGS=()
 if [[ "${SKIP_TRITON_WARMUP}" == "1" ]]; then
-    EXTRA_ARGS+=(--skip_triton_warmup)
+  EXTRA_ARGS+=(--skip_triton_warmup)
 fi
 if [[ "${DISABLE_COMPILED_BDA}" == "1" ]]; then
-    EXTRA_ARGS+=(--disable_compiled_bda)
+  EXTRA_ARGS+=(--disable_compiled_bda)
 fi
 if [[ "${FORCE_CONTIGUOUS_QKV}" == "1" ]]; then
-    EXTRA_ARGS+=(--force_contiguous_qkv)
+  EXTRA_ARGS+=(--force_contiguous_qkv)
 fi
 if [[ "${THIS_RUN_MAX_STEPS}" != "0" ]]; then
-    EXTRA_ARGS+=(--this_run_max_steps "${THIS_RUN_MAX_STEPS}")
+  EXTRA_ARGS+=(--this_run_max_steps "${THIS_RUN_MAX_STEPS}")
 fi
 if [[ "${USE_WANDB}" == "1" ]]; then
-    EXTRA_ARGS+=(--wandb --wandb_mode "${WANDB_MODE}" --wandb_dir "${WANDB_DIR}" --wandb_job_type "${WANDB_JOB_TYPE}" --wandb_resume "${WANDB_RESUME}")
-    if [[ -n "${WANDB_PROJECT}" ]]; then
-        EXTRA_ARGS+=(--wandb_project "${WANDB_PROJECT}")
-    fi
-    if [[ -n "${WANDB_ENTITY}" ]]; then
-        EXTRA_ARGS+=(--wandb_entity "${WANDB_ENTITY}")
-    fi
-    if [[ -n "${WANDB_GROUP}" ]]; then
-        EXTRA_ARGS+=(--wandb_group "${WANDB_GROUP}")
-    else
-        EXTRA_ARGS+=(--wandb_group "${NAME}")
-    fi
-    if [[ -n "${WANDB_RUN_NAME}" ]]; then
-        EXTRA_ARGS+=(--wandb_run_name "${WANDB_RUN_NAME}")
-    else
-        EXTRA_ARGS+=(--wandb_run_name "${NAME}")
-    fi
-    if [[ -n "${WANDB_TAGS}" ]]; then
-        EXTRA_ARGS+=(--wandb_tags "${WANDB_TAGS}")
-    fi
-    if [[ -n "${WANDB_NOTES}" ]]; then
-        EXTRA_ARGS+=(--wandb_notes "${WANDB_NOTES}")
-    fi
-    if [[ -n "${WANDB_RUN_ID}" ]]; then
-        EXTRA_ARGS+=(--wandb_id "${WANDB_RUN_ID}")
-    fi
-    if [[ "${WANDB_LOG_MODEL}" == "1" ]]; then
-        EXTRA_ARGS+=(--wandb_log_model)
-    fi
+  EXTRA_ARGS+=(--wandb --wandb_mode "${WANDB_MODE}" --wandb_dir "${WANDB_DIR}" --wandb_job_type "${WANDB_JOB_TYPE}" --wandb_resume "${WANDB_RESUME}")
+  if [[ -n "${WANDB_PROJECT}" ]]; then
+    EXTRA_ARGS+=(--wandb_project "${WANDB_PROJECT}")
+  fi
+  if [[ -n "${WANDB_ENTITY}" ]]; then
+    EXTRA_ARGS+=(--wandb_entity "${WANDB_ENTITY}")
+  fi
+  if [[ -n "${WANDB_GROUP}" ]]; then
+    EXTRA_ARGS+=(--wandb_group "${WANDB_GROUP}")
+  else
+    EXTRA_ARGS+=(--wandb_group "${NAME}")
+  fi
+  if [[ -n "${WANDB_RUN_NAME}" ]]; then
+    EXTRA_ARGS+=(--wandb_run_name "${WANDB_RUN_NAME}")
+  else
+    EXTRA_ARGS+=(--wandb_run_name "${NAME}")
+  fi
+  if [[ -n "${WANDB_TAGS}" ]]; then
+    EXTRA_ARGS+=(--wandb_tags "${WANDB_TAGS}")
+  fi
+  if [[ -n "${WANDB_NOTES}" ]]; then
+    EXTRA_ARGS+=(--wandb_notes "${WANDB_NOTES}")
+  fi
+  if [[ -n "${WANDB_RUN_ID}" ]]; then
+    EXTRA_ARGS+=(--wandb_id "${WANDB_RUN_ID}")
+  fi
+  if [[ "${WANDB_LOG_MODEL}" == "1" ]]; then
+    EXTRA_ARGS+=(--wandb_log_model)
+  fi
 fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
@@ -142,56 +142,56 @@ mkdir -p "$TRITON_CACHE_DIR"
 
 WANDB_ENV_ARGS=()
 if [[ "${USE_WANDB}" == "1" ]]; then
-    WANDB_ENV_ARGS+=(--env "WANDB_MODE=${WANDB_MODE}")
-    WANDB_ENV_ARGS+=(--env "WANDB_DIR=${WANDB_DIR}")
-    WANDB_ENV_ARGS+=(--env "WANDB_START_METHOD=${WANDB_START_METHOD:-thread}")
-    if [[ -n "${WANDB_API_KEY}" ]]; then
-        WANDB_ENV_ARGS+=(--env "WANDB_API_KEY=${WANDB_API_KEY}")
-    fi
+  WANDB_ENV_ARGS+=(--env "WANDB_MODE=${WANDB_MODE}")
+  WANDB_ENV_ARGS+=(--env "WANDB_DIR=${WANDB_DIR}")
+  WANDB_ENV_ARGS+=(--env "WANDB_START_METHOD=${WANDB_START_METHOD:-thread}")
+  if [[ -n "${WANDB_API_KEY}" ]]; then
+    WANDB_ENV_ARGS+=(--env "WANDB_API_KEY=${WANDB_API_KEY}")
+  fi
 fi
 
 srun apptainer exec \
-    --env "PYTHONUSERBASE=${MYENVS}/nemo" \
-    --env "MASTER_ADDR=${MASTER_ADDR}" \
-    --env "MASTER_PORT=${MASTER_PORT}" \
-    --env "SLURM_NNODES=${SLURM_NNODES}" \
-    --env "NVTE_DEBUG=1" \
-    --env "NVTE_DEBUG_LEVEL=2" \
-    --env "TRITON_CACHE_DIR=${TRITON_CACHE_DIR}" \
-    --env "SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION}" \
-    --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
-    --env "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600" \
-    "${WANDB_ENV_ARGS[@]}" \
-    --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
-    torchrun \
-        --nnodes=${SLURM_NNODES} \
-        --nproc_per_node=2 \
-        --rdzv_id=${SLURM_JOB_ID} \
-        --rdzv_backend=c10d \
-        --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
-        /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py \
-        --datamix "$DATAMIX" \
-        --output_dir "$OUTPUT_DIR" \
-        --name "$NAME" \
-        --arch nemotron1b \
-        --tokenizer /work/m24047/m24047brmn/Luciole-23B-Base \
-        --max_steps ${GLOBAL_MAX_STEPS} \
-        --seq_length 2048 \
-        --batch_size 384 \
-        --micro_batch_size 2 \
-        --num_nodes ${SLURM_NNODES} \
-        --gpus_per_node 2 \
-        --tensor_parallelism 1 \
-        --pipeline_parallelism 1 \
-        --context_parallelism 1 \
-        --duration "${SLURM_DURATION}" \
-        --save_every_n_steps 1000 \
-        --log_ssa_every_n_steps 1000 \
-        --ssa_n $SSA_N \
-        --ssa_b $SSA_B \
-        --warmup_steps ${LR_WARMUP_STEPS} \
-        "${EXTRA_ARGS[@]}" \
-        --seed $SEED
+  --env "PYTHONUSERBASE=${MYENVS}/nemo" \
+  --env "MASTER_ADDR=${MASTER_ADDR}" \
+  --env "MASTER_PORT=${MASTER_PORT}" \
+  --env "SLURM_NNODES=${SLURM_NNODES}" \
+  --env "NVTE_DEBUG=1" \
+  --env "NVTE_DEBUG_LEVEL=2" \
+  --env "TRITON_CACHE_DIR=${TRITON_CACHE_DIR}" \
+  --env "SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION}" \
+  --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
+  --env "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600" \
+  "${WANDB_ENV_ARGS[@]}" \
+  --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
+  torchrun \
+  --nnodes=${SLURM_NNODES} \
+  --nproc_per_node=2 \
+  --rdzv_id=${SLURM_JOB_ID} \
+  --rdzv_backend=c10d \
+  --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
+  /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py \
+  --datamix "$DATAMIX" \
+  --output_dir "$OUTPUT_DIR" \
+  --name "$NAME" \
+  --arch nemotron1b \
+  --tokenizer /work/m24047/m24047brmn/Luciole-23B-Base \
+  --max_steps ${GLOBAL_MAX_STEPS} \
+  --seq_length 2048 \
+  --batch_size 384 \
+  --micro_batch_size 2 \
+  --num_nodes ${SLURM_NNODES} \
+  --gpus_per_node 2 \
+  --tensor_parallelism 1 \
+  --pipeline_parallelism 1 \
+  --context_parallelism 1 \
+  --duration "${SLURM_DURATION}" \
+  --save_every_n_steps 1000 \
+  --log_ssa_every_n_steps 1000 \
+  --ssa_n $SSA_N \
+  --ssa_b $SSA_B \
+  --warmup_steps ${LR_WARMUP_STEPS} \
+  "${EXTRA_ARGS[@]}" \
+  --seed $SEED
 
 status=$?
 echo "=========================================="

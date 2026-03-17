@@ -4119,3 +4119,31 @@ Training epoch 1, iteration 2519/2999 | lr: 5.392e-05 | consumed_samples: 967680
 Training epoch 1, iteration 2520/2999 | lr: 5.382e-05 | consumed_samples: 968064 | global_batch_size: 384 | global_step: 2520 | reduced_train_loss: 3.531
 Training epoch 1, iteration 2521/2999 | lr: 5.373e-05 | consumed_samples: 968448 | global_batch_size: 384 | global_step: 2521 | reduced_train_loss: 3.496
 Training epoch 1, iteration 2522/2999 | lr: 5.363e-05 | consumed_samples: 968832 | global_batch_size: 384 | global_step: 2522 | reduced_train_loss: 3.493
+Training epoch 1, iteration 2523/2999 | lr: 5.354e-05 | consumed_samples: 969216 | global_batch_size: 384 | global_step: 2523 | reduced_train_loss: 3.511
+Training epoch 1, iteration 2524/2999 | lr: 5.344e-05 | consumed_samples: 969600 | global_batch_size: 384 | global_step: 2524 | reduced_train_loss: 3.511
+Training epoch 1, iteration 2525/2999 | lr: 5.334e-05 | consumed_samples: 969984 | global_batch_size: 384 | global_step: 2525 | reduced_train_loss: 3.517
+Training epoch 1, iteration 2526/2999 | lr: 5.325e-05 | consumed_samples: 970368 | global_batch_size: 384 | global_step: 2526 | reduced_train_loss: 3.459
+Training epoch 1, iteration 2527/2999 | lr: 5.315e-05 | consumed_samples: 970752 | global_batch_size: 384 | global_step: 2527 | reduced_train_loss: 3.486
+Training epoch 1, iteration 2528/2999 | lr: 5.306e-05 | consumed_samples: 971136 | global_batch_size: 384 | global_step: 2528 | reduced_train_loss: 3.483
+Training epoch 1, iteration 2529/2999 | lr: 5.296e-05 | consumed_samples: 971520 | global_batch_size: 384 | global_step: 2529 | reduced_train_loss: 3.528
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 79695.0 ON turpancomp5 CANCELLED AT 2026-03-17T15:37:10 DUE TO TIME LIMIT ***
+slurmstepd: error: *** JOB 79695 ON turpancomp5 CANCELLED AT 2026-03-17T15:37:10 DUE TO TIME LIMIT ***
+W0317 15:37:10.006000 720682 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0317 15:37:10.007000 563243 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0317 15:37:10.007000 2650791 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0317 15:37:10.007000 3504817 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0317 15:37:10.007000 1162807 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0317 15:37:10.007000 2083607 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0317 15:37:10.007000 720682 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 720774 closing signal SIGTERM
+W0317 15:37:10.007000 563243 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 563332 closing signal SIGTERM
+W0317 15:37:10.007000 2650791 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2650879 closing signal SIGTERM
+W0317 15:37:10.008000 3504817 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 3504905 closing signal SIGTERM
+W0317 15:37:10.008000 2083607 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2083696 closing signal SIGTERM
+W0317 15:37:10.008000 1162807 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 1162896 closing signal SIGTERM
+W0317 15:37:10.008000 720682 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 720775 closing signal SIGTERM
+W0317 15:37:10.008000 3504817 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 3504906 closing signal SIGTERM
+W0317 15:37:10.008000 563243 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 563333 closing signal SIGTERM
+W0317 15:37:10.008000 2650791 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2650880 closing signal SIGTERM
+W0317 15:37:10.008000 2083607 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2083697 closing signal SIGTERM
+W0317 15:37:10.008000 1162807 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 1162897 closing signal SIGTERM

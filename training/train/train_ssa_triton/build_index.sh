@@ -2,22 +2,25 @@
 #SBATCH -J build_index_1b
 #SBATCH -N 1
 #SBATCH -n 1
+#SBATCH --cpus-per-task=70
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:1
-#SBATCH -p small
+#SBATCH -p shared-gpu
 #SBATCH --time=06:00:00
 #SBATCH --output=slurm/%x_%j.out
 
 mkdir -p slurm
 
 # Must match training parameters exactly so index files are reusable
-DATAMIX=${DATAMIX:-"/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output_1b"}
+DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
+# OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output_1b"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/luciole_ssa/outputs"}
 NAME=${NAME:-"nemotron-1B-SSA-Triton"}
 SEED=${SEED:-1234}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3000}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-1000}
 
+export OMP_NUM_THREADS=${1}
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)
 export MASTER_ADDR=$(hostname --ip-address)
 
@@ -35,19 +38,19 @@ srun apptainer exec \
   --env "SLURM_NNODES=1" \
   --env "SSA_KERNEL_VERSION=triton" \
   --env "SSA_TRITON_COMPILE_BDA=1" \
-  --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
+  --bind /tmpdir,/work --nv /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif \
   torchrun \
   --nnodes=1 \
   --nproc_per_node=1 \
   --rdzv_id=${SLURM_JOB_ID} \
   --rdzv_backend=c10d \
   --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
-  /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py \
+  /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py \
   --datamix "$DATAMIX" \
   --output_dir "$OUTPUT_DIR" \
   --name "$NAME" \
   --arch nemotron1b \
-  --tokenizer /work/m24047/m24047brmn/Luciole-23B-Base \
+  --tokenizer /work/p26037/barman/tokenizer_128k-arab-regional_v2 \
   --max_steps ${GLOBAL_MAX_STEPS} \
   --seq_length 2048 \
   --batch_size 384 \

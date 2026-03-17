@@ -1,5 +1,5 @@
 {
-    "data_path": "/work/shares/IA-Datasets/private/tokens_luciole_phase1",
+    "data_path": "/work/datasets/AI/tokens_luciole_phase1",
     "total_tokens": 3002228277248,
     "train": [
         {

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 10
-#SBATCH -n 10
+#SBATCH -N 5
+#SBATCH -n 5
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
@@ -12,8 +12,9 @@ mkdir -p slurm
 
 # Defaults
 DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/luciole_ssa/outputs"}
-NAME=${NAME:-"nemotron-1B-SSA-Triton-32bs"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/luciole/outputs"}
+BATCH_SIZE=${BATCH_SIZE:-1280}
+NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
 SEED=${SEED:-1234}
 
 # W&B logging (optional)
@@ -43,9 +44,9 @@ SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3000}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-100}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
-THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-0}
+THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-50}
 
 if [[ "${SSA_KERNEL_VERSION}" != "triton" ]]; then
   echo "ERROR: SSA_KERNEL_VERSION must be 'triton' (got '${SSA_KERNEL_VERSION}')."
@@ -76,6 +77,7 @@ echo "Starting SSA Triton Training"
 echo "Datamix:     $DATAMIX"
 echo "Output:      $OUTPUT_DIR"
 echo "Name:        $NAME"
+echo "Batch size:  $BATCH_SIZE"
 echo "Nodes:       $SLURM_NNODES"
 echo "Duration:    ${SLURM_DURATION}"
 echo "SSA n:       $SSA_N"
@@ -165,7 +167,7 @@ srun apptainer exec \
   --bind /tmpdir,/work --nv /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif \
   torchrun \
   --nnodes=${SLURM_NNODES} \
-  --nproc_per_node=2 \
+  --nproc_per_node=4 \
   --rdzv_id=${SLURM_JOB_ID} \
   --rdzv_backend=c10d \
   --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
@@ -177,10 +179,10 @@ srun apptainer exec \
   --tokenizer /work/p26037/barman/tokenizer_128k-arab-regional_v2 \
   --max_steps ${GLOBAL_MAX_STEPS} \
   --seq_length 4096 \
-  --batch_size 1280 \
+  --batch_size ${BATCH_SIZE} \
   --micro_batch_size 4 \
   --num_nodes ${SLURM_NNODES} \
-  --gpus_per_node 2 \
+  --gpus_per_node 4 \
   --tensor_parallelism 1 \
   --pipeline_parallelism 1 \
   --context_parallelism 1 \

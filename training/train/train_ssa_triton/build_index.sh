@@ -14,11 +14,12 @@ mkdir -p slurm
 # Must match training parameters exactly so index files are reusable
 DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
 # OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output_1b"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/luciole_ssa/outputs"}
-NAME=${NAME:-"nemotron-1B-SSA-Triton"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/luciole/outputs"}
+BATCH_SIZE=${BATCH_SIZE:-1280}
+NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
 SEED=${SEED:-1234}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3000}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-100}
 
 # export OMP_NUM_THREADS=${1}
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)
@@ -28,6 +29,7 @@ echo "=========================================="
 echo "Building Index Mappings"
 echo "Datamix:     $DATAMIX"
 echo "Output:      $OUTPUT_DIR"
+echo "Batch size:  $BATCH_SIZE"
 echo "Max steps:   $GLOBAL_MAX_STEPS"
 echo "=========================================="
 
@@ -52,8 +54,8 @@ srun apptainer exec \
   --arch nemotron1b \
   --tokenizer /work/p26037/barman/tokenizer_128k-arab-regional_v2 \
   --max_steps ${GLOBAL_MAX_STEPS} \
-  --seq_length 2048 \
-  --batch_size 384 \
+  --seq_length 4096 \
+  --batch_size ${BATCH_SIZE} \
   --micro_batch_size 1 \
   --num_nodes 1 \
   --gpus_per_node 1 \

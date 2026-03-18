@@ -139,7 +139,7 @@ fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
-export TRITON_CACHE_DIR="/tmpdir/barman/triton_cache"
+export TRITON_CACHE_DIR="/tmpdir/barman/triton_cache_${NAME}"
 mkdir -p "$TRITON_CACHE_DIR"
 
 WANDB_ENV_ARGS=()

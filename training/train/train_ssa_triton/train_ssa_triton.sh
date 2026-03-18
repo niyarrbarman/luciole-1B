@@ -1,19 +1,19 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 5
-#SBATCH -n 5
+#SBATCH -N 16
+#SBATCH -n 16
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=12:00:00
+#SBATCH --time=09:00:00
 #SBATCH --output=slurm/%x_%j.out
 
 mkdir -p slurm
 
 # Defaults
 DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/luciole/outputs"}
-BATCH_SIZE=${BATCH_SIZE:-1280}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/32bs_ssa_run/outputs"}
+BATCH_SIZE=${BATCH_SIZE:-2048}
 NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
 SEED=${SEED:-1234}
 
@@ -44,9 +44,9 @@ SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-100}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-357894}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
-THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-50}
+THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-0}
 
 if [[ "${SSA_KERNEL_VERSION}" != "triton" ]]; then
   echo "ERROR: SSA_KERNEL_VERSION must be 'triton' (got '${SSA_KERNEL_VERSION}')."
@@ -139,7 +139,7 @@ fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
-export TRITON_CACHE_DIR="/tmpdir/barman/triton_cache_${NAME}"
+export TRITON_CACHE_DIR="/tmpdir/barman/32bs_ssa_run/triton_cache"
 mkdir -p "$TRITON_CACHE_DIR"
 
 WANDB_ENV_ARGS=()
@@ -187,7 +187,7 @@ srun apptainer exec \
   --pipeline_parallelism 1 \
   --context_parallelism 1 \
   --duration "${SLURM_DURATION}" \
-  --save_every_n_steps 1000 \
+  --save_every_n_steps 500 \
   --log_ssa_every_n_steps 500 \
   --ssa_n $SSA_N \
   --ssa_b $SSA_B \

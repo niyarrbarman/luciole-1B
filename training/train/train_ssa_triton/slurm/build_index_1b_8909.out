@@ -1022,3 +1022,18 @@ INFO:lightning.pytorch.callbacks.model_summary:
 395       Modules in train mode
 0         Modules in eval mode
 INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 256031 and consumed_samples: 0
+[NeMo W 2026-03-18 15:23:35 rerun_state_machine:1264] Implicit initialization of Rerun State Machine!
+[NeMo W 2026-03-18 15:23:35 rerun_state_machine:239] RerunStateMachine initialized in mode RerunMode.DISABLED
+[NeMo I 2026-03-18 15:23:36 nemo_logging:393] Reached this_run_max_steps=1 at global_step=1 (local_steps=1). Stopping training.
+Training epoch 0, iteration 0/99 | lr: 5.988e-07 | global_batch_size: 2560 | global_step: 0 | reduced_train_loss: 11.96
+[NeMo I 2026-03-18 15:23:36 nemo_logging:393] Using FullyParallelSaveStrategyWrapper(torch_dist, 1) dist-ckpt save strategy.
+[NeMo I 2026-03-18 15:23:43 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 1 : Start time: 1773843816.235s : Save duration: 7.274s
+[NeMo I 2026-03-18 15:23:44 nemo_logging:393] Scheduled async checkpoint save for /tmpdir/barman/luciole/outputs/nemotron-1B-SSA-Triton-bs2560/checkpoints/nemotron-1B-SSA-Triton-bs2560-step=0000000-last.ckpt
+[NeMo I 2026-03-18 15:23:44 nemo_logging:393] Pending async checkpoint saves. Finalizing them synchronously now
+[NeMo I 2026-03-18 15:23:49 nemo_logging:393] Successfully saved checkpoint from iteration       1 to /tmpdir/barman/luciole/outputs/nemotron-1B-SSA-Triton-bs2560/checkpoints/nemotron-1B-SSA-Triton-bs2560-step=0000000-last.ckpt
+[NeMo I 2026-03-18 15:23:49 nemo_logging:393] Async checkpoint save for step 1 (/tmpdir/barman/luciole/outputs/nemotron-1B-SSA-Triton-bs2560/checkpoints/nemotron-1B-SSA-Triton-bs2560-step=0000000-last.ckpt) finalized successfully.
+[NeMo I 2026-03-18 15:23:49 nemo_logging:393] Async finalization time took 5.122 s
+Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)INFO:__main__:Finished SSA Triton training run in 1770.9 seconds.
+==========================================
+Index build finished with status 0
+==========================================

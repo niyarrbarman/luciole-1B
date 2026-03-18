@@ -1793,3 +1793,88 @@ INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 256031 an
 [NeMo W 2026-03-18 16:41:06 rerun_state_machine:239] RerunStateMachine initialized in mode RerunMode.DISABLED
 Training epoch 1, iteration 1/99 | lr: 1.198e-06 | consumed_samples: 5120 | global_batch_size: 2560 | global_step: 1 | reduced_train_loss: 11.94
 Training epoch 1, iteration 2/99 | lr: 1.796e-06 | consumed_samples: 7680 | global_batch_size: 2560 | global_step: 2 | reduced_train_loss: 11.86
+Training epoch 1, iteration 3/99 | lr: 2.395e-06 | consumed_samples: 10240 | global_batch_size: 2560 | global_step: 3 | reduced_train_loss: 11.6
+Training epoch 1, iteration 4/99 | lr: 2.994e-06 | consumed_samples: 12800 | global_batch_size: 2560 | global_step: 4 | reduced_train_loss: 11.18
+Training epoch 1, iteration 5/99 | lr: 3.593e-06 | consumed_samples: 15360 | global_batch_size: 2560 | global_step: 5 | reduced_train_loss: 10.95
+Training epoch 1, iteration 6/99 | lr: 4.192e-06 | consumed_samples: 17920 | global_batch_size: 2560 | global_step: 6 | reduced_train_loss: 10.78
+Training epoch 1, iteration 7/99 | lr: 4.79e-06 | consumed_samples: 20480 | global_batch_size: 2560 | global_step: 7 | reduced_train_loss: 10.65
+Training epoch 1, iteration 8/99 | lr: 5.389e-06 | consumed_samples: 23040 | global_batch_size: 2560 | global_step: 8 | reduced_train_loss: 10.58
+Training epoch 1, iteration 9/99 | lr: 5.988e-06 | consumed_samples: 25600 | global_batch_size: 2560 | global_step: 9 | reduced_train_loss: 10.48
+Training epoch 1, iteration 10/99 | lr: 6.587e-06 | consumed_samples: 28160 | global_batch_size: 2560 | global_step: 10 | reduced_train_loss: 10.41
+Training epoch 1, iteration 11/99 | lr: 7.186e-06 | consumed_samples: 30720 | global_batch_size: 2560 | global_step: 11 | reduced_train_loss: 10.36
+Training epoch 1, iteration 12/99 | lr: 7.784e-06 | consumed_samples: 33280 | global_batch_size: 2560 | global_step: 12 | reduced_train_loss: 10.32
+Training epoch 1, iteration 13/99 | lr: 8.383e-06 | consumed_samples: 35840 | global_batch_size: 2560 | global_step: 13 | reduced_train_loss: 10.28
+Training epoch 1, iteration 14/99 | lr: 8.982e-06 | consumed_samples: 38400 | global_batch_size: 2560 | global_step: 14 | reduced_train_loss: 10.2
+Training epoch 1, iteration 15/99 | lr: 9.581e-06 | consumed_samples: 40960 | global_batch_size: 2560 | global_step: 15 | reduced_train_loss: 10.16
+Training epoch 1, iteration 16/99 | lr: 1.018e-05 | consumed_samples: 43520 | global_batch_size: 2560 | global_step: 16 | reduced_train_loss: 10.13
+Training epoch 1, iteration 17/99 | lr: 1.078e-05 | consumed_samples: 46080 | global_batch_size: 2560 | global_step: 17 | reduced_train_loss: 10.08
+Training epoch 1, iteration 18/99 | lr: 1.138e-05 | consumed_samples: 48640 | global_batch_size: 2560 | global_step: 18 | reduced_train_loss: 10.03
+Training epoch 1, iteration 19/99 | lr: 1.198e-05 | consumed_samples: 51200 | global_batch_size: 2560 | global_step: 19 | reduced_train_loss: 9.983
+Training epoch 1, iteration 20/99 | lr: 1.257e-05 | consumed_samples: 53760 | global_batch_size: 2560 | global_step: 20 | reduced_train_loss: 9.935
+Training epoch 1, iteration 21/99 | lr: 1.317e-05 | consumed_samples: 56320 | global_batch_size: 2560 | global_step: 21 | reduced_train_loss: 9.881
+Training epoch 1, iteration 22/99 | lr: 1.377e-05 | consumed_samples: 58880 | global_batch_size: 2560 | global_step: 22 | reduced_train_loss: 9.839
+Training epoch 1, iteration 23/99 | lr: 1.437e-05 | consumed_samples: 61440 | global_batch_size: 2560 | global_step: 23 | reduced_train_loss: 9.803
+Training epoch 1, iteration 24/99 | lr: 1.497e-05 | consumed_samples: 64000 | global_batch_size: 2560 | global_step: 24 | reduced_train_loss: 9.76
+Training epoch 1, iteration 25/99 | lr: 1.557e-05 | consumed_samples: 66560 | global_batch_size: 2560 | global_step: 25 | reduced_train_loss: 9.719
+Training epoch 1, iteration 26/99 | lr: 1.617e-05 | consumed_samples: 69120 | global_batch_size: 2560 | global_step: 26 | reduced_train_loss: 9.686
+Training epoch 1, iteration 27/99 | lr: 1.677e-05 | consumed_samples: 71680 | global_batch_size: 2560 | global_step: 27 | reduced_train_loss: 9.661
+Training epoch 1, iteration 28/99 | lr: 1.737e-05 | consumed_samples: 74240 | global_batch_size: 2560 | global_step: 28 | reduced_train_loss: 9.611
+Training epoch 1, iteration 29/99 | lr: 1.796e-05 | consumed_samples: 76800 | global_batch_size: 2560 | global_step: 29 | reduced_train_loss: 9.576
+Training epoch 1, iteration 30/99 | lr: 1.856e-05 | consumed_samples: 79360 | global_batch_size: 2560 | global_step: 30 | reduced_train_loss: 9.565
+Training epoch 1, iteration 31/99 | lr: 1.916e-05 | consumed_samples: 81920 | global_batch_size: 2560 | global_step: 31 | reduced_train_loss: 9.525
+Training epoch 1, iteration 32/99 | lr: 1.976e-05 | consumed_samples: 84480 | global_batch_size: 2560 | global_step: 32 | reduced_train_loss: 9.505
+Training epoch 1, iteration 33/99 | lr: 2.036e-05 | consumed_samples: 87040 | global_batch_size: 2560 | global_step: 33 | reduced_train_loss: 9.488
+Training epoch 1, iteration 34/99 | lr: 2.096e-05 | consumed_samples: 89600 | global_batch_size: 2560 | global_step: 34 | reduced_train_loss: 9.438
+Training epoch 1, iteration 35/99 | lr: 2.156e-05 | consumed_samples: 92160 | global_batch_size: 2560 | global_step: 35 | reduced_train_loss: 9.405
+Training epoch 1, iteration 36/99 | lr: 2.216e-05 | consumed_samples: 94720 | global_batch_size: 2560 | global_step: 36 | reduced_train_loss: 9.412
+Training epoch 1, iteration 37/99 | lr: 2.275e-05 | consumed_samples: 97280 | global_batch_size: 2560 | global_step: 37 | reduced_train_loss: 9.346
+Training epoch 1, iteration 38/99 | lr: 2.335e-05 | consumed_samples: 99840 | global_batch_size: 2560 | global_step: 38 | reduced_train_loss: 9.383
+Training epoch 1, iteration 39/99 | lr: 2.395e-05 | consumed_samples: 102400 | global_batch_size: 2560 | global_step: 39 | reduced_train_loss: 9.308
+Training epoch 1, iteration 40/99 | lr: 2.455e-05 | consumed_samples: 104960 | global_batch_size: 2560 | global_step: 40 | reduced_train_loss: 9.307
+Training epoch 1, iteration 41/99 | lr: 2.515e-05 | consumed_samples: 107520 | global_batch_size: 2560 | global_step: 41 | reduced_train_loss: 9.291
+Training epoch 1, iteration 42/99 | lr: 2.575e-05 | consumed_samples: 110080 | global_batch_size: 2560 | global_step: 42 | reduced_train_loss: 9.214
+Training epoch 1, iteration 43/99 | lr: 2.635e-05 | consumed_samples: 112640 | global_batch_size: 2560 | global_step: 43 | reduced_train_loss: 9.214
+Training epoch 1, iteration 44/99 | lr: 2.695e-05 | consumed_samples: 115200 | global_batch_size: 2560 | global_step: 44 | reduced_train_loss: 9.15
+Training epoch 1, iteration 45/99 | lr: 2.754e-05 | consumed_samples: 117760 | global_batch_size: 2560 | global_step: 45 | reduced_train_loss: 9.141
+Training epoch 1, iteration 46/99 | lr: 2.814e-05 | consumed_samples: 120320 | global_batch_size: 2560 | global_step: 46 | reduced_train_loss: 9.114
+Training epoch 1, iteration 47/99 | lr: 2.874e-05 | consumed_samples: 122880 | global_batch_size: 2560 | global_step: 47 | reduced_train_loss: 9.067
+Training epoch 1, iteration 48/99 | lr: 2.934e-05 | consumed_samples: 125440 | global_batch_size: 2560 | global_step: 48 | reduced_train_loss: 9.044
+[NeMo I 2026-03-18 17:11:35 nemo_logging:393] Reached this_run_max_steps=50 at global_step=50 (local_steps=50). Stopping training.
+Training epoch 1, iteration 49/99 | lr: 2.994e-05 | consumed_samples: 128000 | global_batch_size: 2560 | global_step: 49 | reduced_train_loss: 9.034
+[NeMo I 2026-03-18 17:11:36 nemo_logging:393] Using FullyParallelSaveStrategyWrapper(torch_dist, 1) dist-ckpt save strategy.
+[NeMo W 2026-03-18 17:11:36 validation:389] There is difference in the common state dict in different ranks. The differences are {1: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 2: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 3: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 4: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 5: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 6: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 7: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 8: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 9: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 10: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 11: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 12: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 13: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 14: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 16: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 17: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 18: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 19: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)])}
+[NeMo I 2026-03-18 17:12:10 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 50 : Start time: 1773850296.371s : Save duration: 34.428s
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+[NeMo I 2026-03-18 17:12:16 nemo_logging:393] Scheduled async checkpoint save for /tmpdir/barman/luciole/outputs/nemotron-1B-SSA-Triton-bs2560/checkpoints/nemotron-1B-SSA-Triton-bs2560-step=0000049-last.ckpt
+[NeMo I 2026-03-18 17:12:16 nemo_logging:393] Pending async checkpoint saves. Finalizing them synchronously now
+[NeMo I 2026-03-18 17:12:18 nemo_logging:393] Successfully saved checkpoint from iteration      50 to /tmpdir/barman/luciole/outputs/nemotron-1B-SSA-Triton-bs2560/checkpoints/nemotron-1B-SSA-Triton-bs2560-step=0000049-last.ckpt
+[NeMo I 2026-03-18 17:12:18 nemo_logging:393] Async checkpoint save for step 50 (/tmpdir/barman/luciole/outputs/nemotron-1B-SSA-Triton-bs2560/checkpoints/nemotron-1B-SSA-Triton-bs2560-step=0000049-last.ckpt) finalized successfully.
+[NeMo I 2026-03-18 17:12:19 nemo_logging:393] Async finalization time took 2.915 s
+INFO:__main__:Finished SSA Triton training run in 2306.7 seconds.
+INFO:__main__:Finished SSA Triton training run in 2306.8 seconds.
+INFO:__main__:Finished SSA Triton training run in 2305.1 seconds.
+INFO:__main__:Finished SSA Triton training run in 2305.1 seconds.
+INFO:__main__:Finished SSA Triton training run in 2307.0 seconds.
+INFO:__main__:Finished SSA Triton training run in 2305.2 seconds.
+INFO:__main__:Finished SSA Triton training run in 2305.8 seconds.
+INFO:__main__:Finished SSA Triton training run in 2299.5 seconds.
+INFO:__main__:Finished SSA Triton training run in 2305.2 seconds.
+INFO:__main__:Finished SSA Triton training run in 2297.8 seconds.
+INFO:__main__:Finished SSA Triton training run in 2305.3 seconds.
+INFO:__main__:Finished SSA Triton training run in 2306.3 seconds.
+INFO:__main__:Finished SSA Triton training run in 2306.4 seconds.
+INFO:__main__:Finished SSA Triton training run in 2305.3 seconds.
+INFO:__main__:Finished SSA Triton training run in 2298.4 seconds.
+INFO:__main__:Finished SSA Triton training run in 2306.8 seconds.
+INFO:__main__:Finished SSA Triton training run in 2307.5 seconds.
+INFO:__main__:Finished SSA Triton training run in 2306.9 seconds.
+INFO:__main__:Finished SSA Triton training run in 2297.3 seconds.
+INFO:__main__:Finished SSA Triton training run in 2306.5 seconds.
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /tmpdir/barman/luciole/outputs/nemotron-1B-SSA-Triton-bs2560/wandb/wandb/offline-run-20260318_163422-nemo1b-ssa-triton-v1[0m
+[1;34mwandb[0m: Find logs at: [1;35m../../../../../../../tmpdir/barman/luciole/outputs/nemotron-1B-SSA-Triton-bs2560/wandb/wandb/offline-run-20260318_163422-nemo1b-ssa-triton-v1/logs[0m
+==========================================
+SSA Triton Training finished with status 0
+==========================================

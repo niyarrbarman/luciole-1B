@@ -18,9 +18,9 @@ OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/luciole_ssa/outputs"}
 NAME=${NAME:-"nemotron-1B-SSA-Triton"}
 SEED=${SEED:-1234}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-1000}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3000}
 
-export OMP_NUM_THREADS=${1}
+# export OMP_NUM_THREADS=${1}
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)
 export MASTER_ADDR=$(hostname --ip-address)
 

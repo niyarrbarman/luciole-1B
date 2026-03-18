@@ -1,19 +1,19 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 6
-#SBATCH -n 6
-#SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:2
-#SBATCH -p small
-#SBATCH --time=24:00:00
+#SBATCH -N 10
+#SBATCH -n 10
+#SBATCH --ntasks-per-node=70
+#SBATCH --gres=gpu:4
+#SBATCH -p full-gpu
+#SBATCH --time=12:00:00
 #SBATCH --output=slurm/%x_%j.out
 
 mkdir -p slurm
 
 # Defaults
-DATAMIX=${DATAMIX:-"/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output_1b"}
-NAME=${NAME:-"nemotron-1B-SSA-Triton"}
+DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/luciole_ssa/outputs"}
+NAME=${NAME:-"nemotron-1B-SSA-Triton-32bs"}
 SEED=${SEED:-1234}
 
 # W&B logging (optional)
@@ -36,7 +36,7 @@ WANDB_API_KEY=${WANDB_API_KEY:-${api_key:-""}}
 # SSA hyperparameters
 SSA_N=1.5                                        # fixed
 SSA_B=0.8                                        # fixed
-SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton} # pinned to tutorial-based triton kernel
+SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton} 
 SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
 LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-2000}
 SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
@@ -137,7 +137,7 @@ fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
-export TRITON_CACHE_DIR="/tmpdir/m24047brmn/triton_cache"
+export TRITON_CACHE_DIR="/tmpdir/barman/triton_cache"
 mkdir -p "$TRITON_CACHE_DIR"
 
 WANDB_ENV_ARGS=()
@@ -162,23 +162,23 @@ srun apptainer exec \
   --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
   --env "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600" \
   "${WANDB_ENV_ARGS[@]}" \
-  --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
+  --bind /tmpdir,/work --nv /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif \
   torchrun \
   --nnodes=${SLURM_NNODES} \
   --nproc_per_node=2 \
   --rdzv_id=${SLURM_JOB_ID} \
   --rdzv_backend=c10d \
   --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
-  /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py \
+   /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py \
   --datamix "$DATAMIX" \
   --output_dir "$OUTPUT_DIR" \
   --name "$NAME" \
   --arch nemotron1b \
-  --tokenizer /work/m24047/m24047brmn/Luciole-23B-Base \
+  --tokenizer /work/p26037/barman/tokenizer_128k-arab-regional_v2 \
   --max_steps ${GLOBAL_MAX_STEPS} \
-  --seq_length 2048 \
-  --batch_size 384 \
-  --micro_batch_size 2 \
+  --seq_length 4096 \
+  --batch_size 1280 \
+  --micro_batch_size 4 \
   --num_nodes ${SLURM_NNODES} \
   --gpus_per_node 2 \
   --tensor_parallelism 1 \
@@ -186,7 +186,7 @@ srun apptainer exec \
   --context_parallelism 1 \
   --duration "${SLURM_DURATION}" \
   --save_every_n_steps 1000 \
-  --log_ssa_every_n_steps 1000 \
+  --log_ssa_every_n_steps 500 \
   --ssa_n $SSA_N \
   --ssa_b $SSA_B \
   --warmup_steps ${LR_WARMUP_STEPS} \

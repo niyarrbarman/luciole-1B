@@ -3791,3 +3791,14 @@ frame #8: <unknown function> + 0xeba4c (0x40000d20ba4c in /lib/aarch64-linux-gnu
 [rank44]:[E319 19:45:00.151337932 ProcessGroupNCCL.cpp:633] [Rank 44] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=42, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=600000) ran for 600051 milliseconds before timing out.
 [rank44]:[E319 19:45:00.151375275 ProcessGroupNCCL.cpp:2289] [PG ID 0 PG GUID 0(default_pg) Rank 44]  failure detected by watchdog at work sequence id: 42 PG status: last enqueued work: 42, last completed work: 41
 [rank44]:[E319 19:45:00.151380875 ProcessGroupNCCL.cpp:671] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+[2026-03-19T19:54:29.045] error: *** JOB 9798 ON kairosgh0 CANCELLED AT 2026-03-19T19:54:29 DUE to SIGNAL Terminated ***
+[2026-03-19T19:54:29.046] error: *** STEP 9798.0 ON kairosgh0 CANCELLED AT 2026-03-19T19:54:29 DUE to SIGNAL Terminated ***
+W0319 19:54:29.045000 2341252 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0319 19:54:29.045000 2027238 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0319 19:54:29.046000 2341252 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2341339 closing signal SIGTERM
+W0319 19:54:29.046000 2027238 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2027386 closing signal SIGTERM
+W0319 19:54:29.046000 2341252 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2341340 closing signal SIGTERM
+W0319 19:54:29.046000 627037 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0319 19:54:29.045000 34361 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0319 19:54:29.047000 2027238 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2027387 closing signal SIGTERM

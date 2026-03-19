@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 8
-#SBATCH -n 8
+#SBATCH -N 16
+#SBATCH -n 16
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=24:00:00
+#SBATCH --time=09:00:00
 #SBATCH --output=slurm/%x_%j.out
 
 mkdir -p slurm

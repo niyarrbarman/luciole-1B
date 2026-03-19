@@ -14,7 +14,7 @@ JOB1=$(sbatch --parsable "${SCRIPT_DIR}/build_index.sh")
 echo "  Index build job: $JOB1"
 
 echo "Submitting training job (depends on $JOB1)..."
-JOB2=$(sbatch --parsable --dependency=afterok:${JOB1} --exclude=kairosgh8,kairosgh15 "${SCRIPT_DIR}/train_ssa_triton.sh")
+JOB2=$(sbatch --parsable --dependency=afterok:${JOB1} "${SCRIPT_DIR}/train_ssa_triton.sh")
 echo "  Training job: $JOB2"
 
 echo ""

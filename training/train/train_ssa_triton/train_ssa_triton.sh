@@ -1,7 +1,8 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 16
-#SBATCH -n 16
+#SBATCH -N 8
+#SBATCH -n 8
+#SBATCH --exclude=kairosgh1,kairosgh8,kairosgh15
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu

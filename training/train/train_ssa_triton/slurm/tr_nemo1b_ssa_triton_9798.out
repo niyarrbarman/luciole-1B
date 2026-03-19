@@ -3788,3 +3788,6 @@ frame #8: <unknown function> + 0xeba4c (0x40000d20ba4c in /lib/aarch64-linux-gnu
 
 [rank47]:[E319 19:34:48.679998532 ProcessGroupNCCL.cpp:2289] [PG ID 2 PG GUID 3(DATA_PARALLEL_GROUP_WITH_CP) Rank 47]  failure detected by watchdog at work sequence id: 294 PG status: last enqueued work: 309, last completed work: 293
 [rank47]:[E319 19:34:48.680011971 ProcessGroupNCCL.cpp:671] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.
+[rank44]:[E319 19:45:00.151337932 ProcessGroupNCCL.cpp:633] [Rank 44] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=42, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=600000) ran for 600051 milliseconds before timing out.
+[rank44]:[E319 19:45:00.151375275 ProcessGroupNCCL.cpp:2289] [PG ID 0 PG GUID 0(default_pg) Rank 44]  failure detected by watchdog at work sequence id: 42 PG status: last enqueued work: 42, last completed work: 41
+[rank44]:[E319 19:45:00.151380875 ProcessGroupNCCL.cpp:671] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.

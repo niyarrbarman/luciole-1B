@@ -12,7 +12,8 @@ mkdir -p slurm
 
 # Defaults
 DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/32bs_ssa_run/outputs"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/bs1024_mbs8_fullrun/outputs"}
+mkdir -p "$OUTPUT_DIR"
 BATCH_SIZE=${BATCH_SIZE:-1024}
 NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
 SEED=${SEED:-1234}
@@ -139,7 +140,7 @@ fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
-export TRITON_CACHE_DIR="/tmpdir/barman/32bs_ssa_run/triton_cache"
+export TRITON_CACHE_DIR="/tmpdir/barman/bs1024_mbs8_fullrun/triton_cache"
 mkdir -p "$TRITON_CACHE_DIR"
 
 WANDB_ENV_ARGS=()

@@ -15,11 +15,11 @@ mkdir -p slurm
 DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
 # OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output_1b"}
 OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/32bs_ssa_run/outputs"}
-BATCH_SIZE=${BATCH_SIZE:-2048}
+BATCH_SIZE=${BATCH_SIZE:-1024}
 NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
 SEED=${SEED:-1234}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-357894}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-715788}
 
 # export OMP_NUM_THREADS=${1}
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)

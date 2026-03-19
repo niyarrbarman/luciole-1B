@@ -2,7 +2,7 @@
 # Submit index build + training as a two-stage SLURM pipeline.
 # Training starts only after index build succeeds.
 #
-# Config: MBS=4, BS=2048, 64 GPUs (16 nodes × 4), accum=8
+# Config: MBS=8, BS=1024, 32 GPUs (8 nodes × 4), accum=4
 # Usage: ./submit_pipeline.sh
 
 set -e
@@ -20,6 +20,6 @@ echo "  Training job: $JOB2"
 echo ""
 echo "Pipeline submitted:"
 echo "  1. build_index  ($JOB1) — 6h, 1 GPU"
-echo "  2. train         ($JOB2) — 9h, 64 GPUs (starts after $JOB1 completes)"
+echo "  2. train         ($JOB2) — 24h, 32 GPUs (starts after $JOB1 completes)"
 echo ""
 echo "Monitor with: squeue -u \$USER"

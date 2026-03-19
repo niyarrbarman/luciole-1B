@@ -1,18 +1,18 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 16
-#SBATCH -n 16
+#SBATCH -N 8
+#SBATCH -n 8
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=09:00:00
+#SBATCH --time=24:00:00
 #SBATCH --output=slurm/%x_%j.out
 
 mkdir -p slurm
 
 # Defaults
 DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/bs1024_mbs8_fullrun/outputs"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/bs1024_fullrun/outputs"}
 mkdir -p "$OUTPUT_DIR"
 BATCH_SIZE=${BATCH_SIZE:-1024}
 NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
@@ -140,7 +140,7 @@ fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
-export TRITON_CACHE_DIR="/tmpdir/barman/bs1024_mbs8_fullrun/triton_cache"
+export TRITON_CACHE_DIR="/tmpdir/barman/bs1024_fullrun/triton_cache"
 mkdir -p "$TRITON_CACHE_DIR"
 
 WANDB_ENV_ARGS=()

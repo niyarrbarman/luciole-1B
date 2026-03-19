@@ -14,7 +14,7 @@ mkdir -p slurm
 # Must match training parameters exactly so index files are reusable
 DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
 # OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output_1b"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/bs1024_mbs8_fullrun/outputs"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/bs1024_fullrun/outputs"}
 mkdir -p "$OUTPUT_DIR"
 BATCH_SIZE=${BATCH_SIZE:-1024}
 NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}

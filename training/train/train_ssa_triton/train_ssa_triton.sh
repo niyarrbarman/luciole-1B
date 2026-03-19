@@ -13,7 +13,7 @@ mkdir -p slurm
 # Defaults
 DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
 OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/32bs_ssa_run/outputs"}
-BATCH_SIZE=${BATCH_SIZE:-2048}
+BATCH_SIZE=${BATCH_SIZE:-1024}
 NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
 SEED=${SEED:-1234}
 
@@ -44,7 +44,7 @@ SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-357894}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-715788}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
 THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-0}
 
@@ -180,7 +180,7 @@ srun apptainer exec \
   --max_steps ${GLOBAL_MAX_STEPS} \
   --seq_length 4096 \
   --batch_size ${BATCH_SIZE} \
-  --micro_batch_size 4 \
+  --micro_batch_size 8 \
   --num_nodes ${SLURM_NNODES} \
   --gpus_per_node 4 \
   --tensor_parallelism 1 \

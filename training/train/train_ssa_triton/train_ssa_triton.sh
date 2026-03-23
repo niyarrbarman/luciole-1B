@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=12:00:00
+#SBATCH --time=09:00:00
 #SBATCH --output=slurm/%x_%j.out
 
 mkdir -p slurm

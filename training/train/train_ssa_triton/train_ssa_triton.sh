@@ -20,7 +20,7 @@ NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
 SEED=${SEED:-1234}
 
 # W&B logging (optional)
-USE_WANDB=${USE_WANDB:-1}
+USE_WANDB=${USE_WANDB:-0}
 WANDB_PROJECT=${WANDB_PROJECT:-"luciole_ssa"}
 WANDB_ENTITY=${WANDB_ENTITY:-""}
 WANDB_GROUP=${WANDB_GROUP:-"${NAME}"}

@@ -2,7 +2,7 @@
 #SBATCH -J tr_nemo1b_ssa_triton
 #SBATCH -N 16
 #SBATCH -n 16
-#SBATCH --reservation=MC_lundi
+#SBATCH --reservation=MC_mercredi
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
@@ -37,9 +37,9 @@ WANDB_LOG_MODEL=${WANDB_LOG_MODEL:-0}
 WANDB_API_KEY=${WANDB_API_KEY:-${api_key:-""}}
 
 # SSA hyperparameters
-SSA_N=1.5                                        # fixed
-SSA_B=0.8                                        # fixed
-SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton} 
+SSA_N=1.5 # fixed
+SSA_B=0.8 # fixed
+SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton}
 SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
 LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-2000}
 SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
@@ -173,7 +173,7 @@ srun apptainer exec \
   --rdzv_id=${SLURM_JOB_ID} \
   --rdzv_backend=c10d \
   --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
-   /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py \
+  /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py \
   --datamix "$DATAMIX" \
   --output_dir "$OUTPUT_DIR" \
   --name "$NAME" \

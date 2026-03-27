@@ -191,7 +191,7 @@ srun apptainer exec \
   --max_steps ${GLOBAL_MAX_STEPS} \
   --seq_length 4096 \
   --batch_size ${BATCH_SIZE} \
-  --micro_batch_size 4 \
+  --micro_batch_size ${MICRO_BATCH_SIZE:-4} \
   --num_nodes ${SLURM_NNODES} \
   --gpus_per_node 4 \
   --tensor_parallelism 1 \

@@ -612,6 +612,12 @@ def main():
     elif args.skip_triton_warmup:
         logger.info("Skipping Triton warmup (--skip_triton_warmup).")
 
+    # Free GPU memory accumulated during setup/warmup before checkpoint restore
+    import gc
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
     # Run
     import time as _time
     _t0 = _time.time()

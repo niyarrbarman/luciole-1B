@@ -2,12 +2,14 @@
 #SBATCH -J tr_nemo1b_ssa_triton
 #SBATCH -N 16
 #SBATCH -n 16
-#SBATCH --reservation=MC_mercredi
+#SBATCH --reservation=MC_weekend
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=15:00:00
+#SBATCH --time=63:00:00
 #SBATCH --output=slurm/%x_%j.out
+#SBATCH --mail-user=niyar-r.barman@utoulouse.fr
+#SBATCH --mail-type=ALL
 
 mkdir -p slurm
 

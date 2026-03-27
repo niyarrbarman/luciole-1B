@@ -7,6 +7,8 @@ import uuid
 from pathlib import Path
 from typing import Optional
 
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+
 import pytorch_lightning as pl
 import torch
 import fiddle

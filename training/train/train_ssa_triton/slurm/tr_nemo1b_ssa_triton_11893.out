@@ -1,0 +1,23 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/bs1024_fullrun/outputs
+Name:        nemotron-1B-SSA-Triton-bs1024
+Batch size:  1024
+Nodes:       16
+Duration:    00:62:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 0
+Contig QKV:  1
+Global max:  715788
+This-run max:0
+W&B:         0 (mode=offline)
+==========================================
+srun: StepId=11893.0 aborted before step completely launched.
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+[2026-03-27T20:29:29.020] error: *** STEP 11893.0 ON kairosgh0 CANCELLED AT 2026-03-27T20:29:29 DUE to SIGNAL Terminated ***
+[2026-03-27T20:29:29.025] error: *** JOB 11893 ON kairosgh0 CANCELLED AT 2026-03-27T20:29:29 DUE to SIGNAL Terminated ***

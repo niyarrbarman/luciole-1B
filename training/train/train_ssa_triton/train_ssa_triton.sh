@@ -68,12 +68,18 @@ fi
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)
 export MASTER_ADDR=$(hostname --ip-address)
 
-# Convert SBATCH time to DD:HH:MM:SS for StatelessTimer
-SBATCH_TIME=$(grep -E '^#SBATCH --time=' "$0" | head -n1 | sed -E 's/^#SBATCH --time=//')
-if [[ "$SBATCH_TIME" == *-* ]]; then
-  SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F'[-:]' '{printf "%02d:%02d:%02d:%02d", $1, $2, $3, $4}')
+# Convert actual SLURM wall time to DD:HH:MM:SS for StatelessTimer
+if [[ -n "${SLURM_JOB_END_TIME:-}" && -n "${SLURM_JOB_START_TIME:-}" ]]; then
+  WALL_SECS=$(( SLURM_JOB_END_TIME - SLURM_JOB_START_TIME ))
+  SLURM_DURATION=$(printf "%02d:%02d:%02d:%02d" $((WALL_SECS/86400)) $(((WALL_SECS%86400)/3600)) $(((WALL_SECS%3600)/60)) $((WALL_SECS%60)))
 else
-  SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F':' '{printf "00:%02d:%02d:%02d", $1, $2, $3}')
+  # Fallback: parse from script header
+  SBATCH_TIME=$(grep -E '^#SBATCH --time=' "$0" | head -n1 | sed -E 's/^#SBATCH --time=//')
+  if [[ "$SBATCH_TIME" == *-* ]]; then
+    SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F'[-:]' '{printf "%02d:%02d:%02d:%02d", $1, $2, $3, $4}')
+  else
+    SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F':' '{printf "00:%02d:%02d:%02d", $1, $2, $3}')
+  fi
 fi
 
 echo "=========================================="
@@ -167,6 +173,7 @@ srun apptainer exec \
   --env "SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION}" \
   --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
   --env "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600" \
+  --env "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True" \
   "${WANDB_ENV_ARGS[@]}" \
   --bind /tmpdir,/work --nv /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif \
   torchrun \

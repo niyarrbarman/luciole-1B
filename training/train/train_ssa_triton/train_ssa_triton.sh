@@ -3,7 +3,6 @@
 #SBATCH -N 8
 #SBATCH -n 8
 #SBATCH --reservation=MC_weekend
-#SBATCH --exclude=kairosgh0,kairosgh1
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu

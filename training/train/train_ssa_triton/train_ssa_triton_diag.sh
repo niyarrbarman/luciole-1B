@@ -5,10 +5,10 @@
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p gpu
-#SBATCH --time=00:20:00
+#SBATCH --time=02:00:00
 #SBATCH --output=slurm/%x_%j.out
-#SBATCH --mail-user=niyar-r.barman@utoulouse.fr
-#SBATCH --mail-type=ALL
+##SBATCH --mail-user=niyar-r.barman@utoulouse.fr
+##SBATCH --mail-type=ALL
 
 mkdir -p slurm
 

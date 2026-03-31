@@ -1,15 +1,18 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 16
-#SBATCH -n 16
+#SBATCH -N 8
+#SBATCH -n 8
+#SBATCH --exclude=kairosgh0,kairosgh1
 #SBATCH --ntasks-per-node=70
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=14:00:00
+#SBATCH --time=15:00:00
 #SBATCH --output=slurm/%x_%j.out
 #SBATCH --mail-user=niyar-r.barman@utoulouse.fr
 #SBATCH --mail-type=ALL
-#SBATCH --reservation=MC_lundi
+#SBATCH --reservation=MC_mardi
+
+module purge
 mkdir -p slurm
 
 # Defaults

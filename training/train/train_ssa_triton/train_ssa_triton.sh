@@ -1,14 +1,15 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 4
+#SBATCH -N 16
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=6:00:00
+#SBATCH --time=24:00:00
 #SBATCH --output=slurm/%x_%j.out
 #SBATCH --mail-user=niyar-r.barman@utoulouse.fr
 #SBATCH --mail-type=ALL
 #SBATCH --cpus-per-task=288
+#SBATCH --reservation=MC_weekend
 
 module purge
 mkdir -p slurm

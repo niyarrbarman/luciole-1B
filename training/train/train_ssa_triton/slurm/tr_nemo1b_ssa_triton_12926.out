@@ -1,0 +1,165 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/bs1024_fullrun/outputs
+Name:        nemotron-1B-SSA-Triton-bs1024
+Batch size:  1024
+Nodes:       2
+Duration:    00:01:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 1
+Contig QKV:  1
+Global max:  715788
+This-run max:0
+W&B:         0 (mode=offline)
+==========================================
+[W402 16:47:06.554743767 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22927 (errno: 97 - Address family not supported by protocol).
+[W402 16:47:06.770993841 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22927 (errno: 97 - Address family not supported by protocol).
+[W402 16:47:07.670049132 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:33723 (errno: 97 - Address family not supported by protocol).
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh", line 2
+    set -euo pipefail
+             ^^^^^^^^
+SyntaxError: invalid syntax
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh", line 2
+    set -euo pipefail
+            File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh", line 2
+       set -euo pipefail
+^    ^^ ^ ^ ^ ^ ^ 
+   File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh", line 2
+  SyntaxError    ^: set -euo pipefail
+^invalid syntax    ^
+ ^ ^ ^ ^ ^ 
+   ^SyntaxError^: ^invalid syntax^
+^^^^
+SyntaxError: invalid syntax
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh", line 2
+    set -euo pipefail
+             ^^^^^^^^
+SyntaxError: invalid syntax
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh", line 2
+    set -euo pipefail
+             ^^^^^^^^
+SyntaxError: invalid syntax
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh", line 2
+    set -euo pipefail
+             ^^^^^^^^
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh", line 2
+SyntaxError    : set -euo pipefail
+invalid syntax    
+         ^^^^^^^^
+SyntaxError: invalid syntax
+E0402 16:47:07.592000 539565 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 539658) of binary: /usr/bin/python
+E0402 16:47:07.592000 707317 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 707414) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    run(args)
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    return launch_agent(self._config, self._entrypoint, list(args))
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    return launch_agent(self._config, self._entrypoint, list(args))
+    raise ChildFailedError(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-04-02_16:47:07
+  host      : kairosgh7.calmip.cluster
+  rank      : 5 (local_rank: 1)
+  exitcode  : 1 (pid: 539659)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2026-04-02_16:47:07
+  host      : kairosgh7.calmip.cluster
+  rank      : 6 (local_rank: 2)
+  exitcode  : 1 (pid: 539660)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[3]:
+  time      : 2026-04-02_16:47:07
+  host      : kairosgh7.calmip.cluster
+  rank      : 7 (local_rank: 3)
+  exitcode  : 1 (pid: 539661)
+  error_file: <N/A>
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.sh FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-04-02_16:47:07
+  host      : kairosgh6.calmip.cluster
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 707415)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2026-04-02_16:47:07
+  host      : kairosgh6.calmip.cluster
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 707416)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[3]:
+  time      : 2026-04-02_16:47:07
+  host      : kairosgh6.calmip.cluster
+  rank      : 3 (local_rank: 3)
+  exitcode  : 1 (pid: 707417)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-04-02_16:47:07
+  host      : kairosgh7.calmip.cluster
+  rank      : 4 (local_rank: 0)
+  exitcode  : 1 (pid: 539658)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-04-02_16:47:07
+  host      : kairosgh6.calmip.cluster
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 707414)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: kairosgh7: task 1: Exited with exit code 1
+srun: error: kairosgh6: task 0: Exited with exit code 1
+==========================================
+SSA Triton Training finished with status 1
+==========================================

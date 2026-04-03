@@ -1,0 +1,142 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/bs1024_fullrun/outputs
+Name:        nemotron-1B-SSA-Triton-bs1024
+Batch size:  1024
+Nodes:       2
+Duration:    00:01:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 1
+Contig QKV:  1
+Global max:  715788
+This-run max:0
+W&B:         0 (mode=offline)
+==========================================
+[W402 16:53:43.268390594 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22935 (errno: 97 - Address family not supported by protocol).
+[W402 16:53:43.372879956 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22935 (errno: 97 - Address family not supported by protocol).
+[W402 16:53:44.516880822 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:39903 (errno: 97 - Address family not supported by protocol).
+/usr/bin/python: can't open file '/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/bash': [Errno 2] No such file or directory
+/usr/bin/python: can't open file '/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/bash': [Errno 2] No such file or directory
+/usr/bin/python: can't open file '/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/bash': [Errno 2] No such file or directory
+/usr/bin/python: can't open file '/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/bash': [Errno 2] No such file or directory
+/usr/bin/python: can't open file '/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/bash': [Errno 2] No such file or directory
+/usr/bin/python: can't open file '/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/bash': [Errno 2] No such file or directory
+/usr/bin/python: can't open file '/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/bash': [Errno 2] No such file or directory
+/usr/bin/python: can't open file '/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/bash': [Errno 2] No such file or directory
+E0402 16:53:44.438000 560044 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 2) local_rank: 0 (pid: 560135) of binary: /usr/bin/python
+E0402 16:53:44.439000 729045 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 2) local_rank: 0 (pid: 729140) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bash FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-04-02_16:53:44
+  host      : kairosgh7.calmip.cluster
+  rank      : 5 (local_rank: 1)
+  exitcode  : 2 (pid: 560136)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2026-04-02_16:53:44
+  host      : kairosgh7.calmip.cluster
+  rank      : 6 (local_rank: 2)
+  exitcode  : 2 (pid: 560137)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[3]:
+  time      : 2026-04-02_16:53:44
+  host      : kairosgh7.calmip.cluster
+  rank      : 7 (local_rank: 3)
+  exitcode  : 2 (pid: 560138)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-04-02_16:53:44
+  host      : kairosgh7.calmip.cluster
+  rank      : 4 (local_rank: 0)
+  exitcode  : 2 (pid: 560135)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bash FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-04-02_16:53:44
+  host      : kairosgh6.calmip.cluster
+  rank      : 1 (local_rank: 1)
+  exitcode  : 2 (pid: 729141)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2026-04-02_16:53:44
+  host      : kairosgh6.calmip.cluster
+  rank      : 2 (local_rank: 2)
+  exitcode  : 2 (pid: 729142)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[3]:
+  time      : 2026-04-02_16:53:44
+  host      : kairosgh6.calmip.cluster
+  rank      : 3 (local_rank: 3)
+  exitcode  : 2 (pid: 729143)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-04-02_16:53:44
+  host      : kairosgh6.calmip.cluster
+  rank      : 0 (local_rank: 0)
+  exitcode  : 2 (pid: 729140)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: kairosgh7: task 1: Exited with exit code 1
+srun: error: kairosgh6: task 0: Exited with exit code 1
+/var/spool/slurmd/job12934/slurm_script: line 194: --datamix: command not found
+==========================================
+SSA Triton Training finished with status 127
+==========================================

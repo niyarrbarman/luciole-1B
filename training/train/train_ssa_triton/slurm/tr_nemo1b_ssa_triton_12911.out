@@ -1,0 +1,333 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/bs1024_fullrun/outputs
+Name:        nemotron-1B-SSA-Triton-bs1024
+Batch size:  1024
+Nodes:       2
+Duration:    00:01:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 1
+Contig QKV:  1
+Global max:  715788
+This-run max:0
+W&B:         0 (mode=offline)
+==========================================
+[W402 16:24:05.041281327 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22912 (errno: 97 - Address family not supported by protocol).
+[W402 16:24:05.378177115 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22912 (errno: 97 - Address family not supported by protocol).
+[W402 16:24:05.727558533 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh14.calmip.cluster]:37029 (errno: 97 - Address family not supported by protocol).
+[launcher] rank=2/3 | cores=144-215 | OMP_NUM_THREADS=72 | script=train_ssa_triton.py
+[launcher] rank=3/3 | cores=216-287 | OMP_NUM_THREADS=72 | script=train_ssa_triton.py
+[launcher] rank=0/3 | cores=0-71 | OMP_NUM_THREADS=72 | script=train_ssa_triton.py[launcher] rank=1/3 | cores=72-143 | OMP_NUM_THREADS=72 | script=train_ssa_triton.py
+
+[launcher] rank=0/3 | cores=0-71 | OMP_NUM_THREADS=72 | script=train_ssa_triton.py
+[launcher] rank=2/3 | cores=144-215 | OMP_NUM_THREADS=72 | script=train_ssa_triton.py
+[launcher] rank=1/3 | cores=72-143 | OMP_NUM_THREADS=72 | script=train_ssa_triton.py
+[launcher] rank=3/3 | cores=216-287 | OMP_NUM_THREADS=72 | script=train_ssa_triton.py
+libnuma: Warning: libnuma: Warning: libnuma: Warning: cpu argument 72-143 is out of range
+cpu argument 216-287 is out of range
+cpu argument 144-215 is out of range
+
+
+
+usage: numactl [--all | -a] [--balancing | -b] [--interleave= | -i <nodes>]
+		[--preferred= | -p <node>] [--preferred-many= | -P <nodes>]
+               [--physcpubind= | -C <cpus>] [--cpunodebind= | -N <nodes>]
+               [--membind= | -m <nodes>] [--localalloc | -l] command args ...
+               [--localalloc | -l] command args ...
+       numactl [--show | -s]
+       numactl [--hardware | -H] [--cpu-compress]
+       numactl [--version]
+       numactl [--length | -L <length>] [--offset | -o <offset>] [--shmmode | -M <shmmode>]
+               [--strict | -t]
+               [--shmid | -I <id>] --shm | -S <shmkeyfile>
+               [--shmid | -I <id>] --file | -f <tmpfsfile>
+               [--huge | -u] [--touch | -T] 
+               memory policy [--dump | -d] [--dump-nodes | -D]
+
+memory policy is --interleave | -i, --preferred | -p, --membind | -m, --localalloc | -l
+<nodes> is a comma delimited list of node numbers or A-B ranges or all.
+Instead of a number a node can also be:
+  netdev:DEV the node connected to network device DEV
+  file:PATH  the node the block device of path is connected to
+  ip:HOST    the node of the network device host routes through
+  block:PATH the node of block device path
+  pci:[seg:]bus:dev[:func] The node of a PCI device
+<cpus> is a comma delimited list of cpu numbers or A-B ranges or all
+all ranges can be inverted with !
+all numbers and ranges can be made cpuset-relative with +
+the old --cpubind argument is deprecated.
+use --cpunodebind or --physcpubind instead
+use --balancing | -b to enable Linux kernel NUMA balancing
+for the process if it is supported by kernel
+<length> can have g (GB), m (MB) or k (KB) suffixes
+usage: numactl [--all | -a] [--balancing | -b] [--interleave= | -i <nodes>]
+		[--preferred= | -p <node>] [--preferred-many= | -P <nodes>]
+               [--physcpubind= | -C <cpus>] [--cpunodebind= | -N <nodes>]
+               [--membind= | -m <nodes>] [--localalloc | -l] command args ...
+               [--localalloc | -l] command args ...
+       numactl [--show | -s]
+       numactl [--hardware | -H] [--cpu-compress]
+       numactl [--version]
+       numactl [--length | -L <length>] [--offset | -o <offset>] [--shmmode | -M <shmmode>]
+               [--strict | -t]
+               [--shmid | -I <id>] --shm | -S <shmkeyfile>
+               [--shmid | -I <id>] --file | -f <tmpfsfile>
+               [--huge | -u] [--touch | -T] 
+               memory policy [--dump | -d] [--dump-nodes | -D]
+
+memory policy is --interleave | -i, --preferred | -p, --membind | -m, --localalloc | -l
+<nodes> is a comma delimited list of node numbers or A-B ranges or all.
+Instead of a number a node can also be:
+  netdev:DEV the node connected to network device DEV
+  file:PATH  the node the block device of path is connected to
+  ip:HOST    the node of the network device host routes through
+  block:PATH the node of block device path
+  pci:[seg:]bus:dev[:func] The node of a PCI device
+<cpus> is a comma delimited list of cpu numbers or A-B ranges or all
+all ranges can be inverted with !
+all numbers and ranges can be made cpuset-relative with +
+the old --cpubind argument is deprecated.
+use --cpunodebind or --physcpubind instead
+use --balancing | -b to enable Linux kernel NUMA balancing
+for the process if it is supported by kernel
+<length> can have g (GB), m (MB) or k (KB) suffixes
+usage: numactl [--all | -a] [--balancing | -b] [--interleave= | -i <nodes>]
+		[--preferred= | -p <node>] [--preferred-many= | -P <nodes>]
+               [--physcpubind= | -C <cpus>] [--cpunodebind= | -N <nodes>]
+               [--membind= | -m <nodes>] [--localalloc | -l] command args ...
+               [--localalloc | -l] command args ...
+       numactl [--show | -s]
+       numactl [--hardware | -H] [--cpu-compress]
+       numactl [--version]
+       numactl [--length | -L <length>] [--offset | -o <offset>] [--shmmode | -M <shmmode>]
+               [--strict | -t]
+<216-287> is invalid
+<72-143> is invalid
+<144-215> is invalid
+libnuma: Warning: libnuma: Warning: libnuma: Warning: cpu argument 216-287 is out of range
+cpu argument 144-215 is out of range
+cpu argument 72-143 is out of range
+
+
+
+usage: numactl [--all | -a] [--balancing | -b] [--interleave= | -i <nodes>]
+		[--preferred= | -p <node>] [--preferred-many= | -P <nodes>]
+               [--physcpubind= | -C <cpus>] [--cpunodebind= | -N <nodes>]
+               [--membind= | -m <nodes>] [--localalloc | -l] command args ...
+               [--localalloc | -l] command args ...
+       numactl [--show | -s]
+       numactl [--hardware | -H] [--cpu-compress]
+       numactl [--version]
+       numactl [--length | -L <length>] [--offset | -o <offset>] [--shmmode | -M <shmmode>]
+               [--strict | -t]
+               [--shmid | -I <id>] --shm | -S <shmkeyfile>
+               [--shmid | -I <id>] --file | -f <tmpfsfile>
+               [--huge | -u] [--touch | -T] 
+               memory policy [--dump | -d] [--dump-nodes | -D]
+
+memory policy is --interleave | -i, --preferred | -p, --membind | -m, --localalloc | -l
+<nodes> is a comma delimited list of node numbers or A-B ranges or all.
+Instead of a number a node can also be:
+  netdev:DEV the node connected to network device DEV
+  file:PATH  the node the block device of path is connected to
+  ip:HOST    the node of the network device host routes through
+  block:PATH the node of block device path
+  pci:[seg:]bus:dev[:func] The node of a PCI device
+<cpus> is a comma delimited list of cpu numbers or A-B ranges or all
+all ranges can be inverted with !
+all numbers and ranges can be made cpuset-relative with +
+the old --cpubind argument is deprecated.
+use --cpunodebind or --physcpubind instead
+use --balancing | -b to enable Linux kernel NUMA balancing
+for the process if it is supported by kernel
+<length> can have g (GB), m (MB) or k (KB) suffixes
+usage: numactl [--all | -a] [--balancing | -b] [--interleave= | -i <nodes>]
+		[--preferred= | -p <node>] [--preferred-many= | -P <nodes>]
+               [--shmid | -I <id>] --shm | -S <shmkeyfile>
+               [--shmid | -I <id>] --file | -f <tmpfsfile>
+               [--huge | -u] [--touch | -T] 
+               memory policy [--dump | -d] [--dump-nodes | -D]
+
+memory policy is --interleave | -i, --preferred | -p, --membind | -m, --localalloc | -l
+<nodes> is a comma delimited list of node numbers or A-B ranges or all.
+Instead of a number a node can also be:
+  netdev:DEV the node connected to network device DEV
+  file:PATH  the node the block device of path is connected to
+  ip:HOST    the node of the network device host routes through
+  block:PATH the node of block device path
+  pci:[seg:]bus:dev[:func] The node of a PCI device
+<cpus> is a comma delimited list of cpu numbers or A-B ranges or all
+all ranges can be inverted with !
+all numbers and ranges can be made cpuset-relative with +
+the old --cpubind argument is deprecated.
+use --cpunodebind or --physcpubind instead
+use --balancing | -b to enable Linux kernel NUMA balancing
+               [--physcpubind= | -C <cpus>] [--cpunodebind= | -N <nodes>]
+               [--membind= | -m <nodes>] [--localalloc | -l] command args ...
+               [--localalloc | -l] command args ...
+       numactl [--show | -s]
+       numactl [--hardware | -H] [--cpu-compress]
+       numactl [--version]
+       numactl [--length | -L <length>] [--offset | -o <offset>] [--shmmode | -M <shmmode>]
+               [--strict | -t]
+               [--shmid | -I <id>] --shm | -S <shmkeyfile>
+               [--shmid | -I <id>] --file | -f <tmpfsfile>
+               [--huge | -u] [--touch | -T] 
+               memory policy [--dump | -d] [--dump-nodes | -D]
+
+memory policy is --interleave | -i, --preferred | -p, --membind | -m, --localalloc | -l
+<nodes> is a comma delimited list of node numbers or A-B ranges or all.
+Instead of a number a node can also be:
+  netdev:DEV the node connected to network device DEV
+  file:PATH  the node the block device of path is connected to
+<216-287> is invalid
+<144-215> is invalid
+<72-143> is invalid
+for the process if it is supported by kernel
+<length> can have g (GB), m (MB) or k (KB) suffixes
+  ip:HOST    the node of the network device host routes through
+  block:PATH the node of block device path
+  pci:[seg:]bus:dev[:func] The node of a PCI device
+<cpus> is a comma delimited list of cpu numbers or A-B ranges or all
+all ranges can be inverted with !
+all numbers and ranges can be made cpuset-relative with +
+the old --cpubind argument is deprecated.
+use --cpunodebind or --physcpubind instead
+use --balancing | -b to enable Linux kernel NUMA balancing
+for the process if it is supported by kernel
+<length> can have g (GB), m (MB) or k (KB) suffixes
+usage: numactl [--all | -a] [--balancing | -b] [--interleave= | -i <nodes>]
+		[--preferred= | -p <node>] [--preferred-many= | -P <nodes>]
+               [--physcpubind= | -C <cpus>] [--cpunodebind= | -N <nodes>]
+               [--membind= | -m <nodes>] [--localalloc | -l] command args ...
+               [--localalloc | -l] command args ...
+       numactl [--show | -s]
+       numactl [--hardware | -H] [--cpu-compress]
+       numactl [--version]
+       numactl [--length | -L <length>] [--offset | -o <offset>] [--shmmode | -M <shmmode>]
+               [--strict | -t]
+               [--shmid | -I <id>] --shm | -S <shmkeyfile>
+               [--shmid | -I <id>] --file | -f <tmpfsfile>
+               [--huge | -u] [--touch | -T] 
+               memory policy [--dump | -d] [--dump-nodes | -D]
+
+memory policy is --interleave | -i, --preferred | -p, --membind | -m, --localalloc | -l
+<nodes> is a comma delimited list of node numbers or A-B ranges or all.
+Instead of a number a node can also be:
+  netdev:DEV the node connected to network device DEV
+  file:PATH  the node the block device of path is connected to
+  ip:HOST    the node of the network device host routes through
+  block:PATH the node of block device path
+  pci:[seg:]bus:dev[:func] The node of a PCI device
+<cpus> is a comma delimited list of cpu numbers or A-B ranges or all
+all ranges can be inverted with !
+all numbers and ranges can be made cpuset-relative with +
+the old --cpubind argument is deprecated.
+use --cpunodebind or --physcpubind instead
+use --balancing | -b to enable Linux kernel NUMA balancing
+for the process if it is supported by kernel
+<length> can have g (GB), m (MB) or k (KB) suffixes
+W0402 16:24:06.401000 674863 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 674955 closing signal SIGTERM
+W0402 16:24:06.401000 239524 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 239617 closing signal SIGTERM
+E0402 16:24:06.403000 239524 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 1 (pid: 239618) of binary: /usr/bin/python
+E0402 16:24:06.403000 674863 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 1 (pid: 674956) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    return f(*args, **kwargs)
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-04-02_16:24:06
+  host      : kairosgh14.calmip.cluster
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 239619)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2026-04-02_16:24:06
+  host      : kairosgh14.calmip.cluster
+  rank      : 3 (local_rank: 3)
+  exitcode  : 1 (pid: 239620)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-04-02_16:24:06
+  host      : kairosgh14.calmip.cluster
+  rank      : 1 (local_rank: 1)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+  exitcode  : 1 (pid: 239618)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-04-02_16:24:06
+  host      : kairosgh6.calmip.cluster
+  rank      : 6 (local_rank: 2)
+  exitcode  : 1 (pid: 674957)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2026-04-02_16:24:06
+  host      : kairosgh6.calmip.cluster
+  rank      : 7 (local_rank: 3)
+  exitcode  : 1 (pid: 674958)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-04-02_16:24:06
+  host      : kairosgh6.calmip.cluster
+  rank      : 5 (local_rank: 1)
+  exitcode  : 1 (pid: 674956)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: kairosgh14: task 1: Exited with exit code 1
+srun: error: kairosgh6: task 0: Exited with exit code 1
+==========================================
+SSA Triton Training finished with status 1
+==========================================

@@ -1,15 +1,14 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 8
+#SBATCH -N 4
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=02:00:00
+#SBATCH --time=6:00:00
 #SBATCH --output=slurm/%x_%j.out
 #SBATCH --mail-user=niyar-r.barman@utoulouse.fr
 #SBATCH --mail-type=ALL
 #SBATCH --cpus-per-task=72
-#SBATCH --reservation=MC_jeudi
 
 module purge
 mkdir -p slurm
@@ -175,6 +174,7 @@ srun apptainer exec \
   --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
   --env "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600" \
   --env "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True" \
+  --env "OMP_NUM_THREADS=18" \
   "${WANDB_ENV_ARGS[@]}" \
   --bind /tmpdir,/work --nv /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif \
   torchrun \
@@ -183,6 +183,7 @@ srun apptainer exec \
   --rdzv_id=${SLURM_JOB_ID} \
   --rdzv_backend=c10d \
   --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
+  /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.py \
   /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py \
   --datamix "$DATAMIX" \
   --output_dir "$OUTPUT_DIR" \

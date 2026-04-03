@@ -8,7 +8,7 @@
 #SBATCH --output=slurm/%x_%j.out
 #SBATCH --mail-user=niyar-r.barman@utoulouse.fr
 #SBATCH --mail-type=ALL
-#SBATCH --cpus-per-task=72
+#SBATCH --cpus-per-task=288
 
 module purge
 mkdir -p slurm
@@ -174,7 +174,6 @@ srun apptainer exec \
   --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
   --env "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600" \
   --env "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True" \
-  --env "OMP_NUM_THREADS=18" \
   "${WANDB_ENV_ARGS[@]}" \
   --bind /tmpdir,/work --nv /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif \
   torchrun \

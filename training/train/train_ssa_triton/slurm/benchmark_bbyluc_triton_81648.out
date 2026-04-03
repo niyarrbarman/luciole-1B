@@ -1,0 +1,38 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  both
+SSA checkpoint:  /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton/checkpoints/baby_luciole-ssa-triton-step=0023999
+Softmax ckpt:    /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0020998-last
+Tokenizer:       /work/m24047/m24047brmn/tokenizers/luciole_50k
+Tasks:           all
+Batch Size:      16
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     100
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+Output prefix:   benchmark_results/results_bbyluc_both_all_20260402_150444
+===========================================
+-------------------------------------------
+Running model:   baby_luciole_ssa_triton (ssa_triton)
+Checkpoint:      /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton/checkpoints/baby_luciole-ssa-triton-step=0023999
+Output:          benchmark_results/results_bbyluc_both_all_20260402_150444_baby_luciole_ssa_triton.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+/usr/bin/bash: line 1: /tmpdir/m24047flhg/envs/vllm-lighteval/bin/pip: cannot execute: required file not found
+Model 'baby_luciole_ssa_triton' finished with status 127
+-------------------------------------------
+Running model:   baby_luciole_softmax (softmax)
+Checkpoint:      /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0020998-last
+Output:          benchmark_results/results_bbyluc_both_all_20260402_150444_baby_luciole_softmax.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+/usr/bin/bash: line 1: /tmpdir/m24047flhg/envs/vllm-lighteval/bin/pip: cannot execute: required file not found
+Model 'baby_luciole_softmax' finished with status 127
+===========================================
+Benchmark finished with status 127 (selection=both)
+===========================================

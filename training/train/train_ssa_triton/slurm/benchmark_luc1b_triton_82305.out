@@ -1,0 +1,761 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  softmax
+SSA checkpoint:  /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-step0015000
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           all
+Batch Size:      64
+Max Length:      2048
+Limit:           64
+GSM8K Limit:     64
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+Output prefix:   benchmark_results/results_luc1b_softmax_all_20260403_163558
+===========================================
+-------------------------------------------
+Running model:   luciole_10k (softmax)
+Checkpoint:      /tmpdir/m24047flhg/luciole-phase1-step0015000
+Output:          benchmark_results/results_luc1b_softmax_all_20260403_163558_luciole_10k.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa', 'gsm8k', 'openbookqa', 'lambada', 'boolq', 'cb', 'copa', 'multirc', 'record', 'rte', 'wic', 'wsc', 'axb', 'axg']
+INFO:__main__:gsm8k subset override: limit=64 (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'luciole_10k', 'type': 'softmax', 'checkpoint': '/tmpdir/m24047flhg/luciole-phase1-step0015000'}]
+INFO:__main__:Starting evaluation for model 'luciole_10k' (softmax)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=softmax, checkpoint=/tmpdir/m24047flhg/luciole-phase1-step0015000)...
+INFO:eval_perplexity:Detected HuggingFace checkpoint format
+INFO:eval_perplexity:Loading HuggingFace model from /tmpdir/m24047flhg/luciole-phase1-step0015000
+INFO:eval_perplexity:Loaded HF config: layers=24 hidden=2048 heads=32 vocab=128000
+INFO:eval_perplexity:Model loaded successfully from HuggingFace CausalLM format
+INFO:eval_perplexity:Tokenizer loaded from checkpoint
+INFO:eval_perplexity:Model ready for evaluation (HF format)
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: arc_easy -> arc_easy
+INFO:__main__:  Description: ARC Easy - Science questions from standardized tests
+INFO:__main__:Added task: arc_challenge -> arc_challenge
+INFO:__main__:  Description: ARC Challenge - Harder science questions
+INFO:__main__:Added task: hellaswag -> hellaswag
+INFO:__main__:  Description: HellaSwag - Commonsense reasoning about situations
+INFO:__main__:Added task: winogrande -> winogrande
+INFO:__main__:  Description: WinoGrande - Pronoun resolution benchmark
+INFO:__main__:Added task: truthfulqa -> truthfulqa_mc2
+INFO:__main__:  Description: TruthfulQA - Measuring model truthfulness
+INFO:__main__:Added task: gsm8k -> gsm8k
+INFO:__main__:  Description: GSM8K - Grade school math word problems
+INFO:__main__:Added task: openbookqa -> openbookqa
+INFO:__main__:  Description: OpenBookQA - Elementary science questions
+INFO:__main__:Added task: lambada -> lambada_openai
+INFO:__main__:  Description: LAMBADA - Word prediction requiring broad context
+INFO:__main__:Added task: boolq -> boolq
+INFO:__main__:  Description: BoolQ - Boolean question answering
+INFO:__main__:Added task: cb -> cb
+INFO:__main__:  Description: CB - CommitmentBank natural language inference
+INFO:__main__:Added task: copa -> copa
+INFO:__main__:  Description: COPA - Causal reasoning with alternatives
+INFO:__main__:Added task: multirc -> multirc
+INFO:__main__:  Description: MultiRC - Multi-sentence reading comprehension
+INFO:__main__:Added task: record -> record
+INFO:__main__:  Description: ReCoRD - Reading comprehension with commonsense reasoning
+INFO:__main__:Added task: rte -> rte
+INFO:__main__:  Description: RTE - Recognizing textual entailment
+INFO:__main__:Added task: wic -> wic
+INFO:__main__:  Description: WiC - Word-in-context disambiguation
+INFO:__main__:Added task: wsc -> wsc
+INFO:__main__:  Description: WSC - Winograd Schema Challenge coreference
+INFO:__main__:Added task: axb -> axb
+INFO:__main__:  Description: AX-b - Broad-coverage diagnostics from SuperGLUE
+INFO:__main__:Added task: axg -> axg
+INFO:__main__:  Description: AX-g - Winogender diagnostics from SuperGLUE
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047brmn/lm_eval/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047brmn/lm_eval/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047brmn/lm_eval/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047brmn/lm_eval/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:lm_eval.api.task:[Task: cb] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'cb' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'cb' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'copa' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'copa' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:lm_eval.api.task:[Task: record] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:lm_eval.api.task:[Task: rte] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: rte] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:__main__:Skipping task 'rte' (dataset unavailable offline): Couldn't reach 'glue' on the Hub (OfflineModeIsEnabled)
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wic' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wic' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:__main__:Skipping task 'axb' (dataset unavailable offline): 'axb'
+WARNING:__main__:Skipping task 'axg' (dataset unavailable offline): 'axg'
+INFO:__main__:Skipped 3 task(s) due to offline cache issues: ['rte', 'axb', 'axg']
+INFO:__main__:Running evaluation on tasks: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa_mc2', 'gsm8k', 'openbookqa', 'lambada_openai', 'boolq', 'cb', 'copa', 'multirc', 'record', 'wic', 'wsc']
+INFO:__main__:Evaluating group 'regular' tasks=['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa_mc2', 'openbookqa', 'lambada_openai', 'boolq', 'cb', 'copa', 'multirc', 'record', 'wic', 'wsc'] limit=64
+INFO:lm_eval.evaluator:Setting random seed to 0 | Setting numpy seed to 1234 | Setting fewshot manual seed to 1234
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047brmn/lm_eval/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047brmn/lm_eval/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047brmn/lm_eval/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047brmn/lm_eval/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:lm_eval.api.task:[Task: cb] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'cb' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'cb' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'copa' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'copa' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:lm_eval.api.task:[Task: record] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wic' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wic' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of wsc from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of wic from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of record from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of multirc from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of copa from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of cb from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of boolq from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of lambada_openai from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of openbookqa from None to 5
+INFO:lm_eval.evaluator:num_fewshot has been set to 0 for truthfulqa_mc2 in its config. Manual configuration will be ignored.
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of winogrande from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of hellaswag from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of arc_challenge from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of arc_easy from None to 5
+INFO:lm_eval.api.task:Building contexts for wsc on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 17606.94it/s]
+INFO:lm_eval.api.task:Building contexts for wic on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 41%|████      | 26/64 [00:00<00:00, 258.43it/s] 81%|████████▏ | 52/64 [00:00<00:00, 258.84it/s]100%|██████████| 64/64 [00:00<00:00, 258.88it/s]
+INFO:lm_eval.api.task:Building contexts for record on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]/usr/local/lib/python3.12/dist-packages/lm_eval/api/task.py:1181: Warning: Both target_delimiter and target start with a space. This may cause issues.
+  labeled_examples += self.sampler.get_context(
+100%|██████████| 64/64 [00:00<00:00, 11063.12it/s]
+INFO:lm_eval.api.task:Building contexts for multirc on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 33%|███▎      | 21/64 [00:00<00:00, 209.17it/s] 66%|██████▌   | 42/64 [00:00<00:00, 209.27it/s] 98%|█████████▊| 63/64 [00:00<00:00, 209.48it/s]100%|██████████| 64/64 [00:00<00:00, 209.34it/s]
+INFO:lm_eval.api.task:Building contexts for copa on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 32616.70it/s]
+INFO:lm_eval.api.task:Building contexts for cb on rank 0...
+  0%|          | 0/56 [00:00<?, ?it/s] 77%|███████▋  | 43/56 [00:00<00:00, 427.74it/s]100%|██████████| 56/56 [00:00<00:00, 427.41it/s]
+INFO:lm_eval.api.task:Building contexts for boolq on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 67%|██████▋   | 43/64 [00:00<00:00, 429.32it/s]100%|██████████| 64/64 [00:00<00:00, 428.91it/s]
+INFO:lm_eval.api.task:Building contexts for lambada_openai on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 20%|██        | 13/64 [00:00<00:00, 120.67it/s] 41%|████      | 26/64 [00:00<00:00, 121.19it/s] 61%|██████    | 39/64 [00:00<00:00, 121.37it/s] 81%|████████▏ | 52/64 [00:00<00:00, 121.28it/s]100%|██████████| 64/64 [00:00<00:00, 121.24it/s]
+INFO:lm_eval.api.task:Building contexts for openbookqa on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 31%|███▏      | 20/64 [00:00<00:00, 198.61it/s] 62%|██████▎   | 40/64 [00:00<00:00, 198.75it/s] 94%|█████████▍| 60/64 [00:00<00:00, 198.59it/s]100%|██████████| 64/64 [00:00<00:00, 198.58it/s]
+INFO:lm_eval.api.task:Building contexts for truthfulqa_mc2 on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 950.83it/s]
+INFO:lm_eval.api.task:Building contexts for winogrande on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 30840.47it/s]
+INFO:lm_eval.api.task:Building contexts for hellaswag on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 52%|█████▏    | 33/64 [00:00<00:00, 322.87it/s]100%|██████████| 64/64 [00:00<00:00, 324.48it/s]
+INFO:lm_eval.api.task:Building contexts for arc_challenge on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 25%|██▌       | 16/64 [00:00<00:00, 152.31it/s] 50%|█████     | 32/64 [00:00<00:00, 153.05it/s] 75%|███████▌  | 48/64 [00:00<00:00, 153.42it/s]100%|██████████| 64/64 [00:00<00:00, 153.37it/s]100%|██████████| 64/64 [00:00<00:00, 153.22it/s]
+INFO:lm_eval.api.task:Building contexts for arc_easy on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 25%|██▌       | 16/64 [00:00<00:00, 153.25it/s] 50%|█████     | 32/64 [00:00<00:00, 153.40it/s] 75%|███████▌  | 48/64 [00:00<00:00, 153.63it/s]100%|██████████| 64/64 [00:00<00:00, 153.65it/s]100%|██████████| 64/64 [00:00<00:00, 153.55it/s]
+INFO:lm_eval.evaluator:Running loglikelihood requests
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+bootstrapping for stddev: perplexity
+  0%|          | 0/100 [00:00<?, ?it/s]100%|██████████| 100/100 [00:00<00:00, 6190.49it/s]
+INFO:__main__:Completed group 'regular' in 2m 14s (evaluated 888/40343 docs, full dataset estimate 1h 41m 23s)
+INFO:__main__:Evaluating group 'gsm8k' tasks=['gsm8k'] limit=64
+INFO:__main__:gsm8k subset config: limit=64, random_seed=42
+INFO:lm_eval.evaluator:Setting random seed to 42 | Setting numpy seed to 43 | Setting fewshot manual seed to 44
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+INFO:lm_eval.evaluator:gsm8k: Using gen_kwargs: {'until': ['Question:', '</s>', '<|im_end|>'], 'do_sample': False, 'temperature': 0.0}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of gsm8k from 5 to 5
+INFO:lm_eval.api.task:Building contexts for gsm8k on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 48%|████▊     | 31/64 [00:00<00:00, 304.73it/s] 97%|█████████▋| 62/64 [00:00<00:00, 304.55it/s]100%|██████████| 64/64 [00:00<00:00, 303.95it/s]
+INFO:lm_eval.evaluator:Running generate_until requests
+INFO:__main__:Completed group 'gsm8k' in 3m 37s (evaluated 64/1319 docs, full dataset estimate 1h 14m 32s)
+
+======================================================================
+BENCHMARK RESULTS
+======================================================================
+Model name:   luciole_10k
+Model type:   softmax
+Checkpoint:   /tmpdir/m24047flhg/luciole-phase1-step0015000
+----------------------------------------------------------------------
+
+arc_challenge:
+--------------------------------------------------
+  alias: arc_challenge
+  acc,none: 0.2812
+  acc_stderr,none: 0.0566
+  acc_norm,none: 0.2031
+  acc_norm_stderr,none: 0.0507
+
+arc_easy:
+--------------------------------------------------
+  alias: arc_easy
+  acc,none: 0.5312
+  acc_stderr,none: 0.0629
+  acc_norm,none: 0.6094
+  acc_norm_stderr,none: 0.0615
+
+boolq:
+--------------------------------------------------
+  alias: boolq
+  acc,none: 0.5938
+  acc_stderr,none: 0.0619
+
+cb:
+--------------------------------------------------
+  alias: cb
+  acc,none: 0.5536
+  acc_stderr,none: 0.0670
+  f1,none: 0.3813
+  f1_stderr,none: N/A
+
+copa:
+--------------------------------------------------
+  alias: copa
+  acc,none: 0.6406
+  acc_stderr,none: 0.0605
+
+hellaswag:
+--------------------------------------------------
+  alias: hellaswag
+  acc,none: 0.3438
+  acc_stderr,none: 0.0598
+  acc_norm,none: 0.3906
+  acc_norm_stderr,none: 0.0615
+
+lambada_openai:
+--------------------------------------------------
+  alias: lambada_openai
+  perplexity,none: 104.2938
+  perplexity_stderr,none: 40.8185
+  acc,none: 0.2812
+  acc_stderr,none: 0.0566
+
+multirc:
+--------------------------------------------------
+  alias: multirc
+  acc,none: 0.4844
+  acc_stderr,none: 0.0630
+
+openbookqa:
+--------------------------------------------------
+  alias: openbookqa
+  acc,none: 0.1875
+  acc_stderr,none: 0.0492
+  acc_norm,none: 0.3750
+  acc_norm_stderr,none: 0.0610
+
+record:
+--------------------------------------------------
+  alias: record
+  f1,none: 0.5885
+  f1_stderr,none: 0.0616
+  em,none: 0.5781
+  em_stderr,none: 0.0622
+
+truthfulqa_mc2:
+--------------------------------------------------
+  alias: truthfulqa_mc2
+  acc,none: 0.4179
+  acc_stderr,none: 0.0517
+
+wic:
+--------------------------------------------------
+  alias: wic
+  acc,none: 0.4844
+  acc_stderr,none: 0.0630
+
+winogrande:
+--------------------------------------------------
+  alias: winogrande
+  acc,none: 0.6250
+  acc_stderr,none: 0.0610
+
+wsc:
+--------------------------------------------------
+  alias: wsc
+  acc,none: 0.4062
+  acc_stderr,none: 0.0619
+
+gsm8k:
+--------------------------------------------------
+  alias: gsm8k
+  exact_match,strict-match: 0.0000
+  exact_match_stderr,strict-match: 0.0000
+  exact_match,flexible-extract: 0.0156
+  exact_match_stderr,flexible-extract: 0.0156
+
+TASK TIMING
+----------------------------------------------------------------------
+task                 elapsed      full-est     docs          
+----------------------------------------------------------------------
+arc_easy             10s          5m 58s       64/2376       
+arc_challenge        10s          2m 57s       64/1172       
+hellaswag            10s          25m 14s      64/10042      
+winogrande           10s          3m 11s       64/1267       
+truthfulqa_mc2       10s          2m 3s        64/817        
+openbookqa           10s          1m 15s       64/500        
+lambada_openai       10s          12m 57s      64/5153       
+boolq                10s          8m 13s       64/3270       
+cb                   8s           8s           56/56         
+copa                 10s          15s          64/100        
+multirc              10s          12m 11s      64/4848       
+record               10s          25m 8s       64/10000      
+wic                  10s          1m 36s       64/638        
+wsc                  10s          16s          64/104        
+gsm8k                3m 37s       1h 14m 32s   64/1319       
+
+======================================================================
+INFO:__main__:Finished evaluation for model 'luciole_10k' in 5m 51s
+INFO:__main__:Estimated full-dataset runtime for model 'luciole_10k': 2h 55m 56s
+INFO:__main__:Results saved to: benchmark_results/results_luc1b_softmax_all_20260403_163558_luciole_10k.json
+Model 'luciole_10k' finished with status 0
+===========================================
+Benchmark finished with status 0 (selection=softmax)
+Results saved to:
+benchmark_results/results_luc1b_softmax_all_20260403_163558_luciole_10k.json
+===========================================

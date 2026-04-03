@@ -13,6 +13,7 @@ import math
 import os
 import sys
 from pathlib import Path
+from typing import Any, Dict, Optional
 
 import torch
 
@@ -73,8 +74,34 @@ def cleanup_parallel_state():
         logger.info("Destroyed process group")
 
 
-def get_baby_luciole_config():
-    """Return Baby Luciole architecture config."""
+def _load_checkpoint_model_config(checkpoint_dir: Path) -> Optional[Dict[str, Any]]:
+    """Best-effort load of NeMo checkpoint architecture from context/model.yaml."""
+    model_yaml_path = checkpoint_dir / "context" / "model.yaml"
+    if not model_yaml_path.exists():
+        return None
+
+    try:
+        import yaml
+
+        with model_yaml_path.open("r", encoding="utf-8") as handle:
+            payload = yaml.safe_load(handle) or {}
+    except Exception as exc:
+        logger.warning("Could not parse checkpoint model config %s: %s", model_yaml_path, exc)
+        return None
+
+    if not isinstance(payload, dict):
+        return None
+
+    config = payload.get("config")
+    if isinstance(config, dict):
+        return config
+
+    # Some exports may already be a raw config mapping.
+    return payload
+
+
+def get_baby_luciole_config(checkpoint_dir: Optional[Path] = None):
+    """Return model config, optionally overridden from checkpoint context metadata."""
     from nemo.collections.llm.gpt.model.nemotron import Nemotron3Config4B
 
     config = Nemotron3Config4B()
@@ -86,6 +113,54 @@ def get_baby_luciole_config():
     config.kv_channels = config.hidden_size // config.num_attention_heads
     config.share_embeddings_and_output_weights = True
     config.vocab_size = 50256
+
+    if checkpoint_dir is not None:
+        checkpoint_cfg = _load_checkpoint_model_config(checkpoint_dir)
+        if checkpoint_cfg:
+            checkpoint_has_explicit_kv = "kv_channels" in checkpoint_cfg and checkpoint_cfg.get("kv_channels") is not None
+            int_fields = (
+                "num_layers",
+                "num_attention_heads",
+                "num_query_groups",
+                "hidden_size",
+                "ffn_hidden_size",
+                "kv_channels",
+                "vocab_size",
+                "seq_length",
+            )
+            bool_fields = ("share_embeddings_and_output_weights",)
+
+            for field in int_fields:
+                value = checkpoint_cfg.get(field)
+                if value is not None:
+                    try:
+                        setattr(config, field, int(value))
+                    except (TypeError, ValueError):
+                        logger.warning("Ignoring non-integer checkpoint config value for %s=%r", field, value)
+
+            for field in bool_fields:
+                value = checkpoint_cfg.get(field)
+                if isinstance(value, bool):
+                    setattr(config, field, value)
+
+            # If checkpoint does not explicitly define kv_channels, derive it from hidden/head dims.
+            # This avoids stale Baby-Luciole defaults (e.g. 32) when loading larger checkpoints.
+            if (not checkpoint_has_explicit_kv) or getattr(config, "kv_channels", None) in (None, 0):
+                config.kv_channels = config.hidden_size // config.num_attention_heads
+
+            logger.info(
+                "Loaded model architecture from checkpoint context: layers=%s hidden=%s heads=%s q_groups=%s ffn=%s kv=%s vocab=%s",
+                config.num_layers,
+                config.hidden_size,
+                config.num_attention_heads,
+                config.num_query_groups,
+                config.ffn_hidden_size,
+                config.kv_channels,
+                config.vocab_size,
+            )
+        else:
+            logger.info("No checkpoint model config found; using Baby Luciole defaults")
+
     return config
 
 
@@ -158,7 +233,7 @@ def load_model(
 
     tokenizer = get_tokenizer(tokenizer_name=tokenizer_name, use_fast=True)
 
-    config = get_baby_luciole_config()
+    config = get_baby_luciole_config(checkpoint_dir=checkpoint_dir)
     config.transformer_layer_spec = get_ssa_triton_gpt_layer_spec(
         num_experts=None,
         moe_grouped_gemm=False,

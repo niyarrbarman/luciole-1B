@@ -1,0 +1,105 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Softmax ckpt:    /tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0020998-last
+Tokenizer:       /work/m24047/m24047brmn/tokenizers/luciole_50k
+Tasks:           all
+Batch Size:      16
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     100
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+Output prefix:   benchmark_results/results_bbyluc_ssa_all_20260402_162317
+===========================================
+-------------------------------------------
+Running model:   baby_luciole_ssa_triton (ssa_triton)
+Checkpoint:      /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Output:          benchmark_results/results_bbyluc_ssa_all_20260402_162317_baby_luciole_ssa_triton.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa', 'gsm8k', 'openbookqa', 'lambada', 'boolq', 'cb', 'copa', 'multirc', 'record', 'rte', 'wic', 'wsc', 'axb', 'axg']
+INFO:__main__:gsm8k subset override: limit=100 (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'baby_luciole_ssa_triton', 'type': 'ssa_triton', 'checkpoint': '/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last'}]
+INFO:__main__:Starting evaluation for model 'baby_luciole_ssa_triton' (ssa_triton)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=ssa_triton, checkpoint=/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last)...
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-02 16:23:39 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /work/m24047/m24047brmn/tokenizers/luciole_50k
+[NeMo I 2026-04-02 16:23:43 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/m24047/m24047brmn/tokenizers/luciole_50k, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=32 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-04-02 16:23:45 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 50256, dummy tokens: 77744.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_triton.py", line 1059, in <module>
+[rank0]:     main()
+[rank0]:   File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_triton.py", line 1011, in main
+[rank0]:     model_result = run_evaluation(
+[rank0]:                    ^^^^^^^^^^^^^^^
+[rank0]:   File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_triton.py", line 703, in run_evaluation
+[rank0]:     model = BabyLucioleLM(
+[rank0]:             ^^^^^^^^^^^^^^
+[rank0]:   File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_triton.py", line 435, in __init__
+[rank0]:     self.model, self.tokenizer = load_triton_model(
+[rank0]:                                  ^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/eval_perplexity_triton.py", line 279, in load_model
+[rank0]:     loaded_state = load(
+[rank0]:                    ^^^^^
+[rank0]:   File "/opt/megatron-lm/megatron/core/dist_checkpointing/serialization.py", line 147, in load
+[rank0]:     loaded_state_dict = sharded_strategy.load(sharded_state_dict, checkpoint_dir)
+[rank0]:                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/opt/megatron-lm/megatron/core/dist_checkpointing/strategies/torch.py", line 892, in load
+[rank0]:     checkpoint.load_state_dict(
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/typing_extensions.py", line 2853, in wrapper
+[rank0]:     return arg(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/state_dict_loader.py", line 41, in load_state_dict
+[rank0]:     return _load_state_dict(
+[rank0]:            ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/state_dict_loader.py", line 232, in _load_state_dict
+[rank0]:     central_plan: LoadPlan = distW.reduce_scatter("plan", local_step, global_step)
+[rank0]:                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/utils.py", line 213, in reduce_scatter
+[rank0]:     raise result
+[rank0]: torch.distributed.checkpoint.api.CheckpointException: CheckpointException ranks:dict_keys([0])
+[rank0]: Traceback (most recent call last): (RANK 0)
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/utils.py", line 186, in reduce_scatter
+[rank0]:     local_data = map_fun()
+[rank0]:                  ^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/logger.py", line 83, in wrapper
+[rank0]:     result = func(*args, **kwargs)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/state_dict_loader.py", line 221, in local_step
+[rank0]:     local_plan = planner.create_local_plan()
+[rank0]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/opt/megatron-lm/megatron/core/dist_checkpointing/strategies/torch.py", line 599, in create_local_plan
+[rank0]:     self._validate_global_shapes(self.metadata, self.shapes_validation_sharded_tensors)
+[rank0]:   File "/opt/megatron-lm/megatron/core/dist_checkpointing/strategies/torch.py", line 570, in _validate_global_shapes
+[rank0]:     raise CheckpointingException(_msg)
+[rank0]: megatron.core.dist_checkpointing.core.CheckpointingException: Global shape mismatch for loaded (torch.Size([24, 2048, 2048])) and expected ((24, 2048, 1024)) tensor for key module.decoder.layers.self_attention.linear_proj.weight
+
+Model 'baby_luciole_ssa_triton' finished with status 1
+===========================================
+Benchmark finished with status 1 (selection=ssa)
+===========================================

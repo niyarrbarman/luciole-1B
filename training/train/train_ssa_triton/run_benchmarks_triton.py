@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import sys
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
@@ -326,7 +327,7 @@ def _model_output_path(base_output_path: Optional[str], model_name: str, multi_m
 
 
 def _cleanup_parallel_state():
-    for cleanup_fn in (cleanup_triton_parallel_state, cleanup_default_parallel_state):
+    for cleanup_fn in [cleanup_triton_parallel_state, cleanup_default_parallel_state]:
         try:
             cleanup_fn()
         except Exception as exc:
@@ -396,6 +397,96 @@ def _build_eval_groups(task_names: List[str], default_limit: Optional[int], gsm8
         )
 
     return groups
+
+
+def _format_duration(seconds: Optional[float]) -> str:
+    if seconds is None:
+        return "unknown"
+
+    total_seconds = max(0, int(round(seconds)))
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, secs = divmod(remainder, 60)
+
+    parts = []
+    if hours:
+        parts.append(f"{hours}h")
+    if hours or minutes:
+        parts.append(f"{minutes}m")
+    parts.append(f"{secs}s")
+    return " ".join(parts)
+
+
+def _estimate_task_total_docs(task) -> Optional[int]:
+    split_candidates = (
+        ("has_test_docs", "test_docs", "test"),
+        ("has_validation_docs", "validation_docs", "validation"),
+        ("has_training_docs", "training_docs", "train"),
+    )
+
+    def _safe_len(value):
+        try:
+            return len(value)
+        except (TypeError, AttributeError):
+            return None
+
+    dataset = getattr(task, "dataset", None)
+
+    for has_name, docs_name, split_name in split_candidates:
+        has_fn = getattr(task, has_name, None)
+        if callable(has_fn):
+            try:
+                if not has_fn():
+                    continue
+            except Exception:
+                pass
+
+        docs_fn = getattr(task, docs_name, None)
+        if callable(docs_fn):
+            try:
+                docs = docs_fn()
+            except Exception:
+                continue
+
+            doc_count = _safe_len(docs)
+            if doc_count is not None:
+                return doc_count
+
+        if dataset is not None:
+            try:
+                split_docs = dataset[split_name]
+            except Exception:
+                split_docs = None
+
+            doc_count = _safe_len(split_docs)
+            if doc_count is not None:
+                return doc_count
+
+    return None
+
+
+def _estimate_group_runtime(task_objects, task_names: List[str], group_limit: Optional[int]):
+    total_docs = 0
+    evaluated_docs = 0
+
+    for task_name in task_names:
+        task = task_objects.get(task_name)
+        if task is None:
+            return None, None
+
+        task_total_docs = _estimate_task_total_docs(task)
+        if task_total_docs is None:
+            return None, None
+
+        total_docs += task_total_docs
+        if group_limit is None:
+            evaluated_docs += task_total_docs
+        else:
+            evaluated_docs += min(task_total_docs, group_limit)
+
+    if total_docs <= 0 or evaluated_docs <= 0:
+        return None, None
+
+    return total_docs, evaluated_docs
 
 
 try:
@@ -730,12 +821,14 @@ def run_evaluation(
     # lm-eval loads all tasks eagerly and fails on the first broken one,
     # so we probe each task individually and drop those that can't load.
     verified_tasks = []
+    verified_task_objects = {}
     from lm_eval.tasks import get_task_dict
 
     for t in task_names:
         try:
-            get_task_dict([t])
+            task_dict = get_task_dict([t])
             verified_tasks.append(t)
+            verified_task_objects[t] = next(iter(task_dict.values()))
         except Exception as exc:
             logger.warning("Skipping task '%s' (dataset unavailable offline): %s", t, exc)
 
@@ -758,7 +851,11 @@ def run_evaluation(
         sys.exit(1)
 
     logger.info("Running evaluation on tasks: %s", verified_tasks)
+    evaluation_start = time.perf_counter()
     partial_results = []
+    group_timings = []
+    estimated_full_dataset_seconds = 0.0
+    have_full_dataset_estimate = True
     for group in eval_groups:
         group_name = group["name"]
         group_tasks = group["tasks"]
@@ -770,6 +867,8 @@ def run_evaluation(
             group_tasks,
             group_limit,
         )
+
+        group_start = time.perf_counter()
 
         eval_kwargs = {
             "model": model,
@@ -797,9 +896,104 @@ def run_evaluation(
             logger.error("Evaluation failed for group '%s': %s", group_name, exc)
             raise
 
+        group_elapsed = time.perf_counter() - group_start
+        group_total_docs, group_evaluated_docs = _estimate_group_runtime(
+            task_objects=verified_task_objects,
+            task_names=group_tasks,
+            group_limit=group_limit,
+        )
+
+        group_estimated_full_seconds = None
+        if group_total_docs is not None and group_evaluated_docs is not None:
+            if group_evaluated_docs > 0:
+                group_estimated_full_seconds = (
+                    group_elapsed * group_total_docs / group_evaluated_docs
+                )
+                estimated_full_dataset_seconds += group_estimated_full_seconds
+            else:
+                have_full_dataset_estimate = False
+        else:
+            have_full_dataset_estimate = False
+
+        group_timings.append(
+            {
+                "name": group_name,
+                "tasks": group_tasks,
+                "limit": group_limit,
+                "elapsed_seconds": group_elapsed,
+                "elapsed_human": _format_duration(group_elapsed),
+                "evaluated_docs": group_evaluated_docs,
+                "total_docs": group_total_docs,
+                "estimated_full_dataset_seconds": group_estimated_full_seconds,
+                "estimated_full_dataset_human": _format_duration(
+                    group_estimated_full_seconds
+                ),
+            }
+        )
+
+        if group_estimated_full_seconds is not None:
+            logger.info(
+                "Completed group '%s' in %s (evaluated %s docs, full dataset estimate %s)",
+                group_name,
+                _format_duration(group_elapsed),
+                f"{group_evaluated_docs}/{group_total_docs}",
+                _format_duration(group_estimated_full_seconds),
+            )
+        else:
+            logger.info(
+                "Completed group '%s' in %s (full dataset estimate unavailable)",
+                group_name,
+                _format_duration(group_elapsed),
+            )
+
         partial_results.append(partial)
 
     results = _merge_lm_eval_results(partial_results)
+    total_elapsed_seconds = time.perf_counter() - evaluation_start
+    if not have_full_dataset_estimate:
+        estimated_full_dataset_seconds = None
+
+    task_timing_rows = []
+    for group in group_timings:
+        group_tasks = group["tasks"]
+        group_elapsed = group["elapsed_seconds"]
+        group_evaluated_docs = group["evaluated_docs"]
+
+        for task_name in group_tasks:
+            task = verified_task_objects.get(task_name)
+            if task is None:
+                continue
+
+            task_total_docs = _estimate_task_total_docs(task)
+            if task_total_docs is None:
+                continue
+
+            task_limit = group["limit"]
+            task_evaluated_docs = task_total_docs if task_limit is None else min(task_total_docs, task_limit)
+            if group_evaluated_docs > 0:
+                task_elapsed_seconds = group_elapsed * task_evaluated_docs / group_evaluated_docs
+            else:
+                task_elapsed_seconds = None
+
+            if task_elapsed_seconds is not None and task_evaluated_docs > 0:
+                task_estimated_full_seconds = task_elapsed_seconds * task_total_docs / task_evaluated_docs
+            else:
+                task_estimated_full_seconds = None
+
+            task_timing_rows.append(
+                {
+                    "task": task_name,
+                    "limit": task_limit,
+                    "evaluated_docs": task_evaluated_docs,
+                    "total_docs": task_total_docs,
+                    "elapsed_seconds": task_elapsed_seconds,
+                    "elapsed_human": _format_duration(task_elapsed_seconds),
+                    "estimated_full_dataset_seconds": task_estimated_full_seconds,
+                    "estimated_full_dataset_human": _format_duration(
+                        task_estimated_full_seconds
+                    ),
+                }
+            )
 
     print("\n" + "=" * 70)
     print("BENCHMARK RESULTS")
@@ -816,7 +1010,35 @@ def run_evaluation(
                 print(f"  {metric}: {value:.4f}")
             else:
                 print(f"  {metric}: {value}")
+
+    if task_timing_rows:
+        print("\nTASK TIMING")
+        print("-" * 70)
+        print(f"{'task':<20} {'elapsed':<12} {'full-est':<12} {'docs':<14}")
+        print("-" * 70)
+        for row in task_timing_rows:
+            docs_text = f"{row['evaluated_docs']}/{row['total_docs']}"
+            print(
+                f"{row['task']:<20} {row['elapsed_human']:<12} {row['estimated_full_dataset_human']:<12} {docs_text:<14}"
+            )
     print("\n" + "=" * 70)
+
+    logger.info(
+        "Finished evaluation for model '%s' in %s",
+        model_spec.name,
+        _format_duration(total_elapsed_seconds),
+    )
+    if estimated_full_dataset_seconds is not None:
+        logger.info(
+            "Estimated full-dataset runtime for model '%s': %s",
+            model_spec.name,
+            _format_duration(estimated_full_dataset_seconds),
+        )
+    else:
+        logger.info(
+            "Estimated full-dataset runtime for model '%s' unavailable",
+            model_spec.name,
+        )
 
     payload = {
         "model_name": model_spec.name,
@@ -829,6 +1051,16 @@ def run_evaluation(
         "limit": limit,
         "gsm8k_limit": gsm8k_limit,
         "gsm8k_random_seed": gsm8k_random_seed,
+        "timing": {
+            "elapsed_seconds": total_elapsed_seconds,
+            "elapsed_human": _format_duration(total_elapsed_seconds),
+            "estimated_full_dataset_seconds": estimated_full_dataset_seconds,
+            "estimated_full_dataset_human": _format_duration(
+                estimated_full_dataset_seconds
+            ),
+            "groups": group_timings,
+            "tasks": task_timing_rows,
+        },
         "results": results,
     }
 

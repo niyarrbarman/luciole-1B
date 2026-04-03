@@ -1,0 +1,47 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-step0015000
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           all
+Batch Size:      64
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     'None (full dataset)'
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+Output prefix:   benchmark_results/results_luc1b_ssa_all_20260403_164812
+===========================================
+-------------------------------------------
+Running model:   ssa_luciole_10k (ssa_triton)
+Checkpoint:      /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Output:          benchmark_results/results_luc1b_ssa_all_20260403_164812_ssa_luciole_10k.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+usage: run_benchmarks_triton.py [-h] [--model MODEL] [--checkpoint CHECKPOINT]
+                                [--model-type {ssa_triton,ssa,softmax}]
+                                [--model-name MODEL_NAME] [--tasks TASKS]
+                                [--tokenizer TOKENIZER] [--device DEVICE]
+                                [--batch_size BATCH_SIZE]
+                                [--max_length MAX_LENGTH]
+                                [--num_fewshot NUM_FEWSHOT] [--limit LIMIT]
+                                [--gsm8k-limit GSM8K_LIMIT]
+                                [--gsm8k-random-seed GSM8K_RANDOM_SEED]
+                                [--output OUTPUT]
+                                [--compiled-bda | --no-compiled-bda]
+                                [--force-contiguous-qkv | --no-force-contiguous-qkv]
+run_benchmarks_triton.py: error: argument --gsm8k-limit: expected one argument
+Model 'ssa_luciole_10k' finished with status 2
+===========================================
+Benchmark finished with status 2 (selection=ssa)
+===========================================

@@ -149,7 +149,7 @@ def _fwd_prune_configs(configs, named_args, **kwargs):
 
 @triton.autotune(
     configs=_fwd_configs,
-    key=["N_CTX", "HEAD_DIM", "GQA_RATIO"],
+    key=["HEAD_DIM", "GQA_RATIO"],
     prune_configs_by={"early_config_prune": _fwd_prune_configs},
 )
 @triton.jit

@@ -304,6 +304,26 @@ def load_model(
         logger.info("Keeping model dtype unchanged (enforce_bf16=False)")
     model.eval()
 
+    # prime triton autotune once so it doesnt retune per seq len
+    try:
+        from SSA.ssa_triton_kernel import warmup_ssa_triton_kernels
+
+        hq = config.num_attention_heads
+        hkv = config.num_query_groups
+        head_dim = config.kv_channels or (config.hidden_size // hq)
+        warmup_dtype = torch.bfloat16 if enforce_bf16 else torch.float32
+        logger.info(
+            "Warming up Triton kernels for eval (Hq=%s, Hkv=%s, D=%s, N=2048)...",
+            hq, hkv, head_dim,
+        )
+        warmup_ssa_triton_kernels(
+            B=1, Hq=hq, Hkv=hkv, N=2048, D=head_dim,
+            dtype=warmup_dtype, device=device,
+        )
+        logger.info("Triton kernel warmup complete.")
+    except Exception as exc:
+        logger.warning("Triton warmup failed (non-fatal): %s", exc)
+
     logger.info("Model ready for evaluation")
     return model, tokenizer
 

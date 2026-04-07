@@ -1,0 +1,197 @@
+===========================================
+Inference Speed Monitor (3-way comparison)
+===========================================
+SSA Triton checkpoint: /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+SSA checkpoint:        /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Softmax checkpoint:    /tmpdir/m24047flhg/luciole-phase1-step0015000
+Tokenizer:             /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Device:                cuda
+Seq lens:              2048
+Batch sizes:           32
+Warmup iters:          5
+Measure iters:         20
+Auto find max batch:   0
+Start batch:           1
+Max batch cap:         1024
+Force bf16:            0
+Compiled BDA:          0
+Contiguous QKV:        1
+Output prefix:         benchmark_results/infer_speed_compare_20260407_112631
+===========================================
+-------------------------------------------
+Running model_type=ssa_triton
+Checkpoint:            /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Output JSON:           benchmark_results/infer_speed_compare_20260407_112631_ssa_triton.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:monitor_inference_speed:Loading model type=ssa_triton checkpoint=/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-07 11:26:53 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-04-07 11:26:57 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-04-07 11:26:58 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Model weights loaded successfully
+INFO:eval_perplexity_triton:Model ready for evaluation
+INFO:monitor_inference_speed:Model parameter dtype: torch.float32
+INFO:monitor_inference_speed:Model parameters: 1319309336
+INFO:monitor_inference_speed:Tokenizer vocab size: 128000
+INFO:monitor_inference_speed:CUDA device: NVIDIA A100 80GB PCIe (79.3 GB)
+INFO:monitor_inference_speed:----- seq_len=2048 -----
+INFO:monitor_inference_speed:batch=32 seq_len=2048 avg=2.2043s toks/s=29730.9 peak_mem_gb=68.43
+INFO:monitor_inference_speed:Saved speed report to benchmark_results/infer_speed_compare_20260407_112631_ssa_triton.json
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+
+=== MAX SAFE BATCH SUMMARY ===
+auto-find-max-batch disabled
+-------------------------------------------
+Running model_type=ssa
+Checkpoint:            /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Output JSON:           benchmark_results/infer_speed_compare_20260407_112631_ssa.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:monitor_inference_speed:Loading model type=ssa checkpoint=/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+INFO:eval_perplexity:Detected NeMo distributed checkpoint format
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-07 11:28:29 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:eval_perplexity:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-04-07 11:28:33 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity:Initialized parallel state with backend nccl
+INFO:eval_perplexity:Creating NemotronModel...
+INFO:eval_perplexity:Configuring model...
+[NeMo I 2026-04-07 11:28:34 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity:Loading model weights from /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last...
+INFO:eval_perplexity:Added 'module.' prefix to sharded state dict
+WARNING:megatron.core.dist_checkpointing.validation:Unexpected keys (not found in the checkpoint) encountered in the provided sharded state dict. 
+Unexpected keys (for this rank): {'module.decoder.layers.self_attention.linear_qkv.layer_norm_weight', 'module.decoder.layers.self_attention.linear_qkv.layer_norm_bias', 'module.decoder.layers.mlp.linear_fc1.layer_norm_bias', 'module.decoder.layers.self_attention.core_attention._extra_state', 'module.decoder.layers.mlp.linear_fc1.layer_norm_weight'}. 
+INFO:eval_perplexity:Model weights loaded successfully
+INFO:eval_perplexity:Model ready for evaluation (NeMo format)
+INFO:monitor_inference_speed:Model parameter dtype: torch.float32
+INFO:monitor_inference_speed:Model parameters: 1319309312
+INFO:monitor_inference_speed:Tokenizer vocab size: 128000
+INFO:monitor_inference_speed:CUDA device: NVIDIA A100 80GB PCIe (79.3 GB)
+INFO:monitor_inference_speed:----- seq_len=2048 -----
+INFO:monitor_inference_speed:batch=32 seq_len=2048 avg=3.7028s toks/s=17699.1 peak_mem_gb=68.44
+INFO:monitor_inference_speed:Saved speed report to benchmark_results/infer_speed_compare_20260407_112631_ssa.json
+INFO:eval_perplexity:Destroyed Megatron model parallel state
+INFO:eval_perplexity:Destroyed process group
+
+=== MAX SAFE BATCH SUMMARY ===
+auto-find-max-batch disabled
+-------------------------------------------
+Running model_type=softmax
+Checkpoint:            /tmpdir/m24047flhg/luciole-phase1-step0015000
+Output JSON:           benchmark_results/infer_speed_compare_20260407_112631_softmax.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:monitor_inference_speed:Loading model type=softmax checkpoint=/tmpdir/m24047flhg/luciole-phase1-step0015000
+INFO:eval_perplexity:Detected HuggingFace checkpoint format
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:eval_perplexity:Loading HuggingFace model from /tmpdir/m24047flhg/luciole-phase1-step0015000
+INFO:eval_perplexity:Loaded HF config: layers=24 hidden=2048 heads=32 vocab=128000
+INFO:eval_perplexity:Model loaded successfully from HuggingFace CausalLM format
+INFO:eval_perplexity:Tokenizer loaded from checkpoint
+INFO:eval_perplexity:Model ready for evaluation (HF format)
+INFO:monitor_inference_speed:Model parameter dtype: torch.bfloat16
+INFO:monitor_inference_speed:Model parameters: 1319309312
+INFO:monitor_inference_speed:Tokenizer vocab size: 128000
+INFO:monitor_inference_speed:CUDA device: NVIDIA A100 80GB PCIe (79.3 GB)
+INFO:monitor_inference_speed:----- seq_len=2048 -----
+Traceback (most recent call last):
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/monitor_inference_speed.py", line 478, in <module>
+    main()
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/monitor_inference_speed.py", line 420, in main
+    ok, result, err = _try_batch(
+                      ^^^^^^^^^^^
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/monitor_inference_speed.py", line 214, in _try_batch
+    result = _benchmark(
+             ^^^^^^^^^^^
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/monitor_inference_speed.py", line 170, in _benchmark
+    _forward_pass(model, input_ids, model_type)
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/monitor_inference_speed.py", line 125, in _forward_pass
+    outputs = _safe_forward(
+              ^^^^^^^^^^^^^^
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/monitor_inference_speed.py", line 97, in _safe_forward
+    return module(*call_args)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/utils/generic.py", line 965, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/models/nemotron/modeling_nemotron.py", line 1068, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/utils/generic.py", line 965, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/models/nemotron/modeling_nemotron.py", line 791, in forward
+    position_embeddings = self.rotary_emb(hidden_states, position_ids)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/modeling_rope_utils.py", line 87, in wrapper
+    return rope_forward(self, x, position_ids)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/models/nemotron/modeling_nemotron.py", line 123, in forward
+    freqs = (inv_freq_expanded.float() @ position_ids_expanded.float()).transpose(1, 2)
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RuntimeError: Expected size for first two dimensions of batch2 tensor to be: [1, 1] but got: [1, 2048].
+
+===========================================
+THROUGHPUT SUMMARY (tokens/s)
+===========================================
+ssa_triton   batch=32 seq=2048 toks/s=29730.9 lat=2.2043s
+ssa          batch=32 seq=2048 toks/s=17699.1 lat=3.7028s
+softmax      missing report: benchmark_results/infer_speed_compare_20260407_112631_softmax.json
+===========================================
+Done. Reports:
+  benchmark_results/infer_speed_compare_20260407_112631_ssa_triton.json
+  benchmark_results/infer_speed_compare_20260407_112631_ssa.json
+  benchmark_results/infer_speed_compare_20260407_112631_softmax.json

@@ -214,6 +214,7 @@ def load_model(
     device: str = "cuda",
     compiled_bda: bool = False,
     force_contiguous_qkv: bool = True,
+    enforce_bf16: bool = True,
 ):
     """Load Baby Luciole Triton model from NeMo distributed checkpoint."""
     from nemo.collections.llm.gpt.model.nemotron import NemotronModel
@@ -296,6 +297,11 @@ def load_model(
     logger.info("Model weights loaded successfully")
 
     model = model.to(device)
+    if enforce_bf16:
+        model = model.to(dtype=torch.bfloat16)
+        logger.info("Converted model to bfloat16 for inference")
+    else:
+        logger.info("Keeping model dtype unchanged (enforce_bf16=False)")
     model.eval()
 
     logger.info("Model ready for evaluation")

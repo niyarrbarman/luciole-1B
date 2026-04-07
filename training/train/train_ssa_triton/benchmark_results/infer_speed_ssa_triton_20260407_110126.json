@@ -1,0 +1,81 @@
+{
+  "model_type": "ssa_triton",
+  "checkpoint": "/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last",
+  "device": "cuda",
+  "model_dtype": "torch.float32",
+  "num_parameters": 1319309336,
+  "vocab_size": 128000,
+  "seq_lens": [
+    2048
+  ],
+  "warmup_iters": 5,
+  "measure_iters": 20,
+  "auto_find_max_batch": true,
+  "measurements": [
+    {
+      "batch_size": 31,
+      "seq_len": 2048,
+      "avg_latency_s": 2.1398794183507563,
+      "tokens_per_step": 63488,
+      "tokens_per_second": 29668.961463693755,
+      "peak_memory_gb": 66.43959856033325,
+      "note": "measurement_at_max_safe_batch_during_search"
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "avg_latency_s": 0.0757299380376935,
+      "tokens_per_step": 2048,
+      "tokens_per_second": 27043.465940519287,
+      "peak_memory_gb": 5.930870532989502
+    },
+    {
+      "batch_size": 2,
+      "seq_len": 2048,
+      "avg_latency_s": 0.14954693913459777,
+      "tokens_per_step": 4096,
+      "tokens_per_second": 27389.393749566807,
+      "peak_memory_gb": 8.891838550567627
+    },
+    {
+      "batch_size": 4,
+      "seq_len": 2048,
+      "avg_latency_s": 0.2828550166450441,
+      "tokens_per_step": 8192,
+      "tokens_per_second": 28961.833865157052,
+      "peak_memory_gb": 12.860649585723877
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 2048,
+      "avg_latency_s": 0.5607119912281633,
+      "tokens_per_step": 16384,
+      "tokens_per_second": 29219.99218192762,
+      "peak_memory_gb": 20.798271656036377
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 2048,
+      "avg_latency_s": 1.1028391803614794,
+      "tokens_per_step": 32768,
+      "tokens_per_second": 29712.40103136305,
+      "peak_memory_gb": 36.67351579666138
+    },
+    {
+      "batch_size": 32,
+      "seq_len": 2048,
+      "avg_latency_s": 2.2168400559108705,
+      "tokens_per_step": 65536,
+      "tokens_per_second": 29562.800358671848,
+      "peak_memory_gb": 68.42400407791138
+    },
+    {
+      "batch_size": 64,
+      "seq_len": 2048,
+      "error": "oom"
+    }
+  ],
+  "max_safe_batch": {
+    "2048": 31
+  }
+}

@@ -261,6 +261,7 @@ def load_model(
     tokenizer_name: str = DEFAULT_TOKENIZER,
     device: str = "cuda",
     use_ssa: bool = False,
+    enforce_bf16: bool = True,
 ):
     """Load Baby Luciole model from checkpoint (supports NeMo and HuggingFace formats)."""
     checkpoint_dir = _resolve_checkpoint_dir(checkpoint_path)
@@ -275,7 +276,12 @@ def load_model(
         )
     elif _is_nemo_checkpoint(checkpoint_dir):
         logger.info("Detected NeMo distributed checkpoint format")
-        return _load_nemo_model(checkpoint_dir, tokenizer_name, device)
+        return _load_nemo_model(
+            checkpoint_dir,
+            tokenizer_name,
+            device,
+            enforce_bf16=enforce_bf16,
+        )
     else:
         raise ValueError(
             f"Checkpoint at {checkpoint_dir} is neither HuggingFace nor NeMo format. "
@@ -288,6 +294,7 @@ def _load_nemo_model(
     tokenizer_name: str = DEFAULT_TOKENIZER,
     device: str = "cuda",
     use_ssa: bool = False,
+    enforce_bf16: bool = True,
 ):
     """Load Baby Luciole model from NeMo distributed checkpoint (standard attention)."""
     from nemo.collections.llm.gpt.model.nemotron import NemotronModel
@@ -351,6 +358,11 @@ def _load_nemo_model(
     logger.info("Model weights loaded successfully")
 
     model = model.to(device)
+    if enforce_bf16:
+        model = model.to(dtype=torch.bfloat16)
+        logger.info("Converted NeMo model to bfloat16 for inference")
+    else:
+        logger.info("Keeping NeMo model dtype unchanged (enforce_bf16=False)")
     model.eval()
 
     logger.info("Model ready for evaluation (NeMo format)")

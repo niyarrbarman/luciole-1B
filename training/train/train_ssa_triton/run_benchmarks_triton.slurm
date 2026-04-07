@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J benchmark_luc1b_triton
+#SBATCH -J benchmark_luc1b_triton_99ksteps_ssa
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --gres=gpu:1
@@ -14,11 +14,14 @@ mkdir -p slurm
 # CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0020998-last"}
 
 SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last"}
-SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0015000"}
+SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999"}
+# SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0015000"}
+SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-last"}
+
 
 SSA_MODEL_NAME=${SSA_MODEL_NAME:-"ssa_luciole_10k"}
 SOFTMAX_MODEL_NAME=${SOFTMAX_MODEL_NAME:-"luciole_10k"}
-MODEL_SELECTION=${MODEL_SELECTION:-"softmax"} # both|ssa|softmax
+MODEL_SELECTION=${MODEL_SELECTION:-"ssa"} # both|ssa|softmax
 TOKENIZER_PATH=${TOKENIZER:-"/tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2"}
 TASKS=${TASKS:-"all"}
 BATCH_SIZE=${BATCH_SIZE:-64}
@@ -30,7 +33,7 @@ NUM_FEWSHOT=${NUM_FEWSHOT:-5}
 COMPILED_BDA=${COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 HF_DATASETS_OFFLINE=${HF_DATASETS_OFFLINE:-1}
-OUTPUT_DIR=${OUTPUT_DIR:-"benchmark_results"}
+OUTPUT_DIR=${OUTPUT_DIR:-"benchmark_results_99ksteps_ssa"}
 
 mkdir -p "$OUTPUT_DIR"
 

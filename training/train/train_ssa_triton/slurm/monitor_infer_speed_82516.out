@@ -1,0 +1,63 @@
+===========================================
+Inference Speed Monitor
+===========================================
+Model type:            ssa_triton
+Checkpoint:            /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Tokenizer:             /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Device:                cuda
+Seq lens:              2048
+Batch sizes:           1,2,4,8,16,32,64
+Warmup iters:          5
+Measure iters:         20
+Auto find max batch:   1
+Start batch:           1
+Max batch cap:         1024
+Force bf16:            0
+Compiled BDA:          0
+Contiguous QKV:        1
+Output JSON:           benchmark_results/infer_speed_ssa_triton_20260407_110126.json
+===========================================
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:monitor_inference_speed:Loading model type=ssa_triton checkpoint=/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-07 11:01:48 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-04-07 11:01:52 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-04-07 11:01:52 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Model weights loaded successfully
+INFO:eval_perplexity_triton:Model ready for evaluation
+INFO:monitor_inference_speed:Model parameter dtype: torch.float32
+INFO:monitor_inference_speed:Model parameters: 1319309336
+INFO:monitor_inference_speed:Tokenizer vocab size: 128000
+INFO:monitor_inference_speed:CUDA device: NVIDIA A100 80GB PCIe (79.3 GB)
+INFO:monitor_inference_speed:----- seq_len=2048 -----
+INFO:monitor_inference_speed:Max safe batch at seq_len=2048: 31
+INFO:monitor_inference_speed:batch=1 seq_len=2048 avg=0.0757s toks/s=27043.5 peak_mem_gb=5.93
+INFO:monitor_inference_speed:batch=2 seq_len=2048 avg=0.1495s toks/s=27389.4 peak_mem_gb=8.89
+INFO:monitor_inference_speed:batch=4 seq_len=2048 avg=0.2829s toks/s=28961.8 peak_mem_gb=12.86
+INFO:monitor_inference_speed:batch=8 seq_len=2048 avg=0.5607s toks/s=29220.0 peak_mem_gb=20.80
+INFO:monitor_inference_speed:batch=16 seq_len=2048 avg=1.1028s toks/s=29712.4 peak_mem_gb=36.67
+INFO:monitor_inference_speed:batch=32 seq_len=2048 avg=2.2168s toks/s=29562.8 peak_mem_gb=68.42
+WARNING:monitor_inference_speed:batch=64 seq_len=2048 -> oom
+INFO:monitor_inference_speed:Saved speed report to benchmark_results/infer_speed_ssa_triton_20260407_110126.json
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+
+=== MAX SAFE BATCH SUMMARY ===
+seq_len=2048: max_safe_batch=31
+Done. Report: benchmark_results/infer_speed_ssa_triton_20260407_110126.json

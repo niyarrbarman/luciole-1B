@@ -286,3 +286,167 @@ INFO:lm_eval.api.task:Building contexts for arc_challenge on rank 0...
 INFO:lm_eval.api.task:Building contexts for arc_easy on rank 0...
   0%|          | 0/64 [00:00<?, ?it/s] 25%|██▌       | 16/64 [00:00<00:00, 151.01it/s] 50%|█████     | 32/64 [00:00<00:00, 151.14it/s] 75%|███████▌  | 48/64 [00:00<00:00, 150.73it/s]100%|██████████| 64/64 [00:00<00:00, 150.85it/s]100%|██████████| 64/64 [00:00<00:00, 150.85it/s]
 INFO:lm_eval.evaluator:Running loglikelihood requests
+bootstrapping for stddev: perplexity
+  0%|          | 0/100 [00:00<?, ?it/s]100%|██████████| 100/100 [00:00<00:00, 6804.30it/s]
+INFO:__main__:Completed group 'regular' in 36m 29s (evaluated 888/40343 docs, full dataset estimate 27h 37m 45s)
+INFO:__main__:Evaluating group 'gsm8k' tasks=['gsm8k'] limit=64
+INFO:__main__:gsm8k subset config: limit=64, random_seed=42
+INFO:lm_eval.evaluator:Setting random seed to 42 | Setting numpy seed to 43 | Setting fewshot manual seed to 44
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+INFO:lm_eval.evaluator:gsm8k: Using gen_kwargs: {'until': ['Question:', '</s>', '<|im_end|>'], 'do_sample': False, 'temperature': 0.0}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of gsm8k from 5 to 5
+INFO:lm_eval.api.task:Building contexts for gsm8k on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 48%|████▊     | 31/64 [00:00<00:00, 303.96it/s] 97%|█████████▋| 62/64 [00:00<00:00, 304.10it/s]100%|██████████| 64/64 [00:00<00:00, 303.96it/s]
+INFO:lm_eval.evaluator:Running generate_until requests
+INFO:__main__:Completed group 'gsm8k' in 39m 46s (evaluated 64/1319 docs, full dataset estimate 13h 39m 33s)
+
+======================================================================
+BENCHMARK RESULTS
+======================================================================
+Model name:   ssa_luciole_10k
+Model type:   ssa_triton
+Checkpoint:   /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+----------------------------------------------------------------------
+
+arc_challenge:
+--------------------------------------------------
+  alias: arc_challenge
+  acc,none: 0.1875
+  acc_stderr,none: 0.0492
+  acc_norm,none: 0.2188
+  acc_norm_stderr,none: 0.0521
+
+arc_easy:
+--------------------------------------------------
+  alias: arc_easy
+  acc,none: 0.5156
+  acc_stderr,none: 0.0630
+  acc_norm,none: 0.5469
+  acc_norm_stderr,none: 0.0627
+
+boolq:
+--------------------------------------------------
+  alias: boolq
+  acc,none: 0.7031
+  acc_stderr,none: 0.0576
+
+cb:
+--------------------------------------------------
+  alias: cb
+  acc,none: 0.4643
+  acc_stderr,none: 0.0672
+  f1,none: 0.3353
+  f1_stderr,none: N/A
+
+copa:
+--------------------------------------------------
+  alias: copa
+  acc,none: 0.6250
+  acc_stderr,none: 0.0610
+
+hellaswag:
+--------------------------------------------------
+  alias: hellaswag
+  acc,none: 0.3438
+  acc_stderr,none: 0.0598
+  acc_norm,none: 0.4375
+  acc_norm_stderr,none: 0.0625
+
+lambada_openai:
+--------------------------------------------------
+  alias: lambada_openai
+  perplexity,none: 104.7904
+  perplexity_stderr,none: 41.0535
+  acc,none: 0.2656
+  acc_stderr,none: 0.0556
+
+multirc:
+--------------------------------------------------
+  alias: multirc
+  acc,none: 0.5781
+  acc_stderr,none: 0.0622
+
+openbookqa:
+--------------------------------------------------
+  alias: openbookqa
+  acc,none: 0.1875
+  acc_stderr,none: 0.0492
+  acc_norm,none: 0.3750
+  acc_norm_stderr,none: 0.0610
+
+record:
+--------------------------------------------------
+  alias: record
+  f1,none: 0.6042
+  f1_stderr,none: 0.0612
+  em,none: 0.5938
+  em_stderr,none: 0.0619
+
+truthfulqa_mc2:
+--------------------------------------------------
+  alias: truthfulqa_mc2
+  acc,none: 0.4387
+  acc_stderr,none: 0.0521
+
+wic:
+--------------------------------------------------
+  alias: wic
+  acc,none: 0.5000
+  acc_stderr,none: 0.0630
+
+winogrande:
+--------------------------------------------------
+  alias: winogrande
+  acc,none: 0.5469
+  acc_stderr,none: 0.0627
+
+wsc:
+--------------------------------------------------
+  alias: wsc
+  acc,none: 0.3438
+  acc_stderr,none: 0.0598
+
+gsm8k:
+--------------------------------------------------
+  alias: gsm8k
+  exact_match,strict-match: 0.0000
+  exact_match_stderr,strict-match: 0.0000
+  exact_match,flexible-extract: 0.0312
+  exact_match_stderr,flexible-extract: 0.0219
+
+TASK TIMING
+----------------------------------------------------------------------
+task                 elapsed      full-est     docs          
+----------------------------------------------------------------------
+arc_easy             2m 38s       1h 37m 38s   64/2376       
+arc_challenge        2m 38s       48m 10s      64/1172       
+hellaswag            2m 38s       6h 52m 38s   64/10042      
+winogrande           2m 38s       52m 4s       64/1267       
+truthfulqa_mc2       2m 38s       33m 34s      64/817        
+openbookqa           2m 38s       20m 33s      64/500        
+lambada_openai       2m 38s       3h 31m 45s   64/5153       
+boolq                2m 38s       2h 14m 22s   64/3270       
+cb                   2m 18s       2m 18s       56/56         
+copa                 2m 38s       4m 7s        64/100        
+multirc              2m 38s       3h 19m 13s   64/4848       
+record               2m 38s       6h 50m 55s   64/10000      
+wic                  2m 38s       26m 13s      64/638        
+wsc                  2m 38s       4m 16s       64/104        
+gsm8k                39m 46s      13h 39m 33s  64/1319       
+
+======================================================================
+INFO:__main__:Finished evaluation for model 'ssa_luciole_10k' in 1h 16m 15s
+INFO:__main__:Estimated full-dataset runtime for model 'ssa_luciole_10k': 41h 17m 18s
+INFO:__main__:Results saved to: benchmark_results/results_luc1b_ssa_all_20260403_163549_ssa_luciole_10k.json
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+Model 'ssa_luciole_10k' finished with status 0
+===========================================
+Benchmark finished with status 0 (selection=ssa)
+Results saved to:
+benchmark_results/results_luc1b_ssa_all_20260403_163549_ssa_luciole_10k.json
+===========================================

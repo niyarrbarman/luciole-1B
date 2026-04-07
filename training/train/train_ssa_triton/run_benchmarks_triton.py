@@ -508,6 +508,7 @@ class BabyLucioleLM(LMBase):
         max_length: int = 2048,
         compiled_bda: bool = False,
         force_contiguous_qkv: bool = True,
+        enforce_bf16: bool = True,
     ):
         super().__init__()
         self.checkpoint_path = checkpoint_path
@@ -529,6 +530,7 @@ class BabyLucioleLM(LMBase):
                 device=device,
                 compiled_bda=compiled_bda,
                 force_contiguous_qkv=force_contiguous_qkv,
+                enforce_bf16=enforce_bf16,
             )
         elif model_type in (MODEL_TYPE_SSA, MODEL_TYPE_SOFTMAX):
             if compiled_bda or not force_contiguous_qkv:
@@ -543,6 +545,7 @@ class BabyLucioleLM(LMBase):
                 tokenizer_name=tokenizer_name,
                 device=device,
                 use_ssa=(model_type == MODEL_TYPE_SSA),
+                enforce_bf16=enforce_bf16,
             )
         else:
             raise ValueError(f"Unsupported model_type: {model_type}")
@@ -778,6 +781,7 @@ def run_evaluation(
     output_path: Optional[str] = None,
     compiled_bda: bool = False,
     force_contiguous_qkv: bool = True,
+    enforce_bf16: bool = True,
 ):
     try:
         import lm_eval
@@ -800,6 +804,7 @@ def run_evaluation(
         max_length=max_length,
         compiled_bda=compiled_bda,
         force_contiguous_qkv=force_contiguous_qkv,
+        enforce_bf16=enforce_bf16,
     )
 
     task_names = []
@@ -1051,6 +1056,7 @@ def run_evaluation(
         "limit": limit,
         "gsm8k_limit": gsm8k_limit,
         "gsm8k_random_seed": gsm8k_random_seed,
+        "enforce_bf16": enforce_bf16,
         "timing": {
             "elapsed_seconds": total_elapsed_seconds,
             "elapsed_human": _format_duration(total_elapsed_seconds),
@@ -1178,6 +1184,12 @@ def get_parser():
         default=True,
         help="Materialize contiguous Q/K/V tensors before Triton attention kernel",
     )
+    parser.add_argument(
+        "--enforce-bf16",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Convert loaded benchmark model weights to bfloat16 for faster inference",
+    )
     return parser
 
 
@@ -1222,6 +1234,7 @@ def main():
             for spec in model_specs
         ],
     )
+    logger.info("enforce_bf16=%s", args.enforce_bf16)
 
     all_results = []
     multi_model = len(model_specs) > 1
@@ -1254,6 +1267,7 @@ def main():
                 output_path=per_model_output,
                 compiled_bda=args.compiled_bda,
                 force_contiguous_qkv=args.force_contiguous_qkv,
+                enforce_bf16=args.enforce_bf16,
             )
             all_results.append(model_result)
 

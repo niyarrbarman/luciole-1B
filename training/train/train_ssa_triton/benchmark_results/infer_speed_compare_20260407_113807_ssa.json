@@ -1,0 +1,25 @@
+{
+  "model_type": "ssa",
+  "checkpoint": "/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last",
+  "device": "cuda",
+  "model_dtype": "torch.float32",
+  "num_parameters": 1319309312,
+  "vocab_size": 128000,
+  "seq_lens": [
+    2048
+  ],
+  "warmup_iters": 5,
+  "measure_iters": 20,
+  "auto_find_max_batch": false,
+  "measurements": [
+    {
+      "batch_size": 32,
+      "seq_len": 2048,
+      "avg_latency_s": 3.704931375803426,
+      "tokens_per_step": 65536,
+      "tokens_per_second": 17688.856648738416,
+      "peak_memory_gb": 68.43570041656494
+    }
+  ],
+  "max_safe_batch": {}
+}

@@ -1,0 +1,25 @@
+{
+  "model_type": "softmax",
+  "checkpoint": "/tmpdir/m24047flhg/luciole-phase1-step0015000",
+  "device": "cuda",
+  "model_dtype": "torch.bfloat16",
+  "num_parameters": 1319309312,
+  "vocab_size": 128000,
+  "seq_lens": [
+    2048
+  ],
+  "warmup_iters": 5,
+  "measure_iters": 20,
+  "auto_find_max_batch": false,
+  "measurements": [
+    {
+      "batch_size": 32,
+      "seq_len": 2048,
+      "avg_latency_s": 1.089317391999066,
+      "tokens_per_step": 65536,
+      "tokens_per_second": 60162.44712638921,
+      "peak_memory_gb": 21.345238208770752
+    }
+  ],
+  "max_safe_batch": {}
+}

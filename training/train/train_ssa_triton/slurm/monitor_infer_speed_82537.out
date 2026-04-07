@@ -1,0 +1,99 @@
+===========================================
+Inference Speed Monitor (3-way comparison)
+===========================================
+SSA Triton checkpoint: /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+SSA checkpoint:        /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Softmax checkpoint:    /tmpdir/m24047flhg/luciole-phase1-step0015000
+Tokenizer:             /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Device:                cuda
+Seq lens:              2048
+Batch sizes:           32
+Warmup iters:          5
+Measure iters:         20
+Auto find max batch:   0
+Start batch:           1
+Max batch cap:         1024
+Force bf16:            1
+Compiled BDA:          0
+Contiguous QKV:        1
+Output prefix:         benchmark_results/infer_speed_compare_20260407_114859
+===========================================
+-------------------------------------------
+Running model_type=ssa_triton
+Checkpoint:            /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+Output JSON:           benchmark_results/infer_speed_compare_20260407_114859_ssa_triton.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:monitor_inference_speed:Loading model type=ssa_triton checkpoint=/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-07 11:49:21 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-04-07 11:49:25 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-04-07 11:49:26 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Model weights loaded successfully
+INFO:eval_perplexity_triton:Model ready for evaluation
+INFO:monitor_inference_speed:Forced model weights to bfloat16
+INFO:monitor_inference_speed:Model parameter dtype: torch.bfloat16
+INFO:monitor_inference_speed:Model parameters: 1319309336
+INFO:monitor_inference_speed:Tokenizer vocab size: 128000
+INFO:monitor_inference_speed:CUDA device: NVIDIA A100 80GB PCIe (79.3 GB)
+INFO:monitor_inference_speed:----- seq_len=2048 -----
+INFO:monitor_inference_speed:batch=32 seq_len=2048 avg=1.2408s toks/s=52816.0 peak_mem_gb=39.13
+INFO:monitor_inference_speed:Saved speed report to benchmark_results/infer_speed_compare_20260407_114859_ssa_triton.json
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+
+=== MAX SAFE BATCH SUMMARY ===
+auto-find-max-batch disabled
+-------------------------------------------
+Running model_type=softmax
+Checkpoint:            /tmpdir/m24047flhg/luciole-phase1-step0015000
+Output JSON:           benchmark_results/infer_speed_compare_20260407_114859_softmax.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:monitor_inference_speed:Loading model type=softmax checkpoint=/tmpdir/m24047flhg/luciole-phase1-step0015000
+INFO:eval_perplexity:Detected HuggingFace checkpoint format
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:eval_perplexity:Loading HuggingFace model from /tmpdir/m24047flhg/luciole-phase1-step0015000
+INFO:eval_perplexity:Loaded HF config: layers=24 hidden=2048 heads=32 vocab=128000
+INFO:eval_perplexity:Model loaded successfully from HuggingFace CausalLM format
+INFO:eval_perplexity:Tokenizer loaded from checkpoint
+INFO:eval_perplexity:Model ready for evaluation (HF format)
+INFO:monitor_inference_speed:Forced model weights to bfloat16
+INFO:monitor_inference_speed:Model parameter dtype: torch.bfloat16
+INFO:monitor_inference_speed:Model parameters: 1319309312
+INFO:monitor_inference_speed:Tokenizer vocab size: 128000
+INFO:monitor_inference_speed:CUDA device: NVIDIA A100 80GB PCIe (79.3 GB)
+INFO:monitor_inference_speed:----- seq_len=2048 -----
+INFO:monitor_inference_speed:batch=32 seq_len=2048 avg=1.0893s toks/s=60162.4 peak_mem_gb=21.35
+INFO:monitor_inference_speed:Saved speed report to benchmark_results/infer_speed_compare_20260407_114859_softmax.json
+
+=== MAX SAFE BATCH SUMMARY ===
+auto-find-max-batch disabled
+
+===========================================
+THROUGHPUT SUMMARY (tokens/s)
+===========================================
+ssa_triton   batch=32 seq=2048 toks/s=52816.0 lat=1.2408s
+softmax      batch=32 seq=2048 toks/s=60162.4 lat=1.0893s
+===========================================
+Done. Reports:
+  benchmark_results/infer_speed_compare_20260407_114859_ssa_triton.json
+  benchmark_results/infer_speed_compare_20260407_114859_softmax.json

@@ -516,6 +516,16 @@ class BabyLucioleLM(LMBase):
         self._device = device
         self._batch_size = batch_size
         self._max_length = max_length
+        self._compiled_bda = compiled_bda
+        self._force_contiguous_qkv = force_contiguous_qkv
+        self._enforce_bf16 = enforce_bf16
+        self._logged_init_diagnostics = False
+        self._logged_forward_diagnostics = False
+        self._perf_calls = 0
+        self._perf_input_tokens = 0
+        self._perf_prep_seconds = 0.0
+        self._perf_forward_seconds = 0.0
+        self._perf_output_seconds = 0.0
 
         logger.info(
             "Initializing BabyLucioleLM wrapper (model_type=%s, checkpoint=%s)...",
@@ -551,7 +561,52 @@ class BabyLucioleLM(LMBase):
             raise ValueError(f"Unsupported model_type: {model_type}")
 
         self._setup_tokenizer()
+        self._log_model_diagnostics(stage="post-init")
         logger.info("BabyLucioleLM wrapper initialized successfully")
+
+    def _get_wrapped_module(self):
+        if hasattr(self.model, "module") and self.model.module is not None:
+            return self.model.module
+        return self.model
+
+    def _get_parameter_dtype(self) -> Optional[torch.dtype]:
+        module = self._get_wrapped_module()
+        try:
+            return next(module.parameters()).dtype
+        except StopIteration:
+            return None
+
+    def _log_model_diagnostics(self, stage: str) -> None:
+        if self._logged_init_diagnostics:
+            return
+
+        module = self._get_wrapped_module()
+        parameter_dtype = self._get_parameter_dtype()
+        logger.info(
+            "Model diagnostics (%s): model_type=%s model_class=%s wrapped_class=%s checkpoint=%s enforce_bf16=%s compiled_bda=%s force_contiguous_qkv=%s parameter_dtype=%s",
+            stage,
+            self.model_type,
+            type(self.model).__name__,
+            type(module).__name__,
+            self.checkpoint_path,
+            self._enforce_bf16,
+            self._compiled_bda,
+            self._force_contiguous_qkv,
+            parameter_dtype,
+        )
+        if self._enforce_bf16 and parameter_dtype is not None and parameter_dtype != torch.bfloat16:
+            logger.warning(
+                "Model diagnostics (%s): enforce_bf16=True but first parameter dtype is %s",
+                stage,
+                parameter_dtype,
+            )
+        elif not self._enforce_bf16 and parameter_dtype == torch.bfloat16:
+            logger.info(
+                "Model diagnostics (%s): enforce_bf16=False but parameters already resolved to bfloat16",
+                stage,
+            )
+
+        self._logged_init_diagnostics = True
 
     def _setup_tokenizer(self):
         if hasattr(self.tokenizer, "vocab_size"):
@@ -633,11 +688,25 @@ class BabyLucioleLM(LMBase):
 
     def _model_call(self, input_ids: torch.Tensor) -> torch.Tensor:
         with torch.no_grad():
+            prep_start = time.perf_counter()
             seq_len = input_ids.shape[1]
             position_ids = torch.arange(seq_len, dtype=torch.long, device=self.device)
             position_ids = position_ids.unsqueeze(0).expand(input_ids.shape[0], -1)
             attention_mask = torch.ones_like(input_ids, device=self.device)
+            prep_elapsed = time.perf_counter() - prep_start
 
+            if not self._logged_forward_diagnostics:
+                logger.info(
+                    "First forward diagnostics: input_dtype=%s input_shape=%s position_ids_dtype=%s attention_mask_dtype=%s attention_mask_shape=%s parameter_dtype=%s",
+                    input_ids.dtype,
+                    tuple(input_ids.shape),
+                    position_ids.dtype,
+                    attention_mask.dtype,
+                    tuple(attention_mask.shape),
+                    self._get_parameter_dtype(),
+                )
+
+            forward_start = time.perf_counter()
             if hasattr(self.model, "module") and self.model.module is not None:
                 outputs = self.model.module(
                     input_ids=input_ids,
@@ -650,12 +719,65 @@ class BabyLucioleLM(LMBase):
                     position_ids=position_ids,
                     attention_mask=attention_mask,
                 )
+            forward_elapsed = time.perf_counter() - forward_start
 
+            output_start = time.perf_counter()
             if hasattr(outputs, "logits"):
-                return outputs.logits
-            if isinstance(outputs, torch.Tensor):
-                return outputs
-            return outputs[0]
+                logits = outputs.logits
+            elif isinstance(outputs, torch.Tensor):
+                logits = outputs
+            else:
+                logits = outputs[0]
+            output_elapsed = time.perf_counter() - output_start
+
+            if not self._logged_forward_diagnostics:
+                logger.info(
+                    "First forward output diagnostics: output_type=%s logits_dtype=%s logits_shape=%s",
+                    type(outputs).__name__,
+                    getattr(logits, "dtype", None),
+                    tuple(logits.shape) if hasattr(logits, "shape") else None,
+                )
+                self._logged_forward_diagnostics = True
+
+            self._perf_calls += 1
+            self._perf_input_tokens += int(input_ids.numel())
+            self._perf_prep_seconds += prep_elapsed
+            self._perf_forward_seconds += forward_elapsed
+            self._perf_output_seconds += output_elapsed
+
+            if self._perf_calls % 50 == 0:
+                total = self._perf_prep_seconds + self._perf_forward_seconds + self._perf_output_seconds
+                logger.info(
+                    "Forward perf checkpoint: calls=%d input_tokens=%d prep=%.3fs forward=%.3fs output=%.3fs total=%.3fs avg_call=%.4fs",
+                    self._perf_calls,
+                    self._perf_input_tokens,
+                    self._perf_prep_seconds,
+                    self._perf_forward_seconds,
+                    self._perf_output_seconds,
+                    total,
+                    total / self._perf_calls,
+                )
+
+            return logits
+
+    def get_performance_summary(self) -> dict:
+        total = self._perf_prep_seconds + self._perf_forward_seconds + self._perf_output_seconds
+        avg_call = total / self._perf_calls if self._perf_calls else None
+        tokens_per_second = (
+            self._perf_input_tokens / self._perf_forward_seconds
+            if self._perf_forward_seconds > 0
+            else None
+        )
+        return {
+            "calls": self._perf_calls,
+            "input_tokens": self._perf_input_tokens,
+            "prep_seconds": self._perf_prep_seconds,
+            "forward_seconds": self._perf_forward_seconds,
+            "output_seconds": self._perf_output_seconds,
+            "total_seconds": total,
+            "avg_call_seconds": avg_call,
+            "forward_tokens_per_second": tokens_per_second,
+        }
 
     def loglikelihood(self, requests) -> List[tuple]:
         results = []
@@ -806,6 +928,7 @@ def run_evaluation(
         force_contiguous_qkv=force_contiguous_qkv,
         enforce_bf16=enforce_bf16,
     )
+    perf_summary = None
 
     task_names = []
     for task in tasks:
@@ -1033,6 +1156,18 @@ def run_evaluation(
         model_spec.name,
         _format_duration(total_elapsed_seconds),
     )
+    perf_summary = model.get_performance_summary()
+    logger.info(
+        "Forward perf summary: calls=%s input_tokens=%s prep=%.3fs forward=%.3fs output=%.3fs total=%.3fs avg_call=%s forward_toks_per_s=%s",
+        perf_summary["calls"],
+        perf_summary["input_tokens"],
+        perf_summary["prep_seconds"],
+        perf_summary["forward_seconds"],
+        perf_summary["output_seconds"],
+        perf_summary["total_seconds"],
+        f"{perf_summary['avg_call_seconds']:.4f}s" if perf_summary["avg_call_seconds"] is not None else "n/a",
+        f"{perf_summary['forward_tokens_per_second']:.1f}" if perf_summary["forward_tokens_per_second"] is not None else "n/a",
+    )
     if estimated_full_dataset_seconds is not None:
         logger.info(
             "Estimated full-dataset runtime for model '%s': %s",
@@ -1067,6 +1202,7 @@ def run_evaluation(
             "groups": group_timings,
             "tasks": task_timing_rows,
         },
+        "forward_performance": perf_summary,
         "results": results,
     }
 

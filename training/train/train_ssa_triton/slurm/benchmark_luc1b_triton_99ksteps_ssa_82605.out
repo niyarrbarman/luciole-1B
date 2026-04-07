@@ -1,0 +1,88 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-last
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           gsm8k
+Batch Size:      64
+Max Length:      2048
+Limit:           64
+GSM8K Limit:     64
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+Output prefix:   benchmark_results_99ksteps_ssa/results_luc1b_ssa_gsm8k_20260407_170411
+===========================================
+-------------------------------------------
+Running model:   ssa_luciole_10k (ssa_triton)
+Checkpoint:      /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+Output:          benchmark_results_99ksteps_ssa/results_luc1b_ssa_gsm8k_20260407_170411_ssa_luciole_10k.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['gsm8k']
+INFO:__main__:gsm8k subset override: limit=64 (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'ssa_luciole_10k', 'type': 'ssa_triton', 'checkpoint': '/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'ssa_luciole_10k' (ssa_triton)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=ssa_triton, checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999)...
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-07 17:04:34 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-04-07 17:04:38 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-04-07 17:04:38 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Model weights loaded successfully
+INFO:eval_perplexity_triton:Converted model to bfloat16 for inference
+INFO:eval_perplexity_triton:Model ready for evaluation
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:Model diagnostics (post-init): model_type=ssa_triton model_class=NemotronModel wrapped_class=GPTModel checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999 enforce_bf16=True compiled_bda=False force_contiguous_qkv=True parameter_dtype=torch.bfloat16
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: gsm8k -> gsm8k
+INFO:__main__:  Description: GSM8K - Grade school math word problems
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+INFO:__main__:Running evaluation on tasks: ['gsm8k']
+INFO:__main__:Evaluating group 'gsm8k' tasks=['gsm8k'] limit=64
+INFO:__main__:gsm8k subset config: limit=64, random_seed=42
+INFO:lm_eval.evaluator:Setting random seed to 42 | Setting numpy seed to 43 | Setting fewshot manual seed to 44
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+INFO:lm_eval.evaluator:gsm8k: Using gen_kwargs: {'until': ['Question:', '</s>', '<|im_end|>'], 'do_sample': False, 'temperature': 0.0}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of gsm8k from 5 to 5
+INFO:lm_eval.api.task:Building contexts for gsm8k on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 50%|█████     | 32/64 [00:00<00:00, 310.36it/s]100%|██████████| 64/64 [00:00<00:00, 310.16it/s]100%|██████████| 64/64 [00:00<00:00, 310.03it/s]
+INFO:lm_eval.evaluator:Running generate_until requests
+INFO:__main__:First forward diagnostics: input_dtype=torch.int64 input_shape=(1, 962) position_ids_dtype=torch.int64 attention_mask_dtype=torch.int64 attention_mask_shape=(1, 962) parameter_dtype=torch.bfloat16
+INFO:__main__:First forward output diagnostics: output_type=Tensor logits_dtype=torch.bfloat16 logits_shape=(1, 962, 128000)
+INFO:__main__:Forward perf checkpoint: calls=50 input_tokens=49325 prep=0.005s forward=145.628s output=0.000s total=145.634s avg_call=2.9127s
+INFO:__main__:Forward perf checkpoint: calls=100 input_tokens=99758 prep=0.009s forward=207.636s output=0.000s total=207.645s avg_call=2.0765s
+INFO:__main__:Forward perf checkpoint: calls=150 input_tokens=151683 prep=0.012s forward=298.678s output=0.000s total=298.690s avg_call=1.9913s
+INFO:__main__:Forward perf checkpoint: calls=200 input_tokens=205907 prep=0.016s forward=444.490s output=0.000s total=444.507s avg_call=2.2225s
+INFO:__main__:Forward perf checkpoint: calls=250 input_tokens=252782 prep=0.020s forward=585.972s output=0.000s total=585.993s avg_call=2.3440s
+INFO:__main__:Forward perf checkpoint: calls=300 input_tokens=300465 prep=0.024s forward=619.157s output=0.000s total=619.181s avg_call=2.0639s
+INFO:__main__:Forward perf checkpoint: calls=350 input_tokens=349376 prep=0.027s forward=644.201s output=0.000s total=644.228s avg_call=1.8407s
+INFO:__main__:Forward perf checkpoint: calls=400 input_tokens=409901 prep=0.031s forward=791.323s output=0.000s total=791.354s avg_call=1.9784s

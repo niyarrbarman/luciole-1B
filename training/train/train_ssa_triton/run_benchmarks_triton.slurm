@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J benchmark_luc1b_triton_99ksteps_ssa
+#SBATCH -J benchmark_luc1b_triton_99ksteps_ssa_fixed
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --gres=gpu:1
@@ -16,25 +16,29 @@ mkdir -p slurm
 # SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last"}
 SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999"}
 # SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0015000"}
-SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-last"}
+# SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-last"}
+SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0100000"}
 
 
-SSA_MODEL_NAME=${SSA_MODEL_NAME:-"ssa_luciole_10k"}
-SOFTMAX_MODEL_NAME=${SOFTMAX_MODEL_NAME:-"luciole_10k"}
-MODEL_SELECTION=${MODEL_SELECTION:-"ssa"} # both|ssa|softmax
+SSA_MODEL_NAME=${SSA_MODEL_NAME:-"ssa_luciole_100k"}
+SOFTMAX_MODEL_NAME=${SOFTMAX_MODEL_NAME:-"luciole_100k"}
+MODEL_SELECTION=${MODEL_SELECTION:-"softmax"} # both|ssa|softmax
 TOKENIZER_PATH=${TOKENIZER:-"/tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2"}
-# TASKS=${TASKS:-"all"} # "copa" for debug
-TASKS=${TASKS:-"gsm8k"}
+TASKS=${TASKS:-"french_bench"} # e.g. "copa" or "french_bench"
+# TASKS=${TASKS:-"gsm8k"}
 BATCH_SIZE=${BATCH_SIZE:-64}
 MAX_LENGTH=${MAX_LENGTH:-2048}
-LIMIT=${LIMIT:-"64"}
-GSM8K_LIMIT=${GSM8K_LIMIT:-"64"}
+LIMIT=${LIMIT:-""}
+GSM8K_LIMIT=${GSM8K_LIMIT:-"-1"}
 GSM8K_RANDOM_SEED=${GSM8K_RANDOM_SEED:-42}
 NUM_FEWSHOT=${NUM_FEWSHOT:-5}
 COMPILED_BDA=${COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 HF_DATASETS_OFFLINE=${HF_DATASETS_OFFLINE:-1}
-OUTPUT_DIR=${OUTPUT_DIR:-"benchmark_results_99ksteps_ssa"}
+HF_HOME=${HF_HOME:-"/work/m24047/m24047flhg/.cache/huggingface"}
+HF_HOME_LEGACY=${HF_HOME_LEGACY:-"/work/m24047/m24047brmn/lm_eval"}
+HF_CACHE_MERGE_MODE=${HF_CACHE_MERGE_MODE:-"symlink"} # symlink|copy|none
+OUTPUT_DIR=${OUTPUT_DIR:-"benchmark_results_99ksteps_ssa_fixed"}
 
 mkdir -p "$OUTPUT_DIR"
 
@@ -58,8 +62,70 @@ echo "Num Fewshot:     ${NUM_FEWSHOT:-'Task default'}"
 echo "Compiled BDA:    $COMPILED_BDA"
 echo "Contiguous QKV:  $FORCE_CONTIGUOUS_QKV"
 echo "HF Offline:      $HF_DATASETS_OFFLINE"
+echo "HF Home:         $HF_HOME"
+echo "HF Home legacy:  $HF_HOME_LEGACY"
+echo "HF merge mode:   $HF_CACHE_MERGE_MODE"
 echo "Output prefix:   $OUTPUT_PREFIX"
 echo "==========================================="
+
+prepare_hf_cache() {
+    mkdir -p "$HF_HOME/datasets" "$HF_HOME/hub"
+
+    if [ "$HF_CACHE_MERGE_MODE" = "none" ]; then
+        echo "HF cache merge disabled"
+        return
+    fi
+
+    if [ ! -d "$HF_HOME_LEGACY" ]; then
+        echo "HF legacy cache not found: $HF_HOME_LEGACY (continuing)"
+        return
+    fi
+
+    echo "Preparing HF cache (mode=$HF_CACHE_MERGE_MODE) from $HF_HOME_LEGACY"
+
+    if [ "$HF_CACHE_MERGE_MODE" = "copy" ]; then
+        if command -v rsync >/dev/null 2>&1; then
+            if [ -d "$HF_HOME_LEGACY/datasets" ]; then
+                rsync -a --ignore-existing "$HF_HOME_LEGACY/datasets/" "$HF_HOME/datasets/"
+            fi
+            if [ -d "$HF_HOME_LEGACY/hub" ]; then
+                rsync -a --ignore-existing "$HF_HOME_LEGACY/hub/" "$HF_HOME/hub/"
+            fi
+        else
+            if [ -d "$HF_HOME_LEGACY/datasets" ]; then
+                cp -an "$HF_HOME_LEGACY/datasets/." "$HF_HOME/datasets/"
+            fi
+            if [ -d "$HF_HOME_LEGACY/hub" ]; then
+                cp -an "$HF_HOME_LEGACY/hub/." "$HF_HOME/hub/"
+            fi
+        fi
+    elif [ "$HF_CACHE_MERGE_MODE" = "symlink" ]; then
+        if [ -d "$HF_HOME_LEGACY/datasets" ]; then
+            for src in "$HF_HOME_LEGACY"/datasets/*; do
+                [ -e "$src" ] || continue
+                base=$(basename "$src")
+                dst="$HF_HOME/datasets/$base"
+                if [ ! -e "$dst" ]; then
+                    ln -s "$src" "$dst"
+                fi
+            done
+        fi
+        if [ -d "$HF_HOME_LEGACY/hub" ]; then
+            for src in "$HF_HOME_LEGACY"/hub/*; do
+                [ -e "$src" ] || continue
+                base=$(basename "$src")
+                dst="$HF_HOME/hub/$base"
+                if [ ! -e "$dst" ]; then
+                    ln -s "$src" "$dst"
+                fi
+            done
+        fi
+    else
+        echo "WARNING: Unknown HF_CACHE_MERGE_MODE='$HF_CACHE_MERGE_MODE' (expected symlink|copy|none)."
+    fi
+}
+
+prepare_hf_cache
 
 LIMIT_ARG=""
 if [ -n "$LIMIT" ]; then
@@ -94,7 +160,9 @@ run_single_model() {
 
     apptainer exec \
         --env "PYTHONUSERBASE=${MYENVS}/luciole_bench" \
-        --env "HF_HOME=/work/m24047/m24047brmn/lm_eval" \
+        --env "HF_HOME=${HF_HOME}" \
+        --env "HF_DATASETS_CACHE=${HF_HOME}/datasets" \
+        --env "HF_HUB_CACHE=${HF_HOME}/hub" \
         --env "HF_DATASETS_OFFLINE=${HF_DATASETS_OFFLINE}" \
         --bind /tmpdir,/work \
         --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \

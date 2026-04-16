@@ -1,0 +1,121 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-step0100000
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           french_bench
+Batch Size:      64
+Max Length:      2048
+Limit:           64
+GSM8K Limit:     64
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+Output prefix:   benchmark_results_99ksteps_ssa_fixed/results_luc1b_ssa_french_bench_20260415_110307
+===========================================
+-------------------------------------------
+Running model:   ssa_luciole_100k (ssa_triton)
+Checkpoint:      /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+Output:          benchmark_results_99ksteps_ssa_fixed/results_luc1b_ssa_french_bench_20260415_110307_ssa_luciole_100k.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['french_bench_arc_challenge', 'french_bench_boolqa', 'french_bench_fquadv2', 'french_bench_fquadv2_bool', 'french_bench_fquadv2_genq', 'french_bench_fquadv2_hasAns', 'french_bench_grammar', 'french_bench_hellaswag', 'french_bench_multifquad', 'french_bench_opus_perplexity', 'french_bench_orangesum_abstract', 'french_bench_orangesum_title', 'french_bench_reading_comp', 'french_bench_topic_based_nli', 'french_bench_trivia', 'french_bench_vocab', 'french_bench_wikitext_fr', 'french_bench_xnli']
+INFO:__main__:gsm8k subset override: limit=64 (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'ssa_luciole_100k', 'type': 'ssa_triton', 'checkpoint': '/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'ssa_luciole_100k' (ssa_triton)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=ssa_triton, checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999)...
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-15 11:03:53 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-04-15 11:03:59 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-04-15 11:03:59 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Model weights loaded successfully
+INFO:eval_perplexity_triton:Converted model to bfloat16 for inference
+INFO:eval_perplexity_triton:Warming up Triton kernels for eval (Hq=32, Hkv=8, D=64, N=2048)...
+INFO:eval_perplexity_triton:Triton kernel warmup complete.
+INFO:eval_perplexity_triton:Model ready for evaluation
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:Model diagnostics (post-init): model_type=ssa_triton model_class=NemotronModel wrapped_class=GPTModel checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999 enforce_bf16=True compiled_bda=False force_contiguous_qkv=True parameter_dtype=torch.bfloat16
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: french_bench_arc_challenge -> french_bench_arc_challenge
+INFO:__main__:  Description: FrenchBench ARC Challenge
+INFO:__main__:Added task: french_bench_boolqa -> french_bench_boolqa
+INFO:__main__:  Description: FrenchBench BoolQA
+INFO:__main__:Added task: french_bench_fquadv2 -> french_bench_fquadv2
+INFO:__main__:  Description: FrenchBench FQuADv2 extractive QA
+INFO:__main__:Added task: french_bench_fquadv2_bool -> french_bench_fquadv2_bool
+INFO:__main__:  Description: FrenchBench FQuADv2 yes/no
+INFO:__main__:Added task: french_bench_fquadv2_genq -> french_bench_fquadv2_genq
+INFO:__main__:  Description: FrenchBench FQuADv2 question generation
+INFO:__main__:Added task: french_bench_fquadv2_hasAns -> french_bench_fquadv2_hasAns
+INFO:__main__:  Description: FrenchBench FQuADv2 answerability
+INFO:__main__:Added task: french_bench_grammar -> french_bench_grammar
+INFO:__main__:  Description: FrenchBench grammar
+INFO:__main__:Added task: french_bench_hellaswag -> french_bench_hellaswag
+INFO:__main__:  Description: FrenchBench HellaSwag
+INFO:__main__:Added task: french_bench_multifquad -> french_bench_multifquad
+INFO:__main__:  Description: FrenchBench MultiFQuAD
+INFO:__main__:Added task: french_bench_opus_perplexity -> french_bench_opus_perplexity
+INFO:__main__:  Description: FrenchBench OPUS perplexity
+INFO:__main__:Added task: french_bench_orangesum_abstract -> french_bench_orangesum_abstract
+INFO:__main__:  Description: FrenchBench OrangeSum abstract generation
+INFO:__main__:Added task: french_bench_orangesum_title -> french_bench_orangesum_title
+INFO:__main__:  Description: FrenchBench OrangeSum title generation
+INFO:__main__:Added task: french_bench_reading_comp -> french_bench_reading_comp
+INFO:__main__:  Description: FrenchBench reading comprehension
+INFO:__main__:Added task: french_bench_topic_based_nli -> french_bench_topic_based_nli
+INFO:__main__:  Description: FrenchBench topic-based NLI
+INFO:__main__:Added task: french_bench_trivia -> french_bench_trivia
+INFO:__main__:  Description: FrenchBench trivia
+INFO:__main__:Added task: french_bench_vocab -> french_bench_vocab
+INFO:__main__:  Description: FrenchBench vocabulary
+INFO:__main__:Added task: french_bench_wikitext_fr -> french_bench_wikitext_fr
+INFO:__main__:  Description: FrenchBench WikiText-FR perplexity
+INFO:__main__:Added task: french_bench_xnli -> french_bench_xnli
+INFO:__main__:  Description: FrenchBench XNLI (fr)
+WARNING:__main__:Skipping task 'french_bench_arc_challenge' (dataset unavailable offline): Couldn't reach 'manu/french_bench_arc_challenge' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_boolqa' (dataset unavailable offline): Couldn't reach 'manu/french_boolq' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_fquadv2' (dataset unavailable offline): Couldn't reach 'manu/fquad2_test' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_fquadv2_bool' (dataset unavailable offline): Couldn't reach 'manu/fquad2_test' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_fquadv2_genq' (dataset unavailable offline): Couldn't reach 'manu/fquad2_test' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_fquadv2_hasAns' (dataset unavailable offline): Couldn't reach 'manu/fquad2_test' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_grammar' (dataset unavailable offline): Couldn't reach 'manu/french-bench-grammar-vocab-reading' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_hellaswag' (dataset unavailable offline): Couldn't reach 'manu/french_bench_hellaswag' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_multifquad' (dataset unavailable offline): Couldn't reach 'manu/multifquad_test' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_opus_perplexity' (dataset unavailable offline): Couldn't reach 'manu/opus100-en-fr' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_orangesum_abstract' (dataset unavailable offline): Couldn't reach 'orange_sum' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_orangesum_title' (dataset unavailable offline): Couldn't reach 'orange_sum' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_reading_comp' (dataset unavailable offline): Couldn't reach 'manu/french-bench-grammar-vocab-reading' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_topic_based_nli' (dataset unavailable offline): Couldn't reach 'manu/topic_based_nli_test' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_trivia' (dataset unavailable offline): Couldn't reach 'manu/french-trivia' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_vocab' (dataset unavailable offline): Couldn't reach 'manu/french-bench-grammar-vocab-reading' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_wikitext_fr' (dataset unavailable offline): Couldn't reach 'asi/wikitext_fr' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_xnli' (dataset unavailable offline): Couldn't reach 'xnli' on the Hub (OfflineModeIsEnabled)
+ERROR:__main__:No tasks could be loaded (all datasets unavailable offline)
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+Model 'ssa_luciole_100k' finished with status 1
+===========================================
+Benchmark finished with status 1 (selection=ssa)
+===========================================

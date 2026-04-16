@@ -57,6 +57,8 @@ _DATASET_CACHE_ALIASES = {
     "truthful_qa": "truthfulqa___truthful_qa",
     "openbookqa": "allenai___openbookqa",
     "lambada_openai": "EleutherAI___lambada_openai",
+    "orange_sum": "EdinburghNLP___orange_sum",
+    "xnli": "facebook___xnli",
 }
 
 
@@ -72,6 +74,104 @@ SUPERGLUE_CORE_TASKS = [
 ]
 SUPERGLUE_DIAGNOSTIC_TASKS = ["axb", "axg"]
 SUPERGLUE_ALL_TASKS = SUPERGLUE_CORE_TASKS + SUPERGLUE_DIAGNOSTIC_TASKS
+
+FRENCH_BENCH_BENCHMARKS = {
+    "french_bench_arc_challenge": {
+        "task_name": "french_bench_arc_challenge",
+        "description": "FrenchBench ARC Challenge",
+        "num_fewshot": 3,
+    },
+    "french_bench_boolqa": {
+        "task_name": "french_bench_boolqa",
+        "description": "FrenchBench BoolQA",
+        "num_fewshot": 3,
+    },
+    "french_bench_fquadv2": {
+        "task_name": "french_bench_fquadv2",
+        "description": "FrenchBench FQuADv2 extractive QA",
+        "num_fewshot": 3,
+    },
+    "french_bench_fquadv2_bool": {
+        "task_name": "french_bench_fquadv2_bool",
+        "description": "FrenchBench FQuADv2 yes/no",
+        "num_fewshot": 3,
+    },
+    "french_bench_fquadv2_genq": {
+        "task_name": "french_bench_fquadv2_genq",
+        "description": "FrenchBench FQuADv2 question generation",
+        "num_fewshot": 3,
+    },
+    "french_bench_fquadv2_hasAns": {
+        "task_name": "french_bench_fquadv2_hasAns",
+        "description": "FrenchBench FQuADv2 answerability",
+        "num_fewshot": 3,
+    },
+    "french_bench_grammar": {
+        "task_name": "french_bench_grammar",
+        "description": "FrenchBench grammar",
+        "num_fewshot": 3,
+    },
+    "french_bench_hellaswag": {
+        "task_name": "french_bench_hellaswag",
+        "description": "FrenchBench HellaSwag",
+        "num_fewshot": 3,
+    },
+    "french_bench_multifquad": {
+        "task_name": "french_bench_multifquad",
+        "description": "FrenchBench MultiFQuAD",
+        "num_fewshot": 3,
+    },
+    "french_bench_opus_perplexity": {
+        "task_name": "french_bench_opus_perplexity",
+        "description": "FrenchBench OPUS perplexity",
+        "num_fewshot": 0,
+    },
+    "french_bench_orangesum_abstract": {
+        "task_name": "french_bench_orangesum_abstract",
+        "description": "FrenchBench OrangeSum abstract generation",
+        "num_fewshot": 3,
+    },
+    "french_bench_orangesum_title": {
+        "task_name": "french_bench_orangesum_title",
+        "description": "FrenchBench OrangeSum title generation",
+        "num_fewshot": 3,
+    },
+    "french_bench_reading_comp": {
+        "task_name": "french_bench_reading_comp",
+        "description": "FrenchBench reading comprehension",
+        "num_fewshot": 3,
+    },
+    "french_bench_topic_based_nli": {
+        "task_name": "french_bench_topic_based_nli",
+        "description": "FrenchBench topic-based NLI",
+        "num_fewshot": 3,
+    },
+    "french_bench_trivia": {
+        "task_name": "french_bench_trivia",
+        "description": "FrenchBench trivia",
+        "num_fewshot": 3,
+    },
+    "french_bench_vocab": {
+        "task_name": "french_bench_vocab",
+        "description": "FrenchBench vocabulary",
+        "num_fewshot": 3,
+    },
+    "french_bench_wikitext_fr": {
+        "task_name": "french_bench_wikitext_fr",
+        "description": "FrenchBench WikiText-FR perplexity",
+        "num_fewshot": 0,
+    },
+    "french_bench_xnli": {
+        "task_name": "french_bench_xnli",
+        "description": "FrenchBench XNLI (fr)",
+        "num_fewshot": 3,
+    },
+}
+FRENCH_BENCH_TASKS = list(FRENCH_BENCH_BENCHMARKS.keys())
+FRENCH_BENCH_PERPLEXITY_TASKS = [
+    "french_bench_opus_perplexity",
+    "french_bench_wikitext_fr",
+]
 
 
 def _ensure_dataset_cache_symlinks() -> None:
@@ -222,6 +322,7 @@ AVAILABLE_BENCHMARKS = {
         "description": "LAMBADA - Word prediction requiring broad context",
         "num_fewshot": 0,
     },
+    **FRENCH_BENCH_BENCHMARKS,
 }
 
 BENCHMARK_GROUPS = {
@@ -236,6 +337,9 @@ BENCHMARK_GROUPS = {
     ],
     "superglue_core": SUPERGLUE_CORE_TASKS,
     "superglue": SUPERGLUE_ALL_TASKS,
+    "french_bench": FRENCH_BENCH_TASKS,
+    "french_bench_perplexity": FRENCH_BENCH_PERPLEXITY_TASKS,
+    "french_bench_all": FRENCH_BENCH_TASKS,
     "all": [
         "arc_easy",
         "arc_challenge",
@@ -246,7 +350,7 @@ BENCHMARK_GROUPS = {
         "openbookqa",
         "lambada",
     ]
-    + SUPERGLUE_ALL_TASKS,
+    + SUPERGLUE_ALL_TASKS + FRENCH_BENCH_TASKS,
 }
 
 
@@ -745,7 +849,7 @@ class BabyLucioleLM(LMBase):
             self._perf_forward_seconds += forward_elapsed
             self._perf_output_seconds += output_elapsed
 
-            if self._perf_calls % 50 == 0:
+            if self._perf_calls % 500 == 0:
                 total = self._perf_prep_seconds + self._perf_forward_seconds + self._perf_output_seconds
                 logger.info(
                     "Forward perf checkpoint: calls=%d input_tokens=%d prep=%.3fs forward=%.3fs output=%.3fs total=%.3fs avg_call=%.4fs",
@@ -815,7 +919,7 @@ class BabyLucioleLM(LMBase):
 
         return results
 
-    def loglikelihood_rolling(self, requests) -> List[tuple]:
+    def loglikelihood_rolling(self, requests) -> List[float]:
         results = []
         for request in requests:
             if hasattr(request, "args"):
@@ -834,7 +938,7 @@ class BabyLucioleLM(LMBase):
             total_logprob = 0.0
             for i in range(1, len(tokens)):
                 total_logprob += log_probs[0, i - 1, tokens[i]].item()
-            results.append((total_logprob,))
+            results.append(total_logprob)
         return results
 
     def generate_until(self, requests) -> List[str]:
@@ -1263,7 +1367,8 @@ def get_parser():
         default="arc_easy",
         help=(
             "Comma-separated list of tasks or group name "
-            "(quick, standard, leaderboard, superglue_core, superglue, all)"
+            "(quick, standard, leaderboard, superglue_core, superglue, "
+            "french_bench, french_bench_perplexity, french_bench_all, all)"
         ),
     )
     parser.add_argument(

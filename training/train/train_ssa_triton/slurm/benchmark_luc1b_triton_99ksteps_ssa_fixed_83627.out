@@ -1,0 +1,337 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-step0100000
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           french_bench
+Batch Size:      64
+Max Length:      2048
+Limit:           64
+GSM8K Limit:     64
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+HF Home:         /work/m24047/m24047flhg/.cache/huggingface
+HF Home legacy:  /work/m24047/m24047brmn/lm_eval
+HF merge mode:   symlink
+Output prefix:   benchmark_results_99ksteps_ssa_fixed/results_luc1b_ssa_french_bench_20260415_111247
+===========================================
+Preparing HF cache (mode=symlink) from /work/m24047/m24047brmn/lm_eval
+-------------------------------------------
+Running model:   ssa_luciole_100k (ssa_triton)
+Checkpoint:      /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+Output:          benchmark_results_99ksteps_ssa_fixed/results_luc1b_ssa_french_bench_20260415_111247_ssa_luciole_100k.json
+-------------------------------------------
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['french_bench_arc_challenge', 'french_bench_boolqa', 'french_bench_fquadv2', 'french_bench_fquadv2_bool', 'french_bench_fquadv2_genq', 'french_bench_fquadv2_hasAns', 'french_bench_grammar', 'french_bench_hellaswag', 'french_bench_multifquad', 'french_bench_opus_perplexity', 'french_bench_orangesum_abstract', 'french_bench_orangesum_title', 'french_bench_reading_comp', 'french_bench_topic_based_nli', 'french_bench_trivia', 'french_bench_vocab', 'french_bench_wikitext_fr', 'french_bench_xnli']
+INFO:__main__:gsm8k subset override: limit=64 (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'ssa_luciole_100k', 'type': 'ssa_triton', 'checkpoint': '/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'ssa_luciole_100k' (ssa_triton)
+INFO:__main__:Created dataset cache symlink: /work/m24047/m24047flhg/.cache/huggingface/datasets/xnli -> /work/m24047/m24047flhg/.cache/huggingface/datasets/facebook___xnli
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=ssa_triton, checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999)...
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-15 11:13:10 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-04-15 11:13:14 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-04-15 11:13:14 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Model weights loaded successfully
+INFO:eval_perplexity_triton:Converted model to bfloat16 for inference
+INFO:eval_perplexity_triton:Warming up Triton kernels for eval (Hq=32, Hkv=8, D=64, N=2048)...
+INFO:eval_perplexity_triton:Triton kernel warmup complete.
+INFO:eval_perplexity_triton:Model ready for evaluation
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:Model diagnostics (post-init): model_type=ssa_triton model_class=NemotronModel wrapped_class=GPTModel checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999 enforce_bf16=True compiled_bda=False force_contiguous_qkv=True parameter_dtype=torch.bfloat16
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: french_bench_arc_challenge -> french_bench_arc_challenge
+INFO:__main__:  Description: FrenchBench ARC Challenge
+INFO:__main__:Added task: french_bench_boolqa -> french_bench_boolqa
+INFO:__main__:  Description: FrenchBench BoolQA
+INFO:__main__:Added task: french_bench_fquadv2 -> french_bench_fquadv2
+INFO:__main__:  Description: FrenchBench FQuADv2 extractive QA
+INFO:__main__:Added task: french_bench_fquadv2_bool -> french_bench_fquadv2_bool
+INFO:__main__:  Description: FrenchBench FQuADv2 yes/no
+INFO:__main__:Added task: french_bench_fquadv2_genq -> french_bench_fquadv2_genq
+INFO:__main__:  Description: FrenchBench FQuADv2 question generation
+INFO:__main__:Added task: french_bench_fquadv2_hasAns -> french_bench_fquadv2_hasAns
+INFO:__main__:  Description: FrenchBench FQuADv2 answerability
+INFO:__main__:Added task: french_bench_grammar -> french_bench_grammar
+INFO:__main__:  Description: FrenchBench grammar
+INFO:__main__:Added task: french_bench_hellaswag -> french_bench_hellaswag
+INFO:__main__:  Description: FrenchBench HellaSwag
+INFO:__main__:Added task: french_bench_multifquad -> french_bench_multifquad
+INFO:__main__:  Description: FrenchBench MultiFQuAD
+INFO:__main__:Added task: french_bench_opus_perplexity -> french_bench_opus_perplexity
+INFO:__main__:  Description: FrenchBench OPUS perplexity
+INFO:__main__:Added task: french_bench_orangesum_abstract -> french_bench_orangesum_abstract
+INFO:__main__:  Description: FrenchBench OrangeSum abstract generation
+INFO:__main__:Added task: french_bench_orangesum_title -> french_bench_orangesum_title
+INFO:__main__:  Description: FrenchBench OrangeSum title generation
+INFO:__main__:Added task: french_bench_reading_comp -> french_bench_reading_comp
+INFO:__main__:  Description: FrenchBench reading comprehension
+INFO:__main__:Added task: french_bench_topic_based_nli -> french_bench_topic_based_nli
+INFO:__main__:  Description: FrenchBench topic-based NLI
+INFO:__main__:Added task: french_bench_trivia -> french_bench_trivia
+INFO:__main__:  Description: FrenchBench trivia
+INFO:__main__:Added task: french_bench_vocab -> french_bench_vocab
+INFO:__main__:  Description: FrenchBench vocabulary
+INFO:__main__:Added task: french_bench_wikitext_fr -> french_bench_wikitext_fr
+INFO:__main__:  Description: FrenchBench WikiText-FR perplexity
+INFO:__main__:Added task: french_bench_xnli -> french_bench_xnli
+INFO:__main__:  Description: FrenchBench XNLI (fr)
+Using the latest cached version of the dataset since manu/french_bench_arc_challenge couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french_bench_arc_challenge couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_bench_arc_challenge/default/0.0.0/25a80534368914cfd6aa4c5f73262d64ce2d61fb (last modified on Wed Apr 15 10:41:03 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_bench_arc_challenge/default/0.0.0/25a80534368914cfd6aa4c5f73262d64ce2d61fb (last modified on Wed Apr 15 10:41:03 2026).
+Using the latest cached version of the dataset since manu/french_boolq couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french_boolq couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_boolq/default/0.0.0/aabcaace0e78f68370753e255e45399385403a5c (last modified on Wed Apr 15 10:41:11 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_boolq/default/0.0.0/aabcaace0e78f68370753e255e45399385403a5c (last modified on Wed Apr 15 10:41:11 2026).
+Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+Using the latest cached version of the dataset since manu/french_bench_hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french_bench_hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_bench_hellaswag/default/0.0.0/f9f7e441f4a5c30863aa5a0ec09bbd1c3ab4f5e0 (last modified on Wed Apr 15 10:41:07 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_bench_hellaswag/default/0.0.0/f9f7e441f4a5c30863aa5a0ec09bbd1c3ab4f5e0 (last modified on Wed Apr 15 10:41:07 2026).
+Map:   0%|          | 0/9338 [00:00<?, ? examples/s]Map:  10%|▉         | 901/9338 [00:00<00:00, 8939.38 examples/s]Map:  21%|██▏       | 2000/9338 [00:00<00:01, 7219.99 examples/s]Map:  31%|███       | 2913/9338 [00:00<00:00, 7932.89 examples/s]Map:  43%|████▎     | 4000/9338 [00:00<00:00, 7304.32 examples/s]Map:  53%|█████▎    | 4932/9338 [00:00<00:00, 7883.76 examples/s]Map:  64%|██████▍   | 6000/9338 [00:00<00:00, 7323.78 examples/s]Map:  74%|███████▍  | 6932/9338 [00:00<00:00, 7840.04 examples/s]Map:  86%|████████▌ | 8000/9338 [00:01<00:00, 7360.94 examples/s]Map:  96%|█████████▌| 8922/9338 [00:01<00:00, 7821.45 examples/s]Map: 100%|██████████| 9338/9338 [00:01<00:00, 4746.57 examples/s]
+Using the latest cached version of the dataset since manu/multifquad_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/multifquad_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___multifquad_test/default/0.0.0/c2ef7a78969e0ed930ab4466b331d62dc1edf155 (last modified on Wed Apr 15 10:41:14 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___multifquad_test/default/0.0.0/c2ef7a78969e0ed930ab4466b331d62dc1edf155 (last modified on Wed Apr 15 10:41:14 2026).
+Using the latest cached version of the dataset since manu/opus100-en-fr couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/opus100-en-fr couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___opus100-en-fr/default/0.0.0/42ea3ca7960ac979f1f2a49d8d62d0d5190a289b (last modified on Wed Apr 15 10:41:25 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___opus100-en-fr/default/0.0.0/42ea3ca7960ac979f1f2a49d8d62d0d5190a289b (last modified on Wed Apr 15 10:41:25 2026).
+WARNING:__main__:Skipping task 'french_bench_orangesum_abstract' (dataset unavailable offline): Couldn't reach 'orange_sum' on the Hub (OfflineModeIsEnabled)
+WARNING:__main__:Skipping task 'french_bench_orangesum_title' (dataset unavailable offline): Couldn't reach 'orange_sum' on the Hub (OfflineModeIsEnabled)
+Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+Using the latest cached version of the dataset since manu/topic_based_nli_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/topic_based_nli_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___topic_based_nli_test/default/0.0.0/bedd5923d341a06bc48f65f3801ba2a76883f8fe (last modified on Wed Apr 15 10:41:30 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___topic_based_nli_test/default/0.0.0/bedd5923d341a06bc48f65f3801ba2a76883f8fe (last modified on Wed Apr 15 10:41:30 2026).
+Using the latest cached version of the dataset since manu/french-trivia couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french-trivia couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-trivia/default/0.0.0/90a86c5a553ea99ba3f178c3b58621a23fd20df7 (last modified on Wed Apr 15 10:40:59 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-trivia/default/0.0.0/90a86c5a553ea99ba3f178c3b58621a23fd20df7 (last modified on Wed Apr 15 10:40:59 2026).
+Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+WARNING:__main__:Skipping task 'french_bench_wikitext_fr' (dataset unavailable offline): Couldn't reach 'asi/wikitext_fr' on the Hub (OfflineModeIsEnabled)
+Using the latest cached version of the dataset since xnli couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since xnli couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'fr' at /work/m24047/m24047flhg/.cache/huggingface/datasets/xnli/fr/0.0.0/b8dd5d7af51114dbda02c0e3f6133f332186418e (last modified on Wed Apr 15 10:40:48 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'fr' at /work/m24047/m24047flhg/.cache/huggingface/datasets/xnli/fr/0.0.0/b8dd5d7af51114dbda02c0e3f6133f332186418e (last modified on Wed Apr 15 10:40:48 2026).
+INFO:__main__:Skipped 3 task(s) due to offline cache issues: ['french_bench_orangesum_abstract', 'french_bench_orangesum_title', 'french_bench_wikitext_fr']
+INFO:__main__:Running evaluation on tasks: ['french_bench_arc_challenge', 'french_bench_boolqa', 'french_bench_fquadv2', 'french_bench_fquadv2_bool', 'french_bench_fquadv2_genq', 'french_bench_fquadv2_hasAns', 'french_bench_grammar', 'french_bench_hellaswag', 'french_bench_multifquad', 'french_bench_opus_perplexity', 'french_bench_reading_comp', 'french_bench_topic_based_nli', 'french_bench_trivia', 'french_bench_vocab', 'french_bench_xnli']
+INFO:__main__:Evaluating group 'regular' tasks=['french_bench_arc_challenge', 'french_bench_boolqa', 'french_bench_fquadv2', 'french_bench_fquadv2_bool', 'french_bench_fquadv2_genq', 'french_bench_fquadv2_hasAns', 'french_bench_grammar', 'french_bench_hellaswag', 'french_bench_multifquad', 'french_bench_opus_perplexity', 'french_bench_reading_comp', 'french_bench_topic_based_nli', 'french_bench_trivia', 'french_bench_vocab', 'french_bench_xnli'] limit=64
+INFO:lm_eval.evaluator:Setting random seed to 0 | Setting numpy seed to 1234 | Setting fewshot manual seed to 1234
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since manu/french_bench_arc_challenge couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french_bench_arc_challenge couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_bench_arc_challenge/default/0.0.0/25a80534368914cfd6aa4c5f73262d64ce2d61fb (last modified on Wed Apr 15 10:41:03 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_bench_arc_challenge/default/0.0.0/25a80534368914cfd6aa4c5f73262d64ce2d61fb (last modified on Wed Apr 15 10:41:03 2026).
+Using the latest cached version of the dataset since manu/french_boolq couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french_boolq couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_boolq/default/0.0.0/aabcaace0e78f68370753e255e45399385403a5c (last modified on Wed Apr 15 10:41:11 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_boolq/default/0.0.0/aabcaace0e78f68370753e255e45399385403a5c (last modified on Wed Apr 15 10:41:11 2026).
+Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/fquad2_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___fquad2_test/default/0.0.0/5384ce827bbc2156d46e6fcba83d75f8e6e1b4a6 (last modified on Wed Apr 15 10:40:53 2026).
+Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+Using the latest cached version of the dataset since manu/french_bench_hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french_bench_hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_bench_hellaswag/default/0.0.0/f9f7e441f4a5c30863aa5a0ec09bbd1c3ab4f5e0 (last modified on Wed Apr 15 11:13:44 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french_bench_hellaswag/default/0.0.0/f9f7e441f4a5c30863aa5a0ec09bbd1c3ab4f5e0 (last modified on Wed Apr 15 11:13:44 2026).
+Using the latest cached version of the dataset since manu/multifquad_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/multifquad_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___multifquad_test/default/0.0.0/c2ef7a78969e0ed930ab4466b331d62dc1edf155 (last modified on Wed Apr 15 10:41:14 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___multifquad_test/default/0.0.0/c2ef7a78969e0ed930ab4466b331d62dc1edf155 (last modified on Wed Apr 15 10:41:14 2026).
+Using the latest cached version of the dataset since manu/opus100-en-fr couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/opus100-en-fr couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___opus100-en-fr/default/0.0.0/42ea3ca7960ac979f1f2a49d8d62d0d5190a289b (last modified on Wed Apr 15 10:41:25 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___opus100-en-fr/default/0.0.0/42ea3ca7960ac979f1f2a49d8d62d0d5190a289b (last modified on Wed Apr 15 10:41:25 2026).
+Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+Using the latest cached version of the dataset since manu/topic_based_nli_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/topic_based_nli_test couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___topic_based_nli_test/default/0.0.0/bedd5923d341a06bc48f65f3801ba2a76883f8fe (last modified on Wed Apr 15 10:41:30 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___topic_based_nli_test/default/0.0.0/bedd5923d341a06bc48f65f3801ba2a76883f8fe (last modified on Wed Apr 15 10:41:30 2026).
+Using the latest cached version of the dataset since manu/french-trivia couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french-trivia couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-trivia/default/0.0.0/90a86c5a553ea99ba3f178c3b58621a23fd20df7 (last modified on Wed Apr 15 10:40:59 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-trivia/default/0.0.0/90a86c5a553ea99ba3f178c3b58621a23fd20df7 (last modified on Wed Apr 15 10:40:59 2026).
+Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since manu/french-bench-grammar-vocab-reading couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/manu___french-bench-grammar-vocab-reading/default/0.0.0/dcbe950e3266f4a64e5ea35586d948a80faf3f18 (last modified on Wed Apr 15 10:40:57 2026).
+Using the latest cached version of the dataset since xnli couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since xnli couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'fr' at /work/m24047/m24047flhg/.cache/huggingface/datasets/xnli/fr/0.0.0/b8dd5d7af51114dbda02c0e3f6133f332186418e (last modified on Wed Apr 15 10:40:48 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'fr' at /work/m24047/m24047flhg/.cache/huggingface/datasets/xnli/fr/0.0.0/b8dd5d7af51114dbda02c0e3f6133f332186418e (last modified on Wed Apr 15 10:40:48 2026).
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_xnli from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_vocab from None to 5
+INFO:lm_eval.evaluator:french_bench_trivia: Using gen_kwargs: {'until': ['\n']}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_trivia from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_topic_based_nli from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_reading_comp from None to 5
+INFO:lm_eval.evaluator:num_fewshot has been set to 0 for french_bench_opus_perplexity in its config. Manual configuration will be ignored.
+INFO:lm_eval.evaluator:french_bench_multifquad: Using gen_kwargs: {'until': ['\n']}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_multifquad from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_hellaswag from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_grammar from None to 5
+INFO:lm_eval.evaluator:french_bench_fquadv2_hasAns: Using gen_kwargs: {'until': ['\n']}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_fquadv2_hasAns from None to 5
+INFO:lm_eval.evaluator:french_bench_fquadv2_genq: Using gen_kwargs: {'until': ['\n']}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_fquadv2_genq from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_fquadv2_bool from None to 5
+INFO:lm_eval.evaluator:french_bench_fquadv2: Using gen_kwargs: {'until': ['\n']}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_fquadv2 from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_boolqa from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of french_bench_arc_challenge from None to 5
+INFO:lm_eval.api.task:Building contexts for french_bench_xnli on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 33%|███▎      | 21/64 [00:00<00:00, 202.63it/s] 66%|██████▌   | 42/64 [00:00<00:00, 202.98it/s] 98%|█████████▊| 63/64 [00:00<00:00, 203.14it/s]100%|██████████| 64/64 [00:00<00:00, 202.87it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_vocab on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 14%|█▍        | 9/64 [00:00<00:00, 84.20it/s] 28%|██▊       | 18/64 [00:00<00:00, 84.20it/s] 42%|████▏     | 27/64 [00:00<00:00, 84.18it/s] 56%|█████▋    | 36/64 [00:00<00:00, 84.23it/s] 70%|███████   | 45/64 [00:00<00:00, 84.16it/s] 84%|████████▍ | 54/64 [00:00<00:00, 84.23it/s] 98%|█████████▊| 63/64 [00:00<00:00, 84.25it/s]100%|██████████| 64/64 [00:00<00:00, 84.19it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_trivia on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 50%|█████     | 32/64 [00:00<00:00, 317.62it/s]100%|██████████| 64/64 [00:00<00:00, 318.92it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_topic_based_nli on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 28%|██▊       | 18/64 [00:00<00:00, 176.83it/s] 56%|█████▋    | 36/64 [00:00<00:00, 176.90it/s] 84%|████████▍ | 54/64 [00:00<00:00, 176.90it/s]100%|██████████| 64/64 [00:00<00:00, 176.81it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_reading_comp on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]  8%|▊         | 5/64 [00:00<00:01, 47.19it/s] 16%|█▌        | 10/64 [00:00<00:01, 47.24it/s] 23%|██▎       | 15/64 [00:00<00:01, 47.28it/s] 31%|███▏      | 20/64 [00:00<00:00, 47.29it/s] 39%|███▉      | 25/64 [00:00<00:00, 47.25it/s] 47%|████▋     | 30/64 [00:00<00:00, 47.20it/s] 55%|█████▍    | 35/64 [00:00<00:00, 47.19it/s] 62%|██████▎   | 40/64 [00:00<00:00, 47.13it/s] 70%|███████   | 45/64 [00:00<00:00, 47.13it/s] 78%|███████▊  | 50/64 [00:01<00:00, 47.12it/s] 86%|████████▌ | 55/64 [00:01<00:00, 47.11it/s] 94%|█████████▍| 60/64 [00:01<00:00, 47.11it/s]100%|██████████| 64/64 [00:01<00:00, 47.15it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_opus_perplexity on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 2156.58it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_multifquad on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 30%|██▉       | 19/64 [00:00<00:00, 188.92it/s] 61%|██████    | 39/64 [00:00<00:00, 189.69it/s] 91%|█████████ | 58/64 [00:00<00:00, 189.55it/s]100%|██████████| 64/64 [00:00<00:00, 189.50it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_hellaswag on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 31%|███▏      | 20/64 [00:00<00:00, 194.63it/s] 62%|██████▎   | 40/64 [00:00<00:00, 195.71it/s] 94%|█████████▍| 60/64 [00:00<00:00, 196.43it/s]100%|██████████| 64/64 [00:00<00:00, 196.10it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_grammar on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 14%|█▍        | 9/64 [00:00<00:00, 82.41it/s] 28%|██▊       | 18/64 [00:00<00:00, 82.48it/s] 42%|████▏     | 27/64 [00:00<00:00, 82.63it/s] 56%|█████▋    | 36/64 [00:00<00:00, 82.52it/s] 70%|███████   | 45/64 [00:00<00:00, 82.62it/s] 84%|████████▍ | 54/64 [00:00<00:00, 82.67it/s] 98%|█████████▊| 63/64 [00:00<00:00, 82.74it/s]100%|██████████| 64/64 [00:00<00:00, 82.65it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_fquadv2_hasAns on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 22%|██▏       | 14/64 [00:00<00:00, 133.16it/s] 44%|████▍     | 28/64 [00:00<00:00, 133.54it/s] 66%|██████▌   | 42/64 [00:00<00:00, 133.45it/s] 88%|████████▊ | 56/64 [00:00<00:00, 133.44it/s]100%|██████████| 64/64 [00:00<00:00, 133.46it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_fquadv2_genq on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 20%|██        | 13/64 [00:00<00:00, 121.37it/s] 41%|████      | 26/64 [00:00<00:00, 121.78it/s] 61%|██████    | 39/64 [00:00<00:00, 121.73it/s] 81%|████████▏ | 52/64 [00:00<00:00, 121.90it/s]100%|██████████| 64/64 [00:00<00:00, 121.87it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_fquadv2_bool on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 28%|██▊       | 18/64 [00:00<00:00, 179.29it/s] 56%|█████▋    | 36/64 [00:00<00:00, 179.41it/s] 84%|████████▍ | 54/64 [00:00<00:00, 179.61it/s]100%|██████████| 64/64 [00:00<00:00, 179.36it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_fquadv2 on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 22%|██▏       | 14/64 [00:00<00:00, 132.99it/s] 44%|████▍     | 28/64 [00:00<00:00, 133.25it/s] 66%|██████▌   | 42/64 [00:00<00:00, 132.93it/s] 88%|████████▊ | 56/64 [00:00<00:00, 132.78it/s]100%|██████████| 64/64 [00:00<00:00, 132.93it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_boolqa on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 30%|██▉       | 19/64 [00:00<00:00, 184.41it/s] 59%|█████▉    | 38/64 [00:00<00:00, 185.17it/s] 89%|████████▉ | 57/64 [00:00<00:00, 185.36it/s]100%|██████████| 64/64 [00:00<00:00, 185.36it/s]
+INFO:lm_eval.api.task:Building contexts for french_bench_arc_challenge on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 23%|██▎       | 15/64 [00:00<00:00, 144.60it/s] 47%|████▋     | 30/64 [00:00<00:00, 35.81it/s]  70%|███████   | 45/64 [00:00<00:00, 54.41it/s] 94%|█████████▍| 60/64 [00:00<00:00, 72.00it/s]100%|██████████| 64/64 [00:00<00:00, 65.19it/s]
+INFO:lm_eval.evaluator:Running loglikelihood requests
+INFO:__main__:First forward diagnostics: input_dtype=torch.int64 input_shape=(1, 331) position_ids_dtype=torch.int64 attention_mask_dtype=torch.int64 attention_mask_shape=(1, 331) parameter_dtype=torch.bfloat16
+INFO:__main__:First forward output diagnostics: output_type=Tensor logits_dtype=torch.bfloat16 logits_shape=(1, 331, 128000)
+INFO:__main__:Forward perf checkpoint: calls=500 input_tokens=121909 prep=0.033s forward=20.709s output=0.001s total=20.743s avg_call=0.0415s
+INFO:__main__:Forward perf checkpoint: calls=1000 input_tokens=520578 prep=0.066s forward=39.590s output=0.001s total=39.658s avg_call=0.0397s
+INFO:__main__:Forward perf checkpoint: calls=1500 input_tokens=779992 prep=0.100s forward=58.415s output=0.002s total=58.517s avg_call=0.0390s
+INFO:lm_eval.evaluator:Running generate_until requests
+INFO:__main__:Forward perf checkpoint: calls=2000 input_tokens=1058592 prep=0.133s forward=77.256s output=0.002s total=77.391s avg_call=0.0387s
+INFO:__main__:Forward perf checkpoint: calls=2500 input_tokens=1705622 prep=0.168s forward=96.119s output=0.003s total=96.290s avg_call=0.0385s
+INFO:__main__:Forward perf checkpoint: calls=3000 input_tokens=2560034 prep=0.203s forward=115.027s output=0.003s total=115.234s avg_call=0.0384s
+INFO:__main__:Forward perf checkpoint: calls=3500 input_tokens=3409198 prep=0.239s forward=133.922s output=0.004s total=134.165s avg_call=0.0383s
+INFO:__main__:Forward perf checkpoint: calls=4000 input_tokens=4294215 prep=0.275s forward=152.837s output=0.004s total=153.116s avg_call=0.0383s
+INFO:__main__:Forward perf checkpoint: calls=4500 input_tokens=5179392 prep=0.310s forward=171.751s output=0.005s total=172.066s avg_call=0.0382s
+INFO:__main__:Forward perf checkpoint: calls=5000 input_tokens=6073699 prep=0.346s forward=190.675s output=0.006s total=191.026s avg_call=0.0382s
+INFO:__main__:Forward perf checkpoint: calls=5500 input_tokens=6845366 prep=0.381s forward=209.561s output=0.006s total=209.948s avg_call=0.0382s
+INFO:__main__:Forward perf checkpoint: calls=6000 input_tokens=7585149 prep=0.415s forward=228.407s output=0.007s total=228.829s avg_call=0.0381s
+INFO:__main__:Forward perf checkpoint: calls=6500 input_tokens=8299364 prep=0.450s forward=247.242s output=0.007s total=247.699s avg_call=0.0381s
+INFO:__main__:Forward perf checkpoint: calls=7000 input_tokens=9027808 prep=0.484s forward=266.051s output=0.008s total=266.543s avg_call=0.0381s
+INFO:lm_eval.evaluator:Running loglikelihood_rolling requests
+ERROR:__main__:Evaluation failed for group 'regular': Couldn't find a module script at /users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/rouge/rouge.py. Module 'rouge' doesn't exist on the Hugging Face Hub either.
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_triton.py", line 1546, in <module>
+[rank0]:     main()
+[rank0]:   File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_triton.py", line 1497, in main
+[rank0]:     model_result = run_evaluation(
+[rank0]:                    ^^^^^^^^^^^^^^^
+[rank0]:   File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_triton.py", line 1126, in run_evaluation
+[rank0]:     partial = lm_eval.simple_evaluate(**eval_kwargs)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lm_eval/utils.py", line 440, in _wrapper
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lm_eval/evaluator.py", line 341, in simple_evaluate
+[rank0]:     results = evaluate(
+[rank0]:               ^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lm_eval/utils.py", line 440, in _wrapper
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lm_eval/evaluator.py", line 698, in evaluate
+[rank0]:     task_output.calculate_aggregate_metric(bootstrap_iters=bootstrap_iters)
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lm_eval/evaluator_utils.py", line 114, in calculate_aggregate_metric
+[rank0]:     self.agg_metrics[metric_key] = agg_fn(items)
+[rank0]:                                    ^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/lm_eval/tasks/french_bench/utils.py", line 72, in rouge1_agg
+[rank0]:     rouge_scorer = evaluate.load("rouge")
+[rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/evaluate/loading.py", line 748, in load
+[rank0]:     evaluation_module = evaluation_module_factory(
+[rank0]:                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/usr/local/lib/python3.12/dist-packages/evaluate/loading.py", line 681, in evaluation_module_factory
+[rank0]:     raise FileNotFoundError(
+[rank0]: FileNotFoundError: Couldn't find a module script at /users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/rouge/rouge.py. Module 'rouge' doesn't exist on the Hugging Face Hub either.
+Model 'ssa_luciole_100k' finished with status 1
+===========================================
+Benchmark finished with status 1 (selection=ssa)
+===========================================

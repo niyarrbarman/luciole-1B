@@ -1,0 +1,639 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-last
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           all
+Batch Size:      64
+Max Length:      2048
+Limit:           64
+GSM8K Limit:     64
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+Output prefix:   benchmark_results_99ksteps_ssa_fixed/results_luc1b_ssa_all_20260408_094147
+===========================================
+-------------------------------------------
+Running model:   ssa_luciole_10k (ssa_triton)
+Checkpoint:      /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+Output:          benchmark_results_99ksteps_ssa_fixed/results_luc1b_ssa_all_20260408_094147_ssa_luciole_10k.json
+-------------------------------------------
+WARNING: Environment variable HF_HOME already has value [/work/m24047/m24047brmn/lm_eval], will not forward new value [/work/m24047/m24047flhg/.cache/huggingface] from parent process environment
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa', 'gsm8k', 'openbookqa', 'lambada', 'boolq', 'cb', 'copa', 'multirc', 'record', 'rte', 'wic', 'wsc', 'axb', 'axg']
+INFO:__main__:gsm8k subset override: limit=64 (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'ssa_luciole_10k', 'type': 'ssa_triton', 'checkpoint': '/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'ssa_luciole_10k' (ssa_triton)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=ssa_triton, checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999)...
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-04-08 09:42:10 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-04-08 09:42:14 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-04-08 09:42:14 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Model weights loaded successfully
+INFO:eval_perplexity_triton:Converted model to bfloat16 for inference
+INFO:eval_perplexity_triton:Warming up Triton kernels for eval (Hq=32, Hkv=8, D=64, N=2048)...
+INFO:eval_perplexity_triton:Triton kernel warmup complete.
+INFO:eval_perplexity_triton:Model ready for evaluation
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:Model diagnostics (post-init): model_type=ssa_triton model_class=NemotronModel wrapped_class=GPTModel checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999 enforce_bf16=True compiled_bda=False force_contiguous_qkv=True parameter_dtype=torch.bfloat16
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: arc_easy -> arc_easy
+INFO:__main__:  Description: ARC Easy - Science questions from standardized tests
+INFO:__main__:Added task: arc_challenge -> arc_challenge
+INFO:__main__:  Description: ARC Challenge - Harder science questions
+INFO:__main__:Added task: hellaswag -> hellaswag
+INFO:__main__:  Description: HellaSwag - Commonsense reasoning about situations
+INFO:__main__:Added task: winogrande -> winogrande
+INFO:__main__:  Description: WinoGrande - Pronoun resolution benchmark
+INFO:__main__:Added task: truthfulqa -> truthfulqa_mc2
+INFO:__main__:  Description: TruthfulQA - Measuring model truthfulness
+INFO:__main__:Added task: gsm8k -> gsm8k
+INFO:__main__:  Description: GSM8K - Grade school math word problems
+INFO:__main__:Added task: openbookqa -> openbookqa
+INFO:__main__:  Description: OpenBookQA - Elementary science questions
+INFO:__main__:Added task: lambada -> lambada_openai
+INFO:__main__:  Description: LAMBADA - Word prediction requiring broad context
+INFO:__main__:Added task: boolq -> boolq
+INFO:__main__:  Description: BoolQ - Boolean question answering
+INFO:__main__:Added task: cb -> cb
+INFO:__main__:  Description: CB - CommitmentBank natural language inference
+INFO:__main__:Added task: copa -> copa
+INFO:__main__:  Description: COPA - Causal reasoning with alternatives
+INFO:__main__:Added task: multirc -> multirc
+INFO:__main__:  Description: MultiRC - Multi-sentence reading comprehension
+INFO:__main__:Added task: record -> record
+INFO:__main__:  Description: ReCoRD - Reading comprehension with commonsense reasoning
+INFO:__main__:Added task: rte -> rte
+INFO:__main__:  Description: RTE - Recognizing textual entailment
+INFO:__main__:Added task: wic -> wic
+INFO:__main__:  Description: WiC - Word-in-context disambiguation
+INFO:__main__:Added task: wsc -> wsc
+INFO:__main__:  Description: WSC - Winograd Schema Challenge coreference
+INFO:__main__:Added task: axb -> axb
+INFO:__main__:  Description: AX-b - Broad-coverage diagnostics from SuperGLUE
+INFO:__main__:Added task: axg -> axg
+INFO:__main__:  Description: AX-g - Winogender diagnostics from SuperGLUE
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047brmn/lm_eval/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047brmn/lm_eval/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047brmn/lm_eval/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047brmn/lm_eval/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:lm_eval.api.task:[Task: cb] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'cb' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'cb' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'copa' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'copa' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:lm_eval.api.task:[Task: record] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:lm_eval.api.task:[Task: rte] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: rte] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:__main__:Skipping task 'rte' (dataset unavailable offline): Couldn't reach 'glue' on the Hub (OfflineModeIsEnabled)
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wic' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wic' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:__main__:Skipping task 'axb' (dataset unavailable offline): 'axb'
+WARNING:__main__:Skipping task 'axg' (dataset unavailable offline): 'axg'
+INFO:__main__:Skipped 3 task(s) due to offline cache issues: ['rte', 'axb', 'axg']
+INFO:__main__:Running evaluation on tasks: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa_mc2', 'gsm8k', 'openbookqa', 'lambada_openai', 'boolq', 'cb', 'copa', 'multirc', 'record', 'wic', 'wsc']
+INFO:__main__:Evaluating group 'regular' tasks=['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa_mc2', 'openbookqa', 'lambada_openai', 'boolq', 'cb', 'copa', 'multirc', 'record', 'wic', 'wsc'] limit=64
+INFO:lm_eval.evaluator:Setting random seed to 0 | Setting numpy seed to 1234 | Setting fewshot manual seed to 1234
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047brmn/lm_eval/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047brmn/lm_eval/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047brmn/lm_eval/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047brmn/lm_eval/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047brmn/lm_eval/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047brmn/lm_eval/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:lm_eval.api.task:[Task: cb] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'cb' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'cb' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'copa' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'copa' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:lm_eval.api.task:[Task: record] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'record' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wic' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wic' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047brmn/lm_eval/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of wsc from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of wic from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of record from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of multirc from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of copa from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of cb from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of boolq from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of lambada_openai from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of openbookqa from None to 5
+INFO:lm_eval.evaluator:num_fewshot has been set to 0 for truthfulqa_mc2 in its config. Manual configuration will be ignored.
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of winogrande from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of hellaswag from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of arc_challenge from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of arc_easy from None to 5
+INFO:lm_eval.api.task:Building contexts for wsc on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 17631.23it/s]
+INFO:lm_eval.api.task:Building contexts for wic on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 41%|████      | 26/64 [00:00<00:00, 257.85it/s] 81%|████████▏ | 52/64 [00:00<00:00, 257.66it/s]100%|██████████| 64/64 [00:00<00:00, 257.62it/s]
+INFO:lm_eval.api.task:Building contexts for record on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 11588.98it/s]
+INFO:lm_eval.api.task:Building contexts for multirc on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 33%|███▎      | 21/64 [00:00<00:00, 206.62it/s] 66%|██████▌   | 42/64 [00:00<00:00, 207.54it/s] 98%|█████████▊| 63/64 [00:00<00:00, 208.12it/s]100%|██████████| 64/64 [00:00<00:00, 207.65it/s]
+INFO:lm_eval.api.task:Building contexts for copa on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 31326.35it/s]
+INFO:lm_eval.api.task:Building contexts for cb on rank 0...
+  0%|          | 0/56 [00:00<?, ?it/s] 77%|███████▋  | 43/56 [00:00<00:00, 428.78it/s]100%|██████████| 56/56 [00:00<00:00, 428.93it/s]
+INFO:lm_eval.api.task:Building contexts for boolq on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 69%|██████▉   | 44/64 [00:00<00:00, 431.37it/s]100%|██████████| 64/64 [00:00<00:00, 430.76it/s]
+INFO:lm_eval.api.task:Building contexts for lambada_openai on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 20%|██        | 13/64 [00:00<00:00, 120.86it/s] 41%|████      | 26/64 [00:00<00:00, 121.14it/s] 61%|██████    | 39/64 [00:00<00:00, 121.31it/s] 81%|████████▏ | 52/64 [00:00<00:00, 121.42it/s]100%|██████████| 64/64 [00:00<00:00, 121.39it/s]
+INFO:lm_eval.api.task:Building contexts for openbookqa on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 31%|███▏      | 20/64 [00:00<00:00, 197.97it/s] 62%|██████▎   | 40/64 [00:00<00:00, 197.65it/s] 94%|█████████▍| 60/64 [00:00<00:00, 197.70it/s]100%|██████████| 64/64 [00:00<00:00, 197.68it/s]
+INFO:lm_eval.api.task:Building contexts for truthfulqa_mc2 on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 948.27it/s]
+INFO:lm_eval.api.task:Building contexts for winogrande on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s]100%|██████████| 64/64 [00:00<00:00, 30699.39it/s]
+INFO:lm_eval.api.task:Building contexts for hellaswag on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 52%|█████▏    | 33/64 [00:00<00:00, 326.90it/s]100%|██████████| 64/64 [00:00<00:00, 327.12it/s]
+INFO:lm_eval.api.task:Building contexts for arc_challenge on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 25%|██▌       | 16/64 [00:00<00:00, 153.00it/s] 50%|█████     | 32/64 [00:00<00:00, 153.60it/s] 75%|███████▌  | 48/64 [00:00<00:00, 153.31it/s]100%|██████████| 64/64 [00:00<00:00, 153.41it/s]100%|██████████| 64/64 [00:00<00:00, 153.35it/s]
+INFO:lm_eval.api.task:Building contexts for arc_easy on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 25%|██▌       | 16/64 [00:00<00:00, 153.14it/s] 50%|█████     | 32/64 [00:00<00:00, 153.42it/s] 75%|███████▌  | 48/64 [00:00<00:00, 153.14it/s]100%|██████████| 64/64 [00:00<00:00, 153.18it/s]100%|██████████| 64/64 [00:00<00:00, 153.17it/s]
+INFO:lm_eval.evaluator:Running loglikelihood requests
+INFO:__main__:First forward diagnostics: input_dtype=torch.int64 input_shape=(1, 372) position_ids_dtype=torch.int64 attention_mask_dtype=torch.int64 attention_mask_shape=(1, 372) parameter_dtype=torch.bfloat16
+INFO:__main__:First forward output diagnostics: output_type=Tensor logits_dtype=torch.bfloat16 logits_shape=(1, 372, 128000)
+INFO:__main__:Forward perf checkpoint: calls=50 input_tokens=18470 prep=0.003s forward=2.060s output=0.000s total=2.064s avg_call=0.0413s
+INFO:__main__:Forward perf checkpoint: calls=100 input_tokens=36114 prep=0.006s forward=3.814s output=0.000s total=3.820s avg_call=0.0382s
+INFO:__main__:Forward perf checkpoint: calls=150 input_tokens=52582 prep=0.009s forward=5.567s output=0.000s total=5.577s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=200 input_tokens=67784 prep=0.012s forward=7.323s output=0.000s total=7.335s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=250 input_tokens=82532 prep=0.015s forward=9.078s output=0.000s total=9.093s avg_call=0.0364s
+INFO:__main__:Forward perf checkpoint: calls=300 input_tokens=156140 prep=0.018s forward=10.845s output=0.000s total=10.863s avg_call=0.0362s
+INFO:__main__:Forward perf checkpoint: calls=350 input_tokens=235771 prep=0.021s forward=12.607s output=0.000s total=12.629s avg_call=0.0361s
+INFO:__main__:Forward perf checkpoint: calls=400 input_tokens=324711 prep=0.024s forward=14.378s output=0.000s total=14.402s avg_call=0.0360s
+INFO:__main__:Forward perf checkpoint: calls=450 input_tokens=402826 prep=0.027s forward=16.141s output=0.000s total=16.169s avg_call=0.0359s
+INFO:__main__:Forward perf checkpoint: calls=500 input_tokens=484400 prep=0.030s forward=17.906s output=0.000s total=17.937s avg_call=0.0359s
+INFO:__main__:Forward perf checkpoint: calls=550 input_tokens=565771 prep=0.034s forward=19.673s output=0.000s total=19.707s avg_call=0.0358s
+INFO:__main__:Forward perf checkpoint: calls=600 input_tokens=643862 prep=0.037s forward=21.435s output=0.001s total=21.472s avg_call=0.0358s
+INFO:__main__:Forward perf checkpoint: calls=650 input_tokens=721059 prep=0.040s forward=23.196s output=0.001s total=23.236s avg_call=0.0357s
+INFO:__main__:Forward perf checkpoint: calls=700 input_tokens=802241 prep=0.043s forward=24.956s output=0.001s total=25.000s avg_call=0.0357s
+INFO:__main__:Forward perf checkpoint: calls=750 input_tokens=880887 prep=0.046s forward=26.711s output=0.001s total=26.757s avg_call=0.0357s
+INFO:__main__:Forward perf checkpoint: calls=800 input_tokens=956932 prep=0.049s forward=28.472s output=0.001s total=28.522s avg_call=0.0357s
+INFO:__main__:Forward perf checkpoint: calls=850 input_tokens=1038484 prep=0.052s forward=30.236s output=0.001s total=30.288s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=900 input_tokens=1121498 prep=0.055s forward=32.001s output=0.001s total=32.057s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=950 input_tokens=1202717 prep=0.058s forward=33.763s output=0.001s total=33.822s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=1000 input_tokens=1284885 prep=0.061s forward=35.526s output=0.001s total=35.588s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=1050 input_tokens=1364330 prep=0.064s forward=37.288s output=0.001s total=37.353s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=1100 input_tokens=1461846 prep=0.067s forward=39.057s output=0.001s total=39.125s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=1150 input_tokens=1563968 prep=0.070s forward=40.823s output=0.001s total=40.894s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=1200 input_tokens=1616121 prep=0.073s forward=42.607s output=0.001s total=42.682s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=1250 input_tokens=1620737 prep=0.076s forward=44.359s output=0.001s total=44.436s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1300 input_tokens=1625496 prep=0.079s forward=46.109s output=0.001s total=46.190s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1350 input_tokens=1652469 prep=0.082s forward=47.870s output=0.001s total=47.954s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1400 input_tokens=1681786 prep=0.086s forward=49.632s output=0.001s total=49.719s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1450 input_tokens=1710157 prep=0.089s forward=51.391s output=0.001s total=51.481s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1500 input_tokens=1746527 prep=0.092s forward=53.157s output=0.001s total=53.250s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1550 input_tokens=1790871 prep=0.095s forward=54.925s output=0.001s total=55.021s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1600 input_tokens=1835916 prep=0.098s forward=56.691s output=0.001s total=56.790s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1650 input_tokens=1859994 prep=0.101s forward=58.454s output=0.001s total=58.556s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1700 input_tokens=1869980 prep=0.104s forward=60.206s output=0.001s total=60.311s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1750 input_tokens=1874823 prep=0.107s forward=61.956s output=0.002s total=62.064s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1800 input_tokens=1879405 prep=0.110s forward=63.702s output=0.002s total=63.814s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=1850 input_tokens=1884636 prep=0.113s forward=65.452s output=0.002s total=65.566s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=1900 input_tokens=1889721 prep=0.116s forward=67.200s output=0.002s total=67.318s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=1950 input_tokens=1897147 prep=0.119s forward=68.952s output=0.002s total=69.072s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2000 input_tokens=1906193 prep=0.122s forward=70.705s output=0.002s total=70.829s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2050 input_tokens=1915196 prep=0.125s forward=72.455s output=0.002s total=72.582s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2100 input_tokens=1924350 prep=0.128s forward=74.205s output=0.002s total=74.335s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2150 input_tokens=1933412 prep=0.131s forward=75.957s output=0.002s total=76.090s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2200 input_tokens=1942496 prep=0.134s forward=77.706s output=0.002s total=77.842s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2250 input_tokens=1951304 prep=0.137s forward=79.455s output=0.002s total=79.594s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2300 input_tokens=1960438 prep=0.140s forward=81.206s output=0.002s total=81.348s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2350 input_tokens=1969440 prep=0.143s forward=82.956s output=0.002s total=83.101s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2400 input_tokens=1978415 prep=0.146s forward=84.705s output=0.002s total=84.853s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2450 input_tokens=1985301 prep=0.149s forward=86.458s output=0.002s total=86.609s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=2500 input_tokens=1992118 prep=0.152s forward=88.209s output=0.002s total=88.363s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2550 input_tokens=2003034 prep=0.155s forward=89.965s output=0.002s total=90.122s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2600 input_tokens=2023795 prep=0.158s forward=91.728s output=0.002s total=91.888s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2650 input_tokens=2044309 prep=0.161s forward=93.489s output=0.002s total=93.652s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2700 input_tokens=2068698 prep=0.164s forward=95.249s output=0.002s total=95.415s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2750 input_tokens=2090945 prep=0.167s forward=97.008s output=0.002s total=97.177s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2800 input_tokens=2110753 prep=0.170s forward=98.765s output=0.002s total=98.937s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2850 input_tokens=2121858 prep=0.173s forward=100.517s output=0.002s total=100.692s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2900 input_tokens=2132765 prep=0.176s forward=102.268s output=0.002s total=102.446s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=2950 input_tokens=2144408 prep=0.179s forward=104.019s output=0.003s total=104.200s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=3000 input_tokens=2155455 prep=0.182s forward=105.770s output=0.003s total=105.955s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=3050 input_tokens=2166109 prep=0.185s forward=107.521s output=0.003s total=107.709s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=3100 input_tokens=2176142 prep=0.188s forward=109.269s output=0.003s total=109.459s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=3150 input_tokens=2185289 prep=0.191s forward=111.019s output=0.003s total=111.213s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=3200 input_tokens=2194415 prep=0.194s forward=112.770s output=0.003s total=112.967s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=3250 input_tokens=2204566 prep=0.197s forward=114.518s output=0.003s total=114.717s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=3300 input_tokens=2214860 prep=0.200s forward=116.263s output=0.003s total=116.466s avg_call=0.0353s
+bootstrapping for stddev: perplexity
+  0%|          | 0/100 [00:00<?, ?it/s]100%|██████████| 100/100 [00:00<00:00, 5588.38it/s]
+INFO:__main__:Completed group 'regular' in 2m 47s (evaluated 888/40343 docs, full dataset estimate 2h 6m 20s)
+INFO:__main__:Evaluating group 'gsm8k' tasks=['gsm8k'] limit=64
+INFO:__main__:gsm8k subset config: limit=64, random_seed=42
+INFO:lm_eval.evaluator:Setting random seed to 42 | Setting numpy seed to 43 | Setting fewshot manual seed to 44
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047brmn/lm_eval/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+INFO:lm_eval.evaluator:gsm8k: Using gen_kwargs: {'until': ['Question:', '</s>', '<|im_end|>'], 'do_sample': False, 'temperature': 0.0}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of gsm8k from 5 to 5
+INFO:lm_eval.api.task:Building contexts for gsm8k on rank 0...
+  0%|          | 0/64 [00:00<?, ?it/s] 48%|████▊     | 31/64 [00:00<00:00, 305.25it/s] 97%|█████████▋| 62/64 [00:00<00:00, 305.67it/s]100%|██████████| 64/64 [00:00<00:00, 304.85it/s]
+INFO:lm_eval.evaluator:Running generate_until requests
+INFO:__main__:Forward perf checkpoint: calls=3350 input_tokens=2264185 prep=0.204s forward=118.179s output=0.003s total=118.385s avg_call=0.0353s
+INFO:__main__:Forward perf checkpoint: calls=3400 input_tokens=2314618 prep=0.207s forward=120.090s output=0.003s total=120.300s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=3450 input_tokens=2366543 prep=0.211s forward=122.007s output=0.003s total=122.220s avg_call=0.0354s
+INFO:__main__:Forward perf checkpoint: calls=3500 input_tokens=2420767 prep=0.214s forward=123.931s output=0.003s total=124.149s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=3550 input_tokens=2467642 prep=0.218s forward=125.856s output=0.003s total=126.077s avg_call=0.0355s
+INFO:__main__:Forward perf checkpoint: calls=3600 input_tokens=2515325 prep=0.222s forward=127.778s output=0.003s total=128.002s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=3650 input_tokens=2564236 prep=0.225s forward=129.698s output=0.003s total=129.926s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=3700 input_tokens=2624761 prep=0.229s forward=131.628s output=0.003s total=131.860s avg_call=0.0356s
+INFO:__main__:Forward perf checkpoint: calls=3750 input_tokens=2684321 prep=0.232s forward=133.558s output=0.003s total=133.794s avg_call=0.0357s
+INFO:__main__:Forward perf checkpoint: calls=3800 input_tokens=2744596 prep=0.236s forward=135.485s output=0.003s total=135.725s avg_call=0.0357s
+INFO:__main__:Forward perf checkpoint: calls=3850 input_tokens=2805646 prep=0.240s forward=137.415s output=0.003s total=137.658s avg_call=0.0358s
+INFO:__main__:Forward perf checkpoint: calls=3900 input_tokens=2853671 prep=0.243s forward=139.339s output=0.003s total=139.586s avg_call=0.0358s
+INFO:__main__:Forward perf checkpoint: calls=3950 input_tokens=2896516 prep=0.247s forward=141.265s output=0.003s total=141.515s avg_call=0.0358s
+INFO:__main__:Forward perf checkpoint: calls=4000 input_tokens=2941285 prep=0.251s forward=143.191s output=0.003s total=143.445s avg_call=0.0359s
+INFO:__main__:Forward perf checkpoint: calls=4050 input_tokens=2992010 prep=0.254s forward=145.113s output=0.003s total=145.371s avg_call=0.0359s
+INFO:__main__:Forward perf checkpoint: calls=4100 input_tokens=3045235 prep=0.258s forward=147.037s output=0.004s total=147.299s avg_call=0.0359s
+INFO:__main__:Forward perf checkpoint: calls=4150 input_tokens=3099772 prep=0.262s forward=148.964s output=0.004s total=149.229s avg_call=0.0360s
+INFO:__main__:Forward perf checkpoint: calls=4200 input_tokens=3156347 prep=0.265s forward=150.899s output=0.004s total=151.168s avg_call=0.0360s
+INFO:__main__:Forward perf checkpoint: calls=4250 input_tokens=3213790 prep=0.269s forward=152.832s output=0.004s total=153.104s avg_call=0.0360s
+INFO:__main__:Forward perf checkpoint: calls=4300 input_tokens=3265165 prep=0.273s forward=154.762s output=0.004s total=155.038s avg_call=0.0361s
+INFO:__main__:Forward perf checkpoint: calls=4350 input_tokens=3319872 prep=0.276s forward=156.692s output=0.004s total=156.972s avg_call=0.0361s
+INFO:__main__:Forward perf checkpoint: calls=4400 input_tokens=3377847 prep=0.280s forward=158.620s output=0.004s total=158.904s avg_call=0.0361s
+INFO:__main__:Forward perf checkpoint: calls=4450 input_tokens=3438322 prep=0.284s forward=160.552s output=0.004s total=160.840s avg_call=0.0361s
+INFO:__main__:Forward perf checkpoint: calls=4500 input_tokens=3498081 prep=0.287s forward=162.484s output=0.004s total=162.775s avg_call=0.0362s
+INFO:__main__:Forward perf checkpoint: calls=4550 input_tokens=3553056 prep=0.291s forward=164.412s output=0.004s total=164.707s avg_call=0.0362s
+INFO:__main__:Forward perf checkpoint: calls=4600 input_tokens=3610531 prep=0.295s forward=166.341s output=0.004s total=166.640s avg_call=0.0362s
+INFO:__main__:Forward perf checkpoint: calls=4650 input_tokens=3665887 prep=0.298s forward=168.272s output=0.004s total=168.574s avg_call=0.0363s
+INFO:__main__:Forward perf checkpoint: calls=4700 input_tokens=3720912 prep=0.302s forward=170.204s output=0.004s total=170.511s avg_call=0.0363s
+INFO:__main__:Forward perf checkpoint: calls=4750 input_tokens=3773421 prep=0.306s forward=172.135s output=0.004s total=172.445s avg_call=0.0363s
+INFO:__main__:Forward perf checkpoint: calls=4800 input_tokens=3826390 prep=0.309s forward=174.066s output=0.004s total=174.380s avg_call=0.0363s
+INFO:__main__:Forward perf checkpoint: calls=4850 input_tokens=3880415 prep=0.313s forward=175.995s output=0.004s total=176.312s avg_call=0.0364s
+INFO:__main__:Forward perf checkpoint: calls=4900 input_tokens=3931446 prep=0.317s forward=177.925s output=0.004s total=178.246s avg_call=0.0364s
+INFO:__main__:Forward perf checkpoint: calls=4950 input_tokens=3983771 prep=0.320s forward=179.855s output=0.004s total=180.180s avg_call=0.0364s
+INFO:__main__:Forward perf checkpoint: calls=5000 input_tokens=4041260 prep=0.324s forward=181.792s output=0.004s total=182.120s avg_call=0.0364s
+INFO:__main__:Forward perf checkpoint: calls=5050 input_tokens=4102185 prep=0.328s forward=183.732s output=0.004s total=184.064s avg_call=0.0364s
+INFO:__main__:Forward perf checkpoint: calls=5100 input_tokens=4161047 prep=0.332s forward=185.669s output=0.005s total=186.005s avg_call=0.0365s
+INFO:__main__:Forward perf checkpoint: calls=5150 input_tokens=4201622 prep=0.335s forward=187.606s output=0.005s total=187.946s avg_call=0.0365s
+INFO:__main__:Forward perf checkpoint: calls=5200 input_tokens=4244697 prep=0.339s forward=189.540s output=0.005s total=189.884s avg_call=0.0365s
+INFO:__main__:Forward perf checkpoint: calls=5250 input_tokens=4292225 prep=0.343s forward=191.477s output=0.005s total=191.824s avg_call=0.0365s
+INFO:__main__:Forward perf checkpoint: calls=5300 input_tokens=4343450 prep=0.346s forward=193.412s output=0.005s total=193.763s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=5350 input_tokens=4402546 prep=0.350s forward=195.348s output=0.005s total=195.702s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=5400 input_tokens=4460210 prep=0.353s forward=197.283s output=0.005s total=197.641s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=5450 input_tokens=4511342 prep=0.357s forward=199.213s output=0.005s total=199.575s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=5500 input_tokens=4551521 prep=0.361s forward=201.143s output=0.005s total=201.509s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=5550 input_tokens=4592832 prep=0.364s forward=203.076s output=0.005s total=203.445s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=5600 input_tokens=4646807 prep=0.368s forward=205.006s output=0.005s total=205.379s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=5650 input_tokens=4703282 prep=0.372s forward=206.943s output=0.005s total=207.320s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=5700 input_tokens=4752657 prep=0.375s forward=208.878s output=0.005s total=209.258s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=5750 input_tokens=4806949 prep=0.379s forward=210.813s output=0.005s total=211.197s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=5800 input_tokens=4847985 prep=0.383s forward=212.745s output=0.005s total=213.133s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=5850 input_tokens=4889310 prep=0.386s forward=214.676s output=0.005s total=215.067s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=5900 input_tokens=4933135 prep=0.390s forward=216.606s output=0.005s total=217.001s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=5950 input_tokens=4980240 prep=0.394s forward=218.536s output=0.005s total=218.935s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=6000 input_tokens=5039345 prep=0.397s forward=220.467s output=0.005s total=220.869s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=6050 input_tokens=5106170 prep=0.401s forward=222.402s output=0.005s total=222.809s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=6100 input_tokens=5173043 prep=0.405s forward=224.341s output=0.005s total=224.751s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=6150 input_tokens=5213878 prep=0.408s forward=226.273s output=0.006s total=226.687s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=6200 input_tokens=5253633 prep=0.412s forward=228.204s output=0.006s total=228.621s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=6250 input_tokens=5295108 prep=0.416s forward=230.134s output=0.006s total=230.555s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=6300 input_tokens=5339083 prep=0.419s forward=232.062s output=0.006s total=232.487s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=6350 input_tokens=5389632 prep=0.423s forward=233.994s output=0.006s total=234.423s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=6400 input_tokens=5442873 prep=0.427s forward=235.927s output=0.006s total=236.359s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=6450 input_tokens=5491898 prep=0.430s forward=237.860s output=0.006s total=238.296s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=6500 input_tokens=5543423 prep=0.434s forward=239.793s output=0.006s total=240.233s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=6550 input_tokens=5594146 prep=0.438s forward=241.726s output=0.006s total=242.170s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=6600 input_tokens=5644176 prep=0.442s forward=243.662s output=0.006s total=244.109s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=6650 input_tokens=5689601 prep=0.445s forward=245.596s output=0.006s total=246.047s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=6700 input_tokens=5737526 prep=0.449s forward=247.531s output=0.006s total=247.986s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=6750 input_tokens=5788273 prep=0.453s forward=249.466s output=0.006s total=249.925s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=6800 input_tokens=5841898 prep=0.456s forward=251.396s output=0.006s total=251.859s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=6850 input_tokens=5898023 prep=0.460s forward=253.331s output=0.006s total=253.798s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=6900 input_tokens=5941663 prep=0.464s forward=255.263s output=0.006s total=255.733s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=6950 input_tokens=5994250 prep=0.467s forward=257.201s output=0.006s total=257.675s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=7000 input_tokens=6056825 prep=0.471s forward=259.136s output=0.006s total=259.614s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=7050 input_tokens=6121900 prep=0.475s forward=261.064s output=0.006s total=261.545s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=7100 input_tokens=6183139 prep=0.479s forward=263.002s output=0.006s total=263.487s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=7150 input_tokens=6246614 prep=0.482s forward=264.936s output=0.007s total=265.424s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=7200 input_tokens=6305889 prep=0.486s forward=266.866s output=0.007s total=267.358s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=7250 input_tokens=6362442 prep=0.490s forward=268.801s output=0.007s total=269.297s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=7300 input_tokens=6413399 prep=0.493s forward=270.734s output=0.007s total=271.234s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7350 input_tokens=6461024 prep=0.497s forward=272.667s output=0.007s total=273.171s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7400 input_tokens=6511077 prep=0.501s forward=274.601s output=0.007s total=275.108s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7450 input_tokens=6562802 prep=0.504s forward=276.531s output=0.007s total=277.042s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7500 input_tokens=6619447 prep=0.508s forward=278.465s output=0.007s total=278.980s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7550 input_tokens=6681672 prep=0.512s forward=280.400s output=0.007s total=280.919s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7600 input_tokens=6746397 prep=0.516s forward=282.327s output=0.007s total=282.850s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7650 input_tokens=6793966 prep=0.519s forward=284.261s output=0.007s total=284.787s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7700 input_tokens=6838485 prep=0.523s forward=286.192s output=0.007s total=286.722s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7750 input_tokens=6890010 prep=0.526s forward=288.120s output=0.007s total=288.653s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=7800 input_tokens=6957588 prep=0.530s forward=290.047s output=0.007s total=290.584s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=7850 input_tokens=7020663 prep=0.534s forward=291.978s output=0.007s total=292.519s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=7900 input_tokens=7086238 prep=0.537s forward=293.905s output=0.007s total=294.450s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=7950 input_tokens=7152888 prep=0.541s forward=295.833s output=0.007s total=296.382s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8000 input_tokens=7220613 prep=0.545s forward=297.760s output=0.007s total=298.313s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8050 input_tokens=7290838 prep=0.549s forward=299.691s output=0.007s total=300.247s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8100 input_tokens=7350074 prep=0.552s forward=301.626s output=0.007s total=302.186s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8150 input_tokens=7404839 prep=0.556s forward=303.562s output=0.008s total=304.125s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8200 input_tokens=7461714 prep=0.560s forward=305.496s output=0.008s total=306.063s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8250 input_tokens=7514667 prep=0.563s forward=307.429s output=0.008s total=308.000s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8300 input_tokens=7561847 prep=0.567s forward=309.360s output=0.008s total=309.935s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8350 input_tokens=7616672 prep=0.571s forward=311.298s output=0.008s total=311.876s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8400 input_tokens=7671405 prep=0.574s forward=313.237s output=0.008s total=313.819s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8450 input_tokens=7728530 prep=0.578s forward=315.174s output=0.008s total=315.759s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8500 input_tokens=7781535 prep=0.582s forward=317.110s output=0.008s total=317.700s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8550 input_tokens=7827110 prep=0.585s forward=319.043s output=0.008s total=319.636s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8600 input_tokens=7878245 prep=0.589s forward=320.978s output=0.008s total=321.575s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8650 input_tokens=7954320 prep=0.593s forward=322.911s output=0.008s total=323.512s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8700 input_tokens=8032895 prep=0.596s forward=324.840s output=0.008s total=325.445s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8750 input_tokens=8078162 prep=0.600s forward=326.774s output=0.008s total=327.382s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8800 input_tokens=8124293 prep=0.604s forward=328.705s output=0.008s total=329.317s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8850 input_tokens=8172668 prep=0.607s forward=330.637s output=0.008s total=331.252s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8900 input_tokens=8223543 prep=0.611s forward=332.568s output=0.008s total=333.188s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=8950 input_tokens=8268918 prep=0.615s forward=334.497s output=0.008s total=335.120s avg_call=0.0374s
+INFO:__main__:Completed group 'gsm8k' in 3m 59s (evaluated 64/1319 docs, full dataset estimate 1h 22m 11s)
+
+======================================================================
+BENCHMARK RESULTS
+======================================================================
+Model name:   ssa_luciole_10k
+Model type:   ssa_triton
+Checkpoint:   /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999
+----------------------------------------------------------------------
+
+arc_challenge:
+--------------------------------------------------
+  alias: arc_challenge
+  acc,none: 0.3125
+  acc_stderr,none: 0.0584
+  acc_norm,none: 0.2812
+  acc_norm_stderr,none: 0.0566
+
+arc_easy:
+--------------------------------------------------
+  alias: arc_easy
+  acc,none: 0.7031
+  acc_stderr,none: 0.0576
+  acc_norm,none: 0.7969
+  acc_norm_stderr,none: 0.0507
+
+boolq:
+--------------------------------------------------
+  alias: boolq
+  acc,none: 0.5625
+  acc_stderr,none: 0.0625
+
+cb:
+--------------------------------------------------
+  alias: cb
+  acc,none: 0.4107
+  acc_stderr,none: 0.0663
+  f1,none: 0.3445
+  f1_stderr,none: N/A
+
+copa:
+--------------------------------------------------
+  alias: copa
+  acc,none: 0.7500
+  acc_stderr,none: 0.0546
+
+hellaswag:
+--------------------------------------------------
+  alias: hellaswag
+  acc,none: 0.4062
+  acc_stderr,none: 0.0619
+  acc_norm,none: 0.4844
+  acc_norm_stderr,none: 0.0630
+
+lambada_openai:
+--------------------------------------------------
+  alias: lambada_openai
+  perplexity,none: 25.8983
+  perplexity_stderr,none: 8.6640
+  acc,none: 0.3594
+  acc_stderr,none: 0.0605
+
+multirc:
+--------------------------------------------------
+  alias: multirc
+  acc,none: 0.4688
+  acc_stderr,none: 0.0629
+
+openbookqa:
+--------------------------------------------------
+  alias: openbookqa
+  acc,none: 0.2031
+  acc_stderr,none: 0.0507
+  acc_norm,none: 0.3594
+  acc_norm_stderr,none: 0.0605
+
+record:
+--------------------------------------------------
+  alias: record
+  f1,none: 0.7344
+  f1_stderr,none: 0.0556
+  em,none: 0.7344
+  em_stderr,none: 0.0556
+
+truthfulqa_mc2:
+--------------------------------------------------
+  alias: truthfulqa_mc2
+  acc,none: 0.3952
+  acc_stderr,none: 0.0491
+
+wic:
+--------------------------------------------------
+  alias: wic
+  acc,none: 0.4531
+  acc_stderr,none: 0.0627
+
+winogrande:
+--------------------------------------------------
+  alias: winogrande
+  acc,none: 0.6094
+  acc_stderr,none: 0.0615
+
+wsc:
+--------------------------------------------------
+  alias: wsc
+  acc,none: 0.6250
+  acc_stderr,none: 0.0610
+
+gsm8k:
+--------------------------------------------------
+  alias: gsm8k
+  exact_match,strict-match: 0.0000
+  exact_match_stderr,strict-match: 0.0000
+  exact_match,flexible-extract: 0.0000
+  exact_match_stderr,flexible-extract: 0.0000
+
+TASK TIMING
+----------------------------------------------------------------------
+task                 elapsed      full-est     docs          
+----------------------------------------------------------------------
+arc_easy             12s          7m 26s       64/2376       
+arc_challenge        12s          3m 40s       64/1172       
+hellaswag            12s          31m 27s      64/10042      
+winogrande           12s          3m 58s       64/1267       
+truthfulqa_mc2       12s          2m 34s       64/817        
+openbookqa           12s          1m 34s       64/500        
+lambada_openai       12s          16m 8s       64/5153       
+boolq                12s          10m 14s      64/3270       
+cb                   11s          11s          56/56         
+copa                 12s          19s          64/100        
+multirc              12s          15m 11s      64/4848       
+record               12s          31m 19s      64/10000      
+wic                  12s          2m 0s        64/638        
+wsc                  12s          20s          64/104        
+gsm8k                3m 59s       1h 22m 11s   64/1319       
+
+======================================================================
+INFO:__main__:Finished evaluation for model 'ssa_luciole_10k' in 6m 46s
+INFO:__main__:Forward perf summary: calls=8969 input_tokens=8286056 prep=0.616s forward=335.232s output=0.008s total=335.856s avg_call=0.0374s forward_toks_per_s=24717.4
+INFO:__main__:Estimated full-dataset runtime for model 'ssa_luciole_10k': 3h 28m 31s
+INFO:__main__:Results saved to: benchmark_results_99ksteps_ssa_fixed/results_luc1b_ssa_all_20260408_094147_ssa_luciole_10k.json
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+Model 'ssa_luciole_10k' finished with status 0
+===========================================
+Benchmark finished with status 0 (selection=ssa)
+Results saved to:
+benchmark_results_99ksteps_ssa_fixed/results_luc1b_ssa_all_20260408_094147_ssa_luciole_10k.json
+===========================================

@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=8:30:00
+#SBATCH --time=8:00:00
 #SBATCH --output=slurm/%x_%j.out
 #SBATCH --mail-user=niyar-r.barman@utoulouse.fr
 #SBATCH --mail-type=ALL

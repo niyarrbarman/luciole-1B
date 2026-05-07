@@ -492,3 +492,68 @@ class SSALoggingCallback(Callback, IOMixin):
                         pass
         except Exception as e:
             logging.warning(f"Could not log SSA params: {e}")
+
+
+class RNGStateCallback(Callback, IOMixin):
+    """Persist torch / CUDA / numpy / python RNG states across checkpoints.
+
+    NeMo's PreTrainingDataModule already handles dataloader resumption via
+    `consumed_samples`, but RNG state (used by dropout, worker seeding, etc.)
+    is not preserved by default. After a SLURM resume, `pl.seed_everything`
+    re-runs and resets RNG, so the first batch after resume sees different
+    dropout patterns than it would have mid-run. That manifests as one
+    oversized gradient step that perturbs sensitive scalar params (e.g.
+    SSA `n_raw`) — visible as the dips at job boundaries.
+
+    This callback closes the gap by saving RNG state into the checkpoint and
+    restoring it on load. Failures are logged and ignored so training is
+    never blocked by RNG bookkeeping.
+    """
+
+    _STATE_KEY = "rng_states"
+
+    def on_save_checkpoint(self, trainer, pl_module, checkpoint):
+        try:
+            import numpy as np
+            import random as _random
+
+            states: Dict[str, Any] = {
+                "torch": torch.get_rng_state(),
+                "numpy": np.random.get_state(),
+                "python": _random.getstate(),
+            }
+            if torch.cuda.is_available():
+                try:
+                    states["cuda"] = torch.cuda.get_rng_state_all()
+                except Exception as e:
+                    logging.warning(f"RNGStateCallback: could not capture CUDA RNG: {e}")
+            checkpoint[self._STATE_KEY] = states
+        except Exception as e:
+            logging.warning(f"RNGStateCallback: save skipped due to error: {e}")
+
+    def on_load_checkpoint(self, trainer, pl_module, checkpoint):
+        states = checkpoint.get(self._STATE_KEY)
+        if not states:
+            logging.info(
+                "RNGStateCallback: no RNG state in checkpoint (pre-callback ckpt); "
+                "skipping restore. Future checkpoints will include RNG."
+            )
+            return
+        try:
+            import numpy as np
+            import random as _random
+
+            if "torch" in states:
+                torch.set_rng_state(states["torch"])
+            if "numpy" in states:
+                np.random.set_state(states["numpy"])
+            if "python" in states:
+                _random.setstate(states["python"])
+            if "cuda" in states and torch.cuda.is_available():
+                try:
+                    torch.cuda.set_rng_state_all(states["cuda"])
+                except Exception as e:
+                    logging.warning(f"RNGStateCallback: CUDA RNG restore failed: {e}")
+            logging.info("RNGStateCallback: restored RNG state from checkpoint.")
+        except Exception as e:
+            logging.warning(f"RNGStateCallback: restore skipped due to error: {e}")

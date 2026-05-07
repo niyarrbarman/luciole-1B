@@ -485,12 +485,14 @@ def main():
         SSALoggingCallback,
         StopAfterThisRunMaxStepsCallback,
         WandbMetricsCallback,
+        RNGStateCallback,
     )
 
     trainer_callbacks = [
         run.Config(StatelessTimer, duration=args.duration),
         run.Config(GarbageCollectionCallback, gc_interval_train=100, gc_interval_val=100),
         run.Config(SSALoggingCallback, log_every_n_steps=args.log_ssa_every_n_steps),
+        run.Config(RNGStateCallback),
     ]
     if args.wandb:
         trainer_callbacks.append(run.Config(WandbMetricsCallback, log_every_n_steps=1))

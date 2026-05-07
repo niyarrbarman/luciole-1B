@@ -24,6 +24,7 @@ Interpretation:
 """
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -33,64 +34,94 @@ import torch
 # ---------------------------------------------------------------------------
 # Loading
 # ---------------------------------------------------------------------------
+def _try_dist_checkpointing(path: Path):
+    """Try loading via Megatron dist_checkpointing.load_plain_tensors."""
+    from megatron.core import dist_checkpointing
+    return dist_checkpointing.load_plain_tensors(str(path))
+
+
+def _try_dcp(path: Path):
+    """Try loading via torch.distributed.checkpoint."""
+    import tempfile
+    from torch.distributed.checkpoint.format_utils import dcp_to_torch_save
+    out_pt = Path(tempfile.gettempdir()) / f"{path.parent.name}_{path.name}.inspect.pt"
+    if not out_pt.exists():
+        dcp_to_torch_save(str(path), str(out_pt))
+    return torch.load(out_pt, map_location="cpu", weights_only=False)
+
+
 def load_checkpoint(ckpt_path: Path) -> dict:
-    """Load a checkpoint regardless of format. Returns a flat state dict-like object."""
+    """Load a NeMo-style checkpoint. Tries `weights/` and `optimizer/` subfolders
+    (NeMo 2.x stores the real distributed-checkpoint shards there) and merges them.
+    """
     if ckpt_path.is_file():
         return torch.load(ckpt_path, map_location="cpu", weights_only=False)
 
     if not ckpt_path.is_dir():
         raise FileNotFoundError(ckpt_path)
 
-    # 1) Try NeMo / Megatron dist_checkpointing (most common for NeMo 2.x)
-    try:
-        from megatron.core import dist_checkpointing
-        sharded_state_dict = None  # load all available
-        # load_plain_tensors loads everything as plain tensors (no sharding)
-        return dist_checkpointing.load_plain_tensors(str(ckpt_path))
-    except Exception as e:
-        print(f"  [info] megatron dist_checkpointing.load_plain_tensors failed: {e}")
+    # Candidate sub-paths to try as distributed checkpoints
+    candidates = []
+    for sub in ("weights", "optimizer", "model_weights", "model_optim_rng"):
+        if (ckpt_path / sub).is_dir():
+            candidates.append(("nemo:" + sub, ckpt_path / sub))
+    # Also try the top-level dir itself (some layouts store the dist ckpt there)
+    candidates.append(("root", ckpt_path))
 
-    # 2) Try torch.distributed.checkpoint format (.metadata file present)
-    if (ckpt_path / ".metadata").exists():
+    merged: dict = {}
+    loaded_any = False
+    for label, p in candidates:
+        # Try megatron.core.dist_checkpointing first
         try:
-            import tempfile
-            from torch.distributed.checkpoint.format_utils import dcp_to_torch_save
-            out_pt = Path(tempfile.gettempdir()) / f"{ckpt_path.name}.inspect.pt"
-            if not out_pt.exists():
-                dcp_to_torch_save(str(ckpt_path), str(out_pt))
-            return torch.load(out_pt, map_location="cpu", weights_only=False)
+            d = _try_dist_checkpointing(p)
+            print(f"  [ok]   loaded via megatron dist_checkpointing: {label} ({p.name})")
+            merged[label] = d
+            loaded_any = True
+            continue
         except Exception as e:
-            print(f"  [info] DCP load failed: {e}")
+            print(f"  [info] megatron dist_checkpointing on {label}: {type(e).__name__}: {e}")
 
-    # 3) NeMo legacy: a "weights/" subdir + "optimizer/" subdir of .pt files
-    weights = list(ckpt_path.rglob("*.pt")) + list(ckpt_path.rglob("*.bin"))
-    if weights:
-        merged = {}
-        for w in weights:
+        # Try DCP if .metadata present
+        if (p / ".metadata").exists():
             try:
-                d = torch.load(w, map_location="cpu", weights_only=False)
-                if isinstance(d, dict):
-                    merged[str(w.relative_to(ckpt_path))] = d
+                d = _try_dcp(p)
+                print(f"  [ok]   loaded via DCP: {label}")
+                merged[label] = d
+                loaded_any = True
+                continue
             except Exception as e:
-                print(f"  [warn] could not load {w}: {e}")
-        return merged
+                print(f"  [info] DCP on {label}: {type(e).__name__}: {e}")
 
-    raise RuntimeError(f"Don't know how to load checkpoint at {ckpt_path}")
+        # Fallback: load any .pt files we can find in this subdir
+        pts = list(p.glob("*.pt"))
+        for pt in pts:
+            try:
+                d = torch.load(pt, map_location="cpu", weights_only=False)
+                merged[f"{label}:{pt.name}"] = d
+                loaded_any = True
+            except Exception as e:
+                print(f"  [warn] failed {pt}: {e}")
+
+    if not loaded_any:
+        raise RuntimeError(f"Could not load any tensors from {ckpt_path}")
+    return merged
 
 
 # ---------------------------------------------------------------------------
 # Extraction
 # ---------------------------------------------------------------------------
+_N_TOKEN = re.compile(r"(^|\.)n(\.|$|\.exp_avg|\.exp_avg_sq|\.step|\.fp32_param)")
+
+
 def is_n_key(key: str) -> bool:
     k = key.lower()
-    # SSA n parameter is usually module.decoder.layers.<idx>.self_attention.n  (or similar)
-    return (
-        "ssa_n" in k
-        or k.endswith(".n")
-        or k.endswith(".n.weight")
-        or ".attention.n" in k
-        or ".self_attention.n" in k
-    )
+    # Match  *.n  /  *.n.exp_avg  /  *.n.exp_avg_sq  /  *.n.step  /  *.n.fp32_param
+    # but not unrelated tokens like "norm" or "linear"
+    if "ssa_n" in k:
+        return True
+    if ".self_attention.n" in k or ".attention.n" in k:
+        return True
+    return bool(_N_TOKEN.search(k))
 
 
 def walk_tensors(state, prefix=""):

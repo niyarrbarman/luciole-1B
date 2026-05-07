@@ -1641,3 +1641,590 @@ INFO:root:Instantiating MegatronPretrainingSampler with total_samples: 732966961
     
 [NeMo W 2026-05-06 13:45:12 rerun_state_machine:1264] Implicit initialization of Rerun State Machine!
 [NeMo W 2026-05-06 13:45:12 rerun_state_machine:239] RerunStateMachine initialized in mode RerunMode.DISABLED
+Training epoch 2, iteration 421000/715787 | lr: 0.0001282 | consumed_samples: 431105024 | global_batch_size: 1024 | global_step: 421000 | reduced_train_loss: 2.177
+Training epoch 2, iteration 421001/715787 | lr: 0.0001282 | consumed_samples: 431106048 | global_batch_size: 1024 | global_step: 421001 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421002/715787 | lr: 0.0001282 | consumed_samples: 431107072 | global_batch_size: 1024 | global_step: 421002 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421003/715787 | lr: 0.0001282 | consumed_samples: 431108096 | global_batch_size: 1024 | global_step: 421003 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421004/715787 | lr: 0.0001282 | consumed_samples: 431109120 | global_batch_size: 1024 | global_step: 421004 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421005/715787 | lr: 0.0001282 | consumed_samples: 431110144 | global_batch_size: 1024 | global_step: 421005 | reduced_train_loss: 2.175
+Training epoch 2, iteration 421006/715787 | lr: 0.0001282 | consumed_samples: 431111168 | global_batch_size: 1024 | global_step: 421006 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421007/715787 | lr: 0.0001282 | consumed_samples: 431112192 | global_batch_size: 1024 | global_step: 421007 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421008/715787 | lr: 0.0001282 | consumed_samples: 431113216 | global_batch_size: 1024 | global_step: 421008 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421009/715787 | lr: 0.0001282 | consumed_samples: 431114240 | global_batch_size: 1024 | global_step: 421009 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421010/715787 | lr: 0.0001282 | consumed_samples: 431115264 | global_batch_size: 1024 | global_step: 421010 | reduced_train_loss: 2.173
+Training epoch 2, iteration 421011/715787 | lr: 0.0001282 | consumed_samples: 431116288 | global_batch_size: 1024 | global_step: 421011 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421012/715787 | lr: 0.0001282 | consumed_samples: 431117312 | global_batch_size: 1024 | global_step: 421012 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421013/715787 | lr: 0.0001282 | consumed_samples: 431118336 | global_batch_size: 1024 | global_step: 421013 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421014/715787 | lr: 0.0001282 | consumed_samples: 431119360 | global_batch_size: 1024 | global_step: 421014 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421015/715787 | lr: 0.0001282 | consumed_samples: 431120384 | global_batch_size: 1024 | global_step: 421015 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421016/715787 | lr: 0.0001282 | consumed_samples: 431121408 | global_batch_size: 1024 | global_step: 421016 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421017/715787 | lr: 0.0001282 | consumed_samples: 431122432 | global_batch_size: 1024 | global_step: 421017 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421018/715787 | lr: 0.0001282 | consumed_samples: 431123456 | global_batch_size: 1024 | global_step: 421018 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421019/715787 | lr: 0.0001282 | consumed_samples: 431124480 | global_batch_size: 1024 | global_step: 421019 | reduced_train_loss: 2.185
+Training epoch 2, iteration 421020/715787 | lr: 0.0001282 | consumed_samples: 431125504 | global_batch_size: 1024 | global_step: 421020 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421021/715787 | lr: 0.0001282 | consumed_samples: 431126528 | global_batch_size: 1024 | global_step: 421021 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421022/715787 | lr: 0.0001282 | consumed_samples: 431127552 | global_batch_size: 1024 | global_step: 421022 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421023/715787 | lr: 0.0001282 | consumed_samples: 431128576 | global_batch_size: 1024 | global_step: 421023 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421024/715787 | lr: 0.0001282 | consumed_samples: 431129600 | global_batch_size: 1024 | global_step: 421024 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421025/715787 | lr: 0.0001282 | consumed_samples: 431130624 | global_batch_size: 1024 | global_step: 421025 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421026/715787 | lr: 0.0001282 | consumed_samples: 431131648 | global_batch_size: 1024 | global_step: 421026 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421027/715787 | lr: 0.0001282 | consumed_samples: 431132672 | global_batch_size: 1024 | global_step: 421027 | reduced_train_loss: 2.143
+Training epoch 2, iteration 421028/715787 | lr: 0.0001282 | consumed_samples: 431133696 | global_batch_size: 1024 | global_step: 421028 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421029/715787 | lr: 0.0001282 | consumed_samples: 431134720 | global_batch_size: 1024 | global_step: 421029 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421030/715787 | lr: 0.0001282 | consumed_samples: 431135744 | global_batch_size: 1024 | global_step: 421030 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421031/715787 | lr: 0.0001282 | consumed_samples: 431136768 | global_batch_size: 1024 | global_step: 421031 | reduced_train_loss: 2.143
+Training epoch 2, iteration 421032/715787 | lr: 0.0001282 | consumed_samples: 431137792 | global_batch_size: 1024 | global_step: 421032 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421033/715787 | lr: 0.0001282 | consumed_samples: 431138816 | global_batch_size: 1024 | global_step: 421033 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421034/715787 | lr: 0.0001282 | consumed_samples: 431139840 | global_batch_size: 1024 | global_step: 421034 | reduced_train_loss: 2.17
+Training epoch 2, iteration 421035/715787 | lr: 0.0001282 | consumed_samples: 431140864 | global_batch_size: 1024 | global_step: 421035 | reduced_train_loss: 2.176
+Training epoch 2, iteration 421036/715787 | lr: 0.0001282 | consumed_samples: 431141888 | global_batch_size: 1024 | global_step: 421036 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421037/715787 | lr: 0.0001282 | consumed_samples: 431142912 | global_batch_size: 1024 | global_step: 421037 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421038/715787 | lr: 0.0001282 | consumed_samples: 431143936 | global_batch_size: 1024 | global_step: 421038 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421039/715787 | lr: 0.0001282 | consumed_samples: 431144960 | global_batch_size: 1024 | global_step: 421039 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421040/715787 | lr: 0.0001282 | consumed_samples: 431145984 | global_batch_size: 1024 | global_step: 421040 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421041/715787 | lr: 0.0001282 | consumed_samples: 431147008 | global_batch_size: 1024 | global_step: 421041 | reduced_train_loss: 2.18
+Training epoch 2, iteration 421042/715787 | lr: 0.0001282 | consumed_samples: 431148032 | global_batch_size: 1024 | global_step: 421042 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421043/715787 | lr: 0.0001282 | consumed_samples: 431149056 | global_batch_size: 1024 | global_step: 421043 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421044/715787 | lr: 0.0001282 | consumed_samples: 431150080 | global_batch_size: 1024 | global_step: 421044 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421045/715787 | lr: 0.0001282 | consumed_samples: 431151104 | global_batch_size: 1024 | global_step: 421045 | reduced_train_loss: 2.147
+Training epoch 2, iteration 421046/715787 | lr: 0.0001282 | consumed_samples: 431152128 | global_batch_size: 1024 | global_step: 421046 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421047/715787 | lr: 0.0001282 | consumed_samples: 431153152 | global_batch_size: 1024 | global_step: 421047 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421048/715787 | lr: 0.0001282 | consumed_samples: 431154176 | global_batch_size: 1024 | global_step: 421048 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421049/715787 | lr: 0.0001282 | consumed_samples: 431155200 | global_batch_size: 1024 | global_step: 421049 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421050/715787 | lr: 0.0001282 | consumed_samples: 431156224 | global_batch_size: 1024 | global_step: 421050 | reduced_train_loss: 2.181
+Training epoch 2, iteration 421051/715787 | lr: 0.0001282 | consumed_samples: 431157248 | global_batch_size: 1024 | global_step: 421051 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421052/715787 | lr: 0.0001282 | consumed_samples: 431158272 | global_batch_size: 1024 | global_step: 421052 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421053/715787 | lr: 0.0001282 | consumed_samples: 431159296 | global_batch_size: 1024 | global_step: 421053 | reduced_train_loss: 2.179
+Training epoch 2, iteration 421054/715787 | lr: 0.0001282 | consumed_samples: 431160320 | global_batch_size: 1024 | global_step: 421054 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421055/715787 | lr: 0.0001282 | consumed_samples: 431161344 | global_batch_size: 1024 | global_step: 421055 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421056/715787 | lr: 0.0001282 | consumed_samples: 431162368 | global_batch_size: 1024 | global_step: 421056 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421057/715787 | lr: 0.0001282 | consumed_samples: 431163392 | global_batch_size: 1024 | global_step: 421057 | reduced_train_loss: 2.172
+Training epoch 2, iteration 421058/715787 | lr: 0.0001282 | consumed_samples: 431164416 | global_batch_size: 1024 | global_step: 421058 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421059/715787 | lr: 0.0001282 | consumed_samples: 431165440 | global_batch_size: 1024 | global_step: 421059 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421060/715787 | lr: 0.0001282 | consumed_samples: 431166464 | global_batch_size: 1024 | global_step: 421060 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421061/715787 | lr: 0.0001282 | consumed_samples: 431167488 | global_batch_size: 1024 | global_step: 421061 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421062/715787 | lr: 0.0001282 | consumed_samples: 431168512 | global_batch_size: 1024 | global_step: 421062 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421063/715787 | lr: 0.0001282 | consumed_samples: 431169536 | global_batch_size: 1024 | global_step: 421063 | reduced_train_loss: 2.17
+Training epoch 2, iteration 421064/715787 | lr: 0.0001282 | consumed_samples: 431170560 | global_batch_size: 1024 | global_step: 421064 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421065/715787 | lr: 0.0001282 | consumed_samples: 431171584 | global_batch_size: 1024 | global_step: 421065 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421066/715787 | lr: 0.0001282 | consumed_samples: 431172608 | global_batch_size: 1024 | global_step: 421066 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421067/715787 | lr: 0.0001282 | consumed_samples: 431173632 | global_batch_size: 1024 | global_step: 421067 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421068/715787 | lr: 0.0001282 | consumed_samples: 431174656 | global_batch_size: 1024 | global_step: 421068 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421069/715787 | lr: 0.0001282 | consumed_samples: 431175680 | global_batch_size: 1024 | global_step: 421069 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421070/715787 | lr: 0.0001282 | consumed_samples: 431176704 | global_batch_size: 1024 | global_step: 421070 | reduced_train_loss: 2.128
+Training epoch 2, iteration 421071/715787 | lr: 0.0001282 | consumed_samples: 431177728 | global_batch_size: 1024 | global_step: 421071 | reduced_train_loss: 2.142
+Training epoch 2, iteration 421072/715787 | lr: 0.0001282 | consumed_samples: 431178752 | global_batch_size: 1024 | global_step: 421072 | reduced_train_loss: 2.175
+Training epoch 2, iteration 421073/715787 | lr: 0.0001282 | consumed_samples: 431179776 | global_batch_size: 1024 | global_step: 421073 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421074/715787 | lr: 0.0001282 | consumed_samples: 431180800 | global_batch_size: 1024 | global_step: 421074 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421075/715787 | lr: 0.0001282 | consumed_samples: 431181824 | global_batch_size: 1024 | global_step: 421075 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421076/715787 | lr: 0.0001282 | consumed_samples: 431182848 | global_batch_size: 1024 | global_step: 421076 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421077/715787 | lr: 0.0001282 | consumed_samples: 431183872 | global_batch_size: 1024 | global_step: 421077 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421078/715787 | lr: 0.0001282 | consumed_samples: 431184896 | global_batch_size: 1024 | global_step: 421078 | reduced_train_loss: 2.185
+Training epoch 2, iteration 421079/715787 | lr: 0.0001282 | consumed_samples: 431185920 | global_batch_size: 1024 | global_step: 421079 | reduced_train_loss: 2.174
+Training epoch 2, iteration 421080/715787 | lr: 0.0001282 | consumed_samples: 431186944 | global_batch_size: 1024 | global_step: 421080 | reduced_train_loss: 2.137
+Training epoch 2, iteration 421081/715787 | lr: 0.0001282 | consumed_samples: 431187968 | global_batch_size: 1024 | global_step: 421081 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421082/715787 | lr: 0.0001282 | consumed_samples: 431188992 | global_batch_size: 1024 | global_step: 421082 | reduced_train_loss: 2.17
+Training epoch 2, iteration 421083/715787 | lr: 0.0001282 | consumed_samples: 431190016 | global_batch_size: 1024 | global_step: 421083 | reduced_train_loss: 2.138
+Training epoch 2, iteration 421084/715787 | lr: 0.0001282 | consumed_samples: 431191040 | global_batch_size: 1024 | global_step: 421084 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421085/715787 | lr: 0.0001282 | consumed_samples: 431192064 | global_batch_size: 1024 | global_step: 421085 | reduced_train_loss: 2.143
+Training epoch 2, iteration 421086/715787 | lr: 0.0001282 | consumed_samples: 431193088 | global_batch_size: 1024 | global_step: 421086 | reduced_train_loss: 2.188
+Training epoch 2, iteration 421087/715787 | lr: 0.0001282 | consumed_samples: 431194112 | global_batch_size: 1024 | global_step: 421087 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421088/715787 | lr: 0.0001282 | consumed_samples: 431195136 | global_batch_size: 1024 | global_step: 421088 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421089/715787 | lr: 0.0001282 | consumed_samples: 431196160 | global_batch_size: 1024 | global_step: 421089 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421090/715787 | lr: 0.0001282 | consumed_samples: 431197184 | global_batch_size: 1024 | global_step: 421090 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421091/715787 | lr: 0.0001282 | consumed_samples: 431198208 | global_batch_size: 1024 | global_step: 421091 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421092/715787 | lr: 0.0001281 | consumed_samples: 431199232 | global_batch_size: 1024 | global_step: 421092 | reduced_train_loss: 2.174
+Training epoch 2, iteration 421093/715787 | lr: 0.0001281 | consumed_samples: 431200256 | global_batch_size: 1024 | global_step: 421093 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421094/715787 | lr: 0.0001281 | consumed_samples: 431201280 | global_batch_size: 1024 | global_step: 421094 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421095/715787 | lr: 0.0001281 | consumed_samples: 431202304 | global_batch_size: 1024 | global_step: 421095 | reduced_train_loss: 2.177
+Training epoch 2, iteration 421096/715787 | lr: 0.0001281 | consumed_samples: 431203328 | global_batch_size: 1024 | global_step: 421096 | reduced_train_loss: 2.142
+Training epoch 2, iteration 421097/715787 | lr: 0.0001281 | consumed_samples: 431204352 | global_batch_size: 1024 | global_step: 421097 | reduced_train_loss: 2.147
+Training epoch 2, iteration 421098/715787 | lr: 0.0001281 | consumed_samples: 431205376 | global_batch_size: 1024 | global_step: 421098 | reduced_train_loss: 2.174
+[NeMo I 2026-05-06 14:11:54 nemo_logging:393] Running garbage collection at train global_step: 421100
+Training epoch 2, iteration 421099/715787 | lr: 0.0001281 | consumed_samples: 431206400 | global_batch_size: 1024 | global_step: 421099 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421100/715787 | lr: 0.0001281 | consumed_samples: 431207424 | global_batch_size: 1024 | global_step: 421100 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421101/715787 | lr: 0.0001281 | consumed_samples: 431208448 | global_batch_size: 1024 | global_step: 421101 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421102/715787 | lr: 0.0001281 | consumed_samples: 431209472 | global_batch_size: 1024 | global_step: 421102 | reduced_train_loss: 2.175
+Training epoch 2, iteration 421103/715787 | lr: 0.0001281 | consumed_samples: 431210496 | global_batch_size: 1024 | global_step: 421103 | reduced_train_loss: 2.177
+Training epoch 2, iteration 421104/715787 | lr: 0.0001281 | consumed_samples: 431211520 | global_batch_size: 1024 | global_step: 421104 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421105/715787 | lr: 0.0001281 | consumed_samples: 431212544 | global_batch_size: 1024 | global_step: 421105 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421106/715787 | lr: 0.0001281 | consumed_samples: 431213568 | global_batch_size: 1024 | global_step: 421106 | reduced_train_loss: 2.176
+Training epoch 2, iteration 421107/715787 | lr: 0.0001281 | consumed_samples: 431214592 | global_batch_size: 1024 | global_step: 421107 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421108/715787 | lr: 0.0001281 | consumed_samples: 431215616 | global_batch_size: 1024 | global_step: 421108 | reduced_train_loss: 2.173
+Training epoch 2, iteration 421109/715787 | lr: 0.0001281 | consumed_samples: 431216640 | global_batch_size: 1024 | global_step: 421109 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421110/715787 | lr: 0.0001281 | consumed_samples: 431217664 | global_batch_size: 1024 | global_step: 421110 | reduced_train_loss: 2.191
+Training epoch 2, iteration 421111/715787 | lr: 0.0001281 | consumed_samples: 431218688 | global_batch_size: 1024 | global_step: 421111 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421112/715787 | lr: 0.0001281 | consumed_samples: 431219712 | global_batch_size: 1024 | global_step: 421112 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421113/715787 | lr: 0.0001281 | consumed_samples: 431220736 | global_batch_size: 1024 | global_step: 421113 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421114/715787 | lr: 0.0001281 | consumed_samples: 431221760 | global_batch_size: 1024 | global_step: 421114 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421115/715787 | lr: 0.0001281 | consumed_samples: 431222784 | global_batch_size: 1024 | global_step: 421115 | reduced_train_loss: 2.14
+Training epoch 2, iteration 421116/715787 | lr: 0.0001281 | consumed_samples: 431223808 | global_batch_size: 1024 | global_step: 421116 | reduced_train_loss: 2.174
+Training epoch 2, iteration 421117/715787 | lr: 0.0001281 | consumed_samples: 431224832 | global_batch_size: 1024 | global_step: 421117 | reduced_train_loss: 2.14
+Training epoch 2, iteration 421118/715787 | lr: 0.0001281 | consumed_samples: 431225856 | global_batch_size: 1024 | global_step: 421118 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421119/715787 | lr: 0.0001281 | consumed_samples: 431226880 | global_batch_size: 1024 | global_step: 421119 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421120/715787 | lr: 0.0001281 | consumed_samples: 431227904 | global_batch_size: 1024 | global_step: 421120 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421121/715787 | lr: 0.0001281 | consumed_samples: 431228928 | global_batch_size: 1024 | global_step: 421121 | reduced_train_loss: 2.174
+Training epoch 2, iteration 421122/715787 | lr: 0.0001281 | consumed_samples: 431229952 | global_batch_size: 1024 | global_step: 421122 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421123/715787 | lr: 0.0001281 | consumed_samples: 431230976 | global_batch_size: 1024 | global_step: 421123 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421124/715787 | lr: 0.0001281 | consumed_samples: 431232000 | global_batch_size: 1024 | global_step: 421124 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421125/715787 | lr: 0.0001281 | consumed_samples: 431233024 | global_batch_size: 1024 | global_step: 421125 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421126/715787 | lr: 0.0001281 | consumed_samples: 431234048 | global_batch_size: 1024 | global_step: 421126 | reduced_train_loss: 2.17
+Training epoch 2, iteration 421127/715787 | lr: 0.0001281 | consumed_samples: 431235072 | global_batch_size: 1024 | global_step: 421127 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421128/715787 | lr: 0.0001281 | consumed_samples: 431236096 | global_batch_size: 1024 | global_step: 421128 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421129/715787 | lr: 0.0001281 | consumed_samples: 431237120 | global_batch_size: 1024 | global_step: 421129 | reduced_train_loss: 2.179
+Training epoch 2, iteration 421130/715787 | lr: 0.0001281 | consumed_samples: 431238144 | global_batch_size: 1024 | global_step: 421130 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421131/715787 | lr: 0.0001281 | consumed_samples: 431239168 | global_batch_size: 1024 | global_step: 421131 | reduced_train_loss: 2.143
+Training epoch 2, iteration 421132/715787 | lr: 0.0001281 | consumed_samples: 431240192 | global_batch_size: 1024 | global_step: 421132 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421133/715787 | lr: 0.0001281 | consumed_samples: 431241216 | global_batch_size: 1024 | global_step: 421133 | reduced_train_loss: 2.179
+Training epoch 2, iteration 421134/715787 | lr: 0.0001281 | consumed_samples: 431242240 | global_batch_size: 1024 | global_step: 421134 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421135/715787 | lr: 0.0001281 | consumed_samples: 431243264 | global_batch_size: 1024 | global_step: 421135 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421136/715787 | lr: 0.0001281 | consumed_samples: 431244288 | global_batch_size: 1024 | global_step: 421136 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421137/715787 | lr: 0.0001281 | consumed_samples: 431245312 | global_batch_size: 1024 | global_step: 421137 | reduced_train_loss: 2.175
+Training epoch 2, iteration 421138/715787 | lr: 0.0001281 | consumed_samples: 431246336 | global_batch_size: 1024 | global_step: 421138 | reduced_train_loss: 2.172
+Training epoch 2, iteration 421139/715787 | lr: 0.0001281 | consumed_samples: 431247360 | global_batch_size: 1024 | global_step: 421139 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421140/715787 | lr: 0.0001281 | consumed_samples: 431248384 | global_batch_size: 1024 | global_step: 421140 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421141/715787 | lr: 0.0001281 | consumed_samples: 431249408 | global_batch_size: 1024 | global_step: 421141 | reduced_train_loss: 2.137
+Training epoch 2, iteration 421142/715787 | lr: 0.0001281 | consumed_samples: 431250432 | global_batch_size: 1024 | global_step: 421142 | reduced_train_loss: 2.15
+Training epoch 2, iteration 421143/715787 | lr: 0.0001281 | consumed_samples: 431251456 | global_batch_size: 1024 | global_step: 421143 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421144/715787 | lr: 0.0001281 | consumed_samples: 431252480 | global_batch_size: 1024 | global_step: 421144 | reduced_train_loss: 2.174
+Training epoch 2, iteration 421145/715787 | lr: 0.0001281 | consumed_samples: 431253504 | global_batch_size: 1024 | global_step: 421145 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421146/715787 | lr: 0.0001281 | consumed_samples: 431254528 | global_batch_size: 1024 | global_step: 421146 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421147/715787 | lr: 0.0001281 | consumed_samples: 431255552 | global_batch_size: 1024 | global_step: 421147 | reduced_train_loss: 2.173
+Training epoch 2, iteration 421148/715787 | lr: 0.0001281 | consumed_samples: 431256576 | global_batch_size: 1024 | global_step: 421148 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421149/715787 | lr: 0.0001281 | consumed_samples: 431257600 | global_batch_size: 1024 | global_step: 421149 | reduced_train_loss: 2.138
+Training epoch 2, iteration 421150/715787 | lr: 0.0001281 | consumed_samples: 431258624 | global_batch_size: 1024 | global_step: 421150 | reduced_train_loss: 2.15
+Training epoch 2, iteration 421151/715787 | lr: 0.0001281 | consumed_samples: 431259648 | global_batch_size: 1024 | global_step: 421151 | reduced_train_loss: 2.14
+Training epoch 2, iteration 421152/715787 | lr: 0.0001281 | consumed_samples: 431260672 | global_batch_size: 1024 | global_step: 421152 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421153/715787 | lr: 0.0001281 | consumed_samples: 431261696 | global_batch_size: 1024 | global_step: 421153 | reduced_train_loss: 2.15
+Training epoch 2, iteration 421154/715787 | lr: 0.0001281 | consumed_samples: 431262720 | global_batch_size: 1024 | global_step: 421154 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421155/715787 | lr: 0.0001281 | consumed_samples: 431263744 | global_batch_size: 1024 | global_step: 421155 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421156/715787 | lr: 0.0001281 | consumed_samples: 431264768 | global_batch_size: 1024 | global_step: 421156 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421157/715787 | lr: 0.0001281 | consumed_samples: 431265792 | global_batch_size: 1024 | global_step: 421157 | reduced_train_loss: 2.133
+Training epoch 2, iteration 421158/715787 | lr: 0.0001281 | consumed_samples: 431266816 | global_batch_size: 1024 | global_step: 421158 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421159/715787 | lr: 0.0001281 | consumed_samples: 431267840 | global_batch_size: 1024 | global_step: 421159 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421160/715787 | lr: 0.0001281 | consumed_samples: 431268864 | global_batch_size: 1024 | global_step: 421160 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421161/715787 | lr: 0.0001281 | consumed_samples: 431269888 | global_batch_size: 1024 | global_step: 421161 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421162/715787 | lr: 0.0001281 | consumed_samples: 431270912 | global_batch_size: 1024 | global_step: 421162 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421163/715787 | lr: 0.0001281 | consumed_samples: 431271936 | global_batch_size: 1024 | global_step: 421163 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421164/715787 | lr: 0.0001281 | consumed_samples: 431272960 | global_batch_size: 1024 | global_step: 421164 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421165/715787 | lr: 0.0001281 | consumed_samples: 431273984 | global_batch_size: 1024 | global_step: 421165 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421166/715787 | lr: 0.0001281 | consumed_samples: 431275008 | global_batch_size: 1024 | global_step: 421166 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421167/715787 | lr: 0.0001281 | consumed_samples: 431276032 | global_batch_size: 1024 | global_step: 421167 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421168/715787 | lr: 0.0001281 | consumed_samples: 431277056 | global_batch_size: 1024 | global_step: 421168 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421169/715787 | lr: 0.0001281 | consumed_samples: 431278080 | global_batch_size: 1024 | global_step: 421169 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421170/715787 | lr: 0.0001281 | consumed_samples: 431279104 | global_batch_size: 1024 | global_step: 421170 | reduced_train_loss: 2.15
+Training epoch 2, iteration 421171/715787 | lr: 0.0001281 | consumed_samples: 431280128 | global_batch_size: 1024 | global_step: 421171 | reduced_train_loss: 2.137
+Training epoch 2, iteration 421172/715787 | lr: 0.0001281 | consumed_samples: 431281152 | global_batch_size: 1024 | global_step: 421172 | reduced_train_loss: 2.15
+Training epoch 2, iteration 421173/715787 | lr: 0.0001281 | consumed_samples: 431282176 | global_batch_size: 1024 | global_step: 421173 | reduced_train_loss: 2.184
+Training epoch 2, iteration 421174/715787 | lr: 0.0001281 | consumed_samples: 431283200 | global_batch_size: 1024 | global_step: 421174 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421175/715787 | lr: 0.0001281 | consumed_samples: 431284224 | global_batch_size: 1024 | global_step: 421175 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421176/715787 | lr: 0.0001281 | consumed_samples: 431285248 | global_batch_size: 1024 | global_step: 421176 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421177/715787 | lr: 0.0001281 | consumed_samples: 431286272 | global_batch_size: 1024 | global_step: 421177 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421178/715787 | lr: 0.0001281 | consumed_samples: 431287296 | global_batch_size: 1024 | global_step: 421178 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421179/715787 | lr: 0.0001281 | consumed_samples: 431288320 | global_batch_size: 1024 | global_step: 421179 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421180/715787 | lr: 0.0001281 | consumed_samples: 431289344 | global_batch_size: 1024 | global_step: 421180 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421181/715787 | lr: 0.0001281 | consumed_samples: 431290368 | global_batch_size: 1024 | global_step: 421181 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421182/715787 | lr: 0.0001281 | consumed_samples: 431291392 | global_batch_size: 1024 | global_step: 421182 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421183/715787 | lr: 0.0001281 | consumed_samples: 431292416 | global_batch_size: 1024 | global_step: 421183 | reduced_train_loss: 2.142
+Training epoch 2, iteration 421184/715787 | lr: 0.0001281 | consumed_samples: 431293440 | global_batch_size: 1024 | global_step: 421184 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421185/715787 | lr: 0.0001281 | consumed_samples: 431294464 | global_batch_size: 1024 | global_step: 421185 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421186/715787 | lr: 0.0001281 | consumed_samples: 431295488 | global_batch_size: 1024 | global_step: 421186 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421187/715787 | lr: 0.0001281 | consumed_samples: 431296512 | global_batch_size: 1024 | global_step: 421187 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421188/715787 | lr: 0.0001281 | consumed_samples: 431297536 | global_batch_size: 1024 | global_step: 421188 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421189/715787 | lr: 0.0001281 | consumed_samples: 431298560 | global_batch_size: 1024 | global_step: 421189 | reduced_train_loss: 2.143
+Training epoch 2, iteration 421190/715787 | lr: 0.0001281 | consumed_samples: 431299584 | global_batch_size: 1024 | global_step: 421190 | reduced_train_loss: 2.123
+Training epoch 2, iteration 421191/715787 | lr: 0.0001281 | consumed_samples: 431300608 | global_batch_size: 1024 | global_step: 421191 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421192/715787 | lr: 0.0001281 | consumed_samples: 431301632 | global_batch_size: 1024 | global_step: 421192 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421193/715787 | lr: 0.0001281 | consumed_samples: 431302656 | global_batch_size: 1024 | global_step: 421193 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421194/715787 | lr: 0.0001281 | consumed_samples: 431303680 | global_batch_size: 1024 | global_step: 421194 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421195/715787 | lr: 0.0001281 | consumed_samples: 431304704 | global_batch_size: 1024 | global_step: 421195 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421196/715787 | lr: 0.0001281 | consumed_samples: 431305728 | global_batch_size: 1024 | global_step: 421196 | reduced_train_loss: 2.147
+Training epoch 2, iteration 421197/715787 | lr: 0.0001281 | consumed_samples: 431306752 | global_batch_size: 1024 | global_step: 421197 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421198/715787 | lr: 0.0001281 | consumed_samples: 431307776 | global_batch_size: 1024 | global_step: 421198 | reduced_train_loss: 2.134
+[NeMo I 2026-05-06 14:39:18 nemo_logging:393] Running garbage collection at train global_step: 421200
+Training epoch 2, iteration 421199/715787 | lr: 0.0001281 | consumed_samples: 431308800 | global_batch_size: 1024 | global_step: 421199 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421200/715787 | lr: 0.0001281 | consumed_samples: 431309824 | global_batch_size: 1024 | global_step: 421200 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421201/715787 | lr: 0.0001281 | consumed_samples: 431310848 | global_batch_size: 1024 | global_step: 421201 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421202/715787 | lr: 0.0001281 | consumed_samples: 431311872 | global_batch_size: 1024 | global_step: 421202 | reduced_train_loss: 2.147
+Training epoch 2, iteration 421203/715787 | lr: 0.0001281 | consumed_samples: 431312896 | global_batch_size: 1024 | global_step: 421203 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421204/715787 | lr: 0.0001281 | consumed_samples: 431313920 | global_batch_size: 1024 | global_step: 421204 | reduced_train_loss: 2.17
+Training epoch 2, iteration 421205/715787 | lr: 0.0001281 | consumed_samples: 431314944 | global_batch_size: 1024 | global_step: 421205 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421206/715787 | lr: 0.0001281 | consumed_samples: 431315968 | global_batch_size: 1024 | global_step: 421206 | reduced_train_loss: 2.141
+Training epoch 2, iteration 421207/715787 | lr: 0.0001281 | consumed_samples: 431316992 | global_batch_size: 1024 | global_step: 421207 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421208/715787 | lr: 0.0001281 | consumed_samples: 431318016 | global_batch_size: 1024 | global_step: 421208 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421209/715787 | lr: 0.0001281 | consumed_samples: 431319040 | global_batch_size: 1024 | global_step: 421209 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421210/715787 | lr: 0.0001281 | consumed_samples: 431320064 | global_batch_size: 1024 | global_step: 421210 | reduced_train_loss: 2.186
+Training epoch 2, iteration 421211/715787 | lr: 0.0001281 | consumed_samples: 431321088 | global_batch_size: 1024 | global_step: 421211 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421212/715787 | lr: 0.0001281 | consumed_samples: 431322112 | global_batch_size: 1024 | global_step: 421212 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421213/715787 | lr: 0.0001281 | consumed_samples: 431323136 | global_batch_size: 1024 | global_step: 421213 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421214/715787 | lr: 0.0001281 | consumed_samples: 431324160 | global_batch_size: 1024 | global_step: 421214 | reduced_train_loss: 2.186
+Training epoch 2, iteration 421215/715787 | lr: 0.0001281 | consumed_samples: 431325184 | global_batch_size: 1024 | global_step: 421215 | reduced_train_loss: 2.175
+Training epoch 2, iteration 421216/715787 | lr: 0.0001281 | consumed_samples: 431326208 | global_batch_size: 1024 | global_step: 421216 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421217/715787 | lr: 0.0001281 | consumed_samples: 431327232 | global_batch_size: 1024 | global_step: 421217 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421218/715787 | lr: 0.0001281 | consumed_samples: 431328256 | global_batch_size: 1024 | global_step: 421218 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421219/715787 | lr: 0.0001281 | consumed_samples: 431329280 | global_batch_size: 1024 | global_step: 421219 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421220/715787 | lr: 0.0001281 | consumed_samples: 431330304 | global_batch_size: 1024 | global_step: 421220 | reduced_train_loss: 2.147
+Training epoch 2, iteration 421221/715787 | lr: 0.0001281 | consumed_samples: 431331328 | global_batch_size: 1024 | global_step: 421221 | reduced_train_loss: 2.179
+Training epoch 2, iteration 421222/715787 | lr: 0.0001281 | consumed_samples: 431332352 | global_batch_size: 1024 | global_step: 421222 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421223/715787 | lr: 0.0001281 | consumed_samples: 431333376 | global_batch_size: 1024 | global_step: 421223 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421224/715787 | lr: 0.0001281 | consumed_samples: 431334400 | global_batch_size: 1024 | global_step: 421224 | reduced_train_loss: 2.136
+Training epoch 2, iteration 421225/715787 | lr: 0.0001281 | consumed_samples: 431335424 | global_batch_size: 1024 | global_step: 421225 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421226/715787 | lr: 0.0001281 | consumed_samples: 431336448 | global_batch_size: 1024 | global_step: 421226 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421227/715787 | lr: 0.0001281 | consumed_samples: 431337472 | global_batch_size: 1024 | global_step: 421227 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421228/715787 | lr: 0.0001281 | consumed_samples: 431338496 | global_batch_size: 1024 | global_step: 421228 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421229/715787 | lr: 0.0001281 | consumed_samples: 431339520 | global_batch_size: 1024 | global_step: 421229 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421230/715787 | lr: 0.0001281 | consumed_samples: 431340544 | global_batch_size: 1024 | global_step: 421230 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421231/715787 | lr: 0.0001281 | consumed_samples: 431341568 | global_batch_size: 1024 | global_step: 421231 | reduced_train_loss: 2.177
+Training epoch 2, iteration 421232/715787 | lr: 0.0001281 | consumed_samples: 431342592 | global_batch_size: 1024 | global_step: 421232 | reduced_train_loss: 2.184
+Training epoch 2, iteration 421233/715787 | lr: 0.0001281 | consumed_samples: 431343616 | global_batch_size: 1024 | global_step: 421233 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421234/715787 | lr: 0.0001281 | consumed_samples: 431344640 | global_batch_size: 1024 | global_step: 421234 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421235/715787 | lr: 0.0001281 | consumed_samples: 431345664 | global_batch_size: 1024 | global_step: 421235 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421236/715787 | lr: 0.0001281 | consumed_samples: 431346688 | global_batch_size: 1024 | global_step: 421236 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421237/715787 | lr: 0.0001281 | consumed_samples: 431347712 | global_batch_size: 1024 | global_step: 421237 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421238/715787 | lr: 0.0001281 | consumed_samples: 431348736 | global_batch_size: 1024 | global_step: 421238 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421239/715787 | lr: 0.0001281 | consumed_samples: 431349760 | global_batch_size: 1024 | global_step: 421239 | reduced_train_loss: 2.204
+Training epoch 2, iteration 421240/715787 | lr: 0.0001281 | consumed_samples: 431350784 | global_batch_size: 1024 | global_step: 421240 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421241/715787 | lr: 0.0001281 | consumed_samples: 431351808 | global_batch_size: 1024 | global_step: 421241 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421242/715787 | lr: 0.0001281 | consumed_samples: 431352832 | global_batch_size: 1024 | global_step: 421242 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421243/715787 | lr: 0.0001281 | consumed_samples: 431353856 | global_batch_size: 1024 | global_step: 421243 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421244/715787 | lr: 0.0001281 | consumed_samples: 431354880 | global_batch_size: 1024 | global_step: 421244 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421245/715787 | lr: 0.0001281 | consumed_samples: 431355904 | global_batch_size: 1024 | global_step: 421245 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421246/715787 | lr: 0.0001281 | consumed_samples: 431356928 | global_batch_size: 1024 | global_step: 421246 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421247/715787 | lr: 0.0001281 | consumed_samples: 431357952 | global_batch_size: 1024 | global_step: 421247 | reduced_train_loss: 2.177
+Training epoch 2, iteration 421248/715787 | lr: 0.0001281 | consumed_samples: 431358976 | global_batch_size: 1024 | global_step: 421248 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421249/715787 | lr: 0.0001281 | consumed_samples: 431360000 | global_batch_size: 1024 | global_step: 421249 | reduced_train_loss: 2.176
+Training epoch 2, iteration 421250/715787 | lr: 0.0001281 | consumed_samples: 431361024 | global_batch_size: 1024 | global_step: 421250 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421251/715787 | lr: 0.0001281 | consumed_samples: 431362048 | global_batch_size: 1024 | global_step: 421251 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421252/715787 | lr: 0.0001281 | consumed_samples: 431363072 | global_batch_size: 1024 | global_step: 421252 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421253/715787 | lr: 0.0001281 | consumed_samples: 431364096 | global_batch_size: 1024 | global_step: 421253 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421254/715787 | lr: 0.0001281 | consumed_samples: 431365120 | global_batch_size: 1024 | global_step: 421254 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421255/715787 | lr: 0.0001281 | consumed_samples: 431366144 | global_batch_size: 1024 | global_step: 421255 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421256/715787 | lr: 0.0001281 | consumed_samples: 431367168 | global_batch_size: 1024 | global_step: 421256 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421257/715787 | lr: 0.0001281 | consumed_samples: 431368192 | global_batch_size: 1024 | global_step: 421257 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421258/715787 | lr: 0.0001281 | consumed_samples: 431369216 | global_batch_size: 1024 | global_step: 421258 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421259/715787 | lr: 0.0001281 | consumed_samples: 431370240 | global_batch_size: 1024 | global_step: 421259 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421260/715787 | lr: 0.0001281 | consumed_samples: 431371264 | global_batch_size: 1024 | global_step: 421260 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421261/715787 | lr: 0.0001281 | consumed_samples: 431372288 | global_batch_size: 1024 | global_step: 421261 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421262/715787 | lr: 0.0001281 | consumed_samples: 431373312 | global_batch_size: 1024 | global_step: 421262 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421263/715787 | lr: 0.0001281 | consumed_samples: 431374336 | global_batch_size: 1024 | global_step: 421263 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421264/715787 | lr: 0.0001281 | consumed_samples: 431375360 | global_batch_size: 1024 | global_step: 421264 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421265/715787 | lr: 0.0001281 | consumed_samples: 431376384 | global_batch_size: 1024 | global_step: 421265 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421266/715787 | lr: 0.0001281 | consumed_samples: 431377408 | global_batch_size: 1024 | global_step: 421266 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421267/715787 | lr: 0.0001281 | consumed_samples: 431378432 | global_batch_size: 1024 | global_step: 421267 | reduced_train_loss: 2.189
+Training epoch 2, iteration 421268/715787 | lr: 0.000128 | consumed_samples: 431379456 | global_batch_size: 1024 | global_step: 421268 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421269/715787 | lr: 0.000128 | consumed_samples: 431380480 | global_batch_size: 1024 | global_step: 421269 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421270/715787 | lr: 0.000128 | consumed_samples: 431381504 | global_batch_size: 1024 | global_step: 421270 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421271/715787 | lr: 0.000128 | consumed_samples: 431382528 | global_batch_size: 1024 | global_step: 421271 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421272/715787 | lr: 0.000128 | consumed_samples: 431383552 | global_batch_size: 1024 | global_step: 421272 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421273/715787 | lr: 0.000128 | consumed_samples: 431384576 | global_batch_size: 1024 | global_step: 421273 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421274/715787 | lr: 0.000128 | consumed_samples: 431385600 | global_batch_size: 1024 | global_step: 421274 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421275/715787 | lr: 0.000128 | consumed_samples: 431386624 | global_batch_size: 1024 | global_step: 421275 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421276/715787 | lr: 0.000128 | consumed_samples: 431387648 | global_batch_size: 1024 | global_step: 421276 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421277/715787 | lr: 0.000128 | consumed_samples: 431388672 | global_batch_size: 1024 | global_step: 421277 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421278/715787 | lr: 0.000128 | consumed_samples: 431389696 | global_batch_size: 1024 | global_step: 421278 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421279/715787 | lr: 0.000128 | consumed_samples: 431390720 | global_batch_size: 1024 | global_step: 421279 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421280/715787 | lr: 0.000128 | consumed_samples: 431391744 | global_batch_size: 1024 | global_step: 421280 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421281/715787 | lr: 0.000128 | consumed_samples: 431392768 | global_batch_size: 1024 | global_step: 421281 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421282/715787 | lr: 0.000128 | consumed_samples: 431393792 | global_batch_size: 1024 | global_step: 421282 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421283/715787 | lr: 0.000128 | consumed_samples: 431394816 | global_batch_size: 1024 | global_step: 421283 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421284/715787 | lr: 0.000128 | consumed_samples: 431395840 | global_batch_size: 1024 | global_step: 421284 | reduced_train_loss: 2.17
+Training epoch 2, iteration 421285/715787 | lr: 0.000128 | consumed_samples: 431396864 | global_batch_size: 1024 | global_step: 421285 | reduced_train_loss: 2.143
+Training epoch 2, iteration 421286/715787 | lr: 0.000128 | consumed_samples: 431397888 | global_batch_size: 1024 | global_step: 421286 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421287/715787 | lr: 0.000128 | consumed_samples: 431398912 | global_batch_size: 1024 | global_step: 421287 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421288/715787 | lr: 0.000128 | consumed_samples: 431399936 | global_batch_size: 1024 | global_step: 421288 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421289/715787 | lr: 0.000128 | consumed_samples: 431400960 | global_batch_size: 1024 | global_step: 421289 | reduced_train_loss: 2.176
+Training epoch 2, iteration 421290/715787 | lr: 0.000128 | consumed_samples: 431401984 | global_batch_size: 1024 | global_step: 421290 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421291/715787 | lr: 0.000128 | consumed_samples: 431403008 | global_batch_size: 1024 | global_step: 421291 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421292/715787 | lr: 0.000128 | consumed_samples: 431404032 | global_batch_size: 1024 | global_step: 421292 | reduced_train_loss: 2.179
+Training epoch 2, iteration 421293/715787 | lr: 0.000128 | consumed_samples: 431405056 | global_batch_size: 1024 | global_step: 421293 | reduced_train_loss: 2.138
+Training epoch 2, iteration 421294/715787 | lr: 0.000128 | consumed_samples: 431406080 | global_batch_size: 1024 | global_step: 421294 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421295/715787 | lr: 0.000128 | consumed_samples: 431407104 | global_batch_size: 1024 | global_step: 421295 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421296/715787 | lr: 0.000128 | consumed_samples: 431408128 | global_batch_size: 1024 | global_step: 421296 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421297/715787 | lr: 0.000128 | consumed_samples: 431409152 | global_batch_size: 1024 | global_step: 421297 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421298/715787 | lr: 0.000128 | consumed_samples: 431410176 | global_batch_size: 1024 | global_step: 421298 | reduced_train_loss: 2.167
+[NeMo I 2026-05-06 15:04:55 nemo_logging:393] Running garbage collection at train global_step: 421300
+Training epoch 2, iteration 421299/715787 | lr: 0.000128 | consumed_samples: 431411200 | global_batch_size: 1024 | global_step: 421299 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421300/715787 | lr: 0.000128 | consumed_samples: 431412224 | global_batch_size: 1024 | global_step: 421300 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421301/715787 | lr: 0.000128 | consumed_samples: 431413248 | global_batch_size: 1024 | global_step: 421301 | reduced_train_loss: 2.191
+Training epoch 2, iteration 421302/715787 | lr: 0.000128 | consumed_samples: 431414272 | global_batch_size: 1024 | global_step: 421302 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421303/715787 | lr: 0.000128 | consumed_samples: 431415296 | global_batch_size: 1024 | global_step: 421303 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421304/715787 | lr: 0.000128 | consumed_samples: 431416320 | global_batch_size: 1024 | global_step: 421304 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421305/715787 | lr: 0.000128 | consumed_samples: 431417344 | global_batch_size: 1024 | global_step: 421305 | reduced_train_loss: 2.17
+Training epoch 2, iteration 421306/715787 | lr: 0.000128 | consumed_samples: 431418368 | global_batch_size: 1024 | global_step: 421306 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421307/715787 | lr: 0.000128 | consumed_samples: 431419392 | global_batch_size: 1024 | global_step: 421307 | reduced_train_loss: 2.131
+Training epoch 2, iteration 421308/715787 | lr: 0.000128 | consumed_samples: 431420416 | global_batch_size: 1024 | global_step: 421308 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421309/715787 | lr: 0.000128 | consumed_samples: 431421440 | global_batch_size: 1024 | global_step: 421309 | reduced_train_loss: 2.178
+Training epoch 2, iteration 421310/715787 | lr: 0.000128 | consumed_samples: 431422464 | global_batch_size: 1024 | global_step: 421310 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421311/715787 | lr: 0.000128 | consumed_samples: 431423488 | global_batch_size: 1024 | global_step: 421311 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421312/715787 | lr: 0.000128 | consumed_samples: 431424512 | global_batch_size: 1024 | global_step: 421312 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421313/715787 | lr: 0.000128 | consumed_samples: 431425536 | global_batch_size: 1024 | global_step: 421313 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421314/715787 | lr: 0.000128 | consumed_samples: 431426560 | global_batch_size: 1024 | global_step: 421314 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421315/715787 | lr: 0.000128 | consumed_samples: 431427584 | global_batch_size: 1024 | global_step: 421315 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421316/715787 | lr: 0.000128 | consumed_samples: 431428608 | global_batch_size: 1024 | global_step: 421316 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421317/715787 | lr: 0.000128 | consumed_samples: 431429632 | global_batch_size: 1024 | global_step: 421317 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421318/715787 | lr: 0.000128 | consumed_samples: 431430656 | global_batch_size: 1024 | global_step: 421318 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421319/715787 | lr: 0.000128 | consumed_samples: 431431680 | global_batch_size: 1024 | global_step: 421319 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421320/715787 | lr: 0.000128 | consumed_samples: 431432704 | global_batch_size: 1024 | global_step: 421320 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421321/715787 | lr: 0.000128 | consumed_samples: 431433728 | global_batch_size: 1024 | global_step: 421321 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421322/715787 | lr: 0.000128 | consumed_samples: 431434752 | global_batch_size: 1024 | global_step: 421322 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421323/715787 | lr: 0.000128 | consumed_samples: 431435776 | global_batch_size: 1024 | global_step: 421323 | reduced_train_loss: 2.176
+Training epoch 2, iteration 421324/715787 | lr: 0.000128 | consumed_samples: 431436800 | global_batch_size: 1024 | global_step: 421324 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421325/715787 | lr: 0.000128 | consumed_samples: 431437824 | global_batch_size: 1024 | global_step: 421325 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421326/715787 | lr: 0.000128 | consumed_samples: 431438848 | global_batch_size: 1024 | global_step: 421326 | reduced_train_loss: 2.172
+Training epoch 2, iteration 421327/715787 | lr: 0.000128 | consumed_samples: 431439872 | global_batch_size: 1024 | global_step: 421327 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421328/715787 | lr: 0.000128 | consumed_samples: 431440896 | global_batch_size: 1024 | global_step: 421328 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421329/715787 | lr: 0.000128 | consumed_samples: 431441920 | global_batch_size: 1024 | global_step: 421329 | reduced_train_loss: 2.139
+Training epoch 2, iteration 421330/715787 | lr: 0.000128 | consumed_samples: 431442944 | global_batch_size: 1024 | global_step: 421330 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421331/715787 | lr: 0.000128 | consumed_samples: 431443968 | global_batch_size: 1024 | global_step: 421331 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421332/715787 | lr: 0.000128 | consumed_samples: 431444992 | global_batch_size: 1024 | global_step: 421332 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421333/715787 | lr: 0.000128 | consumed_samples: 431446016 | global_batch_size: 1024 | global_step: 421333 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421334/715787 | lr: 0.000128 | consumed_samples: 431447040 | global_batch_size: 1024 | global_step: 421334 | reduced_train_loss: 2.138
+Training epoch 2, iteration 421335/715787 | lr: 0.000128 | consumed_samples: 431448064 | global_batch_size: 1024 | global_step: 421335 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421336/715787 | lr: 0.000128 | consumed_samples: 431449088 | global_batch_size: 1024 | global_step: 421336 | reduced_train_loss: 2.141
+Training epoch 2, iteration 421337/715787 | lr: 0.000128 | consumed_samples: 431450112 | global_batch_size: 1024 | global_step: 421337 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421338/715787 | lr: 0.000128 | consumed_samples: 431451136 | global_batch_size: 1024 | global_step: 421338 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421339/715787 | lr: 0.000128 | consumed_samples: 431452160 | global_batch_size: 1024 | global_step: 421339 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421340/715787 | lr: 0.000128 | consumed_samples: 431453184 | global_batch_size: 1024 | global_step: 421340 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421341/715787 | lr: 0.000128 | consumed_samples: 431454208 | global_batch_size: 1024 | global_step: 421341 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421342/715787 | lr: 0.000128 | consumed_samples: 431455232 | global_batch_size: 1024 | global_step: 421342 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421343/715787 | lr: 0.000128 | consumed_samples: 431456256 | global_batch_size: 1024 | global_step: 421343 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421344/715787 | lr: 0.000128 | consumed_samples: 431457280 | global_batch_size: 1024 | global_step: 421344 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421345/715787 | lr: 0.000128 | consumed_samples: 431458304 | global_batch_size: 1024 | global_step: 421345 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421346/715787 | lr: 0.000128 | consumed_samples: 431459328 | global_batch_size: 1024 | global_step: 421346 | reduced_train_loss: 2.179
+Training epoch 2, iteration 421347/715787 | lr: 0.000128 | consumed_samples: 431460352 | global_batch_size: 1024 | global_step: 421347 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421348/715787 | lr: 0.000128 | consumed_samples: 431461376 | global_batch_size: 1024 | global_step: 421348 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421349/715787 | lr: 0.000128 | consumed_samples: 431462400 | global_batch_size: 1024 | global_step: 421349 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421350/715787 | lr: 0.000128 | consumed_samples: 431463424 | global_batch_size: 1024 | global_step: 421350 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421351/715787 | lr: 0.000128 | consumed_samples: 431464448 | global_batch_size: 1024 | global_step: 421351 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421352/715787 | lr: 0.000128 | consumed_samples: 431465472 | global_batch_size: 1024 | global_step: 421352 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421353/715787 | lr: 0.000128 | consumed_samples: 431466496 | global_batch_size: 1024 | global_step: 421353 | reduced_train_loss: 2.173
+Training epoch 2, iteration 421354/715787 | lr: 0.000128 | consumed_samples: 431467520 | global_batch_size: 1024 | global_step: 421354 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421355/715787 | lr: 0.000128 | consumed_samples: 431468544 | global_batch_size: 1024 | global_step: 421355 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421356/715787 | lr: 0.000128 | consumed_samples: 431469568 | global_batch_size: 1024 | global_step: 421356 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421357/715787 | lr: 0.000128 | consumed_samples: 431470592 | global_batch_size: 1024 | global_step: 421357 | reduced_train_loss: 2.182
+Training epoch 2, iteration 421358/715787 | lr: 0.000128 | consumed_samples: 431471616 | global_batch_size: 1024 | global_step: 421358 | reduced_train_loss: 2.135
+Training epoch 2, iteration 421359/715787 | lr: 0.000128 | consumed_samples: 431472640 | global_batch_size: 1024 | global_step: 421359 | reduced_train_loss: 2.178
+Training epoch 2, iteration 421360/715787 | lr: 0.000128 | consumed_samples: 431473664 | global_batch_size: 1024 | global_step: 421360 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421361/715787 | lr: 0.000128 | consumed_samples: 431474688 | global_batch_size: 1024 | global_step: 421361 | reduced_train_loss: 2.175
+Training epoch 2, iteration 421362/715787 | lr: 0.000128 | consumed_samples: 431475712 | global_batch_size: 1024 | global_step: 421362 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421363/715787 | lr: 0.000128 | consumed_samples: 431476736 | global_batch_size: 1024 | global_step: 421363 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421364/715787 | lr: 0.000128 | consumed_samples: 431477760 | global_batch_size: 1024 | global_step: 421364 | reduced_train_loss: 2.14
+Training epoch 2, iteration 421365/715787 | lr: 0.000128 | consumed_samples: 431478784 | global_batch_size: 1024 | global_step: 421365 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421366/715787 | lr: 0.000128 | consumed_samples: 431479808 | global_batch_size: 1024 | global_step: 421366 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421367/715787 | lr: 0.000128 | consumed_samples: 431480832 | global_batch_size: 1024 | global_step: 421367 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421368/715787 | lr: 0.000128 | consumed_samples: 431481856 | global_batch_size: 1024 | global_step: 421368 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421369/715787 | lr: 0.000128 | consumed_samples: 431482880 | global_batch_size: 1024 | global_step: 421369 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421370/715787 | lr: 0.000128 | consumed_samples: 431483904 | global_batch_size: 1024 | global_step: 421370 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421371/715787 | lr: 0.000128 | consumed_samples: 431484928 | global_batch_size: 1024 | global_step: 421371 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421372/715787 | lr: 0.000128 | consumed_samples: 431485952 | global_batch_size: 1024 | global_step: 421372 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421373/715787 | lr: 0.000128 | consumed_samples: 431486976 | global_batch_size: 1024 | global_step: 421373 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421374/715787 | lr: 0.000128 | consumed_samples: 431488000 | global_batch_size: 1024 | global_step: 421374 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421375/715787 | lr: 0.000128 | consumed_samples: 431489024 | global_batch_size: 1024 | global_step: 421375 | reduced_train_loss: 2.173
+Training epoch 2, iteration 421376/715787 | lr: 0.000128 | consumed_samples: 431490048 | global_batch_size: 1024 | global_step: 421376 | reduced_train_loss: 2.177
+Training epoch 2, iteration 421377/715787 | lr: 0.000128 | consumed_samples: 431491072 | global_batch_size: 1024 | global_step: 421377 | reduced_train_loss: 2.147
+Training epoch 2, iteration 421378/715787 | lr: 0.000128 | consumed_samples: 431492096 | global_batch_size: 1024 | global_step: 421378 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421379/715787 | lr: 0.000128 | consumed_samples: 431493120 | global_batch_size: 1024 | global_step: 421379 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421380/715787 | lr: 0.000128 | consumed_samples: 431494144 | global_batch_size: 1024 | global_step: 421380 | reduced_train_loss: 2.17
+Training epoch 2, iteration 421381/715787 | lr: 0.000128 | consumed_samples: 431495168 | global_batch_size: 1024 | global_step: 421381 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421382/715787 | lr: 0.000128 | consumed_samples: 431496192 | global_batch_size: 1024 | global_step: 421382 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421383/715787 | lr: 0.000128 | consumed_samples: 431497216 | global_batch_size: 1024 | global_step: 421383 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421384/715787 | lr: 0.000128 | consumed_samples: 431498240 | global_batch_size: 1024 | global_step: 421384 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421385/715787 | lr: 0.000128 | consumed_samples: 431499264 | global_batch_size: 1024 | global_step: 421385 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421386/715787 | lr: 0.000128 | consumed_samples: 431500288 | global_batch_size: 1024 | global_step: 421386 | reduced_train_loss: 2.138
+Training epoch 2, iteration 421387/715787 | lr: 0.000128 | consumed_samples: 431501312 | global_batch_size: 1024 | global_step: 421387 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421388/715787 | lr: 0.000128 | consumed_samples: 431502336 | global_batch_size: 1024 | global_step: 421388 | reduced_train_loss: 2.147
+Training epoch 2, iteration 421389/715787 | lr: 0.000128 | consumed_samples: 431503360 | global_batch_size: 1024 | global_step: 421389 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421390/715787 | lr: 0.000128 | consumed_samples: 431504384 | global_batch_size: 1024 | global_step: 421390 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421391/715787 | lr: 0.000128 | consumed_samples: 431505408 | global_batch_size: 1024 | global_step: 421391 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421392/715787 | lr: 0.000128 | consumed_samples: 431506432 | global_batch_size: 1024 | global_step: 421392 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421393/715787 | lr: 0.000128 | consumed_samples: 431507456 | global_batch_size: 1024 | global_step: 421393 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421394/715787 | lr: 0.000128 | consumed_samples: 431508480 | global_batch_size: 1024 | global_step: 421394 | reduced_train_loss: 2.167
+Training epoch 2, iteration 421395/715787 | lr: 0.000128 | consumed_samples: 431509504 | global_batch_size: 1024 | global_step: 421395 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421396/715787 | lr: 0.000128 | consumed_samples: 431510528 | global_batch_size: 1024 | global_step: 421396 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421397/715787 | lr: 0.000128 | consumed_samples: 431511552 | global_batch_size: 1024 | global_step: 421397 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421398/715787 | lr: 0.000128 | consumed_samples: 431512576 | global_batch_size: 1024 | global_step: 421398 | reduced_train_loss: 2.142
+[NeMo I 2026-05-06 15:31:10 nemo_logging:393] Running garbage collection at train global_step: 421400
+Training epoch 2, iteration 421399/715787 | lr: 0.000128 | consumed_samples: 431513600 | global_batch_size: 1024 | global_step: 421399 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421400/715787 | lr: 0.000128 | consumed_samples: 431514624 | global_batch_size: 1024 | global_step: 421400 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421401/715787 | lr: 0.000128 | consumed_samples: 431515648 | global_batch_size: 1024 | global_step: 421401 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421402/715787 | lr: 0.000128 | consumed_samples: 431516672 | global_batch_size: 1024 | global_step: 421402 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421403/715787 | lr: 0.000128 | consumed_samples: 431517696 | global_batch_size: 1024 | global_step: 421403 | reduced_train_loss: 2.141
+Training epoch 2, iteration 421404/715787 | lr: 0.000128 | consumed_samples: 431518720 | global_batch_size: 1024 | global_step: 421404 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421405/715787 | lr: 0.000128 | consumed_samples: 431519744 | global_batch_size: 1024 | global_step: 421405 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421406/715787 | lr: 0.000128 | consumed_samples: 431520768 | global_batch_size: 1024 | global_step: 421406 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421407/715787 | lr: 0.000128 | consumed_samples: 431521792 | global_batch_size: 1024 | global_step: 421407 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421408/715787 | lr: 0.000128 | consumed_samples: 431522816 | global_batch_size: 1024 | global_step: 421408 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421409/715787 | lr: 0.000128 | consumed_samples: 431523840 | global_batch_size: 1024 | global_step: 421409 | reduced_train_loss: 2.143
+Training epoch 2, iteration 421410/715787 | lr: 0.000128 | consumed_samples: 431524864 | global_batch_size: 1024 | global_step: 421410 | reduced_train_loss: 2.179
+Training epoch 2, iteration 421411/715787 | lr: 0.000128 | consumed_samples: 431525888 | global_batch_size: 1024 | global_step: 421411 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421412/715787 | lr: 0.000128 | consumed_samples: 431526912 | global_batch_size: 1024 | global_step: 421412 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421413/715787 | lr: 0.000128 | consumed_samples: 431527936 | global_batch_size: 1024 | global_step: 421413 | reduced_train_loss: 2.195
+Training epoch 2, iteration 421414/715787 | lr: 0.000128 | consumed_samples: 431528960 | global_batch_size: 1024 | global_step: 421414 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421415/715787 | lr: 0.000128 | consumed_samples: 431529984 | global_batch_size: 1024 | global_step: 421415 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421416/715787 | lr: 0.000128 | consumed_samples: 431531008 | global_batch_size: 1024 | global_step: 421416 | reduced_train_loss: 2.131
+Training epoch 2, iteration 421417/715787 | lr: 0.000128 | consumed_samples: 431532032 | global_batch_size: 1024 | global_step: 421417 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421418/715787 | lr: 0.000128 | consumed_samples: 431533056 | global_batch_size: 1024 | global_step: 421418 | reduced_train_loss: 2.172
+Training epoch 2, iteration 421419/715787 | lr: 0.000128 | consumed_samples: 431534080 | global_batch_size: 1024 | global_step: 421419 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421420/715787 | lr: 0.000128 | consumed_samples: 431535104 | global_batch_size: 1024 | global_step: 421420 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421421/715787 | lr: 0.000128 | consumed_samples: 431536128 | global_batch_size: 1024 | global_step: 421421 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421422/715787 | lr: 0.000128 | consumed_samples: 431537152 | global_batch_size: 1024 | global_step: 421422 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421423/715787 | lr: 0.000128 | consumed_samples: 431538176 | global_batch_size: 1024 | global_step: 421423 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421424/715787 | lr: 0.000128 | consumed_samples: 431539200 | global_batch_size: 1024 | global_step: 421424 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421425/715787 | lr: 0.000128 | consumed_samples: 431540224 | global_batch_size: 1024 | global_step: 421425 | reduced_train_loss: 2.151
+Training epoch 2, iteration 421426/715787 | lr: 0.000128 | consumed_samples: 431541248 | global_batch_size: 1024 | global_step: 421426 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421427/715787 | lr: 0.000128 | consumed_samples: 431542272 | global_batch_size: 1024 | global_step: 421427 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421428/715787 | lr: 0.000128 | consumed_samples: 431543296 | global_batch_size: 1024 | global_step: 421428 | reduced_train_loss: 2.135
+Training epoch 2, iteration 421429/715787 | lr: 0.000128 | consumed_samples: 431544320 | global_batch_size: 1024 | global_step: 421429 | reduced_train_loss: 2.147
+Training epoch 2, iteration 421430/715787 | lr: 0.000128 | consumed_samples: 431545344 | global_batch_size: 1024 | global_step: 421430 | reduced_train_loss: 2.141
+Training epoch 2, iteration 421431/715787 | lr: 0.000128 | consumed_samples: 431546368 | global_batch_size: 1024 | global_step: 421431 | reduced_train_loss: 2.15
+Training epoch 2, iteration 421432/715787 | lr: 0.000128 | consumed_samples: 431547392 | global_batch_size: 1024 | global_step: 421432 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421433/715787 | lr: 0.000128 | consumed_samples: 431548416 | global_batch_size: 1024 | global_step: 421433 | reduced_train_loss: 2.145
+Training epoch 2, iteration 421434/715787 | lr: 0.000128 | consumed_samples: 431549440 | global_batch_size: 1024 | global_step: 421434 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421435/715787 | lr: 0.000128 | consumed_samples: 431550464 | global_batch_size: 1024 | global_step: 421435 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421436/715787 | lr: 0.000128 | consumed_samples: 431551488 | global_batch_size: 1024 | global_step: 421436 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421437/715787 | lr: 0.000128 | consumed_samples: 431552512 | global_batch_size: 1024 | global_step: 421437 | reduced_train_loss: 2.15
+Training epoch 2, iteration 421438/715787 | lr: 0.000128 | consumed_samples: 431553536 | global_batch_size: 1024 | global_step: 421438 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421439/715787 | lr: 0.000128 | consumed_samples: 431554560 | global_batch_size: 1024 | global_step: 421439 | reduced_train_loss: 2.138
+Training epoch 2, iteration 421440/715787 | lr: 0.000128 | consumed_samples: 431555584 | global_batch_size: 1024 | global_step: 421440 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421441/715787 | lr: 0.000128 | consumed_samples: 431556608 | global_batch_size: 1024 | global_step: 421441 | reduced_train_loss: 2.169
+Training epoch 2, iteration 421442/715787 | lr: 0.000128 | consumed_samples: 431557632 | global_batch_size: 1024 | global_step: 421442 | reduced_train_loss: 2.15
+Training epoch 2, iteration 421443/715787 | lr: 0.0001279 | consumed_samples: 431558656 | global_batch_size: 1024 | global_step: 421443 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421444/715787 | lr: 0.0001279 | consumed_samples: 431559680 | global_batch_size: 1024 | global_step: 421444 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421445/715787 | lr: 0.0001279 | consumed_samples: 431560704 | global_batch_size: 1024 | global_step: 421445 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421446/715787 | lr: 0.0001279 | consumed_samples: 431561728 | global_batch_size: 1024 | global_step: 421446 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421447/715787 | lr: 0.0001279 | consumed_samples: 431562752 | global_batch_size: 1024 | global_step: 421447 | reduced_train_loss: 2.171
+Training epoch 2, iteration 421448/715787 | lr: 0.0001279 | consumed_samples: 431563776 | global_batch_size: 1024 | global_step: 421448 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421449/715787 | lr: 0.0001279 | consumed_samples: 431564800 | global_batch_size: 1024 | global_step: 421449 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421450/715787 | lr: 0.0001279 | consumed_samples: 431565824 | global_batch_size: 1024 | global_step: 421450 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421451/715787 | lr: 0.0001279 | consumed_samples: 431566848 | global_batch_size: 1024 | global_step: 421451 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421452/715787 | lr: 0.0001279 | consumed_samples: 431567872 | global_batch_size: 1024 | global_step: 421452 | reduced_train_loss: 2.125
+Training epoch 2, iteration 421453/715787 | lr: 0.0001279 | consumed_samples: 431568896 | global_batch_size: 1024 | global_step: 421453 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421454/715787 | lr: 0.0001279 | consumed_samples: 431569920 | global_batch_size: 1024 | global_step: 421454 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421455/715787 | lr: 0.0001279 | consumed_samples: 431570944 | global_batch_size: 1024 | global_step: 421455 | reduced_train_loss: 2.164
+Training epoch 2, iteration 421456/715787 | lr: 0.0001279 | consumed_samples: 431571968 | global_batch_size: 1024 | global_step: 421456 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421457/715787 | lr: 0.0001279 | consumed_samples: 431572992 | global_batch_size: 1024 | global_step: 421457 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421458/715787 | lr: 0.0001279 | consumed_samples: 431574016 | global_batch_size: 1024 | global_step: 421458 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421459/715787 | lr: 0.0001279 | consumed_samples: 431575040 | global_batch_size: 1024 | global_step: 421459 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421460/715787 | lr: 0.0001279 | consumed_samples: 431576064 | global_batch_size: 1024 | global_step: 421460 | reduced_train_loss: 2.172
+Training epoch 2, iteration 421461/715787 | lr: 0.0001279 | consumed_samples: 431577088 | global_batch_size: 1024 | global_step: 421461 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421462/715787 | lr: 0.0001279 | consumed_samples: 431578112 | global_batch_size: 1024 | global_step: 421462 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421463/715787 | lr: 0.0001279 | consumed_samples: 431579136 | global_batch_size: 1024 | global_step: 421463 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421464/715787 | lr: 0.0001279 | consumed_samples: 431580160 | global_batch_size: 1024 | global_step: 421464 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421465/715787 | lr: 0.0001279 | consumed_samples: 431581184 | global_batch_size: 1024 | global_step: 421465 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421466/715787 | lr: 0.0001279 | consumed_samples: 431582208 | global_batch_size: 1024 | global_step: 421466 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421467/715787 | lr: 0.0001279 | consumed_samples: 431583232 | global_batch_size: 1024 | global_step: 421467 | reduced_train_loss: 2.155
+Training epoch 2, iteration 421468/715787 | lr: 0.0001279 | consumed_samples: 431584256 | global_batch_size: 1024 | global_step: 421468 | reduced_train_loss: 2.166
+Training epoch 2, iteration 421469/715787 | lr: 0.0001279 | consumed_samples: 431585280 | global_batch_size: 1024 | global_step: 421469 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421470/715787 | lr: 0.0001279 | consumed_samples: 431586304 | global_batch_size: 1024 | global_step: 421470 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421471/715787 | lr: 0.0001279 | consumed_samples: 431587328 | global_batch_size: 1024 | global_step: 421471 | reduced_train_loss: 2.149
+Training epoch 2, iteration 421472/715787 | lr: 0.0001279 | consumed_samples: 431588352 | global_batch_size: 1024 | global_step: 421472 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421473/715787 | lr: 0.0001279 | consumed_samples: 431589376 | global_batch_size: 1024 | global_step: 421473 | reduced_train_loss: 2.13
+Training epoch 2, iteration 421474/715787 | lr: 0.0001279 | consumed_samples: 431590400 | global_batch_size: 1024 | global_step: 421474 | reduced_train_loss: 2.163
+Training epoch 2, iteration 421475/715787 | lr: 0.0001279 | consumed_samples: 431591424 | global_batch_size: 1024 | global_step: 421475 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421476/715787 | lr: 0.0001279 | consumed_samples: 431592448 | global_batch_size: 1024 | global_step: 421476 | reduced_train_loss: 2.173
+Training epoch 2, iteration 421477/715787 | lr: 0.0001279 | consumed_samples: 431593472 | global_batch_size: 1024 | global_step: 421477 | reduced_train_loss: 2.132
+Training epoch 2, iteration 421478/715787 | lr: 0.0001279 | consumed_samples: 431594496 | global_batch_size: 1024 | global_step: 421478 | reduced_train_loss: 2.157
+Training epoch 2, iteration 421479/715787 | lr: 0.0001279 | consumed_samples: 431595520 | global_batch_size: 1024 | global_step: 421479 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421480/715787 | lr: 0.0001279 | consumed_samples: 431596544 | global_batch_size: 1024 | global_step: 421480 | reduced_train_loss: 2.165
+Training epoch 2, iteration 421481/715787 | lr: 0.0001279 | consumed_samples: 431597568 | global_batch_size: 1024 | global_step: 421481 | reduced_train_loss: 2.144
+Training epoch 2, iteration 421482/715787 | lr: 0.0001279 | consumed_samples: 431598592 | global_batch_size: 1024 | global_step: 421482 | reduced_train_loss: 2.141
+Training epoch 2, iteration 421483/715787 | lr: 0.0001279 | consumed_samples: 431599616 | global_batch_size: 1024 | global_step: 421483 | reduced_train_loss: 2.181
+Training epoch 2, iteration 421484/715787 | lr: 0.0001279 | consumed_samples: 431600640 | global_batch_size: 1024 | global_step: 421484 | reduced_train_loss: 2.162
+Training epoch 2, iteration 421485/715787 | lr: 0.0001279 | consumed_samples: 431601664 | global_batch_size: 1024 | global_step: 421485 | reduced_train_loss: 2.159
+Training epoch 2, iteration 421486/715787 | lr: 0.0001279 | consumed_samples: 431602688 | global_batch_size: 1024 | global_step: 421486 | reduced_train_loss: 2.153
+Training epoch 2, iteration 421487/715787 | lr: 0.0001279 | consumed_samples: 431603712 | global_batch_size: 1024 | global_step: 421487 | reduced_train_loss: 2.156
+Training epoch 2, iteration 421488/715787 | lr: 0.0001279 | consumed_samples: 431604736 | global_batch_size: 1024 | global_step: 421488 | reduced_train_loss: 2.152
+Training epoch 2, iteration 421489/715787 | lr: 0.0001279 | consumed_samples: 431605760 | global_batch_size: 1024 | global_step: 421489 | reduced_train_loss: 2.148
+Training epoch 2, iteration 421490/715787 | lr: 0.0001279 | consumed_samples: 431606784 | global_batch_size: 1024 | global_step: 421490 | reduced_train_loss: 2.16
+Training epoch 2, iteration 421491/715787 | lr: 0.0001279 | consumed_samples: 431607808 | global_batch_size: 1024 | global_step: 421491 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421492/715787 | lr: 0.0001279 | consumed_samples: 431608832 | global_batch_size: 1024 | global_step: 421492 | reduced_train_loss: 2.168
+Training epoch 2, iteration 421493/715787 | lr: 0.0001279 | consumed_samples: 431609856 | global_batch_size: 1024 | global_step: 421493 | reduced_train_loss: 2.146
+Training epoch 2, iteration 421494/715787 | lr: 0.0001279 | consumed_samples: 431610880 | global_batch_size: 1024 | global_step: 421494 | reduced_train_loss: 2.138
+Training epoch 2, iteration 421495/715787 | lr: 0.0001279 | consumed_samples: 431611904 | global_batch_size: 1024 | global_step: 421495 | reduced_train_loss: 2.158
+Training epoch 2, iteration 421496/715787 | lr: 0.0001279 | consumed_samples: 431612928 | global_batch_size: 1024 | global_step: 421496 | reduced_train_loss: 2.161
+Training epoch 2, iteration 421497/715787 | lr: 0.0001279 | consumed_samples: 431613952 | global_batch_size: 1024 | global_step: 421497 | reduced_train_loss: 2.154
+Training epoch 2, iteration 421498/715787 | lr: 0.0001279 | consumed_samples: 431614976 | global_batch_size: 1024 | global_step: 421498 | reduced_train_loss: 2.147
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393] Running garbage collection at train global_step: 421500
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393] Step 421500 - SSA n values:
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 0: n = 3.671875
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 1: n = 1.664062
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 2: n = 2.515625
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 3: n = 2.875000
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 4: n = 3.078125
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 5: n = 3.093750
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 6: n = 3.750000
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 7: n = 3.906250
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 8: n = 3.953125
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 9: n = 3.343750
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 10: n = 3.765625
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 11: n = 3.828125
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 12: n = 3.765625
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 13: n = 3.656250
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 14: n = 3.625000
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 15: n = 3.875000
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 16: n = 3.921875
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 17: n = 4.312500
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 18: n = 3.546875
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 19: n = 4.843750
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 20: n = 3.031250
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 21: n = -3.984375
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 22: n = 3.562500
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393]   Layer 23: n = -544.000000
+INFO: Epoch 2, global step 421499: 'step' reached 421499.00000 (best 421499.00000), saving model to '/tmpdir/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0421499.ckpt' as top 843
+INFO:lightning.pytorch.utilities.rank_zero:Epoch 2, global step 421499: 'step' reached 421499.00000 (best 421499.00000), saving model to '/tmpdir/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0421499.ckpt' as top 843
+Training epoch 2, iteration 421499/715787 | lr: 0.0001279 | consumed_samples: 431616000 | global_batch_size: 1024 | global_step: 421499 | reduced_train_loss: 2.176
+[NeMo I 2026-05-06 15:57:43 nemo_logging:393] Using FullyParallelSaveStrategyWrapper(torch_dist, 1) dist-ckpt save strategy.
+[NeMo W 2026-05-06 15:57:45 validation:389] There is difference in the common state dict in different ranks. The differences are {1: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 2: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 3: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 4: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 5: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 6: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 7: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 8: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 9: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 10: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 11: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 13: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 14: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 15: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)])}
+[NeMo I 2026-05-06 15:57:55 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 421425 : Start time: 1778075863.798s : Save duration: 11.227s
+[NeMo I 2026-05-06 15:57:55 nemo_logging:393] Scheduled async checkpoint save for /tmpdir/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0421499.ckpt
+Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)[NeMo W 2026-05-06 15:57:56 validation:389] There is difference in the common state dict in different ranks. The differences are {1: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 2: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 3: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 4: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 5: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 6: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 7: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 8: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 9: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 10: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 11: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 13: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 14: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)]), 15: ([], [], [(('optimizer', 0, 'optimizer', 'param_groups', 1, 'step'), <class 'int'>, <class 'int'>)])}
+[NeMo I 2026-05-06 15:57:56 nemo_logging:393] Global Checkpoint Save : Rank: 0 : Iteration: 421425 : Start time: 1778075875.921s : Save duration: 0.810s
+[NeMo I 2026-05-06 15:57:56 nemo_logging:393] Scheduled async checkpoint save for /tmpdir/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0421499-last.ckpt
+[NeMo I 2026-05-06 15:57:57 nemo_logging:393] Successfully saved checkpoint from iteration  421425 to /tmpdir/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0421499.ckpt
+[NeMo I 2026-05-06 15:57:57 nemo_logging:393] Async checkpoint save for step 421500 (/tmpdir/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0421499.ckpt) finalized successfully.
+[NeMo I 2026-05-06 15:57:57 nemo_logging:393] Async finalization time took 0.255 s
+Training epoch 2, iteration 421500/715787 | lr: 0.0001279 | consumed_samples: 431617024 | global_batch_size: 1024 | global_step: 421500 | reduced_train_loss: 2.156
+[NeMo I 2026-05-06 15:58:12 nemo_logging:393] Successfully saved checkpoint from iteration  421425 to /tmpdir/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0421499-last.ckpt
+[NeMo I 2026-05-06 15:58:12 nemo_logging:393] Async checkpoint save for step 421500 (/tmpdir/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0421499-last.ckpt) finalized successfully.
+[NeMo I 2026-05-06 15:58:12 nemo_logging:393] Async finalization time took 0.372 s
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)W0506 16:14:12.677000 201307 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)W0506 16:14:12.677000 201967 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0506 16:14:12.678000 201967 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 202208 closing signal SIGTERM
+W0506 16:14:12.678000 201307 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 201526 closing signal SIGTERM
+W0506 16:14:12.679000 201307 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 201527 closing signal SIGTERM
+[2026-05-06T16:14:12.681] error: *** STEP 17967.0 ON kairosgh0 CANCELLED AT 2026-05-06T16:14:12 DUE to SIGNAL Terminated ***
+W0506 16:14:12.681000 201967 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 202209 closing signal SIGTERM
+W0506 16:14:12.682000 272003 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0506 16:14:12.682000 272003 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 272282 closing signal SIGTERM
+Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)W0506 16:14:12.682000 199209 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W0506 16:14:12.683000 201967 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 202210 closing signal SIGTERM
+INFO: [rank: 1] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 1] Received SIGTERM: 15
+W0506 16:14:12.683000 199209 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 199355 closing signal SIGTERM
+W0506 16:14:12.683000 201307 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 201528 closing signal SIGTERM
+[2026-05-06T16:14:12.685] error: *** JOB 17967 ON kairosgh0 CANCELLED AT 2026-05-06T16:14:12 DUE to SIGNAL Terminated ***
+INFO: [rank: 2] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 2] Received SIGTERM: 15
+W0506 16:14:12.685000 272003 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 272283 closing signal SIGTERM
+INFO: [rank: 1] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 1] Received SIGTERM: 15
+W0506 16:14:12.686000 199209 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 199356 closing signal SIGTERM
+INFO: [rank: 1] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 1] Received SIGTERM: 15
+W0506 16:14:12.688000 272003 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 272284 closing signal SIGTERM
+INFO: [rank: 0] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 0] Received SIGTERM: 15
+W0506 16:14:12.688000 201967 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 202211 closing signal SIGTERM
+INFO: [rank: 2] Received SIGTERM: 15
+INFO: [rank: 0] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 0] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 2] Received SIGTERM: 15
+INFO: [rank: 2] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 2] Received SIGTERM: 15
+INFO: [rank: 0] Received SIGTERM: 15
+W0506 16:14:12.691000 199209 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 199357 closing signal SIGTERM
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 0] Received SIGTERM: 15
+W0506 16:14:12.692000 201307 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 201529 closing signal SIGTERM
+INFO: [rank: 3] Received SIGTERM: 15
+INFO:lightning.pytorch.trainer.connectors.signal_connector:[rank: 3] Received SIGTERM: 15

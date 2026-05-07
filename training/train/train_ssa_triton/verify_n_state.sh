@@ -2,8 +2,9 @@
 #SBATCH -J verify_n_state
 #SBATCH -N 1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
+#SBATCH --gres=gpu:1
+#SBATCH -p gpu
+#SBATCH --cpus-per-task=288
 #SBATCH --time=00:30:00
 #SBATCH --output=slurm/%x_%j.out
 #
@@ -47,7 +48,7 @@ run_pair() {
 
   srun apptainer exec \
     --env "PYTHONUSERBASE=${MYENVS}/nemo" \
-    --bind /scratch,/tmpdir,/work \
+    --bind /scratch,/tmpdir,/work --nv \
     "${SIF}" \
     python "${SCRIPT}" "${c1}" --compare "${c2}"
 }

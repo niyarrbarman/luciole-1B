@@ -25,6 +25,7 @@ LOG_DIR = pathlib.Path(__file__).parent / "slurm_logs"
 SEQ_LENGTH = 4096  # tokens per sample
 OUTPUT_HTML = pathlib.Path(__file__).parent / "loss_plot.html"
 EMA_ALPHA = 0.01  # smoothing factor (lower = smoother)
+THIN_FACTOR = 10  # keep every Nth point in default (thinned) mode
 
 # ---------------------------------------------------------------------------
 # Parsing
@@ -86,19 +87,20 @@ def parse_logs(log_dir: pathlib.Path) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 # Plotting
 # ---------------------------------------------------------------------------
-def make_plot(df: pd.DataFrame, *, smooth: bool = True) -> go.Figure:
+def make_plot(df: pd.DataFrame, *, smooth: bool = True, full: bool = False) -> go.Figure:
+    plot_df = df if full else df.iloc[::THIN_FACTOR]
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
     # --- Per-step loss ---
     raw_opacity = 0.3 if smooth else 0.6
     fig.add_trace(
         go.Scattergl(
-            x=df["global_step"],
-            y=df["reduced_train_loss"],
+            x=plot_df["global_step"],
+            y=plot_df["reduced_train_loss"],
             mode="lines",
             line=dict(width=0.5, color=f"rgba(99,110,250,{raw_opacity})"),
             name="Per-step loss",
-            customdata=df[["tokens_B", "lr"]].values,
+            customdata=plot_df[["tokens_B", "lr"]].values,
             hovertemplate=(
                 "Step: %{x:,}<br>"
                 "Loss: %{y:.4f}<br>"
@@ -114,12 +116,12 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True) -> go.Figure:
     if smooth:
         fig.add_trace(
             go.Scattergl(
-                x=df["global_step"],
-                y=df["loss_ema"],
+                x=plot_df["global_step"],
+                y=plot_df["loss_ema"],
                 mode="lines",
                 line=dict(color="rgb(99,110,250)", width=2),
                 name="Smoothed loss",
-                customdata=df[["tokens_B", "lr"]].values,
+                customdata=plot_df[["tokens_B", "lr"]].values,
                 hovertemplate=(
                     "Step: %{x:,}<br>"
                     "Loss (EMA): %{y:.4f}<br>"
@@ -134,8 +136,8 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True) -> go.Figure:
     # --- Learning rate on secondary y-axis ---
     fig.add_trace(
         go.Scattergl(
-            x=df["global_step"],
-            y=df["lr"],
+            x=plot_df["global_step"],
+            y=plot_df["lr"],
             mode="lines",
             line=dict(color="rgba(239,85,59,0.6)", width=1.5, dash="dot"),
             name="Learning rate",
@@ -144,23 +146,27 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True) -> go.Figure:
         secondary_y=True,
     )
 
-    # --- SLURM job boundaries ---
+    # --- SLURM job boundaries (toggleable via legend) ---
     job_starts = df.groupby("job_id")["global_step"].min().sort_values()
-    # Only mark boundaries for jobs that contributed >100 steps (skip tiny restarts)
     job_counts = df["job_id"].value_counts()
     sig_jobs = job_counts[job_counts > 100].index
+    y_lo = df["reduced_train_loss"].min() - 1.0
+    y_hi = df["reduced_train_loss"].max() + 1.0
+    b_x, b_y = [], []
     for job_id, step in job_starts.items():
         if job_id in sig_jobs:
-            fig.add_vline(
-                x=step,
-                line=dict(color="rgba(150,150,150,0.3)", width=1, dash="dash"),
-                annotation=dict(
-                    text=f"Job {job_id}",
-                    font=dict(size=8, color="gray"),
-                    textangle=-90,
-                    yanchor="top",
-                ),
-            )
+            b_x.extend([step, step, None])
+            b_y.extend([y_lo, y_hi, None])
+    if b_x:
+        fig.add_trace(
+            go.Scatter(
+                x=b_x, y=b_y, mode="lines",
+                line=dict(color="rgba(150,150,150,0.4)", width=1, dash="dash"),
+                name="Job boundaries",
+                hoverinfo="skip",
+            ),
+            secondary_y=False,
+        )
 
     # --- Layout ---
     last_step = df["global_step"].iloc[-1]
@@ -202,14 +208,14 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True) -> go.Figure:
 
     # --- Secondary x-axis for tokens (top) ---
     # We build a mapping step→tokens_B for tick labels
-    step_min, step_max = df["global_step"].min(), df["global_step"].max()
-    tok_min, tok_max = df["tokens_B"].min(), df["tokens_B"].max()
+    step_min, step_max = plot_df["global_step"].min(), plot_df["global_step"].max()
+    tok_min, tok_max = plot_df["tokens_B"].min(), plot_df["tokens_B"].max()
 
     # Add a transparent trace on xaxis2 for the tokens axis
     fig.add_trace(
         go.Scattergl(
-            x=df["tokens_B"],
-            y=df["loss_ema"],
+            x=plot_df["tokens_B"],
+            y=plot_df["loss_ema"],
             mode="lines",
             line=dict(width=0),
             showlegend=False,
@@ -241,6 +247,11 @@ def main():
         action="store_true",
         help="Show only per-step loss, skip the EMA smoothed curve",
     )
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="Plot every step (slower). Default thins to every 10th point.",
+    )
     args = parser.parse_args()
 
     print(f"Parsing logs from {LOG_DIR} ...")
@@ -254,7 +265,9 @@ def main():
         f"  Tokens: {df['tokens_B'].iloc[0]:.2f}B → {df['tokens_B'].iloc[-1]:.2f}B"
     )
 
-    fig = make_plot(df, smooth=not args.raw_only)
+    if not args.full:
+        print(f"  Thinning to every {THIN_FACTOR}th point ({len(df) // THIN_FACTOR:,} pts). Use --full for all.")
+    fig = make_plot(df, smooth=not args.raw_only, full=args.full)
     fig.write_html(
         str(OUTPUT_HTML),
         auto_open=False,

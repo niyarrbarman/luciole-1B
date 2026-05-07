@@ -1,0 +1,42 @@
+
+==================================================================
+  CONTROL — normal training (no crash)
+  before: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313499
+  after:  /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313999
+==================================================================
+Loading /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313499 ...
+  [info] megatron dist_checkpointing on nemo:weights: ValueError: Default process group has not been initialized, please make sure to call init_process_group.
+Traceback (most recent call last):
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/loss_analysis/verify_n_state.py", line 266, in <module>
+    main()
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/loss_analysis/verify_n_state.py", line 248, in main
+    s1 = load_checkpoint(args.ckpt)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/loss_analysis/verify_n_state.py", line 87, in load_checkpoint
+    d = _try_dcp(p)
+        ^^^^^^^^^^^
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/loss_analysis/verify_n_state.py", line 49, in _try_dcp
+    dcp_to_torch_save(str(path), str(out_pt))
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/format_utils.py", line 212, in dcp_to_torch_save
+    _load_state_dict(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/state_dict_loader.py", line 232, in _load_state_dict
+    central_plan: LoadPlan = distW.reduce_scatter("plan", local_step, global_step)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/utils.py", line 213, in reduce_scatter
+    raise result
+torch.distributed.checkpoint.api.CheckpointException: CheckpointException ranks:dict_keys([0])
+Traceback (most recent call last): (RANK 0)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/utils.py", line 186, in reduce_scatter
+    local_data = map_fun()
+                 ^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/logger.py", line 83, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/state_dict_loader.py", line 218, in local_step
+    planner.set_up_planner(state_dict, metadata, distW.is_coordinator)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/default_planner.py", line 328, in set_up_planner
+    if k in metadata.planner_data:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+
+srun: error: kairosgh10: task 0: Exited with exit code 1

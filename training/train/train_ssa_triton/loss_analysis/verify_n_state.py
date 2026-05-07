@@ -24,11 +24,28 @@ Interpretation:
 """
 
 import argparse
+import os
 import re
 import sys
 from pathlib import Path
 
 import torch
+import torch.distributed as dist
+
+
+def _init_single_rank_dist():
+    """Initialize a 1-rank gloo process group so Megatron dist_checkpointing
+    can run on a single CPU process without a real distributed launcher."""
+    if not dist.is_available():
+        return
+    if dist.is_initialized():
+        return
+    os.environ.setdefault("MASTER_ADDR", "127.0.0.1")
+    os.environ.setdefault("MASTER_PORT", "29501")
+    os.environ.setdefault("RANK", "0")
+    os.environ.setdefault("WORLD_SIZE", "1")
+    os.environ.setdefault("LOCAL_RANK", "0")
+    dist.init_process_group(backend="gloo", rank=0, world_size=1)
 
 
 # ---------------------------------------------------------------------------
@@ -243,6 +260,8 @@ def main():
     p.add_argument("--dump-keys", action="store_true",
                    help="Just print all top-level keys of the loaded state and exit")
     args = p.parse_args()
+
+    _init_single_rank_dist()
 
     print(f"Loading {args.ckpt} ...")
     s1 = load_checkpoint(args.ckpt)

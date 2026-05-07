@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH --ntasks=1
 #SBATCH --gres=gpu:1
-#SBATCH -p gpu
+#SBATCH -p full-gpu
 #SBATCH --cpus-per-task=288
 #SBATCH --time=00:30:00
 #SBATCH --output=slurm/%x_%j.out

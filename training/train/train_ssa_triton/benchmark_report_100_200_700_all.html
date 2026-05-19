@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luciole Benchmark Interactive Report</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root {
+      --bg: #f7f5ef;
+      --panel: #fffdf7;
+      --ink: #1f2937;
+      --accent: #0f766e;
+      --muted: #6b7280;
+      --border: #d1d5db;
+    }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, #efe9dc 0%, transparent 40%),
+        radial-gradient(circle at 80% 90%, #e6f3ee 0%, transparent 30%),
+        var(--bg);
+    }
+    .wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .title {
+      margin: 0 0 10px;
+      font-size: 32px;
+      letter-spacing: 0.2px;
+    }
+    .subtitle {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 360px 1fr;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .controls {
+      padding: 14px;
+      position: sticky;
+      top: 10px;
+      height: fit-content;
+    }
+    .control {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    select, input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+    .run-list {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      max-height: 250px;
+      overflow: auto;
+      padding: 6px;
+    }
+    .run-item {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 4px 2px;
+      font-size: 12px;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    button {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .content {
+      padding: 12px;
+    }
+    #chart {
+      width: 100%;
+      height: 620px;
+    }
+    .table-wrap {
+      margin-top: 10px;
+      overflow: auto;
+      max-height: 260px;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+    .summary-wrap {
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+    }
+    .summary-title {
+      margin: 0 0 6px;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: white;
+      border: 1px solid var(--border);
+    }
+    th, td {
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      padding: 6px 8px;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #f9fafb;
+      z-index: 1;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    @media (max-width: 1100px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .controls {
+        position: static;
+      }
+      #chart {
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Luciole Benchmark Interactive Report</h1>
+  <p class="subtitle">Interactive benchmark explorer: choose scope, task, metric, and visible runs.</p>
+
+  <div class="grid">
+    <aside class="panel controls">
+      <div class="control">
+        <label for="scopeSelect">Metric Scope</label>
+        <select id="scopeSelect">
+          <option value="task">Task metrics</option>
+          <option value="timing">Timing metrics</option>
+          <option value="forward">Forward metrics</option>
+          <option value="run">Run settings</option>
+        </select>
+      </div>
+
+      <div class="control" id="taskControl">
+        <label for="taskSelect">Task</label>
+        <select id="taskSelect"></select>
+      </div>
+
+      <div class="control">
+        <label for="metricSelect">Metric</label>
+        <select id="metricSelect"></select>
+      </div>
+
+      <div class="control">
+        <label for="runFilter">Filter Runs</label>
+        <input id="runFilter" type="text" placeholder="Type to filter runs..." />
+      </div>
+
+      <div class="control">
+        <div class="btn-row">
+          <button id="selectAllBtn" type="button">Select all</button>
+          <button id="selectNoneBtn" type="button">Select none</button>
+        </div>
+        <div class="run-list" id="runList"></div>
+      </div>
+
+      <p class="muted" id="selectionSummary"></p>
+    </aside>
+
+    <section class="panel content">
+      <div id="chart"></div>
+
+      <div class="table-wrap">
+        <table id="valueTable">
+          <thead>
+            <tr><th>Run</th><th>Value</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      
+      <div class="summary-wrap" id="summaryWrap">
+        <h3 class="summary-title">Significant Wins Summary (95% CI)</h3>
+        <p class="muted" id="summaryHint"></p>
+        <div class="table-wrap" style="max-height: 300px; border-top: 0; padding-top: 0; margin-top: 6px;">
+          <table id="summaryTable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Metric</th>
+                <th>Winner</th>
+                <th>Winner value</th>
+                <th>Best challenger</th>
+                <th>Challenger value</th>
+                <th>CI separation</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="summary-wrap" id="trendWrap">
+        <h3 class="summary-title">Task Order Trend</h3>
+        <p class="muted" id="trendHint"></p>
+        <div class="table-wrap" style="max-height: 300px; border-top: 0; padding-top: 0; margin-top: 6px;">
+          <table id="trendTable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Metric used</th>
+                <th>Order</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const DATA = {"runs": ["ssa_luciole_200k (ssa_triton) [merged:2]", "luciole_200k (softmax) [merged:2]", "ssa_luciole_100k (ssa_triton) [merged:2]", "luciole_100k (softmax) [merged:2]", "luciole_700k (softmax) [results_softmax_700k#1]"], "run_model_names": {"ssa_luciole_200k (ssa_triton) [merged:2]": "ssa_luciole_200k", "luciole_200k (softmax) [merged:2]": "luciole_200k", "ssa_luciole_100k (ssa_triton) [merged:2]": "ssa_luciole_100k", "luciole_100k (softmax) [merged:2]": "luciole_100k", "luciole_700k (softmax) [results_softmax_700k#1]": "luciole_700k"}, "task_metrics": {"arc_challenge": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.363481228668942, "luciole_200k (softmax) [merged:2]": 0.36860068259385664, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.34215017064846415, "luciole_100k (softmax) [merged:2]": 0.36006825938566556, "luciole_700k (softmax) [results_softmax_700k#1]": 0.3890784982935154}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.3984641638225256, "luciole_200k (softmax) [merged:2]": 0.4129692832764505, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.36945392491467577, "luciole_100k (softmax) [merged:2]": 0.38822525597269625, "luciole_700k (softmax) [results_softmax_700k#1]": 0.42150170648464164}}, "arc_easy": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.7125420875420876, "luciole_200k (softmax) [merged:2]": 0.718013468013468, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.70496632996633, "luciole_100k (softmax) [merged:2]": 0.6961279461279462, "luciole_700k (softmax) [results_softmax_700k#1]": 0.7323232323232324}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.7196969696969697, "luciole_200k (softmax) [merged:2]": 0.7079124579124579, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.6986531986531986, "luciole_100k (softmax) [merged:2]": 0.6948653198653199, "luciole_700k (softmax) [results_softmax_700k#1]": 0.7289562289562289}}, "boolq": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.6009174311926605, "luciole_200k (softmax) [merged:2]": 0.636085626911315, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5865443425076453, "luciole_100k (softmax) [merged:2]": 0.5889908256880734, "luciole_700k (softmax) [results_softmax_700k#1]": 0.636085626911315}}, "cb": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5535714285714286, "luciole_200k (softmax) [merged:2]": 0.5714285714285714, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4107142857142857, "luciole_100k (softmax) [merged:2]": 0.48214285714285715, "luciole_700k (softmax) [results_softmax_700k#1]": 0.44642857142857145}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.35555555555555557, "luciole_200k (softmax) [merged:2]": 0.3955082742316785, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3444765111431778, "luciole_100k (softmax) [merged:2]": 0.3955535989434295, "luciole_700k (softmax) [results_softmax_700k#1]": 0.2588042588042588}}, "copa": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.78, "luciole_200k (softmax) [merged:2]": 0.77, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.75, "luciole_100k (softmax) [merged:2]": 0.72, "luciole_700k (softmax) [results_softmax_700k#1]": 0.78}}, "hellaswag": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.42730531766580365, "luciole_200k (softmax) [merged:2]": 0.42342162915753834, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.40689105755825533, "luciole_100k (softmax) [merged:2]": 0.403505277833101, "luciole_700k (softmax) [results_softmax_700k#1]": 0.4486158135829516}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5655247958573989, "luciole_200k (softmax) [merged:2]": 0.5546703843855806, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.526090420235013, "luciole_100k (softmax) [merged:2]": 0.5237004580760805, "luciole_700k (softmax) [results_softmax_700k#1]": 0.5899223262298346}}, "lambada_openai": {"perplexity,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 15.880850647490451, "luciole_200k (softmax) [merged:2]": 15.75920456600549, "ssa_luciole_100k (ssa_triton) [merged:2]": 19.24636736401142, "luciole_100k (softmax) [merged:2]": 22.43184816952555, "luciole_700k (softmax) [results_softmax_700k#1]": 14.288806957676929}, "acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.4308169998059383, "luciole_200k (softmax) [merged:2]": 0.4354744808849214, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.40597710071802834, "luciole_100k (softmax) [merged:2]": 0.3733747331651465, "luciole_700k (softmax) [results_softmax_700k#1]": 0.4457597516010091}}, "multirc": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.49525577557755773, "luciole_200k (softmax) [merged:2]": 0.47648514851485146, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5255775577557755, "luciole_100k (softmax) [merged:2]": 0.4667904290429043, "luciole_700k (softmax) [results_softmax_700k#1]": 0.46204620462046203}}, "openbookqa": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.304, "luciole_200k (softmax) [merged:2]": 0.282, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.284, "luciole_100k (softmax) [merged:2]": 0.308, "luciole_700k (softmax) [results_softmax_700k#1]": 0.296}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.412, "luciole_200k (softmax) [merged:2]": 0.38, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.358, "luciole_100k (softmax) [merged:2]": 0.37, "luciole_700k (softmax) [results_softmax_700k#1]": 0.408}}, "record": {"f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.7922719047619048, "luciole_200k (softmax) [merged:2]": 0.7937423809523809, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.7716666666666667, "luciole_100k (softmax) [merged:2]": 0.7659257142857143, "luciole_700k (softmax) [results_softmax_700k#1]": 0.80588}, "em,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.7847, "luciole_200k (softmax) [merged:2]": 0.7861, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.7655, "luciole_100k (softmax) [merged:2]": 0.7588, "luciole_700k (softmax) [results_softmax_700k#1]": 0.7984}}, "truthfulqa_mc2": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.3844338405606237, "luciole_200k (softmax) [merged:2]": 0.38741212139839676, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3761768380712612, "luciole_100k (softmax) [merged:2]": 0.3749683359065202, "luciole_700k (softmax) [results_softmax_700k#1]": 0.3709551728658298}}, "wic": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5156739811912225, "luciole_200k (softmax) [merged:2]": 0.5094043887147336, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.49686520376175547, "luciole_100k (softmax) [merged:2]": 0.5329153605015674, "luciole_700k (softmax) [results_softmax_700k#1]": 0.5015673981191222}}, "winogrande": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.579321231254933, "luciole_200k (softmax) [merged:2]": 0.5737963693764798, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5753749013417522, "luciole_100k (softmax) [merged:2]": 0.5580110497237569, "luciole_700k (softmax) [results_softmax_700k#1]": 0.6077348066298343}}, "wsc": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5576923076923077, "luciole_200k (softmax) [merged:2]": 0.5769230769230769, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5769230769230769, "luciole_100k (softmax) [merged:2]": 0.49038461538461536, "luciole_700k (softmax) [results_softmax_700k#1]": 0.47115384615384615}}, "french_bench_arc_challenge": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.31907613344739094, "luciole_200k (softmax) [merged:2]": 0.31137724550898205, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.30367835757057315, "luciole_100k (softmax) [merged:2]": 0.2934131736526946}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.3609923011120616, "luciole_200k (softmax) [merged:2]": 0.3532934131736527, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3413173652694611, "luciole_100k (softmax) [merged:2]": 0.339606501283148}}, "french_bench_boolqa": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5449438202247191, "luciole_200k (softmax) [merged:2]": 0.6404494382022472, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5393258426966292, "luciole_100k (softmax) [merged:2]": 0.5730337078651685}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5449438202247191, "luciole_200k (softmax) [merged:2]": 0.6404494382022472, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5393258426966292, "luciole_100k (softmax) [merged:2]": 0.5730337078651685}}, "french_bench_fquadv2": {"exact,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.15, "luciole_200k (softmax) [merged:2]": 0.14125, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.18, "luciole_100k (softmax) [merged:2]": 0.1675}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.2433708757118729, "luciole_200k (softmax) [merged:2]": 0.2407990094912008, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.2452339285226892, "luciole_100k (softmax) [merged:2]": 0.25672782460009325}}, "french_bench_fquadv2_bool": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.4975, "luciole_200k (softmax) [merged:2]": 0.51375, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.52125, "luciole_100k (softmax) [merged:2]": 0.49875}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.4975, "luciole_200k (softmax) [merged:2]": 0.51375, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.52125, "luciole_100k (softmax) [merged:2]": 0.49875}}, "french_bench_fquadv2_genq": {"rouge1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.22053435858075202, "luciole_200k (softmax) [merged:2]": 0.20309145735851541, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.18934210860611328, "luciole_100k (softmax) [merged:2]": 0.19412936331416641}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.19250773877586277, "luciole_200k (softmax) [merged:2]": 0.18124453194636403, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.16063533259160173, "luciole_100k (softmax) [merged:2]": 0.16897155803108138}}, "french_bench_fquadv2_hasAns": {"exact,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.285, "luciole_200k (softmax) [merged:2]": 0.27, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.255, "luciole_100k (softmax) [merged:2]": 0.2175}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5164326654178799, "luciole_200k (softmax) [merged:2]": 0.49849503214076224, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.46494547113351214, "luciole_100k (softmax) [merged:2]": 0.412339107842082}, "rouge1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5275447324248242, "luciole_200k (softmax) [merged:2]": 0.5113016668404655, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4817918079508359, "luciole_100k (softmax) [merged:2]": 0.4322237290910849}}, "french_bench_grammar": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.7983193277310925, "luciole_200k (softmax) [merged:2]": 0.7899159663865546, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.7983193277310925, "luciole_100k (softmax) [merged:2]": 0.8235294117647058}}, "french_bench_hellaswag": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.4020132790747483, "luciole_200k (softmax) [merged:2]": 0.4017991004497751, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3855215249518098, "luciole_100k (softmax) [merged:2]": 0.3854144356393232}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5272006853715999, "luciole_200k (softmax) [merged:2]": 0.5222745769972157, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4948597130006425, "luciole_100k (softmax) [merged:2]": 0.4948597130006425}}, "french_bench_multifquad": {"exact,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.02, "luciole_200k (softmax) [merged:2]": 0.03, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.01, "luciole_100k (softmax) [merged:2]": 0.015}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.39664906575977904, "luciole_200k (softmax) [merged:2]": 0.4102318637553459, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3998366768238506, "luciole_100k (softmax) [merged:2]": 0.3505098669561608}, "rouge1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.4124868769146284, "luciole_200k (softmax) [merged:2]": 0.42903271273428284, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4168159872390136, "luciole_100k (softmax) [merged:2]": 0.3712381432152654}}, "french_bench_opus_perplexity": {"word_perplexity,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 32.4120779044309, "luciole_200k (softmax) [merged:2]": 33.30300105838558, "ssa_luciole_100k (ssa_triton) [merged:2]": 34.53171385666066, "luciole_100k (softmax) [merged:2]": 34.45614320964011}, "byte_perplexity,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 1.7296106776670863, "luciole_200k (softmax) [merged:2]": 1.737013723834845, "ssa_luciole_100k (ssa_triton) [merged:2]": 1.7469545252251835, "luciole_100k (softmax) [merged:2]": 1.7463517993564683}, "bits_per_byte,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.7904473346201013, "luciole_200k (softmax) [merged:2]": 0.7966091525688915, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.8048420541127147, "luciole_100k (softmax) [merged:2]": 0.8043442165057918}}, "french_bench_reading_comp": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5633802816901409, "luciole_200k (softmax) [merged:2]": 0.5915492957746479, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5774647887323944, "luciole_100k (softmax) [merged:2]": 0.5633802816901409}}, "french_bench_topic_based_nli": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.6033333333333334, "luciole_200k (softmax) [merged:2]": 0.5666666666666667, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.335, "luciole_100k (softmax) [merged:2]": 0.475}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.6033333333333334, "luciole_200k (softmax) [merged:2]": 0.5616666666666666, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.335, "luciole_100k (softmax) [merged:2]": 0.5}}, "french_bench_trivia": {"exact,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.4105263157894737, "luciole_200k (softmax) [merged:2]": 0.4421052631578947, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3763157894736842, "luciole_100k (softmax) [merged:2]": 0.40789473684210525}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5152923465423466, "luciole_200k (softmax) [merged:2]": 0.5468380380776503, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4652365651204661, "luciole_100k (softmax) [merged:2]": 0.5080060423890944}, "rouge1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.5233271458074094, "luciole_200k (softmax) [merged:2]": 0.5524814067895787, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.47643365623174483, "luciole_100k (softmax) [merged:2]": 0.5162653010059464}, "is_included,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.39473684210526316, "luciole_200k (softmax) [merged:2]": 0.43157894736842106, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3631578947368421, "luciole_100k (softmax) [merged:2]": 0.39210526315789473}}, "french_bench_vocab": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.8067226890756303, "luciole_200k (softmax) [merged:2]": 0.773109243697479, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.7815126050420168, "luciole_100k (softmax) [merged:2]": 0.7647058823529411}}, "french_bench_xnli": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.3333333333333333, "luciole_200k (softmax) [merged:2]": 0.3399201596806387, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.32335329341317365, "luciole_100k (softmax) [merged:2]": 0.3335329341317365}}, "gsm8k": {"exact_match,strict-match": {"ssa_luciole_100k (ssa_triton) [merged:2]": 0.008339651250947688, "luciole_100k (softmax) [merged:2]": 0.008339651250947688, "luciole_700k (softmax) [results_softmax_700k#1]": 0.018}, "exact_match,flexible-extract": {"ssa_luciole_100k (ssa_triton) [merged:2]": 0.013646702047005308, "luciole_100k (softmax) [merged:2]": 0.018953752843062926, "luciole_700k (softmax) [results_softmax_700k#1]": 0.03}}}, "task_stderr": {"arc_challenge": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.014056207319068465, "luciole_200k (softmax) [merged:2]": 0.014097810678042156, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013864152159177238, "luciole_100k (softmax) [merged:2]": 0.014027516814585158, "luciole_700k (softmax) [results_softmax_700k#1]": 0.014247309976045494}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.014306946052735529, "luciole_200k (softmax) [merged:2]": 0.014388344935398392, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.014104578366491963, "luciole_100k (softmax) [merged:2]": 0.014241614207414086, "luciole_700k (softmax) [results_softmax_700k#1]": 0.014430197069326089}}, "arc_easy": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.009286682281593562, "luciole_200k (softmax) [merged:2]": 0.009233124071053615, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.00935811055108733, "luciole_100k (softmax) [merged:2]": 0.009437524848293723, "luciole_700k (softmax) [results_softmax_700k#1]": 0.009085000147099275}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.009216306864088211, "luciole_200k (softmax) [merged:2]": 0.009330705616569084, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.009415259879351578, "luciole_100k (softmax) [merged:2]": 0.009448531094163992, "luciole_700k (softmax) [results_softmax_700k#1]": 0.009120919741760646}}, "boolq": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.008565077958836848, "luciole_200k (softmax) [merged:2]": 0.008414918909129048, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.008613059239942654, "luciole_100k (softmax) [merged:2]": 0.008605429733982026, "luciole_700k (softmax) [results_softmax_700k#1]": 0.008414918909129048}}, "cb": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.06703189227942397, "luciole_200k (softmax) [merged:2]": 0.06672848092813055, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0663363415035954, "luciole_100k (softmax) [merged:2]": 0.06737697508644648, "luciole_700k (softmax) [results_softmax_700k#1]": 0.06703189227942397}}, "copa": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.041633319989322654, "luciole_200k (softmax) [merged:2]": 0.042295258468165065, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.04351941398892446, "luciole_100k (softmax) [merged:2]": 0.045126085985421296, "luciole_700k (softmax) [results_softmax_700k#1]": 0.041633319989322654}}, "hellaswag": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.004936762568216922, "luciole_200k (softmax) [merged:2]": 0.0049309115150848225, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004902502514738693, "luciole_100k (softmax) [merged:2]": 0.004895977676625195, "luciole_700k (softmax) [results_softmax_700k#1]": 0.004963362085275328}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.004946748608271048, "luciole_200k (softmax) [merged:2]": 0.004959864299178115, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004982983592459131, "luciole_100k (softmax) [merged:2]": 0.004984172621822951, "luciole_700k (softmax) [results_softmax_700k#1]": 0.004908423147162027}}, "lambada_openai": {"perplexity,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.47974123502695465, "luciole_200k (softmax) [merged:2]": 0.4855813973721563, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.6077235653581458, "luciole_100k (softmax) [merged:2]": 0.7142140124674586, "luciole_700k (softmax) [results_softmax_700k#1]": 0.42907217291802835}, "acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.006898973060283646, "luciole_200k (softmax) [merged:2]": 0.006907727823573744, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.006841706431619948, "luciole_100k (softmax) [merged:2]": 0.006738891851978593, "luciole_700k (softmax) [results_softmax_700k#1]": 0.006924868480005648}}, "multirc": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.007181479807463865, "luciole_200k (softmax) [merged:2]": 0.007173856378641286, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0071724001146068785, "luciole_100k (softmax) [merged:2]": 0.00716594432552405, "luciole_700k (softmax) [results_softmax_700k#1]": 0.007161082575637834}}, "openbookqa": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.02059164957122494, "luciole_200k (softmax) [merged:2]": 0.020143572847290726, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.020186703693570774, "luciole_100k (softmax) [merged:2]": 0.020667032987466052, "luciole_700k (softmax) [results_softmax_700k#1]": 0.020435342091896222}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.02203367799374094, "luciole_200k (softmax) [merged:2]": 0.021728881438701678, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.021461434862859133, "luciole_100k (softmax) [merged:2]": 0.021613289165165816, "luciole_700k (softmax) [results_softmax_700k#1]": 0.022000910893877113}}, "record": {"f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.004023491057437073, "luciole_200k (softmax) [merged:2]": 0.004013212167962425, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004171567275100139, "luciole_100k (softmax) [merged:2]": 0.004204611932293411, "luciole_700k (softmax) [results_softmax_700k#1]": 0.003922262960882483}, "em,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.004110508560757757, "luciole_200k (softmax) [merged:2]": 0.004100775613961779, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004237070954920121, "luciole_100k (softmax) [merged:2]": 0.004278327524704117, "luciole_700k (softmax) [results_softmax_700k#1]": 0.004012150761795167}}, "truthfulqa_mc2": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.013822912779880904, "luciole_200k (softmax) [merged:2]": 0.013803425906049382, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013831906453361744, "luciole_100k (softmax) [merged:2]": 0.013886028751659205, "luciole_700k (softmax) [results_softmax_700k#1]": 0.013847348329070058}}, "wic": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.01980098495534782, "luciole_200k (softmax) [merged:2]": 0.019807216763271532, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.019810331932097497, "luciole_100k (softmax) [merged:2]": 0.019767747983778016, "luciole_700k (softmax) [results_softmax_700k#1]": 0.01981062395406044}}, "winogrande": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.013874526372008252, "luciole_200k (softmax) [merged:2]": 0.013898585965412248, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013891893150264218, "luciole_100k (softmax) [merged:2]": 0.013957584079108864, "luciole_700k (softmax) [results_softmax_700k#1]": 0.013722400462000807}}, "wsc": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.04893740777701002, "luciole_200k (softmax) [merged:2]": 0.04867993747918682, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.04867993747918682, "luciole_100k (softmax) [merged:2]": 0.049257353142735334, "luciole_700k (softmax) [results_softmax_700k#1]": 0.04918440626354967}}, "french_bench_arc_challenge": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.01363876408301105, "luciole_200k (softmax) [merged:2]": 0.013549170237200052, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013455208949377732, "luciole_100k (softmax) [merged:2]": 0.013322973103306495}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.014053373664144688, "luciole_200k (softmax) [merged:2]": 0.013986208268539468, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013873814321638936, "luciole_100k (softmax) [merged:2]": 0.013856960245091535}}, "french_bench_boolqa": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.03743016495716991, "luciole_200k (softmax) [merged:2]": 0.03606913914074032, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03746587736387869, "luciole_100k (softmax) [merged:2]": 0.03717921762559314}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.03743016495716991, "luciole_200k (softmax) [merged:2]": 0.03606913914074032, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03746587736387869, "luciole_100k (softmax) [merged:2]": 0.03717921762559314}}, "french_bench_fquadv2": {"exact,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.012632278815997783, "luciole_200k (softmax) [merged:2]": 0.012321234227589128, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013591575097907253, "luciole_100k (softmax) [merged:2]": 0.013210709331875943}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.013593347605324687, "luciole_200k (softmax) [merged:2]": 0.013378813913323373, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.014126980244674217, "luciole_100k (softmax) [merged:2]": 0.013892389666649138}}, "french_bench_fquadv2_bool": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.017688507331443153, "luciole_200k (softmax) [merged:2]": 0.017682038626456065, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.017672746088763267, "luciole_100k (softmax) [merged:2]": 0.017688673164567875}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.017688507331443153, "luciole_200k (softmax) [merged:2]": 0.017682038626456065, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.017672746088763267, "luciole_100k (softmax) [merged:2]": 0.017688673164567875}}, "french_bench_fquadv2_genq": {"f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.00931731071774932, "luciole_200k (softmax) [merged:2]": 0.009296671673805957, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.008847266452001665, "luciole_100k (softmax) [merged:2]": 0.008539663534585342}}, "french_bench_fquadv2_hasAns": {"exact,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.02259898859936625, "luciole_200k (softmax) [merged:2]": 0.022225772481648753, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.02182035333235629, "luciole_100k (softmax) [merged:2]": 0.02065310513893006}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.020329152764223438, "luciole_200k (softmax) [merged:2]": 0.020138648565911736, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.020538356474168497, "luciole_100k (softmax) [merged:2]": 0.02053281796438879}}, "french_bench_grammar": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.03693851725228282, "luciole_200k (softmax) [merged:2]": 0.037501269180121304, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03693851725228282, "luciole_100k (softmax) [merged:2]": 0.03509414936549958}}, "french_bench_hellaswag": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.005074138181243352, "luciole_200k (softmax) [merged:2]": 0.005073694708369578, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.005037023457054014, "luciole_100k (softmax) [merged:2]": 0.005036762659832168}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.00516681275287528, "luciole_200k (softmax) [merged:2]": 0.005169338127829558, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0051742019271687765, "luciole_100k (softmax) [merged:2]": 0.0051742019271687765}}, "french_bench_multifquad": {"exact,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.007008766440504624, "luciole_200k (softmax) [merged:2]": 0.008540042788362812, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004981167541368988, "luciole_100k (softmax) [merged:2]": 0.006085234193354429}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.015036801882963639, "luciole_200k (softmax) [merged:2]": 0.015198009489372938, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.014936558676351883, "luciole_100k (softmax) [merged:2]": 0.014382854998982167}}, "french_bench_reading_comp": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.05927935558412972, "luciole_200k (softmax) [merged:2]": 0.058751136942575236, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.059039842056825796, "luciole_100k (softmax) [merged:2]": 0.05927935558412972}}, "french_bench_topic_based_nli": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.019988403241478384, "luciole_200k (softmax) [merged:2]": 0.020247036740072583, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.01928500762765378, "luciole_100k (softmax) [merged:2]": 0.020403893372947828}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.019988403241478384, "luciole_200k (softmax) [merged:2]": 0.02027347347104929, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.01928500762765378, "luciole_100k (softmax) [merged:2]": 0.02042944616113592}}, "french_bench_trivia": {"exact,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.025268712068244593, "luciole_200k (softmax) [merged:2]": 0.025510523434968513, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.024885077071639346, "luciole_100k (softmax) [merged:2]": 0.025243752094038313}, "f1,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.023348554147606008, "luciole_200k (softmax) [merged:2]": 0.023414619612206353, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.023764419180077115, "luciole_100k (softmax) [merged:2]": 0.02354817180457591}, "is_included,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.025107666185708085, "luciole_200k (softmax) [merged:2]": 0.02544166899513498, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0247026772729511, "luciole_100k (softmax) [merged:2]": 0.02507817464845895}}, "french_bench_vocab": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.036350598811449704, "luciole_200k (softmax) [merged:2]": 0.03855563237965161, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03803997152889486, "luciole_100k (softmax) [merged:2]": 0.03904916456144794}}, "french_bench_xnli": {"acc,none": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.0066606747545357725, "luciole_200k (softmax) [merged:2]": 0.006692851356332757, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.006609127264370959, "luciole_100k (softmax) [merged:2]": 0.0066616711899316425}}, "gsm8k": {"exact_match,strict-match": {"ssa_luciole_100k (ssa_triton) [merged:2]": 0.0025049422268605265, "luciole_100k (softmax) [merged:2]": 0.0025049422268605156, "luciole_700k (softmax) [results_softmax_700k#1]": 0.004206387249611468}, "exact_match,flexible-extract": {"ssa_luciole_100k (ssa_triton) [merged:2]": 0.003195747075480825, "luciole_100k (softmax) [merged:2]": 0.003756078341031472, "luciole_700k (softmax) [results_softmax_700k#1]": 0.005397140829099188}}}, "scoped_metrics": {"run": {"batch_size": {"ssa_luciole_200k (ssa_triton) [merged:2]": 64.0, "luciole_200k (softmax) [merged:2]": 64.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 64.0, "luciole_100k (softmax) [merged:2]": 64.0, "luciole_700k (softmax) [results_softmax_700k#1]": 64.0}, "max_length": {"ssa_luciole_200k (ssa_triton) [merged:2]": 2048.0, "luciole_200k (softmax) [merged:2]": 2048.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 2048.0, "luciole_100k (softmax) [merged:2]": 2048.0, "luciole_700k (softmax) [results_softmax_700k#1]": 2048.0}, "num_fewshot": {"ssa_luciole_200k (ssa_triton) [merged:2]": 5.0, "luciole_200k (softmax) [merged:2]": 5.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 5.0, "luciole_100k (softmax) [merged:2]": 5.0, "luciole_700k (softmax) [results_softmax_700k#1]": 5.0}, "gsm8k_random_seed": {"ssa_luciole_200k (ssa_triton) [merged:2]": 42.0, "luciole_200k (softmax) [merged:2]": 42.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 42.0, "luciole_100k (softmax) [merged:2]": 42.0, "luciole_700k (softmax) [results_softmax_700k#1]": 42.0}, "gsm8k_limit": {"luciole_700k (softmax) [results_softmax_700k#1]": 1000.0}}, "timing": {"elapsed_seconds": {"ssa_luciole_200k (ssa_triton) [merged:2]": 14051.179882600904, "luciole_200k (softmax) [merged:2]": 11166.185185398906, "ssa_luciole_100k (ssa_triton) [merged:2]": 18631.926179999136, "luciole_100k (softmax) [merged:2]": 14697.84983785078, "luciole_700k (softmax) [results_softmax_700k#1]": 10068.000566954724}, "estimated_full_dataset_seconds": {"ssa_luciole_200k (ssa_triton) [merged:2]": 14051.17030634731, "luciole_200k (softmax) [merged:2]": 11166.174896903336, "ssa_luciole_100k (ssa_triton) [merged:2]": 18631.91621257877, "luciole_100k (softmax) [merged:2]": 14697.839183613658, "luciole_700k (softmax) [results_softmax_700k#1]": 10829.645948283962}}, "forward": {"calls": {"ssa_luciole_200k (ssa_triton) [merged:2]": 306568.0, "luciole_200k (softmax) [merged:2]": 315797.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 426781.0, "luciole_100k (softmax) [merged:2]": 446651.0}, "input_tokens": {"ssa_luciole_200k (ssa_triton) [merged:2]": 328037156.0, "luciole_200k (softmax) [merged:2]": 341542133.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 452519267.0, "luciole_100k (softmax) [merged:2]": 477277821.0}, "prep_seconds": {"ssa_luciole_200k (ssa_triton) [merged:2]": 19.499103276990354, "luciole_200k (softmax) [merged:2]": 19.55440542846918, "ssa_luciole_100k (ssa_triton) [merged:2]": 27.229300351580605, "luciole_100k (softmax) [merged:2]": 28.549114160239697}, "forward_seconds": {"ssa_luciole_200k (ssa_triton) [merged:2]": 11059.002936504781, "luciole_200k (softmax) [merged:2]": 7540.99749133829, "ssa_luciole_100k (ssa_triton) [merged:2]": 15294.25219230249, "luciole_100k (softmax) [merged:2]": 10713.122824643739}, "output_seconds": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.3427637657150626, "luciole_200k (softmax) [merged:2]": 0.15442219469696283, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.42458934348542243, "luciole_100k (softmax) [merged:2]": 0.22516644187271595}, "total_seconds": {"ssa_luciole_200k (ssa_triton) [merged:2]": 11078.844803547487, "luciole_200k (softmax) [merged:2]": 7560.706318961456, "ssa_luciole_100k (ssa_triton) [merged:2]": 15321.906081997557, "luciole_100k (softmax) [merged:2]": 10741.897105245851}, "avg_call_seconds": {"ssa_luciole_200k (ssa_triton) [merged:2]": 0.03613829494124464, "luciole_200k (softmax) [merged:2]": 0.023941666067003348, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03590109700759302, "luciole_100k (softmax) [merged:2]": 0.024049866910061436}, "forward_tokens_per_second": {"ssa_luciole_200k (ssa_triton) [merged:2]": 29662.453105711604, "luciole_200k (softmax) [merged:2]": 45291.373374981325, "ssa_luciole_100k (ssa_triton) [merged:2]": 29587.53793975951, "luciole_100k (softmax) [merged:2]": 44550.76533819836}}}};
+
+const scopeSelect = document.getElementById('scopeSelect');
+const taskControl = document.getElementById('taskControl');
+const taskSelect = document.getElementById('taskSelect');
+const metricSelect = document.getElementById('metricSelect');
+const runFilter = document.getElementById('runFilter');
+const runList = document.getElementById('runList');
+const selectAllBtn = document.getElementById('selectAllBtn');
+const selectNoneBtn = document.getElementById('selectNoneBtn');
+const selectionSummary = document.getElementById('selectionSummary');
+const valueTableBody = document.querySelector('#valueTable tbody');
+const summaryHint = document.getElementById('summaryHint');
+const summaryTableBody = document.querySelector('#summaryTable tbody');
+const trendHint = document.getElementById('trendHint');
+const trendTableBody = document.querySelector('#trendTable tbody');
+const CI_MULTIPLIER = 1.96;
+
+function uniqueSorted(values) {
+  return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b));
+}
+
+function isPercentLikeMetric(metricName) {
+  return /(acc|accuracy|exact_match|f1|em,|precision|recall)/i.test(metricName) && !/(perplex|loss|ppl)/i.test(metricName);
+}
+
+function isLowerBetterMetric(metricName) {
+  return /(perplex|ppl|loss|error|wer|bpb|bits_per_byte)/i.test(metricName);
+}
+
+function shouldScaleTaskMetricToPercent(metricName, values) {
+  if (isPercentLikeMetric(metricName)) return true;
+  const finiteValues = values.filter(v => Number.isFinite(v));
+  return finiteValues.length > 0 && finiteValues.every(v => v >= 0 && v <= 1);
+}
+
+function maybeScale(value, scaleToPercent) {
+  if (!Number.isFinite(value)) return null;
+  return scaleToPercent ? value * 100 : value;
+}
+
+function formatMetricValue(value, scaleToPercent) {
+  if (!Number.isFinite(value)) return 'N/A';
+  const scaled = maybeScale(value, scaleToPercent);
+  const suffix = scaleToPercent ? '%' : '';
+  if (Math.abs(scaled) >= 1000 || (Math.abs(scaled) > 0 && Math.abs(scaled) < 0.001)) return `${scaled.toExponential(3)}${suffix}`;
+  return `${scaled.toFixed(6).replace(/0+$/, '').replace(/\.$/, '')}${suffix}`;
+}
+
+function clearElement(el) {
+  while (el.firstChild) el.removeChild(el.firstChild);
+}
+
+function option(parent, value, text) {
+  const el = document.createElement('option');
+  el.value = value;
+  el.textContent = text;
+  parent.appendChild(el);
+}
+
+function buildRunChecklist() {
+  clearElement(runList);
+  for (const label of DATA.runs) {
+    const row = document.createElement('label');
+    row.className = 'run-item';
+    row.dataset.label = label.toLowerCase();
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = label;
+    cb.checked = true;
+    cb.addEventListener('change', updateView);
+
+    const span = document.createElement('span');
+    span.textContent = label;
+
+    row.appendChild(cb);
+    row.appendChild(span);
+    runList.appendChild(row);
+  }
+}
+
+function visibleRunCheckboxes() {
+  return Array.from(runList.querySelectorAll('label.run-item')).filter(r => r.style.display !== 'none');
+}
+
+function selectedRuns() {
+  return Array.from(runList.querySelectorAll('input[type=checkbox]'))
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
+}
+
+function metricNamesForTask(taskName) {
+  const taskData = DATA.task_metrics[taskName] || {};
+  return Object.keys(taskData).sort((a, b) => a.localeCompare(b));
+}
+
+function metricNamesForTaskAll() {
+  const out = [];
+  for (const taskName of Object.keys(DATA.task_metrics)) {
+    out.push(...Object.keys(DATA.task_metrics[taskName] || {}));
+  }
+  return uniqueSorted(out);
+}
+
+function metricNamesForScope(scope) {
+  return Object.keys(DATA.scoped_metrics[scope] || {}).sort((a, b) => a.localeCompare(b));
+}
+
+function setOptionsPreserve(selectEl, values) {
+  const prev = selectEl.value;
+  clearElement(selectEl);
+  for (const v of values) option(selectEl, v, v);
+  if (values.includes(prev)) selectEl.value = prev;
+}
+
+function refreshTaskAndMetricSelectors() {
+  const scope = scopeSelect.value;
+
+  if (scope === 'task') {
+    taskControl.style.display = '';
+    const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+    const taskOptions = ['__ALL_TASKS__', ...tasks];
+    setOptionsPreserve(taskSelect, taskOptions);
+
+    const selectedTask = taskSelect.value || '__ALL_TASKS__';
+    const metrics = selectedTask === '__ALL_TASKS__' ? metricNamesForTaskAll() : metricNamesForTask(selectedTask);
+    setOptionsPreserve(metricSelect, metrics);
+  } else {
+    taskControl.style.display = 'none';
+    const metrics = metricNamesForScope(scope);
+    setOptionsPreserve(metricSelect, metrics);
+  }
+}
+
+function formatNumber(value) {
+  if (value === null || value === undefined || Number.isNaN(value)) return 'N/A';
+  if (Math.abs(value) >= 1000 || (Math.abs(value) > 0 && Math.abs(value) < 0.001)) return value.toExponential(3);
+  return value.toFixed(6).replace(/0+$/, '').replace(/\.$/, '');
+}
+
+function getTaskMetricValues(taskName, metricName) {
+  if (taskName === '__ALL_TASKS__') return null;
+  return (DATA.task_metrics[taskName] || {})[metricName] || {};
+}
+
+function getTaskMetricStderr(taskName, metricName) {
+  return (DATA.task_stderr?.[taskName] || {})[metricName] || {};
+}
+
+function isSignificantlyBetter(bestVal, bestSe, otherVal, otherSe, lowerIsBetter) {
+  if (!Number.isFinite(bestVal) || !Number.isFinite(otherVal)) return false;
+  if (!Number.isFinite(bestSe) || !Number.isFinite(otherSe)) return false;
+  const bestCi = CI_MULTIPLIER * bestSe;
+  const otherCi = CI_MULTIPLIER * otherSe;
+
+  if (lowerIsBetter) {
+    return (bestVal + bestCi) < (otherVal - otherCi);
+  }
+  return (bestVal - bestCi) > (otherVal + otherCi);
+}
+
+function clearSummaryTable() {
+  while (summaryTableBody.firstChild) summaryTableBody.removeChild(summaryTableBody.firstChild);
+}
+
+function displayRunName(runLabel) {
+  return (DATA.run_model_names && DATA.run_model_names[runLabel]) || runLabel;
+}
+
+function clearTrendTable() {
+  while (trendTableBody.firstChild) trendTableBody.removeChild(trendTableBody.firstChild);
+}
+
+function chooseTrendMetric(taskMetrics) {
+  const preferred = [
+    'acc,none',
+    'acc_norm,none',
+    'exact_match,strict-match',
+    'exact_match,flexible-extract',
+    'f1,none',
+    'em,none',
+    'perplexity,none',
+    'loss,none',
+  ];
+  for (const metric of preferred) {
+    if (Object.prototype.hasOwnProperty.call(taskMetrics, metric)) return metric;
+  }
+  const allMetrics = Object.keys(taskMetrics).sort((a, b) => a.localeCompare(b));
+  return allMetrics.length > 0 ? allMetrics[0] : null;
+}
+
+function buildTrendTable(rows) {
+  clearTrendTable();
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const cols = [row.task, row.metric, row.order];
+    for (const col of cols) {
+      const td = document.createElement('td');
+      td.textContent = col;
+      tr.appendChild(td);
+    }
+    trendTableBody.appendChild(tr);
+  }
+}
+
+function buildSummaryTable(rows) {
+  clearSummaryTable();
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const cols = [
+      row.task,
+      row.metric,
+      displayRunName(row.winner),
+      row.winnerValue,
+      displayRunName(row.challenger),
+      row.challengerValue,
+      row.separation,
+    ];
+    for (const col of cols) {
+      const td = document.createElement('td');
+      td.textContent = col;
+      tr.appendChild(td);
+    }
+    summaryTableBody.appendChild(tr);
+  }
+}
+
+function updateSignificanceSummary(runs) {
+  const summaryRows = [];
+  const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+
+  for (const task of tasks) {
+    const metrics = Object.keys(DATA.task_metrics[task] || {}).sort((a, b) => a.localeCompare(b));
+
+    for (const metric of metrics) {
+      const values = (DATA.task_metrics[task] || {})[metric] || {};
+      const stderr = getTaskMetricStderr(task, metric);
+
+      const candidates = runs
+        .map(run => ({ run, value: values[run], stderr: stderr[run] }))
+        .filter(item => Number.isFinite(item.value) && Number.isFinite(item.stderr));
+
+      if (candidates.length < 2) continue;
+
+      const lowerIsBetter = isLowerBetterMetric(metric);
+      candidates.sort((a, b) => lowerIsBetter ? a.value - b.value : b.value - a.value);
+
+      const winner = candidates[0];
+      const challenger = candidates[1];
+      const winnerBeatsAll = candidates.slice(1).every(other =>
+        isSignificantlyBetter(winner.value, winner.stderr, other.value, other.stderr, lowerIsBetter)
+      );
+
+      if (!winnerBeatsAll) continue;
+
+      const winnerCi = CI_MULTIPLIER * winner.stderr;
+      const challengerCi = CI_MULTIPLIER * challenger.stderr;
+      const scaleToPercent = shouldScaleTaskMetricToPercent(metric, candidates.map(c => c.value));
+
+      const separationRaw = lowerIsBetter
+        ? (challenger.value - challengerCi) - (winner.value + winnerCi)
+        : (winner.value - winnerCi) - (challenger.value + challengerCi);
+
+      summaryRows.push({
+        task,
+        metric,
+        winner: winner.run,
+        winnerValue: `${formatMetricValue(winner.value, scaleToPercent)} ± ${formatMetricValue(winnerCi, scaleToPercent)}`,
+        challenger: challenger.run,
+        challengerValue: `${formatMetricValue(challenger.value, scaleToPercent)} ± ${formatMetricValue(challengerCi, scaleToPercent)}`,
+        separation: formatMetricValue(separationRaw, scaleToPercent),
+      });
+    }
+  }
+
+  summaryRows.sort((a, b) => (a.task + a.metric).localeCompare(b.task + b.metric));
+  buildSummaryTable(summaryRows);
+
+  if (summaryRows.length === 0) {
+    summaryHint.textContent = 'No statistically significant winner found (among selected runs with available stderr).';
+  } else {
+    summaryHint.textContent = `${summaryRows.length} significant winner case(s) found among selected runs.`;
+  }
+}
+
+function updateTrendSummary(runs) {
+  const trendRows = [];
+  const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+
+  for (const task of tasks) {
+    const taskMetrics = DATA.task_metrics[task] || {};
+    const metric = chooseTrendMetric(taskMetrics);
+    if (!metric) continue;
+
+    const values = taskMetrics[metric] || {};
+    const candidates = runs
+      .map(run => ({ run, value: values[run] }))
+      .filter(item => Number.isFinite(item.value));
+
+    if (candidates.length === 0) continue;
+
+    const lowerIsBetter = isLowerBetterMetric(metric);
+    candidates.sort((a, b) => lowerIsBetter ? a.value - b.value : b.value - a.value);
+
+    trendRows.push({
+      task,
+      metric,
+      order: candidates.map(item => displayRunName(item.run)).join(' > '),
+    });
+  }
+
+  buildTrendTable(trendRows);
+  if (trendRows.length === 0) {
+    trendHint.textContent = 'No task ordering available for the currently selected runs.';
+  } else {
+    trendHint.textContent = `${trendRows.length} task trend row(s) generated from selected runs.`;
+  }
+}
+
+function buildTable(rows) {
+  clearElement(valueTableBody);
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const tdRun = document.createElement('td');
+    const tdVal = document.createElement('td');
+    tdRun.textContent = row.run;
+    tdVal.textContent = formatMetricValue(row.value, row.scaleToPercent);
+    tr.appendChild(tdRun);
+    tr.appendChild(tdVal);
+    valueTableBody.appendChild(tr);
+  }
+}
+
+function updateView() {
+  refreshTaskAndMetricSelectors();
+
+  const scope = scopeSelect.value;
+  const metric = metricSelect.value;
+  const runs = selectedRuns();
+  selectionSummary.textContent = `${runs.length} selected run(s)`;
+  updateSignificanceSummary(runs);
+  updateTrendSummary(runs);
+
+  if (!metric) {
+    Plotly.react('chart', [], {title: 'No metric available'});
+    buildTable([]);
+    return;
+  }
+
+  if (scope === 'task') {
+    const taskName = taskSelect.value;
+
+    if (taskName === '__ALL_TASKS__') {
+      const allTasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+      const z = allTasks.map(task => runs.map(run => {
+        const values = (DATA.task_metrics[task] || {})[metric] || {};
+        const v = values[run];
+        const scaleToPercent = shouldScaleTaskMetricToPercent(metric, Object.values(values));
+        return Number.isFinite(v) ? maybeScale(v, scaleToPercent) : null;
+      }));
+      const scaleToPercent = shouldScaleTaskMetricToPercent(metric, allTasks.flatMap(task => Object.values((DATA.task_metrics[task] || {})[metric] || {})));
+
+      Plotly.react('chart', [{
+        type: 'heatmap',
+        x: runs,
+        y: allTasks,
+        z,
+        colorscale: 'Viridis',
+        colorbar: {title: scaleToPercent ? `${metric} (%)` : metric},
+        hovertemplate: 'Task=%{y}<br>Run=%{x}<br>Value=%{z}<extra></extra>'
+      }], {
+        title: `Task metric heatmap: ${metric}`,
+        margin: {l: 150, r: 20, t: 50, b: 150},
+        xaxis: {tickangle: 45},
+      }, {responsive: true});
+
+      buildTable([]);
+      return;
+    }
+
+    const values = getTaskMetricValues(taskName, metric);
+    const stderrValues = getTaskMetricStderr(taskName, metric);
+    const rawValues = runs.map(run => values[run]);
+    const scaleToPercent = shouldScaleTaskMetricToPercent(metric, rawValues.concat(Object.values(stderrValues)));
+    const rows = runs.map(run => ({ run, value: values[run], scaleToPercent }));
+    const errorValues = runs.map(run => {
+      const stderr = stderrValues[run];
+      return Number.isFinite(stderr) ? maybeScale(stderr * CI_MULTIPLIER, scaleToPercent) : null;
+    });
+
+    Plotly.react('chart', [{
+      type: 'bar',
+      x: runs,
+      y: rows.map(r => maybeScale(r.value, scaleToPercent)),
+      marker: {color: '#0f766e'},
+      error_y: {
+        type: 'data',
+        array: errorValues,
+        visible: true,
+        thickness: 1.2,
+        color: '#334155',
+      },
+      hovertemplate: scaleToPercent ? 'Run=%{x}<br>Value=%{y:.2f}%<extra></extra>' : 'Run=%{x}<br>Value=%{y}<extra></extra>'
+    }], {
+      title: `${taskName} | ${metric}`,
+      margin: {l: 60, r: 20, t: 50, b: 170},
+      xaxis: {tickangle: 45},
+      yaxis: scaleToPercent ? {automargin: true, range: [0, 100], ticksuffix: '%'} : {automargin: true},
+    }, {responsive: true});
+
+    buildTable(rows);
+    return;
+  }
+
+  const values = (DATA.scoped_metrics[scope] || {})[metric] || {};
+  const rows = runs.map(run => ({ run, value: values[run], scaleToPercent: false }));
+
+  Plotly.react('chart', [{
+    type: 'bar',
+    x: runs,
+    y: rows.map(r => Number.isFinite(r.value) ? r.value : null),
+    marker: {color: '#1d4ed8'},
+    hovertemplate: 'Run=%{x}<br>Value=%{y}<extra></extra>'
+  }], {
+    title: `${scope} | ${metric}`,
+    margin: {l: 60, r: 20, t: 50, b: 170},
+    xaxis: {tickangle: 45},
+    yaxis: {automargin: true},
+  }, {responsive: true});
+
+  buildTable(rows);
+}
+
+scopeSelect.addEventListener('change', updateView);
+taskSelect.addEventListener('change', updateView);
+metricSelect.addEventListener('change', updateView);
+
+runFilter.addEventListener('input', () => {
+  const needle = runFilter.value.toLowerCase().trim();
+  const rows = Array.from(runList.querySelectorAll('label.run-item'));
+  for (const row of rows) {
+    const show = !needle || row.dataset.label.includes(needle);
+    row.style.display = show ? '' : 'none';
+  }
+});
+
+selectAllBtn.addEventListener('click', () => {
+  for (const row of visibleRunCheckboxes()) row.querySelector('input').checked = true;
+  updateView();
+});
+
+selectNoneBtn.addEventListener('click', () => {
+  for (const row of visibleRunCheckboxes()) row.querySelector('input').checked = false;
+  updateView();
+});
+
+buildRunChecklist();
+refreshTaskAndMetricSelectors();
+updateView();
+</script>
+</body>
+</html>

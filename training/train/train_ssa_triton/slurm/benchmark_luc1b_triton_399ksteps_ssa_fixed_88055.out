@@ -1,0 +1,63 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  softmax
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0399999
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-step0400000
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           wikitext
+Batch Size:      64
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     -1
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+HF Home:         /work/m24047/m24047flhg/.cache/huggingface
+HF Home legacy:  /work/m24047/m24047brmn/lm_eval
+HF merge mode:   symlink
+Output prefix:   benchmark_results_400k/results_luc1b_softmax_wikitext_20260518_182320
+===========================================
+Preparing HF cache (mode=symlink) from /work/m24047/m24047brmn/lm_eval
+-------------------------------------------
+Running model:   luciole_400k (softmax)
+Checkpoint:      /tmpdir/m24047flhg/luciole-phase1-step0400000
+Output:          benchmark_results_400k/results_luc1b_softmax_wikitext_20260518_182320_luciole_400k.json
+-------------------------------------------
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['wikitext']
+INFO:__main__:gsm8k subset override: limit=None (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'luciole_400k', 'type': 'softmax', 'checkpoint': '/tmpdir/m24047flhg/luciole-phase1-step0400000'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'luciole_400k' (softmax)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=softmax, checkpoint=/tmpdir/m24047flhg/luciole-phase1-step0400000)...
+INFO:eval_perplexity:Detected HuggingFace checkpoint format
+INFO:eval_perplexity:Loading HuggingFace model from /tmpdir/m24047flhg/luciole-phase1-step0400000
+INFO:eval_perplexity:Loaded HF config: layers=24 hidden=2048 heads=32 vocab=128000
+INFO:eval_perplexity:Model loaded successfully from HuggingFace CausalLM format
+INFO:eval_perplexity:Tokenizer loaded from checkpoint
+INFO:eval_perplexity:Model ready for evaluation (HF format)
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:Model diagnostics (post-init): model_type=softmax model_class=NemotronForCausalLM wrapped_class=NemotronForCausalLM checkpoint=/tmpdir/m24047flhg/luciole-phase1-step0400000 enforce_bf16=True compiled_bda=False force_contiguous_qkv=True parameter_dtype=torch.bfloat16
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: wikitext -> wikitext
+INFO:__main__:  Description: WikiText - Language modeling benchmark
+WARNING:lm_eval.api.task:[Task: wikitext] metric word_perplexity is defined, but aggregation is not. using default aggregation=weighted_perplexity
+WARNING:lm_eval.api.task:[Task: wikitext] metric word_perplexity is defined, but higher_is_better is not. using default higher_is_better=False
+WARNING:lm_eval.api.task:[Task: wikitext] metric byte_perplexity is defined, but aggregation is not. using default aggregation=weighted_perplexity
+WARNING:lm_eval.api.task:[Task: wikitext] metric byte_perplexity is defined, but higher_is_better is not. using default higher_is_better=False
+WARNING:lm_eval.api.task:[Task: wikitext] metric bits_per_byte is defined, but aggregation is not. using default aggregation=bits_per_byte
+WARNING:lm_eval.api.task:[Task: wikitext] metric bits_per_byte is defined, but higher_is_better is not. using default higher_is_better=False
+WARNING:__main__:Skipping task 'wikitext' (dataset unavailable offline): Couldn't reach 'EleutherAI/wikitext_document_level' on the Hub (OfflineModeIsEnabled)
+ERROR:__main__:No tasks could be loaded (all datasets unavailable offline)
+Model 'luciole_400k' finished with status 1
+===========================================
+Benchmark finished with status 1 (selection=softmax)
+===========================================

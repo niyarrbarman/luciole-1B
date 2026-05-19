@@ -1,0 +1,1142 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  softmax
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0399999
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-step0400000
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           all
+Batch Size:      64
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     -1
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+HF Home:         /work/m24047/m24047flhg/.cache/huggingface
+HF Home legacy:  /work/m24047/m24047brmn/lm_eval
+HF merge mode:   symlink
+Output prefix:   benchmark_results_400k/results_luc1b_softmax_all_20260518_114152
+===========================================
+Preparing HF cache (mode=symlink) from /work/m24047/m24047brmn/lm_eval
+-------------------------------------------
+Running model:   luciole_400k (softmax)
+Checkpoint:      /tmpdir/m24047flhg/luciole-phase1-step0400000
+Output:          benchmark_results_400k/results_luc1b_softmax_all_20260518_114152_luciole_400k.json
+-------------------------------------------
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa', 'openbookqa', 'lambada', 'boolq', 'cb', 'copa', 'multirc', 'record', 'rte', 'wic', 'wsc', 'axb', 'axg']
+INFO:__main__:gsm8k subset override: limit=None (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'luciole_400k', 'type': 'softmax', 'checkpoint': '/tmpdir/m24047flhg/luciole-phase1-step0400000'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'luciole_400k' (softmax)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=softmax, checkpoint=/tmpdir/m24047flhg/luciole-phase1-step0400000)...
+INFO:eval_perplexity:Detected HuggingFace checkpoint format
+INFO:eval_perplexity:Loading HuggingFace model from /tmpdir/m24047flhg/luciole-phase1-step0400000
+INFO:eval_perplexity:Loaded HF config: layers=24 hidden=2048 heads=32 vocab=128000
+INFO:eval_perplexity:Model loaded successfully from HuggingFace CausalLM format
+INFO:eval_perplexity:Tokenizer loaded from checkpoint
+INFO:eval_perplexity:Model ready for evaluation (HF format)
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:Model diagnostics (post-init): model_type=softmax model_class=NemotronForCausalLM wrapped_class=NemotronForCausalLM checkpoint=/tmpdir/m24047flhg/luciole-phase1-step0400000 enforce_bf16=True compiled_bda=False force_contiguous_qkv=True parameter_dtype=torch.bfloat16
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: arc_easy -> arc_easy
+INFO:__main__:  Description: ARC Easy - Science questions from standardized tests
+INFO:__main__:Added task: arc_challenge -> arc_challenge
+INFO:__main__:  Description: ARC Challenge - Harder science questions
+INFO:__main__:Added task: hellaswag -> hellaswag
+INFO:__main__:  Description: HellaSwag - Commonsense reasoning about situations
+INFO:__main__:Added task: winogrande -> winogrande
+INFO:__main__:  Description: WinoGrande - Pronoun resolution benchmark
+INFO:__main__:Added task: truthfulqa -> truthfulqa_mc2
+INFO:__main__:  Description: TruthfulQA - Measuring model truthfulness
+INFO:__main__:Added task: openbookqa -> openbookqa
+INFO:__main__:  Description: OpenBookQA - Elementary science questions
+INFO:__main__:Added task: lambada -> lambada_openai
+INFO:__main__:  Description: LAMBADA - Word prediction requiring broad context
+INFO:__main__:Added task: boolq -> boolq
+INFO:__main__:  Description: BoolQ - Boolean question answering
+INFO:__main__:Added task: cb -> cb
+INFO:__main__:  Description: CB - CommitmentBank natural language inference
+INFO:__main__:Added task: copa -> copa
+INFO:__main__:  Description: COPA - Causal reasoning with alternatives
+INFO:__main__:Added task: multirc -> multirc
+INFO:__main__:  Description: MultiRC - Multi-sentence reading comprehension
+INFO:__main__:Added task: record -> record
+INFO:__main__:  Description: ReCoRD - Reading comprehension with commonsense reasoning
+INFO:__main__:Added task: rte -> rte
+INFO:__main__:  Description: RTE - Recognizing textual entailment
+INFO:__main__:Added task: wic -> wic
+INFO:__main__:  Description: WiC - Word-in-context disambiguation
+INFO:__main__:Added task: wsc -> wsc
+INFO:__main__:  Description: WSC - Winograd Schema Challenge coreference
+INFO:__main__:Added task: axb -> axb
+INFO:__main__:  Description: AX-b - Broad-coverage diagnostics from SuperGLUE
+INFO:__main__:Added task: axg -> axg
+INFO:__main__:  Description: AX-g - Winogender diagnostics from SuperGLUE
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047flhg/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047flhg/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047flhg/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047flhg/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047flhg/.cache/huggingface/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047flhg/.cache/huggingface/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047flhg/.cache/huggingface/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047flhg/.cache/huggingface/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047flhg/.cache/huggingface/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047flhg/.cache/huggingface/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:lm_eval.api.task:[Task: cb] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'cb' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'cb' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'copa' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'copa' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:lm_eval.api.task:[Task: record] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'record' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'record' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:lm_eval.api.task:[Task: rte] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: rte] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:__main__:Skipping task 'rte' (dataset unavailable offline): Couldn't reach 'glue' on the Hub (OfflineModeIsEnabled)
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wic' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wic' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:__main__:Skipping task 'axb' (dataset unavailable offline): 'axb'
+WARNING:__main__:Skipping task 'axg' (dataset unavailable offline): 'axg'
+INFO:__main__:Skipped 3 task(s) due to offline cache issues: ['rte', 'axb', 'axg']
+INFO:__main__:Running evaluation on tasks: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa_mc2', 'openbookqa', 'lambada_openai', 'boolq', 'cb', 'copa', 'multirc', 'record', 'wic', 'wsc']
+INFO:__main__:Evaluating group 'regular' tasks=['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa_mc2', 'openbookqa', 'lambada_openai', 'boolq', 'cb', 'copa', 'multirc', 'record', 'wic', 'wsc'] limit=None
+INFO:lm_eval.evaluator:Setting random seed to 0 | Setting numpy seed to 1234 | Setting fewshot manual seed to 1234
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047flhg/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Easy' at /work/m24047/m24047flhg/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jan 28 03:05:13 2026).
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047flhg/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'ARC-Challenge' at /work/m24047/m24047flhg/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Mon Feb 16 20:30:30 2026).
+Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Mon Feb 16 21:20:57 2026).
+Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047flhg/.cache/huggingface/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'winogrande_xl' at /work/m24047/m24047flhg/.cache/huggingface/datasets/winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Mon Feb 16 20:16:52 2026).
+Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since truthful_qa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047flhg/.cache/huggingface/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multiple_choice' at /work/m24047/m24047flhg/.cache/huggingface/datasets/truthful_qa/multiple_choice/0.0.0/741b8276f2d1982aa3d5b832d3ee81ed3b896490 (last modified on Mon Feb 16 20:17:01 2026).
+Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047flhg/.cache/huggingface/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047flhg/.cache/huggingface/datasets/openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Mon Feb 16 20:17:13 2026).
+Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'default' at /work/m24047/m24047flhg/.cache/huggingface/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Mon Feb 16 21:35:55 2026).
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: boolq] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'boolq' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Mon Feb 16 21:35:50 2026).
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: cb] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+WARNING:lm_eval.api.task:[Task: cb] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'cb' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'cb' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/cb/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:38 2026).
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: copa] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'copa' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'copa' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/copa/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:43 2026).
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: multirc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'multirc' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/multirc/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:01:48 2026).
+WARNING:lm_eval.api.task:[Task: record] metric f1 is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'record' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'record' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/record/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:21:37 2026).
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wic] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wic' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wic' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/wic/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:02:05 2026).
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but aggregation is not. using default aggregation=mean
+WARNING:lm_eval.api.task:[Task: wsc] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wsc.fixed' at /work/m24047/m24047flhg/.cache/huggingface/datasets/super_glue/wsc.fixed/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Tue Feb 17 02:54:33 2026).
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of wsc from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of wic from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of record from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of multirc from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of copa from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of cb from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of boolq from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of lambada_openai from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of openbookqa from None to 5
+INFO:lm_eval.evaluator:num_fewshot has been set to 0 for truthfulqa_mc2 in its config. Manual configuration will be ignored.
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of winogrande from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of hellaswag from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of arc_challenge from None to 5
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of arc_easy from None to 5
+INFO:lm_eval.api.task:Building contexts for wsc on rank 0...
+  0%|          | 0/104 [00:00<?, ?it/s]100%|██████████| 104/104 [00:00<00:00, 17989.43it/s]
+INFO:lm_eval.api.task:Building contexts for wic on rank 0...
+  0%|          | 0/638 [00:00<?, ?it/s]  4%|▍         | 26/638 [00:00<00:02, 258.40it/s]  8%|▊         | 52/638 [00:00<00:02, 258.62it/s] 12%|█▏        | 78/638 [00:00<00:02, 258.63it/s] 16%|█▋        | 104/638 [00:00<00:02, 258.82it/s] 20%|██        | 130/638 [00:00<00:01, 258.77it/s] 24%|██▍       | 156/638 [00:00<00:01, 258.69it/s] 29%|██▊       | 182/638 [00:00<00:01, 258.77it/s] 33%|███▎      | 208/638 [00:00<00:01, 258.63it/s] 37%|███▋      | 234/638 [00:00<00:01, 258.49it/s] 41%|████      | 260/638 [00:01<00:01, 258.46it/s] 45%|████▍     | 286/638 [00:01<00:01, 258.60it/s] 49%|████▉     | 312/638 [00:01<00:01, 258.72it/s] 53%|█████▎    | 338/638 [00:01<00:01, 258.67it/s] 57%|█████▋    | 364/638 [00:01<00:01, 258.62it/s] 61%|██████    | 390/638 [00:01<00:00, 258.67it/s] 65%|██████▌   | 416/638 [00:01<00:00, 258.74it/s] 69%|██████▉   | 442/638 [00:01<00:00, 258.76it/s] 73%|███████▎  | 468/638 [00:01<00:00, 258.76it/s] 77%|███████▋  | 494/638 [00:01<00:00, 258.71it/s] 82%|████████▏ | 520/638 [00:02<00:00, 258.73it/s] 86%|████████▌ | 546/638 [00:02<00:00, 258.71it/s] 90%|████████▉ | 572/638 [00:02<00:00, 258.86it/s] 94%|█████████▎| 598/638 [00:02<00:00, 258.91it/s] 98%|█████████▊| 624/638 [00:02<00:00, 259.13it/s]100%|██████████| 638/638 [00:02<00:00, 258.75it/s]
+INFO:lm_eval.api.task:Building contexts for record on rank 0...
+  0%|          | 0/10000 [00:00<?, ?it/s]/usr/local/lib/python3.12/dist-packages/lm_eval/api/task.py:1181: Warning: Both target_delimiter and target start with a space. This may cause issues.
+  labeled_examples += self.sampler.get_context(
+ 14%|█▎        | 1361/10000 [00:00<00:00, 13601.91it/s] 27%|██▋       | 2722/10000 [00:00<00:00, 13578.67it/s] 41%|████      | 4080/10000 [00:00<00:00, 13577.04it/s] 54%|█████▍    | 5438/10000 [00:00<00:00, 13570.34it/s] 68%|██████▊   | 6796/10000 [00:00<00:00, 13558.81it/s] 82%|████████▏ | 8152/10000 [00:00<00:00, 13550.87it/s] 95%|█████████▌| 9511/10000 [00:00<00:00, 13563.08it/s]100%|██████████| 10000/10000 [00:00<00:00, 13561.32it/s]
+INFO:lm_eval.api.task:Building contexts for multirc on rank 0...
+  0%|          | 0/4848 [00:00<?, ?it/s]  0%|          | 21/4848 [00:00<00:23, 206.74it/s]  1%|          | 42/4848 [00:00<00:23, 207.36it/s]  1%|▏         | 63/4848 [00:00<00:23, 207.52it/s]  2%|▏         | 84/4848 [00:00<00:22, 208.20it/s]  2%|▏         | 105/4848 [00:00<00:22, 208.34it/s]  3%|▎         | 126/4848 [00:00<00:22, 208.54it/s]  3%|▎         | 147/4848 [00:00<00:22, 208.79it/s]  3%|▎         | 168/4848 [00:00<00:22, 208.65it/s]  4%|▍         | 189/4848 [00:00<00:22, 208.49it/s]  4%|▍         | 210/4848 [00:01<00:22, 208.49it/s]  5%|▍         | 231/4848 [00:01<00:22, 208.30it/s]  5%|▌         | 252/4848 [00:01<00:22, 208.31it/s]  6%|▌         | 273/4848 [00:01<00:21, 208.05it/s]  6%|▌         | 294/4848 [00:01<00:21, 207.72it/s]  6%|▋         | 315/4848 [00:01<00:21, 207.64it/s]  7%|▋         | 336/4848 [00:01<00:21, 207.45it/s]  7%|▋         | 357/4848 [00:01<00:21, 207.61it/s]  8%|▊         | 378/4848 [00:01<00:21, 207.78it/s]  8%|▊         | 399/4848 [00:01<00:21, 207.66it/s]  9%|▊         | 420/4848 [00:02<00:21, 207.82it/s]  9%|▉         | 441/4848 [00:02<00:21, 207.90it/s] 10%|▉         | 462/4848 [00:02<00:21, 207.82it/s] 10%|▉         | 483/4848 [00:02<00:20, 207.91it/s] 10%|█         | 504/4848 [00:02<00:20, 208.08it/s] 11%|█         | 525/4848 [00:02<00:20, 208.03it/s] 11%|█▏        | 546/4848 [00:02<00:20, 208.18it/s] 12%|█▏        | 567/4848 [00:02<00:20, 208.37it/s] 12%|█▏        | 588/4848 [00:02<00:20, 208.33it/s] 13%|█▎        | 609/4848 [00:02<00:20, 208.32it/s] 13%|█▎        | 630/4848 [00:03<00:20, 208.24it/s] 13%|█▎        | 651/4848 [00:03<00:20, 207.92it/s] 14%|█▍        | 672/4848 [00:03<00:20, 208.05it/s] 14%|█▍        | 693/4848 [00:03<00:19, 208.07it/s] 15%|█▍        | 714/4848 [00:03<00:19, 207.90it/s] 15%|█▌        | 735/4848 [00:03<00:19, 207.73it/s] 16%|█▌        | 756/4848 [00:03<00:19, 207.64it/s] 16%|█▌        | 777/4848 [00:03<00:19, 207.33it/s] 16%|█▋        | 798/4848 [00:03<00:19, 207.39it/s] 17%|█▋        | 819/4848 [00:03<00:19, 207.21it/s] 17%|█▋        | 840/4848 [00:04<00:19, 207.11it/s] 18%|█▊        | 861/4848 [00:04<00:19, 206.93it/s] 18%|█▊        | 882/4848 [00:04<00:19, 206.94it/s] 19%|█▊        | 903/4848 [00:04<00:19, 206.77it/s] 19%|█▉        | 924/4848 [00:04<00:18, 206.81it/s] 19%|█▉        | 945/4848 [00:04<00:18, 206.69it/s] 20%|█▉        | 966/4848 [00:04<00:18, 206.88it/s] 20%|██        | 987/4848 [00:04<00:18, 206.75it/s] 21%|██        | 1008/4848 [00:04<00:18, 206.53it/s] 21%|██        | 1029/4848 [00:04<00:18, 206.82it/s] 22%|██▏       | 1050/4848 [00:05<00:18, 206.92it/s] 22%|██▏       | 1071/4848 [00:05<00:18, 206.80it/s] 23%|██▎       | 1092/4848 [00:05<00:18, 206.82it/s] 23%|██▎       | 1113/4848 [00:05<00:18, 206.70it/s] 23%|██▎       | 1134/4848 [00:05<00:17, 206.75it/s] 24%|██▍       | 1155/4848 [00:05<00:17, 206.91it/s] 24%|██▍       | 1176/4848 [00:05<00:17, 206.86it/s] 25%|██▍       | 1197/4848 [00:05<00:17, 206.88it/s] 25%|██▌       | 1218/4848 [00:05<00:17, 206.81it/s] 26%|██▌       | 1239/4848 [00:05<00:17, 207.07it/s] 26%|██▌       | 1260/4848 [00:06<00:17, 207.19it/s] 26%|██▋       | 1281/4848 [00:06<00:17, 207.18it/s] 27%|██▋       | 1302/4848 [00:06<00:17, 207.07it/s] 27%|██▋       | 1323/4848 [00:06<00:17, 207.09it/s] 28%|██▊       | 1344/4848 [00:06<00:16, 206.99it/s] 28%|██▊       | 1365/4848 [00:06<00:16, 207.20it/s] 29%|██▊       | 1386/4848 [00:06<00:16, 207.22it/s] 29%|██▉       | 1407/4848 [00:06<00:16, 207.17it/s] 29%|██▉       | 1428/4848 [00:06<00:16, 207.19it/s] 30%|██▉       | 1449/4848 [00:06<00:16, 207.39it/s] 30%|███       | 1470/4848 [00:07<00:16, 207.39it/s] 31%|███       | 1491/4848 [00:07<00:16, 207.18it/s] 31%|███       | 1512/4848 [00:07<00:16, 207.45it/s] 32%|███▏      | 1533/4848 [00:07<00:15, 207.42it/s] 32%|███▏      | 1554/4848 [00:07<00:15, 207.57it/s] 32%|███▏      | 1575/4848 [00:07<00:15, 207.82it/s] 33%|███▎      | 1596/4848 [00:07<00:15, 207.78it/s] 33%|███▎      | 1617/4848 [00:07<00:15, 207.90it/s] 34%|███▍      | 1638/4848 [00:07<00:15, 208.01it/s] 34%|███▍      | 1659/4848 [00:07<00:15, 208.14it/s] 35%|███▍      | 1680/4848 [00:08<00:15, 208.12it/s] 35%|███▌      | 1701/4848 [00:08<00:15, 208.01it/s] 36%|███▌      | 1722/4848 [00:08<00:15, 207.77it/s] 36%|███▌      | 1743/4848 [00:08<00:14, 207.67it/s] 36%|███▋      | 1764/4848 [00:08<00:14, 207.56it/s] 37%|███▋      | 1785/4848 [00:08<00:14, 207.68it/s] 37%|███▋      | 1806/4848 [00:08<00:14, 207.37it/s] 38%|███▊      | 1827/4848 [00:08<00:14, 207.14it/s] 38%|███▊      | 1848/4848 [00:08<00:14, 207.06it/s] 39%|███▊      | 1869/4848 [00:09<00:14, 206.93it/s] 39%|███▉      | 1890/4848 [00:09<00:14, 207.04it/s] 39%|███▉      | 1911/4848 [00:09<00:14, 206.83it/s] 40%|███▉      | 1932/4848 [00:09<00:14, 206.93it/s] 40%|████      | 1953/4848 [00:09<00:13, 207.00it/s] 41%|████      | 1974/4848 [00:09<00:13, 207.08it/s] 41%|████      | 1995/4848 [00:09<00:13, 207.04it/s] 42%|████▏     | 2016/4848 [00:09<00:13, 206.94it/s] 42%|████▏     | 2037/4848 [00:09<00:13, 206.74it/s] 42%|████▏     | 2058/4848 [00:09<00:13, 206.91it/s] 43%|████▎     | 2079/4848 [00:10<00:13, 206.96it/s] 43%|████▎     | 2100/4848 [00:10<00:13, 207.10it/s] 44%|████▍     | 2121/4848 [00:10<00:13, 207.16it/s] 44%|████▍     | 2142/4848 [00:10<00:13, 207.30it/s] 45%|████▍     | 2163/4848 [00:10<00:12, 207.25it/s] 45%|████▌     | 2184/4848 [00:10<00:12, 207.10it/s] 45%|████▌     | 2205/4848 [00:10<00:12, 207.18it/s] 46%|████▌     | 2226/4848 [00:10<00:12, 206.97it/s] 46%|████▋     | 2247/4848 [00:10<00:12, 206.88it/s] 47%|████▋     | 2268/4848 [00:10<00:12, 207.15it/s] 47%|████▋     | 2289/4848 [00:11<00:12, 207.00it/s] 48%|████▊     | 2310/4848 [00:11<00:12, 207.01it/s] 48%|████▊     | 2331/4848 [00:11<00:12, 206.94it/s] 49%|████▊     | 2352/4848 [00:11<00:12, 206.98it/s] 49%|████▉     | 2373/4848 [00:11<00:11, 207.32it/s] 49%|████▉     | 2394/4848 [00:11<00:11, 207.37it/s] 50%|████▉     | 2415/4848 [00:11<00:11, 207.48it/s] 50%|█████     | 2436/4848 [00:11<00:11, 207.53it/s] 51%|█████     | 2457/4848 [00:11<00:11, 207.64it/s] 51%|█████     | 2478/4848 [00:11<00:11, 207.55it/s] 52%|█████▏    | 2499/4848 [00:12<00:11, 207.47it/s] 52%|█████▏    | 2520/4848 [00:12<00:11, 207.39it/s] 52%|█████▏    | 2541/4848 [00:12<00:11, 207.29it/s] 53%|█████▎    | 2562/4848 [00:12<00:11, 207.46it/s] 53%|█████▎    | 2583/4848 [00:12<00:10, 207.41it/s] 54%|█████▎    | 2604/4848 [00:12<00:10, 207.49it/s] 54%|█████▍    | 2625/4848 [00:12<00:10, 207.85it/s] 55%|█████▍    | 2646/4848 [00:12<00:10, 207.99it/s] 55%|█████▌    | 2667/4848 [00:12<00:10, 207.77it/s] 55%|█████▌    | 2688/4848 [00:12<00:10, 207.81it/s] 56%|█████▌    | 2709/4848 [00:13<00:10, 207.62it/s] 56%|█████▋    | 2730/4848 [00:13<00:10, 207.53it/s] 57%|█████▋    | 2751/4848 [00:13<00:10, 207.67it/s] 57%|█████▋    | 2772/4848 [00:13<00:10, 207.36it/s] 58%|█████▊    | 2793/4848 [00:13<00:09, 207.30it/s] 58%|█████▊    | 2814/4848 [00:13<00:09, 207.05it/s] 58%|█████▊    | 2835/4848 [00:13<00:09, 206.94it/s] 59%|█████▉    | 2856/4848 [00:13<00:09, 206.67it/s] 59%|█████▉    | 2877/4848 [00:13<00:09, 206.47it/s] 60%|█████▉    | 2898/4848 [00:13<00:09, 206.32it/s] 60%|██████    | 2919/4848 [00:14<00:09, 206.13it/s] 61%|██████    | 2940/4848 [00:14<00:09, 206.14it/s] 61%|██████    | 2961/4848 [00:14<00:09, 206.27it/s] 62%|██████▏   | 2982/4848 [00:14<00:09, 206.30it/s] 62%|██████▏   | 3003/4848 [00:14<00:08, 206.59it/s] 62%|██████▏   | 3024/4848 [00:14<00:08, 206.69it/s] 63%|██████▎   | 3045/4848 [00:14<00:08, 206.93it/s] 63%|██████▎   | 3066/4848 [00:14<00:08, 207.19it/s] 64%|██████▎   | 3087/4848 [00:14<00:08, 206.97it/s] 64%|██████▍   | 3108/4848 [00:14<00:08, 206.91it/s] 65%|██████▍   | 3129/4848 [00:15<00:08, 206.87it/s] 65%|██████▍   | 3150/4848 [00:15<00:08, 206.91it/s] 65%|██████▌   | 3171/4848 [00:15<00:08, 206.94it/s] 66%|██████▌   | 3192/4848 [00:15<00:08, 206.92it/s] 66%|██████▋   | 3213/4848 [00:15<00:07, 207.03it/s] 67%|██████▋   | 3234/4848 [00:15<00:07, 206.93it/s] 67%|██████▋   | 3255/4848 [00:15<00:07, 207.08it/s] 68%|██████▊   | 3276/4848 [00:15<00:07, 207.03it/s] 68%|██████▊   | 3297/4848 [00:15<00:07, 206.89it/s] 68%|██████▊   | 3318/4848 [00:16<00:07, 206.91it/s] 69%|██████▉   | 3339/4848 [00:16<00:07, 206.94it/s] 69%|██████▉   | 3360/4848 [00:16<00:07, 207.06it/s] 70%|██████▉   | 3381/4848 [00:16<00:07, 207.06it/s] 70%|███████   | 3402/4848 [00:16<00:06, 206.98it/s] 71%|███████   | 3423/4848 [00:16<00:06, 207.08it/s] 71%|███████   | 3444/4848 [00:16<00:06, 207.09it/s] 71%|███████▏  | 3465/4848 [00:16<00:06, 207.32it/s] 72%|███████▏  | 3486/4848 [00:16<00:06, 207.42it/s] 72%|███████▏  | 3507/4848 [00:16<00:06, 207.26it/s] 73%|███████▎  | 3528/4848 [00:17<00:06, 207.20it/s] 73%|███████▎  | 3549/4848 [00:17<00:06, 207.22it/s] 74%|███████▎  | 3570/4848 [00:17<00:06, 206.99it/s] 74%|███████▍  | 3591/4848 [00:17<00:06, 207.05it/s] 75%|███████▍  | 3612/4848 [00:17<00:05, 207.02it/s] 75%|███████▍  | 3633/4848 [00:17<00:05, 206.97it/s] 75%|███████▌  | 3654/4848 [00:17<00:05, 207.00it/s] 76%|███████▌  | 3675/4848 [00:17<00:05, 206.76it/s] 76%|███████▌  | 3696/4848 [00:17<00:05, 206.79it/s] 77%|███████▋  | 3717/4848 [00:17<00:05, 206.65it/s] 77%|███████▋  | 3738/4848 [00:18<00:05, 206.86it/s] 78%|███████▊  | 3759/4848 [00:18<00:05, 207.04it/s] 78%|███████▊  | 3780/4848 [00:18<00:05, 207.01it/s] 78%|███████▊  | 3801/4848 [00:18<00:05, 206.88it/s] 79%|███████▉  | 3822/4848 [00:18<00:04, 206.52it/s] 79%|███████▉  | 3843/4848 [00:18<00:04, 206.47it/s] 80%|███████▉  | 3864/4848 [00:18<00:04, 206.51it/s] 80%|████████  | 3885/4848 [00:18<00:04, 206.19it/s] 81%|████████  | 3906/4848 [00:18<00:04, 206.18it/s] 81%|████████  | 3927/4848 [00:18<00:04, 206.07it/s] 81%|████████▏ | 3948/4848 [00:19<00:04, 206.23it/s] 82%|████████▏ | 3969/4848 [00:19<00:04, 206.33it/s] 82%|████████▏ | 3990/4848 [00:19<00:04, 206.50it/s] 83%|████████▎ | 4011/4848 [00:19<00:04, 206.44it/s] 83%|████████▎ | 4032/4848 [00:19<00:03, 206.56it/s] 84%|████████▎ | 4053/4848 [00:19<00:03, 206.62it/s] 84%|████████▍ | 4074/4848 [00:19<00:03, 206.68it/s] 84%|████████▍ | 4095/4848 [00:19<00:03, 206.70it/s] 85%|████████▍ | 4116/4848 [00:19<00:03, 206.98it/s] 85%|████████▌ | 4137/4848 [00:19<00:03, 206.91it/s] 86%|████████▌ | 4158/4848 [00:20<00:03, 206.68it/s] 86%|████████▌ | 4179/4848 [00:20<00:03, 206.64it/s] 87%|████████▋ | 4200/4848 [00:20<00:03, 206.64it/s] 87%|████████▋ | 4221/4848 [00:20<00:03, 206.74it/s] 88%|████████▊ | 4242/4848 [00:20<00:02, 206.74it/s] 88%|████████▊ | 4263/4848 [00:20<00:02, 206.91it/s] 88%|████████▊ | 4284/4848 [00:20<00:02, 207.08it/s] 89%|████████▉ | 4305/4848 [00:20<00:02, 206.69it/s] 89%|████████▉ | 4326/4848 [00:20<00:02, 206.71it/s] 90%|████████▉ | 4347/4848 [00:20<00:02, 206.74it/s] 90%|█████████ | 4368/4848 [00:21<00:02, 206.67it/s] 91%|█████████ | 4389/4848 [00:21<00:02, 206.81it/s] 91%|█████████ | 4410/4848 [00:21<00:02, 206.97it/s] 91%|█████████▏| 4431/4848 [00:21<00:02, 207.02it/s] 92%|█████████▏| 4452/4848 [00:21<00:01, 207.27it/s] 92%|█████████▏| 4473/4848 [00:21<00:01, 207.36it/s] 93%|█████████▎| 4494/4848 [00:21<00:01, 207.39it/s] 93%|█████████▎| 4515/4848 [00:21<00:01, 207.23it/s] 94%|█████████▎| 4536/4848 [00:21<00:01, 207.26it/s] 94%|█████████▍| 4557/4848 [00:21<00:01, 207.06it/s] 94%|█████████▍| 4578/4848 [00:22<00:01, 206.77it/s] 95%|█████████▍| 4599/4848 [00:22<00:01, 206.66it/s] 95%|█████████▌| 4620/4848 [00:22<00:01, 206.63it/s] 96%|█████████▌| 4641/4848 [00:22<00:01, 206.71it/s] 96%|█████████▌| 4662/4848 [00:22<00:00, 207.02it/s] 97%|█████████▋| 4683/4848 [00:22<00:00, 206.99it/s] 97%|█████████▋| 4704/4848 [00:22<00:00, 207.12it/s] 97%|█████████▋| 4725/4848 [00:22<00:00, 207.08it/s] 98%|█████████▊| 4746/4848 [00:22<00:00, 207.06it/s] 98%|█████████▊| 4767/4848 [00:23<00:00, 207.00it/s] 99%|█████████▉| 4788/4848 [00:23<00:00, 206.92it/s] 99%|█████████▉| 4809/4848 [00:23<00:00, 206.83it/s]100%|█████████▉| 4830/4848 [00:23<00:00, 206.41it/s]100%|██████████| 4848/4848 [00:23<00:00, 207.17it/s]
+INFO:lm_eval.api.task:Building contexts for copa on rank 0...
+  0%|          | 0/100 [00:00<?, ?it/s]100%|██████████| 100/100 [00:00<00:00, 29537.35it/s]
+INFO:lm_eval.api.task:Building contexts for cb on rank 0...
+  0%|          | 0/56 [00:00<?, ?it/s] 75%|███████▌  | 42/56 [00:00<00:00, 416.20it/s]100%|██████████| 56/56 [00:00<00:00, 415.95it/s]
+INFO:lm_eval.api.task:Building contexts for boolq on rank 0...
+  0%|          | 0/3270 [00:00<?, ?it/s]  1%|▏         | 43/3270 [00:00<00:07, 424.71it/s]  3%|▎         | 86/3270 [00:00<00:07, 425.23it/s]  4%|▍         | 129/3270 [00:00<00:07, 425.32it/s]  5%|▌         | 172/3270 [00:00<00:07, 425.88it/s]  7%|▋         | 215/3270 [00:00<00:07, 425.90it/s]  8%|▊         | 258/3270 [00:00<00:07, 427.24it/s]  9%|▉         | 302/3270 [00:00<00:06, 428.31it/s] 11%|█         | 345/3270 [00:00<00:06, 428.72it/s] 12%|█▏        | 388/3270 [00:00<00:06, 428.47it/s] 13%|█▎        | 431/3270 [00:01<00:06, 428.69it/s] 14%|█▍        | 474/3270 [00:01<00:06, 428.79it/s] 16%|█▌        | 517/3270 [00:01<00:06, 428.85it/s] 17%|█▋        | 560/3270 [00:01<00:06, 429.09it/s] 18%|█▊        | 604/3270 [00:01<00:06, 429.44it/s] 20%|█▉        | 647/3270 [00:01<00:06, 429.08it/s] 21%|██        | 690/3270 [00:01<00:06, 428.65it/s] 22%|██▏       | 733/3270 [00:01<00:05, 428.45it/s] 24%|██▎       | 776/3270 [00:01<00:05, 428.31it/s] 25%|██▌       | 819/3270 [00:01<00:05, 428.19it/s] 26%|██▋       | 862/3270 [00:02<00:05, 427.85it/s] 28%|██▊       | 905/3270 [00:02<00:05, 427.92it/s] 29%|██▉       | 948/3270 [00:02<00:05, 427.91it/s] 30%|███       | 991/3270 [00:02<00:05, 428.07it/s] 32%|███▏      | 1034/3270 [00:02<00:05, 427.94it/s] 33%|███▎      | 1077/3270 [00:02<00:05, 428.34it/s] 34%|███▍      | 1120/3270 [00:02<00:05, 428.63it/s] 36%|███▌      | 1164/3270 [00:02<00:04, 428.99it/s] 37%|███▋      | 1208/3270 [00:02<00:04, 429.49it/s] 38%|███▊      | 1252/3270 [00:02<00:04, 429.86it/s] 40%|███▉      | 1296/3270 [00:03<00:04, 430.20it/s] 41%|████      | 1340/3270 [00:03<00:04, 430.22it/s] 42%|████▏     | 1384/3270 [00:03<00:04, 430.46it/s] 44%|████▎     | 1428/3270 [00:03<00:04, 430.73it/s] 45%|████▌     | 1472/3270 [00:03<00:04, 430.24it/s] 46%|████▋     | 1516/3270 [00:03<00:04, 430.02it/s] 48%|████▊     | 1560/3270 [00:03<00:03, 430.38it/s] 49%|████▉     | 1604/3270 [00:03<00:03, 430.31it/s] 50%|█████     | 1648/3270 [00:03<00:03, 430.44it/s] 52%|█████▏    | 1692/3270 [00:03<00:03, 430.20it/s] 53%|█████▎    | 1736/3270 [00:04<00:03, 429.99it/s] 54%|█████▍    | 1779/3270 [00:04<00:03, 429.91it/s] 56%|█████▌    | 1823/3270 [00:04<00:03, 430.14it/s] 57%|█████▋    | 1867/3270 [00:04<00:03, 429.45it/s] 58%|█████▊    | 1910/3270 [00:04<00:03, 429.05it/s] 60%|█████▉    | 1953/3270 [00:04<00:03, 428.70it/s] 61%|██████    | 1996/3270 [00:04<00:02, 428.42it/s] 62%|██████▏   | 2039/3270 [00:04<00:02, 427.94it/s] 64%|██████▎   | 2082/3270 [00:04<00:02, 428.35it/s] 65%|██████▍   | 2125/3270 [00:04<00:02, 428.43it/s] 66%|██████▋   | 2168/3270 [00:05<00:02, 428.07it/s] 68%|██████▊   | 2211/3270 [00:05<00:02, 428.10it/s] 69%|██████▉   | 2254/3270 [00:05<00:02, 428.37it/s] 70%|███████   | 2297/3270 [00:05<00:02, 428.66it/s] 72%|███████▏  | 2340/3270 [00:05<00:02, 429.01it/s] 73%|███████▎  | 2383/3270 [00:05<00:02, 429.15it/s] 74%|███████▍  | 2426/3270 [00:05<00:01, 429.29it/s] 76%|███████▌  | 2469/3270 [00:05<00:01, 429.31it/s] 77%|███████▋  | 2513/3270 [00:05<00:01, 429.79it/s] 78%|███████▊  | 2556/3270 [00:05<00:01, 429.65it/s] 80%|███████▉  | 2600/3270 [00:06<00:01, 429.94it/s] 81%|████████  | 2643/3270 [00:06<00:01, 429.92it/s] 82%|████████▏ | 2687/3270 [00:06<00:01, 430.11it/s] 84%|████████▎ | 2731/3270 [00:06<00:01, 429.58it/s] 85%|████████▍ | 2774/3270 [00:06<00:01, 429.46it/s] 86%|████████▌ | 2818/3270 [00:06<00:01, 429.70it/s] 87%|████████▋ | 2861/3270 [00:06<00:00, 429.42it/s] 89%|████████▉ | 2904/3270 [00:06<00:00, 429.48it/s] 90%|█████████ | 2947/3270 [00:06<00:00, 429.28it/s] 91%|█████████▏| 2990/3270 [00:06<00:00, 428.80it/s] 93%|█████████▎| 3033/3270 [00:07<00:00, 428.14it/s] 94%|█████████▍| 3076/3270 [00:07<00:00, 427.90it/s] 95%|█████████▌| 3119/3270 [00:07<00:00, 427.24it/s] 97%|█████████▋| 3162/3270 [00:07<00:00, 427.49it/s] 98%|█████████▊| 3205/3270 [00:07<00:00, 427.48it/s] 99%|█████████▉| 3248/3270 [00:07<00:00, 427.85it/s]100%|██████████| 3270/3270 [00:07<00:00, 428.83it/s]
+INFO:lm_eval.api.task:Building contexts for lambada_openai on rank 0...
+  0%|          | 0/5153 [00:00<?, ?it/s]  0%|          | 13/5153 [00:00<00:42, 121.74it/s]  1%|          | 26/5153 [00:00<00:42, 121.87it/s]  1%|          | 39/5153 [00:00<00:41, 121.87it/s]  1%|          | 52/5153 [00:00<00:41, 121.85it/s]  1%|▏         | 65/5153 [00:00<00:41, 121.81it/s]  2%|▏         | 78/5153 [00:00<00:41, 121.95it/s]  2%|▏         | 91/5153 [00:00<00:41, 122.06it/s]  2%|▏         | 104/5153 [00:00<00:41, 122.13it/s]  2%|▏         | 117/5153 [00:00<00:41, 122.16it/s]  3%|▎         | 130/5153 [00:01<00:41, 122.05it/s]  3%|▎         | 143/5153 [00:01<00:41, 121.91it/s]  3%|▎         | 156/5153 [00:01<00:41, 121.81it/s]  3%|▎         | 169/5153 [00:01<00:40, 121.75it/s]  4%|▎         | 182/5153 [00:01<00:40, 121.78it/s]  4%|▍         | 195/5153 [00:01<00:40, 121.89it/s]  4%|▍         | 208/5153 [00:01<00:40, 121.94it/s]  4%|▍         | 221/5153 [00:01<00:40, 121.80it/s]  5%|▍         | 234/5153 [00:01<00:40, 121.72it/s]  5%|▍         | 247/5153 [00:02<00:40, 121.72it/s]  5%|▌         | 260/5153 [00:02<00:40, 121.76it/s]  5%|▌         | 273/5153 [00:02<00:40, 121.73it/s]  6%|▌         | 286/5153 [00:02<00:39, 121.68it/s]  6%|▌         | 299/5153 [00:02<00:39, 121.68it/s]  6%|▌         | 312/5153 [00:02<00:39, 121.67it/s]  6%|▋         | 325/5153 [00:02<00:39, 121.68it/s]  7%|▋         | 338/5153 [00:02<00:39, 121.46it/s]  7%|▋         | 351/5153 [00:02<00:39, 121.50it/s]  7%|▋         | 364/5153 [00:02<00:39, 121.43it/s]  7%|▋         | 377/5153 [00:03<00:39, 121.40it/s]  8%|▊         | 390/5153 [00:03<00:39, 121.37it/s]  8%|▊         | 403/5153 [00:03<00:39, 121.30it/s]  8%|▊         | 416/5153 [00:03<00:39, 121.28it/s]  8%|▊         | 429/5153 [00:03<00:38, 121.38it/s]  9%|▊         | 442/5153 [00:03<00:38, 121.43it/s]  9%|▉         | 455/5153 [00:03<00:38, 121.37it/s]  9%|▉         | 468/5153 [00:03<00:38, 121.40it/s]  9%|▉         | 481/5153 [00:03<00:38, 121.44it/s] 10%|▉         | 494/5153 [00:04<00:38, 121.43it/s] 10%|▉         | 507/5153 [00:04<00:38, 121.42it/s] 10%|█         | 520/5153 [00:04<00:38, 121.39it/s] 10%|█         | 533/5153 [00:04<00:38, 121.34it/s] 11%|█         | 546/5153 [00:04<00:37, 121.41it/s] 11%|█         | 559/5153 [00:04<00:37, 121.49it/s] 11%|█         | 572/5153 [00:04<00:37, 121.45it/s] 11%|█▏        | 585/5153 [00:04<00:37, 121.49it/s] 12%|█▏        | 598/5153 [00:04<00:37, 121.57it/s] 12%|█▏        | 611/5153 [00:05<00:37, 121.60it/s] 12%|█▏        | 624/5153 [00:05<00:37, 121.69it/s] 12%|█▏        | 637/5153 [00:05<00:37, 121.67it/s] 13%|█▎        | 650/5153 [00:05<00:37, 121.64it/s] 13%|█▎        | 663/5153 [00:05<00:36, 121.74it/s] 13%|█▎        | 676/5153 [00:05<00:36, 121.83it/s] 13%|█▎        | 689/5153 [00:05<00:36, 121.89it/s] 14%|█▎        | 702/5153 [00:05<00:36, 121.76it/s] 14%|█▍        | 715/5153 [00:05<00:36, 121.74it/s] 14%|█▍        | 728/5153 [00:05<00:36, 121.77it/s] 14%|█▍        | 741/5153 [00:06<00:36, 121.74it/s] 15%|█▍        | 754/5153 [00:06<00:36, 121.80it/s] 15%|█▍        | 767/5153 [00:06<00:36, 121.82it/s] 15%|█▌        | 780/5153 [00:06<00:35, 122.32it/s] 15%|█▌        | 793/5153 [00:06<00:35, 122.19it/s] 16%|█▌        | 806/5153 [00:06<00:35, 122.04it/s] 16%|█▌        | 819/5153 [00:06<00:35, 121.92it/s] 16%|█▌        | 832/5153 [00:06<00:35, 121.95it/s] 16%|█▋        | 845/5153 [00:06<00:35, 122.00it/s] 17%|█▋        | 858/5153 [00:07<00:35, 122.09it/s] 17%|█▋        | 871/5153 [00:07<00:35, 122.18it/s] 17%|█▋        | 884/5153 [00:07<00:34, 122.19it/s] 17%|█▋        | 897/5153 [00:07<00:34, 122.21it/s] 18%|█▊        | 910/5153 [00:07<00:34, 122.18it/s] 18%|█▊        | 923/5153 [00:07<00:34, 122.21it/s] 18%|█▊        | 936/5153 [00:07<00:34, 122.12it/s] 18%|█▊        | 949/5153 [00:07<00:34, 122.11it/s] 19%|█▊        | 962/5153 [00:07<00:34, 122.08it/s] 19%|█▉        | 975/5153 [00:08<00:34, 122.04it/s] 19%|█▉        | 988/5153 [00:08<00:34, 122.06it/s] 19%|█▉        | 1001/5153 [00:08<00:34, 122.09it/s] 20%|█▉        | 1014/5153 [00:08<00:33, 122.06it/s] 20%|█▉        | 1027/5153 [00:08<00:33, 122.05it/s] 20%|██        | 1040/5153 [00:08<00:33, 122.04it/s] 20%|██        | 1053/5153 [00:08<00:33, 122.10it/s] 21%|██        | 1066/5153 [00:08<00:33, 122.10it/s] 21%|██        | 1079/5153 [00:08<00:33, 122.17it/s] 21%|██        | 1092/5153 [00:08<00:33, 122.18it/s] 21%|██▏       | 1105/5153 [00:09<00:33, 122.25it/s] 22%|██▏       | 1118/5153 [00:09<00:33, 122.20it/s] 22%|██▏       | 1131/5153 [00:09<00:32, 122.15it/s] 22%|██▏       | 1144/5153 [00:09<00:32, 122.14it/s] 22%|██▏       | 1157/5153 [00:09<00:32, 122.17it/s] 23%|██▎       | 1170/5153 [00:09<00:32, 122.18it/s] 23%|██▎       | 1183/5153 [00:09<00:32, 122.11it/s] 23%|██▎       | 1196/5153 [00:09<00:32, 122.12it/s] 23%|██▎       | 1209/5153 [00:09<00:32, 122.16it/s] 24%|██▎       | 1222/5153 [00:10<00:32, 122.15it/s] 24%|██▍       | 1235/5153 [00:10<00:32, 122.14it/s] 24%|██▍       | 1248/5153 [00:10<00:31, 122.13it/s] 24%|██▍       | 1261/5153 [00:10<00:31, 122.09it/s] 25%|██▍       | 1274/5153 [00:10<00:31, 122.02it/s] 25%|██▍       | 1287/5153 [00:10<00:31, 122.00it/s] 25%|██▌       | 1300/5153 [00:10<00:31, 121.99it/s] 25%|██▌       | 1313/5153 [00:10<00:31, 121.95it/s] 26%|██▌       | 1326/5153 [00:10<00:31, 122.02it/s] 26%|██▌       | 1339/5153 [00:10<00:31, 122.05it/s] 26%|██▌       | 1352/5153 [00:11<00:31, 122.08it/s] 26%|██▋       | 1365/5153 [00:11<00:31, 122.11it/s] 27%|██▋       | 1378/5153 [00:11<00:30, 122.11it/s] 27%|██▋       | 1391/5153 [00:11<00:30, 122.17it/s] 27%|██▋       | 1404/5153 [00:11<00:30, 122.19it/s] 27%|██▋       | 1417/5153 [00:11<00:30, 122.24it/s] 28%|██▊       | 1430/5153 [00:11<00:30, 122.25it/s] 28%|██▊       | 1443/5153 [00:11<00:30, 122.32it/s] 28%|██▊       | 1456/5153 [00:11<00:30, 122.30it/s] 29%|██▊       | 1469/5153 [00:12<00:30, 122.36it/s] 29%|██▉       | 1482/5153 [00:12<00:30, 122.30it/s] 29%|██▉       | 1495/5153 [00:12<00:29, 122.24it/s] 29%|██▉       | 1508/5153 [00:12<00:29, 122.17it/s] 30%|██▉       | 1521/5153 [00:12<00:29, 122.16it/s] 30%|██▉       | 1534/5153 [00:12<00:29, 122.17it/s] 30%|███       | 1547/5153 [00:12<00:29, 122.01it/s] 30%|███       | 1560/5153 [00:12<00:29, 121.97it/s] 31%|███       | 1573/5153 [00:12<00:29, 122.00it/s] 31%|███       | 1586/5153 [00:13<00:29, 122.08it/s] 31%|███       | 1599/5153 [00:13<00:29, 122.09it/s] 31%|███▏      | 1612/5153 [00:13<00:28, 122.17it/s] 32%|███▏      | 1625/5153 [00:13<00:28, 122.14it/s] 32%|███▏      | 1638/5153 [00:13<00:28, 122.11it/s] 32%|███▏      | 1651/5153 [00:13<00:28, 122.13it/s] 32%|███▏      | 1664/5153 [00:13<00:28, 122.00it/s] 33%|███▎      | 1677/5153 [00:13<00:28, 122.06it/s] 33%|███▎      | 1690/5153 [00:13<00:28, 122.10it/s] 33%|███▎      | 1703/5153 [00:13<00:28, 122.17it/s] 33%|███▎      | 1716/5153 [00:14<00:28, 122.21it/s] 34%|███▎      | 1729/5153 [00:14<00:28, 122.21it/s] 34%|███▍      | 1742/5153 [00:14<00:27, 122.19it/s] 34%|███▍      | 1755/5153 [00:14<00:27, 122.16it/s] 34%|███▍      | 1768/5153 [00:14<00:27, 122.16it/s] 35%|███▍      | 1781/5153 [00:14<00:27, 122.07it/s] 35%|███▍      | 1794/5153 [00:14<00:27, 122.03it/s] 35%|███▌      | 1807/5153 [00:14<00:27, 122.03it/s] 35%|███▌      | 1820/5153 [00:14<00:27, 122.11it/s] 36%|███▌      | 1833/5153 [00:15<00:27, 122.62it/s] 36%|███▌      | 1846/5153 [00:15<00:27, 122.46it/s] 36%|███▌      | 1859/5153 [00:15<00:26, 122.37it/s] 36%|███▋      | 1872/5153 [00:15<00:26, 122.31it/s] 37%|███▋      | 1885/5153 [00:15<00:26, 122.26it/s] 37%|███▋      | 1898/5153 [00:15<00:26, 122.24it/s] 37%|███▋      | 1911/5153 [00:15<00:26, 122.12it/s] 37%|███▋      | 1924/5153 [00:15<00:26, 122.13it/s] 38%|███▊      | 1937/5153 [00:15<00:26, 122.07it/s] 38%|███▊      | 1950/5153 [00:15<00:26, 122.11it/s] 38%|███▊      | 1963/5153 [00:16<00:26, 122.10it/s] 38%|███▊      | 1976/5153 [00:16<00:26, 122.07it/s] 39%|███▊      | 1989/5153 [00:16<00:25, 121.99it/s] 39%|███▉      | 2002/5153 [00:16<00:25, 121.99it/s] 39%|███▉      | 2015/5153 [00:16<00:25, 121.96it/s] 39%|███▉      | 2028/5153 [00:16<00:25, 121.85it/s] 40%|███▉      | 2041/5153 [00:16<00:25, 121.95it/s] 40%|███▉      | 2054/5153 [00:16<00:25, 121.91it/s] 40%|████      | 2067/5153 [00:16<00:25, 121.94it/s] 40%|████      | 2080/5153 [00:17<00:25, 122.00it/s] 41%|████      | 2093/5153 [00:17<00:25, 121.96it/s] 41%|████      | 2106/5153 [00:17<00:24, 121.98it/s] 41%|████      | 2119/5153 [00:17<00:24, 121.93it/s] 41%|████▏     | 2132/5153 [00:17<00:24, 121.90it/s] 42%|████▏     | 2145/5153 [00:17<00:24, 121.73it/s] 42%|████▏     | 2158/5153 [00:17<00:24, 121.61it/s] 42%|████▏     | 2171/5153 [00:17<00:24, 121.40it/s] 42%|████▏     | 2184/5153 [00:17<00:24, 121.30it/s] 43%|████▎     | 2197/5153 [00:18<00:24, 121.28it/s] 43%|████▎     | 2210/5153 [00:18<00:24, 121.33it/s] 43%|████▎     | 2223/5153 [00:18<00:24, 121.32it/s] 43%|████▎     | 2236/5153 [00:18<00:24, 121.30it/s] 44%|████▎     | 2249/5153 [00:18<00:23, 121.71it/s] 44%|████▍     | 2262/5153 [00:18<00:23, 121.59it/s] 44%|████▍     | 2275/5153 [00:18<00:23, 121.35it/s] 44%|████▍     | 2288/5153 [00:18<00:23, 121.31it/s] 45%|████▍     | 2301/5153 [00:18<00:23, 121.26it/s] 45%|████▍     | 2314/5153 [00:18<00:23, 121.16it/s] 45%|████▌     | 2327/5153 [00:19<00:23, 121.26it/s] 45%|████▌     | 2340/5153 [00:19<00:23, 121.32it/s] 46%|████▌     | 2353/5153 [00:19<00:23, 121.25it/s] 46%|████▌     | 2366/5153 [00:19<00:22, 121.22it/s] 46%|████▌     | 2379/5153 [00:19<00:22, 121.23it/s] 46%|████▋     | 2392/5153 [00:19<00:22, 121.10it/s] 47%|████▋     | 2405/5153 [00:19<00:22, 121.11it/s] 47%|████▋     | 2418/5153 [00:19<00:22, 121.18it/s] 47%|████▋     | 2431/5153 [00:19<00:22, 121.30it/s] 47%|████▋     | 2444/5153 [00:20<00:22, 121.32it/s] 48%|████▊     | 2457/5153 [00:20<00:22, 121.32it/s] 48%|████▊     | 2470/5153 [00:20<00:22, 121.35it/s] 48%|████▊     | 2483/5153 [00:20<00:22, 121.33it/s] 48%|████▊     | 2496/5153 [00:20<00:21, 121.35it/s] 49%|████▊     | 2509/5153 [00:20<00:21, 121.31it/s] 49%|████▉     | 2522/5153 [00:20<00:21, 121.41it/s] 49%|████▉     | 2535/5153 [00:20<00:21, 121.50it/s] 49%|████▉     | 2548/5153 [00:20<00:21, 121.50it/s] 50%|████▉     | 2561/5153 [00:21<00:21, 121.56it/s] 50%|████▉     | 2574/5153 [00:21<00:21, 121.61it/s] 50%|█████     | 2587/5153 [00:21<00:21, 121.55it/s] 50%|█████     | 2600/5153 [00:21<00:20, 121.63it/s] 51%|█████     | 2613/5153 [00:21<00:20, 121.63it/s] 51%|█████     | 2626/5153 [00:21<00:20, 121.55it/s] 51%|█████     | 2639/5153 [00:21<00:20, 121.58it/s] 51%|█████▏    | 2652/5153 [00:21<00:20, 121.67it/s] 52%|█████▏    | 2665/5153 [00:21<00:20, 121.74it/s] 52%|█████▏    | 2678/5153 [00:21<00:20, 121.78it/s] 52%|█████▏    | 2691/5153 [00:22<00:20, 121.73it/s] 52%|█████▏    | 2704/5153 [00:22<00:20, 121.76it/s] 53%|█████▎    | 2717/5153 [00:22<00:19, 121.90it/s] 53%|█████▎    | 2730/5153 [00:22<00:19, 121.97it/s] 53%|█████▎    | 2743/5153 [00:22<00:19, 121.93it/s] 53%|█████▎    | 2756/5153 [00:22<00:19, 121.79it/s] 54%|█████▎    | 2769/5153 [00:22<00:19, 121.81it/s] 54%|█████▍    | 2782/5153 [00:22<00:19, 121.75it/s] 54%|█████▍    | 2795/5153 [00:22<00:19, 121.74it/s] 54%|█████▍    | 2808/5153 [00:23<00:19, 121.65it/s] 55%|█████▍    | 2821/5153 [00:23<00:19, 121.64it/s] 55%|█████▍    | 2834/5153 [00:23<00:19, 121.66it/s] 55%|█████▌    | 2847/5153 [00:23<00:18, 121.67it/s] 56%|█████▌    | 2860/5153 [00:23<00:18, 121.68it/s] 56%|█████▌    | 2873/5153 [00:23<00:18, 121.69it/s] 56%|█████▌    | 2886/5153 [00:23<00:18, 121.72it/s] 56%|█████▋    | 2899/5153 [00:23<00:18, 121.75it/s] 57%|█████▋    | 2912/5153 [00:23<00:18, 121.71it/s] 57%|█████▋    | 2925/5153 [00:24<00:18, 121.71it/s] 57%|█████▋    | 2938/5153 [00:24<00:18, 121.74it/s] 57%|█████▋    | 2951/5153 [00:24<00:18, 121.79it/s] 58%|█████▊    | 2964/5153 [00:24<00:17, 121.79it/s] 58%|█████▊    | 2977/5153 [00:24<00:17, 121.90it/s] 58%|█████▊    | 2990/5153 [00:24<00:17, 121.88it/s] 58%|█████▊    | 3003/5153 [00:24<00:17, 121.98it/s] 59%|█████▊    | 3016/5153 [00:24<00:17, 122.00it/s] 59%|█████▉    | 3029/5153 [00:24<00:17, 122.06it/s] 59%|█████▉    | 3042/5153 [00:24<00:17, 122.07it/s] 59%|█████▉    | 3055/5153 [00:25<00:17, 122.04it/s] 60%|█████▉    | 3068/5153 [00:25<00:17, 122.05it/s] 60%|█████▉    | 3081/5153 [00:25<00:16, 122.04it/s] 60%|██████    | 3094/5153 [00:25<00:16, 122.05it/s] 60%|██████    | 3107/5153 [00:25<00:16, 121.96it/s] 61%|██████    | 3120/5153 [00:25<00:16, 121.94it/s] 61%|██████    | 3133/5153 [00:25<00:16, 121.99it/s] 61%|██████    | 3146/5153 [00:25<00:16, 121.99it/s] 61%|██████▏   | 3159/5153 [00:25<00:16, 122.04it/s] 62%|██████▏   | 3172/5153 [00:26<00:16, 122.02it/s] 62%|██████▏   | 3185/5153 [00:26<00:16, 122.00it/s] 62%|██████▏   | 3198/5153 [00:26<00:16, 121.92it/s] 62%|██████▏   | 3211/5153 [00:26<00:15, 121.90it/s] 63%|██████▎   | 3224/5153 [00:26<00:15, 121.97it/s] 63%|██████▎   | 3237/5153 [00:26<00:15, 121.92it/s] 63%|██████▎   | 3250/5153 [00:26<00:15, 121.98it/s] 63%|██████▎   | 3263/5153 [00:26<00:15, 121.99it/s] 64%|██████▎   | 3276/5153 [00:26<00:15, 121.94it/s] 64%|██████▍   | 3289/5153 [00:26<00:15, 121.93it/s] 64%|██████▍   | 3302/5153 [00:27<00:15, 121.92it/s] 64%|██████▍   | 3315/5153 [00:27<00:15, 121.93it/s] 65%|██████▍   | 3328/5153 [00:27<00:14, 121.93it/s] 65%|██████▍   | 3341/5153 [00:27<00:14, 122.02it/s] 65%|██████▌   | 3354/5153 [00:27<00:14, 121.94it/s] 65%|██████▌   | 3367/5153 [00:27<00:14, 121.91it/s] 66%|██████▌   | 3380/5153 [00:27<00:14, 121.97it/s] 66%|██████▌   | 3393/5153 [00:27<00:14, 122.05it/s] 66%|██████▌   | 3406/5153 [00:27<00:14, 122.08it/s] 66%|██████▋   | 3419/5153 [00:28<00:14, 122.05it/s] 67%|██████▋   | 3432/5153 [00:28<00:14, 122.04it/s] 67%|██████▋   | 3445/5153 [00:28<00:13, 122.05it/s] 67%|██████▋   | 3458/5153 [00:28<00:13, 122.09it/s] 67%|██████▋   | 3471/5153 [00:28<00:13, 122.06it/s] 68%|██████▊   | 3484/5153 [00:28<00:13, 122.10it/s] 68%|██████▊   | 3497/5153 [00:28<00:13, 122.06it/s] 68%|██████▊   | 3510/5153 [00:28<00:13, 122.04it/s] 68%|██████▊   | 3523/5153 [00:28<00:13, 122.08it/s] 69%|██████▊   | 3536/5153 [00:29<00:13, 122.14it/s] 69%|██████▉   | 3549/5153 [00:29<00:13, 122.15it/s] 69%|██████▉   | 3562/5153 [00:29<00:13, 122.15it/s] 69%|██████▉   | 3575/5153 [00:29<00:12, 122.10it/s] 70%|██████▉   | 3588/5153 [00:29<00:12, 122.00it/s] 70%|██████▉   | 3601/5153 [00:29<00:12, 121.98it/s] 70%|███████   | 3614/5153 [00:29<00:12, 121.93it/s] 70%|███████   | 3627/5153 [00:29<00:12, 121.98it/s] 71%|███████   | 3640/5153 [00:29<00:12, 122.00it/s] 71%|███████   | 3653/5153 [00:29<00:12, 122.00it/s] 71%|███████   | 3666/5153 [00:30<00:12, 122.02it/s] 71%|███████▏  | 3679/5153 [00:30<00:12, 122.03it/s] 72%|███████▏  | 3692/5153 [00:30<00:11, 121.99it/s] 72%|███████▏  | 3705/5153 [00:30<00:11, 121.98it/s] 72%|███████▏  | 3718/5153 [00:30<00:11, 121.88it/s] 72%|███████▏  | 3731/5153 [00:30<00:11, 121.88it/s] 73%|███████▎  | 3744/5153 [00:30<00:11, 121.95it/s] 73%|███████▎  | 3757/5153 [00:30<00:11, 121.99it/s] 73%|███████▎  | 3770/5153 [00:30<00:11, 122.03it/s] 73%|███████▎  | 3783/5153 [00:31<00:11, 122.01it/s] 74%|███████▎  | 3796/5153 [00:31<00:11, 121.96it/s] 74%|███████▍  | 3809/5153 [00:31<00:11, 121.99it/s] 74%|███████▍  | 3822/5153 [00:31<00:10, 121.96it/s] 74%|███████▍  | 3835/5153 [00:31<00:10, 121.85it/s] 75%|███████▍  | 3848/5153 [00:31<00:10, 121.85it/s] 75%|███████▍  | 3861/5153 [00:31<00:10, 121.88it/s] 75%|███████▌  | 3874/5153 [00:31<00:10, 121.92it/s] 75%|███████▌  | 3887/5153 [00:31<00:10, 121.96it/s] 76%|███████▌  | 3900/5153 [00:32<00:10, 121.92it/s] 76%|███████▌  | 3913/5153 [00:32<00:10, 121.83it/s] 76%|███████▌  | 3926/5153 [00:32<00:10, 121.76it/s] 76%|███████▋  | 3939/5153 [00:32<00:09, 121.73it/s] 77%|███████▋  | 3952/5153 [00:32<00:09, 121.60it/s] 77%|███████▋  | 3965/5153 [00:32<00:09, 121.65it/s] 77%|███████▋  | 3978/5153 [00:32<00:09, 121.67it/s] 77%|███████▋  | 3991/5153 [00:32<00:09, 121.70it/s] 78%|███████▊  | 4004/5153 [00:32<00:09, 121.68it/s] 78%|███████▊  | 4017/5153 [00:32<00:09, 121.68it/s] 78%|███████▊  | 4030/5153 [00:33<00:09, 121.70it/s] 78%|███████▊  | 4043/5153 [00:33<00:09, 121.74it/s] 79%|███████▊  | 4056/5153 [00:33<00:09, 121.67it/s] 79%|███████▉  | 4069/5153 [00:33<00:08, 121.54it/s] 79%|███████▉  | 4082/5153 [00:33<00:08, 121.52it/s] 79%|███████▉  | 4095/5153 [00:33<00:08, 121.58it/s] 80%|███████▉  | 4108/5153 [00:33<00:08, 121.56it/s] 80%|███████▉  | 4121/5153 [00:33<00:08, 121.48it/s] 80%|████████  | 4134/5153 [00:33<00:08, 121.38it/s] 80%|████████  | 4147/5153 [00:34<00:08, 121.34it/s] 81%|████████  | 4160/5153 [00:34<00:08, 121.31it/s] 81%|████████  | 4173/5153 [00:34<00:08, 121.25it/s] 81%|████████  | 4186/5153 [00:34<00:07, 121.22it/s] 81%|████████▏ | 4199/5153 [00:34<00:07, 121.15it/s] 82%|████████▏ | 4212/5153 [00:34<00:07, 121.10it/s] 82%|████████▏ | 4225/5153 [00:34<00:07, 121.12it/s] 82%|████████▏ | 4238/5153 [00:34<00:07, 121.19it/s] 82%|████████▏ | 4251/5153 [00:34<00:07, 121.27it/s] 83%|████████▎ | 4264/5153 [00:34<00:07, 121.30it/s] 83%|████████▎ | 4277/5153 [00:35<00:07, 121.28it/s] 83%|████████▎ | 4290/5153 [00:35<00:07, 121.27it/s] 84%|████████▎ | 4303/5153 [00:35<00:07, 121.25it/s] 84%|████████▍ | 4316/5153 [00:35<00:06, 121.15it/s] 84%|████████▍ | 4329/5153 [00:35<00:06, 121.21it/s] 84%|████████▍ | 4342/5153 [00:35<00:06, 121.26it/s] 85%|████████▍ | 4355/5153 [00:35<00:06, 121.28it/s] 85%|████████▍ | 4368/5153 [00:35<00:06, 121.28it/s] 85%|████████▌ | 4381/5153 [00:35<00:06, 121.26it/s] 85%|████████▌ | 4394/5153 [00:36<00:06, 121.24it/s] 86%|████████▌ | 4407/5153 [00:36<00:06, 121.29it/s] 86%|████████▌ | 4420/5153 [00:36<00:06, 121.35it/s] 86%|████████▌ | 4433/5153 [00:36<00:05, 121.28it/s] 86%|████████▋ | 4446/5153 [00:36<00:05, 121.30it/s] 87%|████████▋ | 4459/5153 [00:36<00:05, 121.37it/s] 87%|████████▋ | 4472/5153 [00:36<00:05, 121.35it/s] 87%|████████▋ | 4485/5153 [00:36<00:05, 121.35it/s] 87%|████████▋ | 4498/5153 [00:36<00:05, 121.31it/s] 88%|████████▊ | 4511/5153 [00:37<00:05, 121.29it/s] 88%|████████▊ | 4524/5153 [00:37<00:05, 121.33it/s] 88%|████████▊ | 4537/5153 [00:37<00:05, 121.34it/s] 88%|████████▊ | 4550/5153 [00:37<00:04, 121.24it/s] 89%|████████▊ | 4563/5153 [00:37<00:04, 121.23it/s] 89%|████████▉ | 4576/5153 [00:37<00:04, 121.21it/s] 89%|████████▉ | 4589/5153 [00:37<00:04, 121.13it/s] 89%|████████▉ | 4602/5153 [00:37<00:04, 121.11it/s] 90%|████████▉ | 4615/5153 [00:37<00:04, 121.11it/s] 90%|████████▉ | 4628/5153 [00:38<00:04, 121.20it/s] 90%|█████████ | 4641/5153 [00:38<00:04, 121.26it/s] 90%|█████████ | 4654/5153 [00:38<00:04, 121.26it/s] 91%|█████████ | 4667/5153 [00:38<00:04, 121.37it/s] 91%|█████████ | 4680/5153 [00:38<00:03, 121.25it/s] 91%|█████████ | 4693/5153 [00:38<00:03, 121.27it/s] 91%|█████████▏| 4706/5153 [00:38<00:03, 121.30it/s] 92%|█████████▏| 4719/5153 [00:38<00:03, 121.30it/s] 92%|█████████▏| 4732/5153 [00:38<00:03, 121.33it/s] 92%|█████████▏| 4745/5153 [00:38<00:03, 121.35it/s] 92%|█████████▏| 4758/5153 [00:39<00:03, 121.46it/s] 93%|█████████▎| 4771/5153 [00:39<00:03, 121.51it/s] 93%|█████████▎| 4784/5153 [00:39<00:03, 121.62it/s] 93%|█████████▎| 4797/5153 [00:39<00:02, 121.61it/s] 93%|█████████▎| 4810/5153 [00:39<00:02, 121.65it/s] 94%|█████████▎| 4823/5153 [00:39<00:02, 121.72it/s] 94%|█████████▍| 4836/5153 [00:39<00:02, 121.78it/s] 94%|█████████▍| 4849/5153 [00:39<00:02, 121.81it/s] 94%|█████████▍| 4862/5153 [00:39<00:02, 121.87it/s] 95%|█████████▍| 4875/5153 [00:40<00:02, 121.87it/s] 95%|█████████▍| 4888/5153 [00:40<00:02, 121.89it/s] 95%|█████████▌| 4901/5153 [00:40<00:02, 121.83it/s] 95%|█████████▌| 4914/5153 [00:40<00:01, 121.70it/s] 96%|█████████▌| 4927/5153 [00:40<00:01, 121.65it/s] 96%|█████████▌| 4940/5153 [00:40<00:01, 121.68it/s] 96%|█████████▌| 4953/5153 [00:40<00:01, 121.68it/s] 96%|█████████▋| 4966/5153 [00:40<00:01, 121.73it/s] 97%|█████████▋| 4979/5153 [00:40<00:01, 121.75it/s] 97%|█████████▋| 4992/5153 [00:40<00:01, 121.78it/s] 97%|█████████▋| 5005/5153 [00:41<00:01, 121.73it/s] 97%|█████████▋| 5018/5153 [00:41<00:01, 121.72it/s] 98%|█████████▊| 5031/5153 [00:41<00:01, 121.64it/s] 98%|█████████▊| 5044/5153 [00:41<00:00, 121.62it/s] 98%|█████████▊| 5057/5153 [00:41<00:00, 121.62it/s] 98%|█████████▊| 5070/5153 [00:41<00:00, 121.63it/s] 99%|█████████▊| 5083/5153 [00:41<00:00, 121.69it/s] 99%|█████████▉| 5096/5153 [00:41<00:00, 121.67it/s] 99%|█████████▉| 5109/5153 [00:41<00:00, 121.71it/s] 99%|█████████▉| 5122/5153 [00:42<00:00, 121.71it/s]100%|█████████▉| 5135/5153 [00:42<00:00, 121.73it/s]100%|█████████▉| 5148/5153 [00:42<00:00, 121.68it/s]100%|██████████| 5153/5153 [00:42<00:00, 121.77it/s]
+INFO:lm_eval.api.task:Building contexts for openbookqa on rank 0...
+  0%|          | 0/500 [00:00<?, ?it/s]  4%|▍         | 20/500 [00:00<00:02, 195.92it/s]  8%|▊         | 40/500 [00:00<00:02, 196.11it/s] 12%|█▏        | 60/500 [00:00<00:02, 196.22it/s] 16%|█▌        | 80/500 [00:00<00:02, 196.41it/s] 20%|██        | 100/500 [00:00<00:02, 196.03it/s] 24%|██▍       | 120/500 [00:00<00:01, 195.90it/s] 28%|██▊       | 140/500 [00:00<00:01, 195.72it/s] 32%|███▏      | 160/500 [00:00<00:01, 195.44it/s] 36%|███▌      | 180/500 [00:00<00:01, 195.32it/s] 40%|████      | 200/500 [00:01<00:01, 195.30it/s] 44%|████▍     | 220/500 [00:01<00:01, 195.30it/s] 48%|████▊     | 240/500 [00:01<00:01, 195.70it/s] 52%|█████▏    | 260/500 [00:01<00:01, 196.09it/s] 56%|█████▌    | 280/500 [00:01<00:01, 196.06it/s] 60%|██████    | 300/500 [00:01<00:01, 196.21it/s] 64%|██████▍   | 320/500 [00:01<00:00, 196.54it/s] 68%|██████▊   | 340/500 [00:01<00:00, 196.50it/s] 72%|███████▏  | 360/500 [00:01<00:00, 196.41it/s] 76%|███████▌  | 380/500 [00:01<00:00, 196.51it/s] 80%|████████  | 400/500 [00:02<00:00, 196.66it/s] 84%|████████▍ | 420/500 [00:02<00:00, 196.75it/s] 88%|████████▊ | 440/500 [00:02<00:00, 196.79it/s] 92%|█████████▏| 460/500 [00:02<00:00, 197.02it/s] 96%|█████████▌| 480/500 [00:02<00:00, 197.48it/s]100%|██████████| 500/500 [00:02<00:00, 197.90it/s]100%|██████████| 500/500 [00:02<00:00, 196.41it/s]
+INFO:lm_eval.api.task:Building contexts for truthfulqa_mc2 on rank 0...
+  0%|          | 0/817 [00:00<?, ?it/s] 12%|█▏        | 95/817 [00:00<00:00, 944.97it/s] 23%|██▎       | 191/817 [00:00<00:00, 948.35it/s] 35%|███▌      | 287/817 [00:00<00:00, 949.41it/s] 47%|████▋     | 383/817 [00:00<00:00, 953.39it/s] 59%|█████▉    | 480/817 [00:00<00:00, 958.19it/s] 71%|███████   | 576/817 [00:00<00:00, 958.01it/s] 82%|████████▏ | 673/817 [00:00<00:00, 960.91it/s] 94%|█████████▍| 770/817 [00:00<00:00, 962.05it/s]100%|██████████| 817/817 [00:00<00:00, 957.78it/s]
+INFO:lm_eval.api.task:Building contexts for winogrande on rank 0...
+  0%|          | 0/1267 [00:00<?, ?it/s]100%|██████████| 1267/1267 [00:00<00:00, 32228.85it/s]
+INFO:lm_eval.api.task:Building contexts for hellaswag on rank 0...
+  0%|          | 0/10042 [00:00<?, ?it/s]  0%|          | 33/10042 [00:00<00:30, 326.63it/s]  1%|          | 66/10042 [00:00<00:30, 327.62it/s]  1%|          | 99/10042 [00:00<00:30, 328.16it/s]  1%|▏         | 132/10042 [00:00<00:30, 328.20it/s]  2%|▏         | 165/10042 [00:00<00:30, 328.25it/s]  2%|▏         | 198/10042 [00:00<00:29, 328.58it/s]  2%|▏         | 231/10042 [00:00<00:29, 328.51it/s]  3%|▎         | 264/10042 [00:00<00:29, 327.81it/s]  3%|▎         | 297/10042 [00:00<00:29, 327.85it/s]  3%|▎         | 330/10042 [00:01<00:29, 327.92it/s]  4%|▎         | 363/10042 [00:01<00:29, 328.09it/s]  4%|▍         | 396/10042 [00:01<00:29, 327.87it/s]  4%|▍         | 429/10042 [00:01<00:29, 327.88it/s]  5%|▍         | 462/10042 [00:01<00:29, 327.58it/s]  5%|▍         | 495/10042 [00:01<00:29, 327.68it/s]  5%|▌         | 528/10042 [00:01<00:29, 327.59it/s]  6%|▌         | 561/10042 [00:01<00:28, 327.27it/s]  6%|▌         | 594/10042 [00:01<00:28, 327.19it/s]  6%|▌         | 627/10042 [00:01<00:28, 326.96it/s]  7%|▋         | 660/10042 [00:02<00:28, 326.75it/s]  7%|▋         | 693/10042 [00:02<00:28, 326.87it/s]  7%|▋         | 726/10042 [00:02<00:28, 326.96it/s]  8%|▊         | 759/10042 [00:02<00:28, 327.26it/s]  8%|▊         | 792/10042 [00:02<00:28, 327.22it/s]  8%|▊         | 825/10042 [00:02<00:28, 327.46it/s]  9%|▊         | 858/10042 [00:02<00:28, 327.70it/s]  9%|▉         | 891/10042 [00:02<00:27, 327.59it/s]  9%|▉         | 924/10042 [00:02<00:27, 327.80it/s] 10%|▉         | 957/10042 [00:02<00:27, 328.04it/s] 10%|▉         | 990/10042 [00:03<00:27, 328.16it/s] 10%|█         | 1023/10042 [00:03<00:27, 328.37it/s] 11%|█         | 1056/10042 [00:03<00:27, 328.17it/s] 11%|█         | 1089/10042 [00:03<00:27, 328.55it/s] 11%|█         | 1122/10042 [00:03<00:27, 328.29it/s] 12%|█▏        | 1155/10042 [00:03<00:27, 328.44it/s] 12%|█▏        | 1188/10042 [00:03<00:26, 328.06it/s] 12%|█▏        | 1221/10042 [00:03<00:26, 327.95it/s] 12%|█▏        | 1254/10042 [00:03<00:26, 328.03it/s] 13%|█▎        | 1287/10042 [00:03<00:26, 327.80it/s] 13%|█▎        | 1320/10042 [00:04<00:26, 328.05it/s] 13%|█▎        | 1353/10042 [00:04<00:26, 328.14it/s] 14%|█▍        | 1386/10042 [00:04<00:26, 328.39it/s] 14%|█▍        | 1419/10042 [00:04<00:26, 328.67it/s] 14%|█▍        | 1452/10042 [00:04<00:26, 328.41it/s] 15%|█▍        | 1486/10042 [00:04<00:25, 329.18it/s] 15%|█▌        | 1519/10042 [00:04<00:25, 329.03it/s] 15%|█▌        | 1553/10042 [00:04<00:25, 329.53it/s] 16%|█▌        | 1586/10042 [00:04<00:25, 329.39it/s] 16%|█▌        | 1619/10042 [00:04<00:25, 329.35it/s] 16%|█▋        | 1652/10042 [00:05<00:25, 329.19it/s] 17%|█▋        | 1685/10042 [00:05<00:25, 329.08it/s] 17%|█▋        | 1718/10042 [00:05<00:25, 328.65it/s] 17%|█▋        | 1751/10042 [00:05<00:25, 328.03it/s] 18%|█▊        | 1784/10042 [00:05<00:25, 327.77it/s] 18%|█▊        | 1817/10042 [00:05<00:25, 327.41it/s] 18%|█▊        | 1850/10042 [00:05<00:24, 327.87it/s] 19%|█▉        | 1883/10042 [00:05<00:24, 327.94it/s] 19%|█▉        | 1916/10042 [00:05<00:24, 327.96it/s] 19%|█▉        | 1949/10042 [00:05<00:24, 328.54it/s] 20%|█▉        | 1982/10042 [00:06<00:24, 328.51it/s] 20%|██        | 2015/10042 [00:06<00:24, 328.72it/s] 20%|██        | 2048/10042 [00:06<00:24, 329.05it/s] 21%|██        | 2081/10042 [00:06<00:24, 329.30it/s] 21%|██        | 2114/10042 [00:06<00:24, 328.71it/s] 21%|██▏       | 2147/10042 [00:06<00:24, 328.55it/s] 22%|██▏       | 2180/10042 [00:06<00:23, 328.43it/s] 22%|██▏       | 2213/10042 [00:06<00:23, 328.44it/s] 22%|██▏       | 2246/10042 [00:06<00:23, 328.42it/s] 23%|██▎       | 2279/10042 [00:06<00:23, 328.28it/s] 23%|██▎       | 2312/10042 [00:07<00:23, 328.15it/s] 23%|██▎       | 2345/10042 [00:07<00:23, 328.54it/s] 24%|██▎       | 2378/10042 [00:07<00:23, 328.51it/s] 24%|██▍       | 2411/10042 [00:07<00:23, 328.71it/s] 24%|██▍       | 2444/10042 [00:07<00:23, 328.57it/s] 25%|██▍       | 2478/10042 [00:07<00:22, 329.17it/s] 25%|██▌       | 2511/10042 [00:07<00:22, 329.11it/s] 25%|██▌       | 2544/10042 [00:07<00:22, 329.21it/s] 26%|██▌       | 2577/10042 [00:07<00:22, 329.07it/s] 26%|██▌       | 2610/10042 [00:07<00:22, 329.23it/s] 26%|██▋       | 2643/10042 [00:08<00:22, 329.20it/s] 27%|██▋       | 2676/10042 [00:09<01:56, 63.39it/s]  27%|██▋       | 2709/10042 [00:09<01:27, 83.52it/s] 27%|██▋       | 2742/10042 [00:09<01:07, 107.43it/s] 28%|██▊       | 2775/10042 [00:09<00:54, 134.46it/s] 28%|██▊       | 2808/10042 [00:09<00:44, 163.35it/s] 28%|██▊       | 2841/10042 [00:10<00:37, 192.19it/s] 29%|██▊       | 2874/10042 [00:10<00:32, 219.56it/s] 29%|██▉       | 2907/10042 [00:10<00:29, 243.89it/s] 29%|██▉       | 2940/10042 [00:10<00:26, 264.17it/s] 30%|██▉       | 2973/10042 [00:10<00:25, 280.87it/s] 30%|██▉       | 3006/10042 [00:10<00:23, 293.59it/s] 30%|███       | 3039/10042 [00:10<00:23, 302.90it/s] 31%|███       | 3072/10042 [00:10<00:22, 309.99it/s] 31%|███       | 3105/10042 [00:10<00:21, 315.34it/s] 31%|███▏      | 3139/10042 [00:10<00:21, 319.64it/s] 32%|███▏      | 3173/10042 [00:11<00:21, 322.94it/s] 32%|███▏      | 3207/10042 [00:11<00:21, 325.05it/s] 32%|███▏      | 3241/10042 [00:11<00:20, 327.11it/s] 33%|███▎      | 3275/10042 [00:11<00:20, 328.11it/s] 33%|███▎      | 3309/10042 [00:11<00:20, 328.70it/s] 33%|███▎      | 3343/10042 [00:11<00:20, 329.07it/s] 34%|███▎      | 3377/10042 [00:11<00:20, 329.42it/s] 34%|███▍      | 3411/10042 [00:11<00:20, 329.61it/s] 34%|███▍      | 3445/10042 [00:11<00:20, 329.23it/s] 35%|███▍      | 3478/10042 [00:11<00:19, 329.22it/s] 35%|███▍      | 3511/10042 [00:12<00:19, 329.04it/s] 35%|███▌      | 3544/10042 [00:12<00:19, 329.29it/s] 36%|███▌      | 3577/10042 [00:12<00:19, 329.05it/s] 36%|███▌      | 3610/10042 [00:12<00:19, 329.13it/s] 36%|███▋      | 3644/10042 [00:12<00:19, 329.92it/s] 37%|███▋      | 3678/10042 [00:12<00:19, 330.58it/s] 37%|███▋      | 3712/10042 [00:12<00:19, 330.87it/s] 37%|███▋      | 3746/10042 [00:12<00:19, 330.73it/s] 38%|███▊      | 3780/10042 [00:12<00:18, 330.88it/s] 38%|███▊      | 3814/10042 [00:13<00:18, 330.34it/s] 38%|███▊      | 3848/10042 [00:13<00:18, 330.15it/s] 39%|███▊      | 3882/10042 [00:13<00:18, 329.67it/s] 39%|███▉      | 3916/10042 [00:13<00:18, 329.71it/s] 39%|███▉      | 3949/10042 [00:13<00:18, 329.75it/s] 40%|███▉      | 3983/10042 [00:13<00:18, 329.82it/s] 40%|████      | 4017/10042 [00:13<00:18, 330.01it/s] 40%|████      | 4051/10042 [00:13<00:18, 330.54it/s] 41%|████      | 4085/10042 [00:13<00:17, 331.25it/s] 41%|████      | 4119/10042 [00:13<00:17, 331.74it/s] 41%|████▏     | 4153/10042 [00:14<00:17, 331.47it/s] 42%|████▏     | 4187/10042 [00:14<00:17, 331.48it/s] 42%|████▏     | 4221/10042 [00:14<00:17, 331.10it/s] 42%|████▏     | 4255/10042 [00:14<00:17, 330.86it/s] 43%|████▎     | 4289/10042 [00:14<00:17, 330.97it/s] 43%|████▎     | 4323/10042 [00:14<00:17, 330.86it/s] 43%|████▎     | 4357/10042 [00:14<00:17, 330.97it/s] 44%|████▎     | 4391/10042 [00:14<00:17, 330.72it/s] 44%|████▍     | 4425/10042 [00:14<00:16, 330.77it/s] 44%|████▍     | 4459/10042 [00:14<00:16, 330.66it/s] 45%|████▍     | 4493/10042 [00:15<00:16, 330.74it/s] 45%|████▌     | 4527/10042 [00:15<00:16, 331.01it/s] 45%|████▌     | 4561/10042 [00:15<00:16, 330.75it/s] 46%|████▌     | 4595/10042 [00:15<00:16, 330.41it/s] 46%|████▌     | 4629/10042 [00:15<00:16, 330.13it/s] 46%|████▋     | 4663/10042 [00:15<00:16, 329.52it/s] 47%|████▋     | 4697/10042 [00:15<00:16, 329.64it/s] 47%|████▋     | 4730/10042 [00:15<00:16, 329.49it/s] 47%|████▋     | 4763/10042 [00:15<00:16, 329.41it/s] 48%|████▊     | 4796/10042 [00:15<00:15, 329.13it/s] 48%|████▊     | 4829/10042 [00:16<00:15, 329.21it/s] 48%|████▊     | 4862/10042 [00:16<00:15, 329.25it/s] 49%|████▊     | 4895/10042 [00:16<00:15, 329.43it/s] 49%|████▉     | 4929/10042 [00:16<00:15, 329.74it/s] 49%|████▉     | 4963/10042 [00:16<00:15, 330.21it/s] 50%|████▉     | 4997/10042 [00:16<00:15, 330.32it/s] 50%|█████     | 5031/10042 [00:16<00:15, 330.58it/s] 50%|█████     | 5065/10042 [00:16<00:15, 329.79it/s] 51%|█████     | 5098/10042 [00:16<00:15, 329.56it/s] 51%|█████     | 5131/10042 [00:17<00:14, 329.09it/s] 51%|█████▏    | 5164/10042 [00:17<00:14, 329.28it/s] 52%|█████▏    | 5197/10042 [00:17<00:14, 329.12it/s] 52%|█████▏    | 5230/10042 [00:17<00:14, 329.34it/s] 52%|█████▏    | 5263/10042 [00:17<00:14, 329.18it/s] 53%|█████▎    | 5297/10042 [00:17<00:14, 329.57it/s] 53%|█████▎    | 5331/10042 [00:17<00:14, 329.89it/s] 53%|█████▎    | 5365/10042 [00:17<00:14, 330.26it/s] 54%|█████▍    | 5399/10042 [00:17<00:14, 330.44it/s] 54%|█████▍    | 5433/10042 [00:17<00:13, 330.18it/s] 54%|█████▍    | 5467/10042 [00:18<00:13, 329.93it/s] 55%|█████▍    | 5500/10042 [00:18<00:13, 329.47it/s] 55%|█████▌    | 5533/10042 [00:18<00:13, 329.34it/s] 55%|█████▌    | 5566/10042 [00:18<00:13, 329.06it/s] 56%|█████▌    | 5599/10042 [00:18<00:13, 328.91it/s] 56%|█████▌    | 5632/10042 [00:18<00:13, 328.84it/s] 56%|█████▋    | 5665/10042 [00:18<00:13, 328.46it/s] 57%|█████▋    | 5698/10042 [00:18<00:13, 328.46it/s] 57%|█████▋    | 5731/10042 [00:18<00:13, 328.75it/s] 57%|█████▋    | 5765/10042 [00:18<00:12, 329.40it/s] 58%|█████▊    | 5798/10042 [00:19<00:12, 329.41it/s] 58%|█████▊    | 5832/10042 [00:19<00:12, 330.00it/s] 58%|█████▊    | 5865/10042 [00:19<00:12, 329.71it/s] 59%|█████▊    | 5898/10042 [00:19<00:12, 329.72it/s] 59%|█████▉    | 5931/10042 [00:19<00:12, 329.38it/s] 59%|█████▉    | 5964/10042 [00:19<00:12, 328.77it/s] 60%|█████▉    | 5997/10042 [00:19<00:12, 328.67it/s] 60%|██████    | 6030/10042 [00:19<00:12, 328.15it/s] 60%|██████    | 6063/10042 [00:19<00:12, 328.13it/s] 61%|██████    | 6096/10042 [00:19<00:12, 328.10it/s] 61%|██████    | 6129/10042 [00:20<00:11, 328.17it/s] 61%|██████▏   | 6163/10042 [00:20<00:11, 328.56it/s] 62%|██████▏   | 6197/10042 [00:20<00:11, 329.20it/s] 62%|██████▏   | 6230/10042 [00:20<00:11, 329.19it/s] 62%|██████▏   | 6264/10042 [00:20<00:11, 329.55it/s] 63%|██████▎   | 6297/10042 [00:20<00:11, 329.40it/s] 63%|██████▎   | 6330/10042 [00:20<00:11, 329.57it/s] 63%|██████▎   | 6363/10042 [00:20<00:11, 329.31it/s] 64%|██████▎   | 6396/10042 [00:20<00:11, 328.35it/s] 64%|██████▍   | 6429/10042 [00:20<00:11, 328.16it/s] 64%|██████▍   | 6462/10042 [00:21<00:10, 328.10it/s] 65%|██████▍   | 6495/10042 [00:21<00:10, 328.58it/s] 65%|██████▌   | 6528/10042 [00:21<00:10, 328.40it/s] 65%|██████▌   | 6561/10042 [00:21<00:10, 328.65it/s] 66%|██████▌   | 6594/10042 [00:21<00:10, 329.02it/s] 66%|██████▌   | 6627/10042 [00:21<00:10, 329.28it/s] 66%|██████▋   | 6661/10042 [00:21<00:10, 329.90it/s] 67%|██████▋   | 6695/10042 [00:21<00:10, 330.08it/s] 67%|██████▋   | 6729/10042 [00:21<00:10, 329.47it/s] 67%|██████▋   | 6762/10042 [00:21<00:09, 329.32it/s] 68%|██████▊   | 6795/10042 [00:22<00:09, 329.15it/s] 68%|██████▊   | 6828/10042 [00:22<00:09, 329.07it/s] 68%|██████▊   | 6861/10042 [00:22<00:09, 328.88it/s] 69%|██████▊   | 6894/10042 [00:22<00:09, 328.45it/s] 69%|██████▉   | 6927/10042 [00:22<00:09, 328.19it/s] 69%|██████▉   | 6960/10042 [00:22<00:09, 328.33it/s] 70%|██████▉   | 6994/10042 [00:22<00:09, 329.03it/s] 70%|██████▉   | 7027/10042 [00:22<00:09, 329.23it/s] 70%|███████   | 7061/10042 [00:22<00:09, 329.56it/s] 71%|███████   | 7094/10042 [00:22<00:08, 329.49it/s] 71%|███████   | 7127/10042 [00:23<00:08, 329.42it/s] 71%|███████▏  | 7160/10042 [00:23<00:08, 328.93it/s] 72%|███████▏  | 7193/10042 [00:23<00:08, 328.58it/s] 72%|███████▏  | 7226/10042 [00:23<00:08, 328.67it/s] 72%|███████▏  | 7259/10042 [00:23<00:08, 328.51it/s] 73%|███████▎  | 7292/10042 [00:23<00:08, 328.11it/s] 73%|███████▎  | 7325/10042 [00:23<00:08, 328.02it/s] 73%|███████▎  | 7358/10042 [00:23<00:08, 328.18it/s] 74%|███████▎  | 7392/10042 [00:23<00:08, 328.74it/s] 74%|███████▍  | 7425/10042 [00:23<00:07, 329.02it/s] 74%|███████▍  | 7458/10042 [00:24<00:07, 329.13it/s] 75%|███████▍  | 7491/10042 [00:24<00:07, 328.87it/s] 75%|███████▍  | 7524/10042 [00:24<00:07, 329.03it/s] 75%|███████▌  | 7557/10042 [00:24<00:07, 328.93it/s] 76%|███████▌  | 7590/10042 [00:24<00:07, 328.73it/s] 76%|███████▌  | 7623/10042 [00:24<00:07, 328.75it/s] 76%|███████▌  | 7656/10042 [00:24<00:07, 328.16it/s] 77%|███████▋  | 7689/10042 [00:24<00:07, 328.15it/s] 77%|███████▋  | 7722/10042 [00:24<00:07, 328.22it/s] 77%|███████▋  | 7755/10042 [00:24<00:06, 328.53it/s] 78%|███████▊  | 7788/10042 [00:25<00:06, 328.82it/s] 78%|███████▊  | 7821/10042 [00:25<00:06, 329.11it/s] 78%|███████▊  | 7855/10042 [00:25<00:06, 329.51it/s] 79%|███████▊  | 7889/10042 [00:25<00:06, 329.96it/s] 79%|███████▉  | 7923/10042 [00:25<00:06, 330.07it/s] 79%|███████▉  | 7957/10042 [00:25<00:06, 330.10it/s] 80%|███████▉  | 7991/10042 [00:25<00:06, 329.77it/s] 80%|███████▉  | 8024/10042 [00:25<00:06, 329.21it/s] 80%|████████  | 8057/10042 [00:25<00:06, 328.76it/s] 81%|████████  | 8090/10042 [00:25<00:05, 328.85it/s] 81%|████████  | 8123/10042 [00:26<00:05, 328.91it/s] 81%|████████  | 8156/10042 [00:26<00:05, 328.85it/s] 82%|████████▏ | 8189/10042 [00:26<00:05, 328.54it/s] 82%|████████▏ | 8222/10042 [00:26<00:05, 328.62it/s] 82%|████████▏ | 8255/10042 [00:26<00:05, 329.01it/s] 83%|████████▎ | 8288/10042 [00:26<00:05, 329.05it/s] 83%|████████▎ | 8322/10042 [00:26<00:05, 329.56it/s] 83%|████████▎ | 8355/10042 [00:26<00:05, 329.62it/s] 84%|████████▎ | 8389/10042 [00:26<00:05, 329.92it/s] 84%|████████▍ | 8422/10042 [00:27<00:04, 329.27it/s] 84%|████████▍ | 8455/10042 [00:27<00:04, 329.40it/s] 85%|████████▍ | 8488/10042 [00:27<00:04, 329.27it/s] 85%|████████▍ | 8521/10042 [00:27<00:04, 329.18it/s] 85%|████████▌ | 8554/10042 [00:27<00:04, 329.05it/s] 86%|████████▌ | 8587/10042 [00:27<00:04, 328.77it/s] 86%|████████▌ | 8620/10042 [00:27<00:04, 328.65it/s] 86%|████████▌ | 8653/10042 [00:27<00:04, 328.44it/s] 86%|████████▋ | 8686/10042 [00:27<00:04, 328.78it/s] 87%|████████▋ | 8719/10042 [00:27<00:04, 328.69it/s] 87%|████████▋ | 8752/10042 [00:28<00:03, 328.77it/s] 87%|████████▋ | 8785/10042 [00:28<00:03, 328.95it/s] 88%|████████▊ | 8818/10042 [00:28<00:03, 328.75it/s] 88%|████████▊ | 8851/10042 [00:28<00:03, 328.73it/s] 88%|████████▊ | 8884/10042 [00:28<00:03, 328.69it/s] 89%|████████▉ | 8917/10042 [00:28<00:03, 328.82it/s] 89%|████████▉ | 8950/10042 [00:28<00:03, 328.94it/s] 89%|████████▉ | 8983/10042 [00:28<00:03, 328.82it/s] 90%|████████▉ | 9016/10042 [00:28<00:03, 328.73it/s] 90%|█████████ | 9049/10042 [00:28<00:03, 328.58it/s] 90%|█████████ | 9082/10042 [00:29<00:02, 328.63it/s] 91%|█████████ | 9115/10042 [00:29<00:02, 328.30it/s] 91%|█████████ | 9148/10042 [00:29<00:02, 328.70it/s] 91%|█████████▏| 9181/10042 [00:29<00:02, 329.07it/s] 92%|█████████▏| 9214/10042 [00:29<00:02, 329.22it/s] 92%|█████████▏| 9248/10042 [00:29<00:02, 329.55it/s] 92%|█████████▏| 9281/10042 [00:29<00:02, 329.04it/s] 93%|█████████▎| 9314/10042 [00:29<00:02, 329.23it/s] 93%|█████████▎| 9348/10042 [00:29<00:02, 329.56it/s] 93%|█████████▎| 9381/10042 [00:29<00:02, 329.56it/s] 94%|█████████▎| 9414/10042 [00:30<00:01, 329.44it/s] 94%|█████████▍| 9447/10042 [00:30<00:01, 328.95it/s] 94%|█████████▍| 9480/10042 [00:30<00:01, 328.45it/s] 95%|█████████▍| 9513/10042 [00:30<00:01, 328.31it/s] 95%|█████████▌| 9546/10042 [00:30<00:01, 328.50it/s] 95%|█████████▌| 9579/10042 [00:30<00:01, 328.46it/s] 96%|█████████▌| 9612/10042 [00:30<00:01, 328.64it/s] 96%|█████████▌| 9645/10042 [00:30<00:01, 328.20it/s] 96%|█████████▋| 9678/10042 [00:30<00:01, 328.54it/s] 97%|█████████▋| 9711/10042 [00:30<00:01, 328.93it/s] 97%|█████████▋| 9744/10042 [00:31<00:00, 328.90it/s] 97%|█████████▋| 9778/10042 [00:31<00:00, 329.51it/s] 98%|█████████▊| 9811/10042 [00:31<00:00, 329.56it/s] 98%|█████████▊| 9844/10042 [00:31<00:00, 329.28it/s] 98%|█████████▊| 9877/10042 [00:31<00:00, 328.74it/s] 99%|█████████▊| 9910/10042 [00:31<00:00, 329.06it/s] 99%|█████████▉| 9943/10042 [00:31<00:00, 328.83it/s] 99%|█████████▉| 9976/10042 [00:31<00:00, 328.97it/s]100%|█████████▉| 10009/10042 [00:31<00:00, 328.97it/s]100%|██████████| 10042/10042 [00:31<00:00, 328.54it/s]100%|██████████| 10042/10042 [00:31<00:00, 314.51it/s]
+INFO:lm_eval.api.task:Building contexts for arc_challenge on rank 0...
+  0%|          | 0/1172 [00:00<?, ?it/s]  1%|▏         | 16/1172 [00:00<00:07, 150.78it/s]  3%|▎         | 32/1172 [00:00<00:07, 151.65it/s]  4%|▍         | 48/1172 [00:00<00:07, 152.06it/s]  5%|▌         | 64/1172 [00:00<00:07, 152.01it/s]  7%|▋         | 80/1172 [00:00<00:07, 152.20it/s]  8%|▊         | 96/1172 [00:00<00:07, 152.44it/s] 10%|▉         | 112/1172 [00:00<00:06, 152.40it/s] 11%|█         | 128/1172 [00:00<00:06, 152.33it/s] 12%|█▏        | 144/1172 [00:00<00:06, 152.26it/s] 14%|█▎        | 160/1172 [00:01<00:06, 152.06it/s] 15%|█▌        | 176/1172 [00:01<00:06, 152.05it/s] 16%|█▋        | 192/1172 [00:01<00:06, 152.15it/s] 18%|█▊        | 208/1172 [00:01<00:06, 152.09it/s] 19%|█▉        | 224/1172 [00:01<00:06, 152.08it/s] 20%|██        | 240/1172 [00:01<00:06, 152.10it/s] 22%|██▏       | 256/1172 [00:01<00:06, 152.02it/s] 23%|██▎       | 272/1172 [00:01<00:05, 152.17it/s] 25%|██▍       | 288/1172 [00:01<00:05, 152.32it/s] 26%|██▌       | 304/1172 [00:01<00:05, 152.26it/s] 27%|██▋       | 320/1172 [00:02<00:05, 152.17it/s] 29%|██▊       | 336/1172 [00:02<00:05, 152.04it/s] 30%|███       | 352/1172 [00:02<00:05, 151.80it/s] 31%|███▏      | 368/1172 [00:02<00:05, 151.78it/s] 33%|███▎      | 384/1172 [00:02<00:05, 151.95it/s] 34%|███▍      | 400/1172 [00:02<00:05, 151.91it/s] 35%|███▌      | 416/1172 [00:02<00:04, 151.94it/s] 37%|███▋      | 432/1172 [00:02<00:04, 152.04it/s] 38%|███▊      | 448/1172 [00:02<00:04, 151.97it/s] 40%|███▉      | 464/1172 [00:03<00:04, 152.00it/s] 41%|████      | 480/1172 [00:03<00:04, 151.87it/s] 42%|████▏     | 496/1172 [00:03<00:04, 151.78it/s] 44%|████▎     | 512/1172 [00:03<00:04, 151.73it/s] 45%|████▌     | 528/1172 [00:03<00:04, 151.84it/s] 46%|████▋     | 544/1172 [00:03<00:04, 152.04it/s] 48%|████▊     | 560/1172 [00:03<00:04, 152.43it/s] 49%|████▉     | 576/1172 [00:03<00:03, 152.35it/s] 51%|█████     | 592/1172 [00:03<00:03, 152.43it/s] 52%|█████▏    | 608/1172 [00:03<00:03, 152.66it/s] 53%|█████▎    | 624/1172 [00:04<00:03, 152.92it/s] 55%|█████▍    | 640/1172 [00:04<00:03, 153.20it/s] 56%|█████▌    | 656/1172 [00:04<00:03, 153.42it/s] 57%|█████▋    | 672/1172 [00:04<00:03, 153.58it/s] 59%|█████▊    | 688/1172 [00:04<00:03, 153.66it/s] 60%|██████    | 704/1172 [00:04<00:03, 153.61it/s] 61%|██████▏   | 720/1172 [00:04<00:02, 153.62it/s] 63%|██████▎   | 736/1172 [00:04<00:02, 153.63it/s] 64%|██████▍   | 752/1172 [00:04<00:02, 153.70it/s] 66%|██████▌   | 768/1172 [00:05<00:02, 154.06it/s] 67%|██████▋   | 784/1172 [00:05<00:02, 154.21it/s] 68%|██████▊   | 800/1172 [00:05<00:02, 154.41it/s] 70%|██████▉   | 816/1172 [00:05<00:02, 154.24it/s] 71%|███████   | 832/1172 [00:05<00:02, 154.17it/s] 72%|███████▏  | 848/1172 [00:05<00:02, 154.16it/s] 74%|███████▎  | 864/1172 [00:05<00:01, 154.12it/s] 75%|███████▌  | 880/1172 [00:05<00:01, 154.16it/s] 76%|███████▋  | 896/1172 [00:05<00:01, 154.03it/s] 78%|███████▊  | 912/1172 [00:05<00:01, 154.14it/s] 79%|███████▉  | 928/1172 [00:06<00:01, 154.29it/s] 81%|████████  | 944/1172 [00:06<00:01, 154.32it/s] 82%|████████▏ | 960/1172 [00:06<00:01, 154.39it/s] 83%|████████▎ | 976/1172 [00:06<00:01, 154.37it/s] 85%|████████▍ | 992/1172 [00:06<00:01, 154.55it/s] 86%|████████▌ | 1008/1172 [00:06<00:01, 154.71it/s] 87%|████████▋ | 1024/1172 [00:06<00:00, 154.75it/s] 89%|████████▊ | 1040/1172 [00:06<00:00, 154.81it/s] 90%|█████████ | 1056/1172 [00:06<00:00, 154.70it/s] 91%|█████████▏| 1072/1172 [00:07<00:00, 154.72it/s] 93%|█████████▎| 1088/1172 [00:07<00:00, 154.85it/s] 94%|█████████▍| 1104/1172 [00:07<00:00, 154.85it/s] 96%|█████████▌| 1120/1172 [00:07<00:00, 154.94it/s] 97%|█████████▋| 1136/1172 [00:07<00:00, 155.00it/s] 98%|█████████▊| 1152/1172 [00:07<00:00, 154.92it/s]100%|█████████▉| 1168/1172 [00:07<00:00, 154.85it/s]100%|██████████| 1172/1172 [00:07<00:00, 153.19it/s]
+INFO:lm_eval.api.task:Building contexts for arc_easy on rank 0...
+  0%|          | 0/2376 [00:00<?, ?it/s]  1%|          | 16/2376 [00:00<00:15, 153.58it/s]  1%|▏         | 32/2376 [00:00<00:15, 154.28it/s]  2%|▏         | 48/2376 [00:00<00:15, 154.63it/s]  3%|▎         | 64/2376 [00:00<00:14, 154.90it/s]  3%|▎         | 80/2376 [00:00<00:14, 154.98it/s]  4%|▍         | 96/2376 [00:00<00:14, 155.14it/s]  5%|▍         | 112/2376 [00:00<00:14, 155.25it/s]  5%|▌         | 128/2376 [00:00<00:14, 155.32it/s]  6%|▌         | 144/2376 [00:00<00:14, 155.40it/s]  7%|▋         | 160/2376 [00:01<00:14, 155.38it/s]  7%|▋         | 176/2376 [00:01<00:14, 155.17it/s]  8%|▊         | 192/2376 [00:01<00:14, 155.03it/s]  9%|▉         | 208/2376 [00:01<00:13, 154.97it/s]  9%|▉         | 224/2376 [00:01<00:13, 154.75it/s] 10%|█         | 240/2376 [00:01<00:13, 154.74it/s] 11%|█         | 256/2376 [00:01<00:13, 154.77it/s] 11%|█▏        | 272/2376 [00:01<00:13, 154.71it/s] 12%|█▏        | 288/2376 [00:01<00:13, 154.73it/s] 13%|█▎        | 304/2376 [00:01<00:13, 154.75it/s] 13%|█▎        | 320/2376 [00:02<00:13, 154.58it/s] 14%|█▍        | 336/2376 [00:02<00:13, 154.65it/s] 15%|█▍        | 352/2376 [00:02<00:13, 154.75it/s] 15%|█▌        | 368/2376 [00:02<00:12, 154.69it/s] 16%|█▌        | 384/2376 [00:02<00:12, 154.68it/s] 17%|█▋        | 400/2376 [00:02<00:12, 154.69it/s] 18%|█▊        | 416/2376 [00:02<00:12, 154.60it/s] 18%|█▊        | 432/2376 [00:02<00:12, 154.84it/s] 19%|█▉        | 448/2376 [00:02<00:12, 155.01it/s] 20%|█▉        | 464/2376 [00:02<00:12, 154.94it/s] 20%|██        | 480/2376 [00:03<00:12, 154.99it/s] 21%|██        | 496/2376 [00:03<00:12, 154.92it/s] 22%|██▏       | 512/2376 [00:03<00:12, 155.12it/s] 22%|██▏       | 528/2376 [00:03<00:11, 155.10it/s] 23%|██▎       | 544/2376 [00:03<00:11, 155.29it/s] 24%|██▎       | 560/2376 [00:03<00:11, 155.32it/s] 24%|██▍       | 576/2376 [00:03<00:11, 155.40it/s] 25%|██▍       | 592/2376 [00:03<00:11, 155.46it/s] 26%|██▌       | 608/2376 [00:03<00:11, 155.45it/s] 26%|██▋       | 624/2376 [00:04<00:11, 155.52it/s] 27%|██▋       | 640/2376 [00:04<00:11, 155.40it/s] 28%|██▊       | 656/2376 [00:04<00:11, 155.33it/s] 28%|██▊       | 672/2376 [00:04<00:10, 155.42it/s] 29%|██▉       | 688/2376 [00:04<00:10, 155.35it/s] 30%|██▉       | 704/2376 [00:04<00:10, 155.55it/s] 30%|███       | 720/2376 [00:04<00:10, 155.54it/s] 31%|███       | 736/2376 [00:04<00:10, 155.71it/s] 32%|███▏      | 752/2376 [00:04<00:10, 155.76it/s] 32%|███▏      | 768/2376 [00:04<00:10, 155.63it/s] 33%|███▎      | 784/2376 [00:05<00:10, 155.51it/s] 34%|███▎      | 800/2376 [00:05<00:10, 155.41it/s] 34%|███▍      | 816/2376 [00:05<00:10, 155.34it/s] 35%|███▌      | 832/2376 [00:05<00:09, 155.35it/s] 36%|███▌      | 848/2376 [00:05<00:09, 155.29it/s] 36%|███▋      | 864/2376 [00:05<00:09, 155.24it/s] 37%|███▋      | 880/2376 [00:05<00:09, 155.15it/s] 38%|███▊      | 896/2376 [00:05<00:09, 155.10it/s] 38%|███▊      | 912/2376 [00:05<00:09, 155.21it/s] 39%|███▉      | 928/2376 [00:05<00:09, 155.05it/s] 40%|███▉      | 944/2376 [00:06<00:09, 155.03it/s] 40%|████      | 960/2376 [00:06<00:09, 154.96it/s] 41%|████      | 976/2376 [00:06<00:09, 154.92it/s] 42%|████▏     | 992/2376 [00:06<00:08, 154.87it/s] 42%|████▏     | 1008/2376 [00:06<00:08, 154.86it/s] 43%|████▎     | 1024/2376 [00:06<00:08, 155.08it/s] 44%|████▍     | 1040/2376 [00:06<00:08, 154.99it/s] 44%|████▍     | 1056/2376 [00:06<00:08, 154.97it/s] 45%|████▌     | 1072/2376 [00:06<00:08, 155.14it/s] 46%|████▌     | 1088/2376 [00:07<00:08, 155.15it/s] 46%|████▋     | 1104/2376 [00:07<00:08, 155.25it/s] 47%|████▋     | 1120/2376 [00:07<00:08, 155.13it/s] 48%|████▊     | 1136/2376 [00:07<00:07, 155.13it/s] 48%|████▊     | 1152/2376 [00:07<00:07, 155.34it/s] 49%|████▉     | 1168/2376 [00:07<00:07, 155.32it/s] 50%|████▉     | 1184/2376 [00:07<00:07, 155.47it/s] 51%|█████     | 1200/2376 [00:07<00:07, 155.52it/s] 51%|█████     | 1216/2376 [00:07<00:07, 155.73it/s] 52%|█████▏    | 1232/2376 [00:07<00:07, 155.84it/s] 53%|█████▎    | 1248/2376 [00:08<00:07, 155.82it/s] 53%|█████▎    | 1264/2376 [00:08<00:07, 155.85it/s] 54%|█████▍    | 1280/2376 [00:08<00:07, 155.91it/s] 55%|█████▍    | 1296/2376 [00:08<00:06, 155.99it/s] 55%|█████▌    | 1312/2376 [00:08<00:06, 156.04it/s] 56%|█████▌    | 1328/2376 [00:08<00:06, 155.92it/s] 57%|█████▋    | 1344/2376 [00:08<00:06, 155.86it/s] 57%|█████▋    | 1360/2376 [00:08<00:06, 155.57it/s] 58%|█████▊    | 1376/2376 [00:08<00:06, 155.36it/s] 59%|█████▊    | 1392/2376 [00:08<00:06, 155.31it/s] 59%|█████▉    | 1408/2376 [00:09<00:06, 155.10it/s] 60%|█████▉    | 1424/2376 [00:09<00:06, 155.10it/s] 61%|██████    | 1440/2376 [00:09<00:06, 154.94it/s] 61%|██████▏   | 1456/2376 [00:09<00:05, 154.91it/s] 62%|██████▏   | 1472/2376 [00:09<00:05, 155.08it/s] 63%|██████▎   | 1488/2376 [00:09<00:05, 155.12it/s] 63%|██████▎   | 1504/2376 [00:09<00:05, 155.24it/s] 64%|██████▍   | 1520/2376 [00:09<00:05, 155.14it/s] 65%|██████▍   | 1536/2376 [00:09<00:05, 155.00it/s] 65%|██████▌   | 1552/2376 [00:10<00:05, 154.98it/s] 66%|██████▌   | 1568/2376 [00:10<00:05, 154.85it/s] 67%|██████▋   | 1584/2376 [00:10<00:05, 154.92it/s] 67%|██████▋   | 1600/2376 [00:10<00:05, 154.87it/s] 68%|██████▊   | 1616/2376 [00:10<00:04, 154.99it/s] 69%|██████▊   | 1632/2376 [00:10<00:04, 155.23it/s] 69%|██████▉   | 1648/2376 [00:10<00:04, 155.18it/s] 70%|███████   | 1664/2376 [00:10<00:04, 155.14it/s] 71%|███████   | 1680/2376 [00:10<00:04, 155.18it/s] 71%|███████▏  | 1696/2376 [00:10<00:04, 155.24it/s] 72%|███████▏  | 1712/2376 [00:11<00:04, 155.24it/s] 73%|███████▎  | 1728/2376 [00:11<00:04, 155.26it/s] 73%|███████▎  | 1744/2376 [00:11<00:04, 155.43it/s] 74%|███████▍  | 1760/2376 [00:11<00:03, 155.26it/s] 75%|███████▍  | 1776/2376 [00:11<00:03, 155.35it/s] 75%|███████▌  | 1792/2376 [00:11<00:03, 155.60it/s] 76%|███████▌  | 1808/2376 [00:11<00:03, 155.63it/s] 77%|███████▋  | 1824/2376 [00:11<00:03, 155.78it/s] 77%|███████▋  | 1840/2376 [00:11<00:03, 155.56it/s] 78%|███████▊  | 1856/2376 [00:11<00:03, 155.50it/s] 79%|███████▉  | 1872/2376 [00:12<00:03, 155.55it/s] 79%|███████▉  | 1888/2376 [00:12<00:03, 155.46it/s] 80%|████████  | 1904/2376 [00:12<00:03, 155.50it/s] 81%|████████  | 1920/2376 [00:12<00:02, 155.36it/s] 81%|████████▏ | 1936/2376 [00:12<00:02, 155.21it/s] 82%|████████▏ | 1952/2376 [00:12<00:02, 155.20it/s] 83%|████████▎ | 1968/2376 [00:12<00:02, 155.17it/s] 84%|████████▎ | 1984/2376 [00:12<00:02, 155.19it/s] 84%|████████▍ | 2000/2376 [00:12<00:02, 155.01it/s] 85%|████████▍ | 2016/2376 [00:12<00:02, 154.93it/s] 86%|████████▌ | 2032/2376 [00:13<00:02, 154.87it/s] 86%|████████▌ | 2048/2376 [00:13<00:02, 154.87it/s] 87%|████████▋ | 2064/2376 [00:13<00:02, 154.88it/s] 88%|████████▊ | 2080/2376 [00:13<00:01, 154.79it/s] 88%|████████▊ | 2096/2376 [00:13<00:01, 154.77it/s] 89%|████████▉ | 2112/2376 [00:13<00:01, 154.77it/s] 90%|████████▉ | 2128/2376 [00:13<00:01, 154.77it/s] 90%|█████████ | 2144/2376 [00:13<00:01, 154.95it/s] 91%|█████████ | 2160/2376 [00:13<00:01, 154.81it/s] 92%|█████████▏| 2176/2376 [00:14<00:01, 154.78it/s] 92%|█████████▏| 2192/2376 [00:14<00:01, 154.84it/s] 93%|█████████▎| 2208/2376 [00:14<00:01, 154.89it/s] 94%|█████████▎| 2224/2376 [00:14<00:00, 154.96it/s] 94%|█████████▍| 2240/2376 [00:14<00:00, 154.94it/s] 95%|█████████▍| 2256/2376 [00:14<00:00, 155.12it/s] 96%|█████████▌| 2272/2376 [00:14<00:00, 155.28it/s] 96%|█████████▋| 2288/2376 [00:14<00:00, 155.22it/s] 97%|█████████▋| 2304/2376 [00:14<00:00, 155.38it/s] 98%|█████████▊| 2320/2376 [00:14<00:00, 155.31it/s] 98%|█████████▊| 2336/2376 [00:15<00:00, 155.37it/s] 99%|█████████▉| 2352/2376 [00:15<00:00, 155.48it/s]100%|█████████▉| 2368/2376 [00:15<00:00, 155.36it/s]100%|██████████| 2376/2376 [00:15<00:00, 155.18it/s]
+INFO:lm_eval.evaluator:Running loglikelihood requests
+INFO:__main__:First forward diagnostics: input_dtype=torch.int64 input_shape=(1, 372) position_ids_dtype=torch.int64 attention_mask_dtype=torch.int64 attention_mask_shape=(1, 372) parameter_dtype=torch.bfloat16
+INFO:__main__:First forward output diagnostics: output_type=CausalLMOutputWithPast logits_dtype=torch.bfloat16 logits_shape=(1, 372, 128000)
+INFO:__main__:Forward perf checkpoint: calls=500 input_tokens=162454 prep=0.051s forward=13.875s output=0.000s total=13.927s avg_call=0.0279s
+INFO:__main__:Forward perf checkpoint: calls=1000 input_tokens=309468 prep=0.081s forward=25.526s output=0.001s total=25.607s avg_call=0.0256s
+INFO:__main__:Forward perf checkpoint: calls=1500 input_tokens=479123 prep=0.111s forward=37.179s output=0.001s total=37.291s avg_call=0.0249s
+INFO:__main__:Forward perf checkpoint: calls=2000 input_tokens=1280500 prep=0.141s forward=48.872s output=0.001s total=49.014s avg_call=0.0245s
+INFO:__main__:Forward perf checkpoint: calls=2500 input_tokens=2076619 prep=0.171s forward=60.572s output=0.001s total=60.745s avg_call=0.0243s
+INFO:__main__:Forward perf checkpoint: calls=3000 input_tokens=2869376 prep=0.201s forward=72.284s output=0.002s total=72.487s avg_call=0.0242s
+INFO:__main__:Forward perf checkpoint: calls=3500 input_tokens=3668475 prep=0.231s forward=83.994s output=0.002s total=84.228s avg_call=0.0241s
+INFO:__main__:Forward perf checkpoint: calls=4000 input_tokens=4468416 prep=0.262s forward=95.698s output=0.002s total=95.962s avg_call=0.0240s
+INFO:__main__:Forward perf checkpoint: calls=4500 input_tokens=5278519 prep=0.292s forward=107.397s output=0.003s total=107.692s avg_call=0.0239s
+INFO:__main__:Forward perf checkpoint: calls=5000 input_tokens=6073763 prep=0.322s forward=119.095s output=0.003s total=119.420s avg_call=0.0239s
+INFO:__main__:Forward perf checkpoint: calls=5500 input_tokens=6879162 prep=0.352s forward=130.807s output=0.003s total=131.163s avg_call=0.0238s
+INFO:__main__:Forward perf checkpoint: calls=6000 input_tokens=7686140 prep=0.382s forward=142.501s output=0.004s total=142.887s avg_call=0.0238s
+INFO:__main__:Forward perf checkpoint: calls=6500 input_tokens=8498090 prep=0.413s forward=154.191s output=0.004s total=154.607s avg_call=0.0238s
+INFO:__main__:Forward perf checkpoint: calls=7000 input_tokens=9302407 prep=0.443s forward=165.868s output=0.004s total=166.315s avg_call=0.0238s
+INFO:__main__:Forward perf checkpoint: calls=7500 input_tokens=10112279 prep=0.473s forward=177.543s output=0.004s total=178.021s avg_call=0.0237s
+INFO:__main__:Forward perf checkpoint: calls=8000 input_tokens=10916476 prep=0.503s forward=189.231s output=0.005s total=189.739s avg_call=0.0237s
+INFO:__main__:Forward perf checkpoint: calls=8500 input_tokens=11715119 prep=0.534s forward=200.915s output=0.005s total=201.454s avg_call=0.0237s
+INFO:__main__:Forward perf checkpoint: calls=9000 input_tokens=12517762 prep=0.564s forward=212.598s output=0.005s total=213.167s avg_call=0.0237s
+INFO:__main__:Forward perf checkpoint: calls=9500 input_tokens=13318054 prep=0.594s forward=224.270s output=0.006s total=224.869s avg_call=0.0237s
+INFO:__main__:Forward perf checkpoint: calls=10000 input_tokens=14117283 prep=0.624s forward=235.821s output=0.006s total=236.450s avg_call=0.0236s
+INFO:__main__:Forward perf checkpoint: calls=10500 input_tokens=14916806 prep=0.653s forward=247.373s output=0.006s total=248.033s avg_call=0.0236s
+INFO:__main__:Forward perf checkpoint: calls=11000 input_tokens=15719816 prep=0.683s forward=258.952s output=0.007s total=259.642s avg_call=0.0236s
+INFO:__main__:Forward perf checkpoint: calls=11500 input_tokens=16520510 prep=0.713s forward=270.529s output=0.007s total=271.249s avg_call=0.0236s
+INFO:__main__:Forward perf checkpoint: calls=12000 input_tokens=17330178 prep=0.743s forward=282.117s output=0.007s total=282.866s avg_call=0.0236s
+INFO:__main__:Forward perf checkpoint: calls=12500 input_tokens=18133568 prep=0.772s forward=293.709s output=0.007s total=294.489s avg_call=0.0236s
+INFO:__main__:Forward perf checkpoint: calls=13000 input_tokens=18938416 prep=0.802s forward=305.309s output=0.008s total=306.119s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=13500 input_tokens=19734900 prep=0.832s forward=316.911s output=0.008s total=317.751s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=14000 input_tokens=20533093 prep=0.862s forward=328.522s output=0.008s total=329.392s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=14500 input_tokens=21337074 prep=0.892s forward=340.126s output=0.009s total=341.027s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=15000 input_tokens=22137351 prep=0.922s forward=351.747s output=0.009s total=352.677s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=15500 input_tokens=22929691 prep=0.952s forward=363.355s output=0.009s total=364.315s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=16000 input_tokens=23718226 prep=0.982s forward=374.956s output=0.010s total=375.947s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=16500 input_tokens=24516872 prep=1.011s forward=386.583s output=0.010s total=387.604s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=17000 input_tokens=25326011 prep=1.041s forward=398.214s output=0.010s total=399.265s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=17500 input_tokens=26128373 prep=1.071s forward=409.846s output=0.010s total=410.927s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=18000 input_tokens=26934273 prep=1.101s forward=421.473s output=0.011s total=422.585s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=18500 input_tokens=27755632 prep=1.131s forward=433.105s output=0.011s total=434.247s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=19000 input_tokens=28564028 prep=1.161s forward=444.738s output=0.011s total=445.911s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=19500 input_tokens=29367027 prep=1.191s forward=456.363s output=0.012s total=457.566s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=20000 input_tokens=30181765 prep=1.221s forward=467.997s output=0.012s total=469.230s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=20500 input_tokens=30980864 prep=1.251s forward=479.616s output=0.012s total=480.878s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=21000 input_tokens=31783257 prep=1.280s forward=491.235s output=0.012s total=492.528s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=21500 input_tokens=32580498 prep=1.310s forward=502.859s output=0.013s total=504.182s avg_call=0.0235s
+INFO:__main__:Forward perf checkpoint: calls=22000 input_tokens=33379860 prep=1.340s forward=514.484s output=0.013s total=515.837s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=22500 input_tokens=34170028 prep=1.370s forward=526.106s output=0.013s total=527.489s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=23000 input_tokens=34967100 prep=1.400s forward=537.728s output=0.014s total=539.141s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=23500 input_tokens=35771606 prep=1.430s forward=549.356s output=0.014s total=550.800s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=24000 input_tokens=36568517 prep=1.460s forward=560.981s output=0.014s total=562.455s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=24500 input_tokens=37382616 prep=1.489s forward=572.609s output=0.014s total=574.113s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=25000 input_tokens=38189151 prep=1.519s forward=584.239s output=0.015s total=585.773s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=25500 input_tokens=38997615 prep=1.549s forward=595.869s output=0.015s total=597.434s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=26000 input_tokens=39781838 prep=1.579s forward=607.484s output=0.015s total=609.079s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=26500 input_tokens=40578098 prep=1.609s forward=619.114s output=0.015s total=620.738s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=27000 input_tokens=41389831 prep=1.639s forward=630.742s output=0.016s total=632.397s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=27500 input_tokens=42192552 prep=1.669s forward=642.367s output=0.016s total=644.052s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=28000 input_tokens=42994888 prep=1.699s forward=653.989s output=0.016s total=655.704s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=28500 input_tokens=43796995 prep=1.729s forward=665.612s output=0.017s total=667.358s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=29000 input_tokens=44594868 prep=1.759s forward=677.251s output=0.017s total=679.026s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=29500 input_tokens=45386916 prep=1.789s forward=688.878s output=0.017s total=690.684s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=30000 input_tokens=46190407 prep=1.819s forward=700.499s output=0.018s total=702.335s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=30500 input_tokens=46989500 prep=1.849s forward=712.128s output=0.018s total=713.994s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=31000 input_tokens=47800177 prep=1.878s forward=723.758s output=0.018s total=725.655s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=31500 input_tokens=48599215 prep=1.908s forward=735.380s output=0.018s total=737.306s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=32000 input_tokens=49405012 prep=1.938s forward=746.997s output=0.019s total=748.953s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=32500 input_tokens=50192173 prep=1.968s forward=758.612s output=0.019s total=760.599s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=33000 input_tokens=50997643 prep=1.998s forward=770.235s output=0.019s total=772.252s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=33500 input_tokens=51810069 prep=2.028s forward=781.866s output=0.020s total=783.914s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=34000 input_tokens=52604978 prep=2.058s forward=793.481s output=0.020s total=795.559s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=34500 input_tokens=53410512 prep=2.088s forward=805.111s output=0.020s total=807.219s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=35000 input_tokens=54196236 prep=2.117s forward=816.741s output=0.021s total=818.879s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=35500 input_tokens=54991745 prep=2.147s forward=828.372s output=0.021s total=830.540s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=36000 input_tokens=55795452 prep=2.177s forward=840.004s output=0.021s total=842.203s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=36500 input_tokens=56590658 prep=2.207s forward=851.631s output=0.022s total=853.859s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=37000 input_tokens=57383559 prep=2.237s forward=863.255s output=0.022s total=865.514s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=37500 input_tokens=58174401 prep=2.267s forward=874.880s output=0.022s total=877.169s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=38000 input_tokens=58974545 prep=2.297s forward=886.521s output=0.022s total=888.840s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=38500 input_tokens=59770097 prep=2.327s forward=898.164s output=0.023s total=900.513s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=39000 input_tokens=60578050 prep=2.357s forward=909.790s output=0.023s total=912.170s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=39500 input_tokens=61372093 prep=2.387s forward=921.431s output=0.023s total=923.841s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=40000 input_tokens=62160080 prep=2.416s forward=933.063s output=0.024s total=935.503s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=40500 input_tokens=62963373 prep=2.446s forward=944.687s output=0.024s total=947.157s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=41000 input_tokens=63749984 prep=2.476s forward=956.304s output=0.024s total=958.804s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=41500 input_tokens=64542144 prep=2.506s forward=967.939s output=0.024s total=970.469s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=42000 input_tokens=65345344 prep=2.536s forward=979.585s output=0.025s total=982.145s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=42500 input_tokens=66144687 prep=2.566s forward=991.234s output=0.025s total=993.825s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=43000 input_tokens=66941941 prep=2.595s forward=1002.887s output=0.025s total=1005.507s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=43500 input_tokens=67746196 prep=2.625s forward=1014.526s output=0.025s total=1017.176s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=44000 input_tokens=68557908 prep=2.655s forward=1026.175s output=0.026s total=1028.856s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=44500 input_tokens=69347702 prep=2.685s forward=1037.808s output=0.026s total=1040.519s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=45000 input_tokens=70135378 prep=2.715s forward=1049.444s output=0.026s total=1052.185s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=45500 input_tokens=70929626 prep=2.744s forward=1061.081s output=0.027s total=1063.852s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=46000 input_tokens=71725780 prep=2.774s forward=1072.709s output=0.027s total=1075.511s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=46500 input_tokens=72525850 prep=2.804s forward=1084.349s output=0.027s total=1087.181s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=47000 input_tokens=73318087 prep=2.834s forward=1096.008s output=0.028s total=1098.870s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=47500 input_tokens=74114925 prep=2.864s forward=1107.653s output=0.028s total=1110.545s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=48000 input_tokens=74920623 prep=2.894s forward=1119.313s output=0.028s total=1122.235s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=48500 input_tokens=75722887 prep=2.924s forward=1130.960s output=0.028s total=1133.913s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=49000 input_tokens=76525922 prep=2.954s forward=1142.610s output=0.029s total=1145.592s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=49500 input_tokens=77319548 prep=2.984s forward=1154.257s output=0.029s total=1157.270s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=50000 input_tokens=78113681 prep=3.014s forward=1165.889s output=0.029s total=1168.932s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=50500 input_tokens=78911895 prep=3.044s forward=1177.539s output=0.030s total=1180.612s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=51000 input_tokens=79715116 prep=3.074s forward=1189.175s output=0.030s total=1192.279s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=51500 input_tokens=80511122 prep=3.104s forward=1200.813s output=0.030s total=1203.947s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=52000 input_tokens=81308859 prep=3.134s forward=1212.441s output=0.030s total=1215.605s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=52500 input_tokens=82122053 prep=3.164s forward=1224.092s output=0.031s total=1227.286s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=53000 input_tokens=82930307 prep=3.193s forward=1235.734s output=0.031s total=1238.959s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=53500 input_tokens=83730846 prep=3.223s forward=1247.371s output=0.031s total=1250.626s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=54000 input_tokens=84523235 prep=3.253s forward=1259.010s output=0.031s total=1262.295s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=54500 input_tokens=85310040 prep=3.283s forward=1270.644s output=0.032s total=1273.959s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=55000 input_tokens=86111710 prep=3.313s forward=1282.290s output=0.032s total=1285.635s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=55500 input_tokens=86898610 prep=3.343s forward=1293.924s output=0.032s total=1297.300s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=56000 input_tokens=87695659 prep=3.373s forward=1305.570s output=0.033s total=1308.975s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=56500 input_tokens=88491753 prep=3.403s forward=1317.215s output=0.033s total=1320.651s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=57000 input_tokens=89282114 prep=3.433s forward=1328.857s output=0.033s total=1332.322s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=57500 input_tokens=90082899 prep=3.463s forward=1340.505s output=0.033s total=1344.002s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=58000 input_tokens=90872119 prep=3.493s forward=1352.144s output=0.034s total=1355.670s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=58500 input_tokens=91685652 prep=3.523s forward=1363.809s output=0.034s total=1367.366s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=59000 input_tokens=92489819 prep=3.553s forward=1375.455s output=0.034s total=1379.042s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=59500 input_tokens=93292622 prep=3.583s forward=1387.100s output=0.034s total=1390.717s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=60000 input_tokens=94088816 prep=3.613s forward=1398.743s output=0.035s total=1402.390s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=60500 input_tokens=94888783 prep=3.643s forward=1410.383s output=0.035s total=1414.060s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=61000 input_tokens=95687117 prep=3.672s forward=1422.026s output=0.035s total=1425.734s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=61500 input_tokens=96488467 prep=3.702s forward=1433.668s output=0.035s total=1437.405s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=62000 input_tokens=97290172 prep=3.732s forward=1445.321s output=0.036s total=1449.089s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=62500 input_tokens=98084869 prep=3.762s forward=1456.965s output=0.036s total=1460.764s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=63000 input_tokens=98881713 prep=3.792s forward=1468.611s output=0.036s total=1472.439s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=63500 input_tokens=99684882 prep=3.822s forward=1480.267s output=0.036s total=1484.126s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=64000 input_tokens=100477562 prep=3.852s forward=1491.919s output=0.037s total=1495.808s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=64500 input_tokens=101287119 prep=3.882s forward=1503.578s output=0.037s total=1507.498s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=65000 input_tokens=102095814 prep=3.912s forward=1515.225s output=0.037s total=1519.175s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=65500 input_tokens=102887474 prep=3.942s forward=1526.885s output=0.038s total=1530.865s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=66000 input_tokens=103677680 prep=3.972s forward=1538.537s output=0.038s total=1542.548s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=66500 input_tokens=104476358 prep=4.002s forward=1550.185s output=0.038s total=1554.225s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=67000 input_tokens=105278685 prep=4.032s forward=1561.832s output=0.038s total=1565.903s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=67500 input_tokens=106073110 prep=4.062s forward=1573.478s output=0.039s total=1577.579s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=68000 input_tokens=106866350 prep=4.092s forward=1585.124s output=0.039s total=1589.255s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=68500 input_tokens=107653569 prep=4.122s forward=1596.762s output=0.039s total=1600.924s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=69000 input_tokens=108445442 prep=4.152s forward=1608.402s output=0.040s total=1612.594s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=69500 input_tokens=109253298 prep=4.182s forward=1620.047s output=0.040s total=1624.269s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=70000 input_tokens=110067121 prep=4.212s forward=1631.692s output=0.040s total=1635.945s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=70500 input_tokens=110865735 prep=4.242s forward=1643.337s output=0.041s total=1647.619s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=71000 input_tokens=111661570 prep=4.272s forward=1654.978s output=0.041s total=1659.291s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=71500 input_tokens=112466190 prep=4.302s forward=1666.627s output=0.041s total=1670.970s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=72000 input_tokens=113255691 prep=4.332s forward=1678.258s output=0.041s total=1682.632s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=72500 input_tokens=114083729 prep=4.362s forward=1689.898s output=0.042s total=1694.302s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=73000 input_tokens=114901053 prep=4.392s forward=1701.537s output=0.042s total=1705.971s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=73500 input_tokens=115693732 prep=4.422s forward=1713.190s output=0.042s total=1717.654s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=74000 input_tokens=116483838 prep=4.452s forward=1724.835s output=0.042s total=1729.330s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=74500 input_tokens=117280923 prep=4.482s forward=1736.478s output=0.043s total=1741.003s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=75000 input_tokens=118087832 prep=4.512s forward=1748.139s output=0.043s total=1752.694s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=75500 input_tokens=118908330 prep=4.542s forward=1759.802s output=0.043s total=1764.387s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=76000 input_tokens=119703571 prep=4.572s forward=1771.461s output=0.044s total=1776.076s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=76500 input_tokens=120523841 prep=4.602s forward=1783.136s output=0.044s total=1787.782s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=77000 input_tokens=121332836 prep=4.632s forward=1794.796s output=0.044s total=1799.473s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=77500 input_tokens=122143787 prep=4.662s forward=1806.455s output=0.044s total=1811.161s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=78000 input_tokens=122937465 prep=4.692s forward=1818.110s output=0.045s total=1822.847s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=78500 input_tokens=123741658 prep=4.722s forward=1829.756s output=0.045s total=1834.523s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=79000 input_tokens=124540259 prep=4.752s forward=1841.410s output=0.045s total=1846.207s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=79500 input_tokens=125316890 prep=4.782s forward=1853.056s output=0.046s total=1857.883s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=80000 input_tokens=126129863 prep=4.812s forward=1864.717s output=0.046s total=1869.575s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=80500 input_tokens=126926424 prep=4.842s forward=1876.366s output=0.046s total=1881.255s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=81000 input_tokens=127722990 prep=4.872s forward=1888.018s output=0.046s total=1892.937s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=81500 input_tokens=128537745 prep=4.902s forward=1899.684s output=0.047s total=1904.633s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=82000 input_tokens=129336581 prep=4.932s forward=1911.338s output=0.047s total=1916.317s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=82500 input_tokens=130143879 prep=4.962s forward=1923.007s output=0.047s total=1928.017s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=83000 input_tokens=130948416 prep=4.992s forward=1934.670s output=0.048s total=1939.709s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=83500 input_tokens=131732902 prep=5.022s forward=1946.322s output=0.048s total=1951.392s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=84000 input_tokens=132527658 prep=5.052s forward=1957.965s output=0.048s total=1963.066s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=84500 input_tokens=133324365 prep=5.083s forward=1969.622s output=0.048s total=1974.753s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=85000 input_tokens=134130826 prep=5.113s forward=1981.273s output=0.049s total=1986.434s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=85500 input_tokens=134926059 prep=5.143s forward=1992.909s output=0.049s total=1998.101s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=86000 input_tokens=135722340 prep=5.173s forward=2004.560s output=0.049s total=2009.782s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=86500 input_tokens=136528037 prep=5.203s forward=2016.205s output=0.050s total=2021.458s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=87000 input_tokens=137327022 prep=5.233s forward=2027.852s output=0.050s total=2033.135s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=87500 input_tokens=138126306 prep=5.263s forward=2039.506s output=0.050s total=2044.819s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=88000 input_tokens=138927990 prep=5.293s forward=2051.165s output=0.050s total=2056.508s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=88500 input_tokens=139727937 prep=5.323s forward=2062.812s output=0.051s total=2068.185s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=89000 input_tokens=140525353 prep=5.353s forward=2074.467s output=0.051s total=2079.871s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=89500 input_tokens=141322810 prep=5.383s forward=2086.116s output=0.051s total=2091.550s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=90000 input_tokens=142133594 prep=5.413s forward=2097.779s output=0.052s total=2103.244s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=90500 input_tokens=142923031 prep=5.443s forward=2109.427s output=0.052s total=2114.922s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=91000 input_tokens=143715895 prep=5.473s forward=2121.080s output=0.052s total=2126.605s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=91500 input_tokens=144520489 prep=5.503s forward=2132.747s output=0.052s total=2138.302s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=92000 input_tokens=145339806 prep=5.533s forward=2144.422s output=0.053s total=2150.008s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=92500 input_tokens=146132490 prep=5.563s forward=2156.088s output=0.053s total=2161.704s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=93000 input_tokens=146923513 prep=5.593s forward=2167.742s output=0.053s total=2173.388s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=93500 input_tokens=147728429 prep=5.623s forward=2179.403s output=0.054s total=2185.080s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=94000 input_tokens=148522478 prep=5.653s forward=2191.028s output=0.054s total=2196.735s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=94500 input_tokens=149337329 prep=5.683s forward=2202.688s output=0.054s total=2208.425s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=95000 input_tokens=150136088 prep=5.713s forward=2214.343s output=0.054s total=2220.110s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=95500 input_tokens=150932271 prep=5.743s forward=2226.005s output=0.055s total=2231.803s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=96000 input_tokens=151726123 prep=5.773s forward=2237.660s output=0.055s total=2243.489s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=96500 input_tokens=152523544 prep=5.803s forward=2249.320s output=0.055s total=2255.179s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=97000 input_tokens=153327858 prep=5.833s forward=2260.979s output=0.056s total=2266.868s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=97500 input_tokens=154129490 prep=5.863s forward=2272.642s output=0.056s total=2278.561s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=98000 input_tokens=154921823 prep=5.893s forward=2284.287s output=0.056s total=2290.236s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=98500 input_tokens=155734531 prep=5.923s forward=2295.945s output=0.057s total=2301.925s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=99000 input_tokens=156522938 prep=5.953s forward=2307.585s output=0.057s total=2313.595s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=99500 input_tokens=157329880 prep=5.984s forward=2319.230s output=0.057s total=2325.270s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=100000 input_tokens=158132632 prep=6.014s forward=2330.882s output=0.057s total=2336.953s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=100500 input_tokens=158942465 prep=6.044s forward=2342.541s output=0.058s total=2348.642s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=101000 input_tokens=159751590 prep=6.074s forward=2354.203s output=0.058s total=2360.335s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=101500 input_tokens=160546864 prep=6.104s forward=2365.861s output=0.058s total=2372.023s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=102000 input_tokens=161352789 prep=6.134s forward=2377.529s output=0.059s total=2383.722s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=102500 input_tokens=162167830 prep=6.164s forward=2389.189s output=0.059s total=2395.412s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=103000 input_tokens=162960003 prep=6.194s forward=2400.850s output=0.059s total=2407.103s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=103500 input_tokens=163763882 prep=6.224s forward=2412.510s output=0.059s total=2418.794s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=104000 input_tokens=164560428 prep=6.254s forward=2424.160s output=0.060s total=2430.474s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=104500 input_tokens=165362879 prep=6.284s forward=2435.817s output=0.060s total=2442.161s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=105000 input_tokens=166159054 prep=6.314s forward=2447.467s output=0.060s total=2453.842s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=105500 input_tokens=166968016 prep=6.344s forward=2459.120s output=0.060s total=2465.524s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=106000 input_tokens=167767398 prep=6.374s forward=2470.776s output=0.061s total=2477.211s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=106500 input_tokens=168573667 prep=6.404s forward=2482.433s output=0.061s total=2488.898s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=107000 input_tokens=169374820 prep=6.434s forward=2494.096s output=0.061s total=2500.591s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=107500 input_tokens=170180256 prep=6.464s forward=2505.743s output=0.062s total=2512.269s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=108000 input_tokens=170974997 prep=6.494s forward=2517.395s output=0.062s total=2523.951s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=108500 input_tokens=171793902 prep=6.524s forward=2529.055s output=0.062s total=2535.642s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=109000 input_tokens=172593637 prep=6.554s forward=2540.721s output=0.062s total=2547.338s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=109500 input_tokens=173389016 prep=6.585s forward=2552.378s output=0.063s total=2559.025s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=110000 input_tokens=174192922 prep=6.615s forward=2564.037s output=0.063s total=2570.714s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=110500 input_tokens=175008099 prep=6.645s forward=2575.694s output=0.063s total=2582.402s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=111000 input_tokens=175840243 prep=6.675s forward=2587.364s output=0.063s total=2594.102s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=111500 input_tokens=176638789 prep=6.705s forward=2599.010s output=0.064s total=2605.779s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=112000 input_tokens=177438349 prep=6.735s forward=2610.667s output=0.064s total=2617.466s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=112500 input_tokens=178240696 prep=6.765s forward=2622.330s output=0.064s total=2629.159s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=113000 input_tokens=179054221 prep=6.795s forward=2633.989s output=0.065s total=2640.849s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=113500 input_tokens=179849398 prep=6.826s forward=2645.639s output=0.065s total=2652.530s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=114000 input_tokens=180651061 prep=6.856s forward=2657.286s output=0.065s total=2664.206s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=114500 input_tokens=181458889 prep=6.885s forward=2668.939s output=0.065s total=2675.890s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=115000 input_tokens=182361070 prep=6.916s forward=2680.597s output=0.066s total=2687.578s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=115500 input_tokens=183370558 prep=6.946s forward=2692.272s output=0.066s total=2699.284s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=116000 input_tokens=184370430 prep=6.976s forward=2703.945s output=0.066s total=2710.988s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=116500 input_tokens=185373658 prep=7.006s forward=2715.618s output=0.067s total=2722.691s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=117000 input_tokens=186375846 prep=7.037s forward=2727.295s output=0.067s total=2734.398s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=117500 input_tokens=187379704 prep=7.067s forward=2738.974s output=0.067s total=2746.108s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=118000 input_tokens=188378268 prep=7.097s forward=2750.663s output=0.067s total=2757.828s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=118500 input_tokens=189393390 prep=7.128s forward=2762.347s output=0.068s total=2769.542s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=119000 input_tokens=190391316 prep=7.158s forward=2774.032s output=0.068s total=2781.258s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=119500 input_tokens=191374490 prep=7.188s forward=2785.708s output=0.068s total=2792.965s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=120000 input_tokens=192366584 prep=7.219s forward=2797.391s output=0.069s total=2804.678s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=120500 input_tokens=193368304 prep=7.249s forward=2809.084s output=0.069s total=2816.402s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=121000 input_tokens=194361010 prep=7.279s forward=2820.767s output=0.069s total=2828.115s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=121500 input_tokens=195362470 prep=7.310s forward=2832.441s output=0.070s total=2839.821s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=122000 input_tokens=196343090 prep=7.340s forward=2844.126s output=0.070s total=2851.536s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=122500 input_tokens=197347742 prep=7.370s forward=2855.808s output=0.070s total=2863.249s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=123000 input_tokens=198332474 prep=7.401s forward=2867.498s output=0.071s total=2874.970s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=123500 input_tokens=199336220 prep=7.431s forward=2879.171s output=0.071s total=2886.673s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=124000 input_tokens=200331524 prep=7.461s forward=2890.853s output=0.071s total=2898.386s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=124500 input_tokens=201179623 prep=7.491s forward=2903.297s output=0.072s total=2910.860s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=125000 input_tokens=201479827 prep=7.521s forward=2914.966s output=0.072s total=2922.559s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=125500 input_tokens=201935483 prep=7.551s forward=2926.659s output=0.072s total=2934.282s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=126000 input_tokens=202394829 prep=7.581s forward=2938.345s output=0.073s total=2945.999s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=126500 input_tokens=202852887 prep=7.611s forward=2950.038s output=0.073s total=2957.722s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=127000 input_tokens=203308475 prep=7.641s forward=2961.729s output=0.073s total=2969.443s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=127500 input_tokens=203762689 prep=7.672s forward=2973.418s output=0.074s total=2981.163s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=128000 input_tokens=204208841 prep=7.702s forward=2985.105s output=0.074s total=2992.880s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=128500 input_tokens=204664841 prep=7.732s forward=2996.798s output=0.074s total=3004.604s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=129000 input_tokens=205119483 prep=7.762s forward=3008.494s output=0.075s total=3016.330s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=129500 input_tokens=205589387 prep=7.792s forward=3020.174s output=0.075s total=3028.041s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=130000 input_tokens=206048403 prep=7.822s forward=3031.858s output=0.075s total=3039.755s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=130500 input_tokens=206504567 prep=7.852s forward=3043.543s output=0.076s total=3051.470s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=131000 input_tokens=206965059 prep=7.882s forward=3055.228s output=0.076s total=3063.186s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=131500 input_tokens=207349703 prep=7.912s forward=3066.917s output=0.076s total=3074.905s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=132000 input_tokens=207592378 prep=7.942s forward=3078.575s output=0.077s total=3086.594s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=132500 input_tokens=207834553 prep=7.972s forward=3090.233s output=0.077s total=3098.282s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=133000 input_tokens=208077706 prep=8.001s forward=3101.895s output=0.077s total=3109.974s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=133500 input_tokens=208321503 prep=8.031s forward=3113.550s output=0.078s total=3121.659s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=134000 input_tokens=208564041 prep=8.061s forward=3125.208s output=0.078s total=3133.347s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=134500 input_tokens=208806242 prep=8.091s forward=3136.868s output=0.078s total=3145.038s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=135000 input_tokens=209048985 prep=8.121s forward=3148.543s output=0.079s total=3156.743s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=135500 input_tokens=209292045 prep=8.151s forward=3160.202s output=0.079s total=3168.433s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=136000 input_tokens=209534817 prep=8.181s forward=3171.872s output=0.079s total=3180.133s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=136500 input_tokens=209768576 prep=8.211s forward=3183.535s output=0.080s total=3191.826s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=137000 input_tokens=209818625 prep=8.240s forward=3195.268s output=0.080s total=3203.589s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=137500 input_tokens=209867141 prep=8.270s forward=3206.973s output=0.081s total=3215.323s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=138000 input_tokens=209915776 prep=8.299s forward=3218.691s output=0.081s total=3227.071s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=138500 input_tokens=209967068 prep=8.329s forward=3230.418s output=0.081s total=3238.828s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=139000 input_tokens=210057298 prep=8.358s forward=3242.210s output=0.082s total=3250.649s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=139500 input_tokens=210147233 prep=8.387s forward=3253.990s output=0.082s total=3262.460s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=140000 input_tokens=210237554 prep=8.417s forward=3265.764s output=0.082s total=3274.263s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=140500 input_tokens=210326678 prep=8.446s forward=3277.549s output=0.083s total=3286.077s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=141000 input_tokens=210417352 prep=8.476s forward=3289.327s output=0.083s total=3297.885s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=141500 input_tokens=210507478 prep=8.505s forward=3301.106s output=0.083s total=3309.695s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=142000 input_tokens=210598176 prep=8.535s forward=3312.887s output=0.084s total=3321.505s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=142500 input_tokens=210688249 prep=8.564s forward=3324.668s output=0.084s total=3333.316s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=143000 input_tokens=210778911 prep=8.594s forward=3336.455s output=0.084s total=3345.133s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=143500 input_tokens=210870469 prep=8.623s forward=3348.235s output=0.085s total=3356.943s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=144000 input_tokens=210961324 prep=8.653s forward=3360.012s output=0.085s total=3368.750s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=144500 input_tokens=211045475 prep=8.682s forward=3371.802s output=0.085s total=3380.570s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=145000 input_tokens=211112667 prep=8.712s forward=3383.602s output=0.086s total=3392.399s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=145500 input_tokens=211179889 prep=8.741s forward=3395.407s output=0.086s total=3404.234s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=146000 input_tokens=211247331 prep=8.771s forward=3407.211s output=0.086s total=3416.068s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=146500 input_tokens=211314650 prep=8.800s forward=3419.020s output=0.087s total=3427.907s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=147000 input_tokens=211411791 prep=8.829s forward=3430.795s output=0.087s total=3439.711s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=147500 input_tokens=211636310 prep=8.859s forward=3442.457s output=0.087s total=3451.403s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=148000 input_tokens=211855172 prep=8.889s forward=3454.122s output=0.088s total=3463.099s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=148500 input_tokens=212070298 prep=8.918s forward=3465.790s output=0.088s total=3474.797s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=149000 input_tokens=212290181 prep=8.948s forward=3477.456s output=0.088s total=3486.492s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=149500 input_tokens=212502502 prep=8.978s forward=3489.118s output=0.089s total=3498.185s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=150000 input_tokens=212722784 prep=9.007s forward=3500.776s output=0.089s total=3509.873s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=150500 input_tokens=212941748 prep=9.037s forward=3512.432s output=0.089s total=3521.559s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=151000 input_tokens=213161744 prep=9.067s forward=3524.094s output=0.090s total=3533.250s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=151500 input_tokens=213378058 prep=9.096s forward=3535.750s output=0.090s total=3544.936s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=152000 input_tokens=213592073 prep=9.126s forward=3547.405s output=0.090s total=3556.622s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=152500 input_tokens=213804107 prep=9.156s forward=3559.057s output=0.091s total=3568.303s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=153000 input_tokens=214017793 prep=9.185s forward=3570.712s output=0.091s total=3579.988s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=153500 input_tokens=214232469 prep=9.215s forward=3582.368s output=0.091s total=3591.674s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=154000 input_tokens=214450193 prep=9.245s forward=3594.025s output=0.092s total=3603.362s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=154500 input_tokens=214666920 prep=9.274s forward=3605.686s output=0.092s total=3615.052s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=155000 input_tokens=214881115 prep=9.304s forward=3617.344s output=0.092s total=3626.740s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=155500 input_tokens=215100928 prep=9.334s forward=3629.011s output=0.093s total=3638.437s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=156000 input_tokens=215318370 prep=9.363s forward=3640.674s output=0.093s total=3650.130s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=156500 input_tokens=215534420 prep=9.393s forward=3652.344s output=0.094s total=3661.830s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=157000 input_tokens=215747913 prep=9.422s forward=3664.012s output=0.094s total=3673.529s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=157500 input_tokens=215964759 prep=9.452s forward=3675.681s output=0.094s total=3685.227s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=158000 input_tokens=216184607 prep=9.482s forward=3687.344s output=0.095s total=3696.920s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=158500 input_tokens=216396267 prep=9.511s forward=3699.012s output=0.095s total=3708.619s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=159000 input_tokens=216614776 prep=9.541s forward=3710.684s output=0.095s total=3720.320s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=159500 input_tokens=216829295 prep=9.571s forward=3722.358s output=0.096s total=3732.024s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=160000 input_tokens=217053566 prep=9.601s forward=3734.034s output=0.096s total=3743.731s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=160500 input_tokens=217295253 prep=9.630s forward=3745.725s output=0.096s total=3755.451s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=161000 input_tokens=217539792 prep=9.660s forward=3757.418s output=0.097s total=3767.175s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=161500 input_tokens=217783836 prep=9.690s forward=3769.114s output=0.097s total=3778.901s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=162000 input_tokens=218031591 prep=9.720s forward=3780.811s output=0.097s total=3790.627s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=162500 input_tokens=218275323 prep=9.749s forward=3792.500s output=0.098s total=3802.347s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=163000 input_tokens=218523211 prep=9.779s forward=3804.172s output=0.098s total=3814.049s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=163500 input_tokens=218768975 prep=9.809s forward=3815.853s output=0.098s total=3825.760s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=164000 input_tokens=219015149 prep=9.838s forward=3827.526s output=0.099s total=3837.463s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=164500 input_tokens=219262894 prep=9.868s forward=3839.211s output=0.099s total=3849.178s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=165000 input_tokens=219507331 prep=9.898s forward=3850.897s output=0.099s total=3860.894s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=165500 input_tokens=219750208 prep=9.927s forward=3862.583s output=0.100s total=3872.611s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=166000 input_tokens=219990392 prep=9.957s forward=3874.255s output=0.100s total=3884.312s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=166500 input_tokens=220236645 prep=9.987s forward=3885.938s output=0.100s total=3896.025s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=167000 input_tokens=220480937 prep=10.017s forward=3897.617s output=0.101s total=3907.734s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=167500 input_tokens=220724167 prep=10.046s forward=3909.293s output=0.101s total=3919.440s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=168000 input_tokens=220969345 prep=10.076s forward=3920.973s output=0.101s total=3931.150s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=168500 input_tokens=221216717 prep=10.106s forward=3932.652s output=0.102s total=3942.859s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=169000 input_tokens=221464085 prep=10.135s forward=3944.329s output=0.102s total=3954.566s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=169500 input_tokens=221704656 prep=10.165s forward=3956.005s output=0.102s total=3966.272s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=170000 input_tokens=221952090 prep=10.195s forward=3967.680s output=0.103s total=3977.977s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=170500 input_tokens=222195866 prep=10.224s forward=3979.363s output=0.103s total=3989.691s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=171000 input_tokens=222438621 prep=10.254s forward=3991.044s output=0.103s total=4001.401s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=171500 input_tokens=222682752 prep=10.284s forward=4002.718s output=0.104s total=4013.106s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=172000 input_tokens=222932606 prep=10.313s forward=4014.394s output=0.104s total=4024.812s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=172500 input_tokens=223177051 prep=10.343s forward=4026.074s output=0.104s total=4036.522s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=173000 input_tokens=223422202 prep=10.373s forward=4037.756s output=0.105s total=4048.233s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=173500 input_tokens=223663321 prep=10.403s forward=4049.430s output=0.105s total=4059.937s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=174000 input_tokens=223909477 prep=10.432s forward=4061.108s output=0.105s total=4071.645s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=174500 input_tokens=224155683 prep=10.462s forward=4072.793s output=0.106s total=4083.360s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=175000 input_tokens=224398267 prep=10.492s forward=4084.491s output=0.106s total=4095.089s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=175500 input_tokens=224640239 prep=10.521s forward=4096.183s output=0.107s total=4106.811s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=176000 input_tokens=224883700 prep=10.551s forward=4107.857s output=0.107s total=4118.515s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=176500 input_tokens=225127858 prep=10.581s forward=4119.532s output=0.107s total=4130.220s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=177000 input_tokens=225367277 prep=10.610s forward=4131.211s output=0.108s total=4141.928s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=177500 input_tokens=225613097 prep=10.640s forward=4142.902s output=0.108s total=4153.650s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=178000 input_tokens=225852406 prep=10.670s forward=4154.583s output=0.108s total=4165.361s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=178500 input_tokens=226093747 prep=10.699s forward=4166.269s output=0.109s total=4177.077s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=179000 input_tokens=226338174 prep=10.729s forward=4177.959s output=0.109s total=4188.797s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=179500 input_tokens=226578566 prep=10.759s forward=4189.646s output=0.109s total=4200.514s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=180000 input_tokens=226819438 prep=10.789s forward=4201.335s output=0.110s total=4212.233s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=180500 input_tokens=227063831 prep=10.818s forward=4213.014s output=0.110s total=4223.942s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=181000 input_tokens=227307332 prep=10.848s forward=4224.708s output=0.110s total=4235.666s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=181500 input_tokens=227550284 prep=10.878s forward=4236.398s output=0.111s total=4247.387s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=182000 input_tokens=227785293 prep=10.908s forward=4248.081s output=0.111s total=4259.100s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=182500 input_tokens=228030887 prep=10.937s forward=4259.767s output=0.111s total=4270.816s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=183000 input_tokens=228269586 prep=10.967s forward=4271.461s output=0.112s total=4282.539s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=183500 input_tokens=228516664 prep=10.997s forward=4283.143s output=0.112s total=4294.252s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=184000 input_tokens=228760525 prep=11.026s forward=4294.834s output=0.112s total=4305.972s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=184500 input_tokens=229010540 prep=11.056s forward=4306.516s output=0.113s total=4317.685s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=185000 input_tokens=229251463 prep=11.086s forward=4318.208s output=0.113s total=4329.407s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=185500 input_tokens=229495341 prep=11.116s forward=4329.897s output=0.113s total=4341.126s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=186000 input_tokens=229742018 prep=11.145s forward=4341.590s output=0.114s total=4352.849s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=186500 input_tokens=229979998 prep=11.175s forward=4353.280s output=0.114s total=4364.569s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=187000 input_tokens=230222902 prep=11.205s forward=4364.977s output=0.114s total=4376.297s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=187500 input_tokens=230350683 prep=11.234s forward=4376.676s output=0.115s total=4388.025s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=188000 input_tokens=230456579 prep=11.264s forward=4388.401s output=0.115s total=4399.780s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=188500 input_tokens=230565094 prep=11.293s forward=4400.105s output=0.115s total=4411.514s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=189000 input_tokens=230677559 prep=11.323s forward=4411.805s output=0.116s total=4423.244s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=189500 input_tokens=230785431 prep=11.352s forward=4423.526s output=0.116s total=4434.995s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=190000 input_tokens=230894332 prep=11.382s forward=4435.229s output=0.116s total=4446.727s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=190500 input_tokens=231001065 prep=11.412s forward=4446.945s output=0.117s total=4458.474s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=191000 input_tokens=231112162 prep=11.441s forward=4458.644s output=0.117s total=4470.202s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=191500 input_tokens=231221976 prep=11.471s forward=4470.355s output=0.117s total=4481.943s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=192000 input_tokens=231323766 prep=11.500s forward=4482.079s output=0.118s total=4493.697s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=192500 input_tokens=231419238 prep=11.530s forward=4493.821s output=0.118s total=4505.469s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=193000 input_tokens=231513897 prep=11.559s forward=4505.567s output=0.118s total=4517.244s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=193500 input_tokens=231605945 prep=11.589s forward=4517.321s output=0.119s total=4529.028s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=194000 input_tokens=231700877 prep=11.618s forward=4529.077s output=0.119s total=4540.814s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=194500 input_tokens=231795264 prep=11.648s forward=4540.821s output=0.119s total=4552.588s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=195000 input_tokens=231892740 prep=11.677s forward=4552.559s output=0.120s total=4564.356s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=195500 input_tokens=231984343 prep=11.707s forward=4564.316s output=0.120s total=4576.144s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=196000 input_tokens=232079928 prep=11.736s forward=4576.073s output=0.121s total=4587.930s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=196500 input_tokens=232174343 prep=11.766s forward=4587.832s output=0.121s total=4599.719s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=197000 input_tokens=232268865 prep=11.796s forward=4599.584s output=0.121s total=4611.501s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=197500 input_tokens=232363520 prep=11.825s forward=4611.339s output=0.122s total=4623.286s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=198000 input_tokens=232458341 prep=11.855s forward=4623.089s output=0.122s total=4635.065s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=198500 input_tokens=232552712 prep=11.884s forward=4634.839s output=0.122s total=4646.845s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=199000 input_tokens=232648655 prep=11.914s forward=4646.590s output=0.123s total=4658.626s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=199500 input_tokens=232743738 prep=11.943s forward=4658.339s output=0.123s total=4670.406s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=200000 input_tokens=232837839 prep=11.973s forward=4670.087s output=0.123s total=4682.183s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=200500 input_tokens=232929397 prep=12.002s forward=4681.833s output=0.124s total=4693.959s avg_call=0.0234s
+INFO:__main__:Forward perf checkpoint: calls=201000 input_tokens=233019677 prep=12.032s forward=4693.591s output=0.124s total=4705.746s avg_call=0.0234s
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+bootstrapping for stddev: perplexity
+  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [00:00<00:46,  2.11it/s] 36%|███▌      | 36/100 [00:00<00:00, 76.54it/s] 81%|████████  | 81/100 [00:00<00:00, 109.90it/s]100%|██████████| 100/100 [00:00<00:00, 108.12it/s]
+INFO:__main__:Completed group 'regular' in 2h 5m 3s (evaluated 40343/40343 docs, full dataset estimate 2h 5m 3s)
+
+======================================================================
+BENCHMARK RESULTS
+======================================================================
+Model name:   luciole_400k
+Model type:   softmax
+Checkpoint:   /tmpdir/m24047flhg/luciole-phase1-step0400000
+----------------------------------------------------------------------
+
+arc_challenge:
+--------------------------------------------------
+  alias: arc_challenge
+  acc,none: 0.3831
+  acc_stderr,none: 0.0142
+  acc_norm,none: 0.4147
+  acc_norm_stderr,none: 0.0144
+
+arc_easy:
+--------------------------------------------------
+  alias: arc_easy
+  acc,none: 0.7218
+  acc_stderr,none: 0.0092
+  acc_norm,none: 0.7226
+  acc_norm_stderr,none: 0.0092
+
+boolq:
+--------------------------------------------------
+  alias: boolq
+  acc,none: 0.6437
+  acc_stderr,none: 0.0084
+
+cb:
+--------------------------------------------------
+  alias: cb
+  acc,none: 0.5357
+  acc_stderr,none: 0.0672
+  f1,none: 0.3677
+  f1_stderr,none: N/A
+
+copa:
+--------------------------------------------------
+  alias: copa
+  acc,none: 0.7500
+  acc_stderr,none: 0.0435
+
+hellaswag:
+--------------------------------------------------
+  alias: hellaswag
+  acc,none: 0.4413
+  acc_stderr,none: 0.0050
+  acc_norm,none: 0.5866
+  acc_norm_stderr,none: 0.0049
+
+lambada_openai:
+--------------------------------------------------
+  alias: lambada_openai
+  perplexity,none: 14.0533
+  perplexity_stderr,none: 0.4233
+  acc,none: 0.4461
+  acc_stderr,none: 0.0069
+
+multirc:
+--------------------------------------------------
+  alias: multirc
+  acc,none: 0.5642
+  acc_stderr,none: 0.0071
+
+openbookqa:
+--------------------------------------------------
+  alias: openbookqa
+  acc,none: 0.2920
+  acc_stderr,none: 0.0204
+  acc_norm,none: 0.3860
+  acc_norm_stderr,none: 0.0218
+
+record:
+--------------------------------------------------
+  alias: record
+  f1,none: 0.8081
+  f1_stderr,none: 0.0039
+  em,none: 0.8009
+  em_stderr,none: 0.0040
+
+truthfulqa_mc2:
+--------------------------------------------------
+  alias: truthfulqa_mc2
+  acc,none: 0.3917
+  acc_stderr,none: 0.0140
+
+wic:
+--------------------------------------------------
+  alias: wic
+  acc,none: 0.4843
+  acc_stderr,none: 0.0198
+
+winogrande:
+--------------------------------------------------
+  alias: winogrande
+  acc,none: 0.5983
+  acc_stderr,none: 0.0138
+
+wsc:
+--------------------------------------------------
+  alias: wsc
+  acc,none: 0.3846
+  acc_stderr,none: 0.0479
+
+TASK TIMING
+----------------------------------------------------------------------
+task                 elapsed      full-est     docs          
+----------------------------------------------------------------------
+arc_easy             7m 22s       7m 22s       2376/2376     
+arc_challenge        3m 38s       3m 38s       1172/1172     
+hellaswag            31m 7s       31m 7s       10042/10042   
+winogrande           3m 56s       3m 56s       1267/1267     
+truthfulqa_mc2       2m 32s       2m 32s       817/817       
+openbookqa           1m 33s       1m 33s       500/500       
+lambada_openai       15m 58s      15m 58s      5153/5153     
+boolq                10m 8s       10m 8s       3270/3270     
+cb                   10s          10s          56/56         
+copa                 19s          19s          100/100       
+multirc              15m 2s       15m 2s       4848/4848     
+record               31m 0s       31m 0s       10000/10000   
+wic                  1m 59s       1m 59s       638/638       
+wsc                  19s          19s          104/104       
+
+======================================================================
+INFO:__main__:Finished evaluation for model 'luciole_400k' in 2h 5m 3s
+INFO:__main__:Forward perf summary: calls=201249 input_tokens=233065412 prep=12.047s forward=4699.447s output=0.124s total=4711.618s avg_call=0.0234s forward_toks_per_s=49594.2
+INFO:__main__:Estimated full-dataset runtime for model 'luciole_400k': 2h 5m 3s
+INFO:__main__:Results saved to: benchmark_results_400k/results_luc1b_softmax_all_20260518_114152_luciole_400k.json
+Model 'luciole_400k' finished with status 0
+===========================================
+Benchmark finished with status 0 (selection=softmax)
+Results saved to:
+benchmark_results_400k/results_luc1b_softmax_all_20260518_114152_luciole_400k.json
+===========================================

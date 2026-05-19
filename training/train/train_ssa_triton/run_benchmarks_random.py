@@ -1,48 +1,20 @@
+from functools import cached_property
 import argparse
 import json
 import logging
 import os
 import sys
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
 import torch
-from eval_perplexity import (
-    cleanup_parallel_state as cleanup_default_parallel_state,
-    load_model as load_baby_luciole_model,
-)
-from eval_perplexity_triton import (
-    cleanup_parallel_state as cleanup_triton_parallel_state,
-    load_model as load_triton_model,
-)
+
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 DEFAULT_TOKENIZER = "/work/m24047/m24047brmn/tokenizers/luciole_50k"
-MODEL_TYPE_SSA_TRITON_V4 = "ssa_triton"
-MODEL_TYPE_SSA = "ssa"
-MODEL_TYPE_SOFTMAX = "softmax"
-MODEL_TYPES = (MODEL_TYPE_SSA_TRITON_V4, MODEL_TYPE_SSA, MODEL_TYPE_SOFTMAX)
-GSM8K_BENCHMARK_KEY = "gsm8k"
-
-DEFAULT_SSA_TRITON_V4_CHECKPOINT = (
-    "/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton/checkpoints/"
-    "baby_luciole-ssa-triton-step=0023999"
-)
-DEFAULT_SOFTMAX_CHECKPOINT = (
-    "/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/"
-    "baby_luciole-softmax-test-step=0020998-last"
-)
-
-
-@dataclass
-class ModelSpec:
-    name: str
-    model_type: str
-    checkpoint_path: str
 
 # Mapping from the short/old dataset name that lm-eval task YAMLs reference
 # to the fully-qualified HF Hub name under which the data was actually cached.
@@ -322,11 +294,6 @@ AVAILABLE_BENCHMARKS = {
         "description": "LAMBADA - Word prediction requiring broad context",
         "num_fewshot": 0,
     },
-    "wikitext": {
-        "task_name": "wikitext",
-        "description": "WikiText - Language modeling benchmark",
-        "num_fewshot": 0,
-    },
     **FRENCH_BENCH_BENCHMARKS,
 }
 
@@ -359,102 +326,28 @@ BENCHMARK_GROUPS = {
 }
 
 
-def _parse_model_spec(value: str) -> ModelSpec:
-    """
-    Parse model spec in format:
-        name|model_type|/path/to/checkpoint
-    """
-    parts = [part.strip() for part in value.split("|", 2)]
-    if len(parts) != 3 or not all(parts):
-        raise ValueError(
-            f"Invalid --model value '{value}'. Expected: name|model_type|checkpoint_path"
-        )
-
-    name, model_type, checkpoint_path = parts
-    if model_type not in MODEL_TYPES:
-        raise ValueError(
-            f"Invalid model_type '{model_type}' in --model '{value}'. "
-            f"Valid types: {MODEL_TYPES}"
-        )
-
-    return ModelSpec(name=name, model_type=model_type, checkpoint_path=checkpoint_path)
-
-
-def _sanitize_model_name(name: str) -> str:
-    safe_chars = []
-    for char in name:
-        if char.isalnum() or char in ("-", "_", "."):
-            safe_chars.append(char)
-        else:
-            safe_chars.append("_")
-    sanitized = "".join(safe_chars).strip("._")
-    return sanitized or "model"
-
-
-def _build_model_specs(args) -> List[ModelSpec]:
-    if args.model:
-        return [_parse_model_spec(value) for value in args.model]
-
-    if args.checkpoint:
-        model_name = args.model_name or Path(args.checkpoint).name
-        return [
-            ModelSpec(
-                name=model_name,
-                model_type=args.model_type,
-                checkpoint_path=args.checkpoint,
-            )
-        ]
-
-    logger.info(
-        "No --model/--checkpoint provided; using default SSA and softmax checkpoints"
-    )
-    return [
-        ModelSpec(
-            name="baby_luciole_ssa_triton",
-            model_type=MODEL_TYPE_SSA_TRITON_V4,
-            checkpoint_path=DEFAULT_SSA_TRITON_V4_CHECKPOINT,
-        ),
-        ModelSpec(
-            name="baby_luciole_softmax",
-            model_type=MODEL_TYPE_SOFTMAX,
-            checkpoint_path=DEFAULT_SOFTMAX_CHECKPOINT,
-        ),
-    ]
-
-
-def _model_output_path(base_output_path: Optional[str], model_name: str, multi_model: bool) -> Optional[str]:
-    if not base_output_path:
-        return None
-
-    if not multi_model:
-        return base_output_path
-
-    output = Path(base_output_path)
-    suffix = output.suffix or ".json"
-    filename = f"{output.stem}_{_sanitize_model_name(model_name)}{suffix}"
-    return str(output.with_name(filename))
-
-
-def _cleanup_parallel_state():
-    for cleanup_fn in [cleanup_triton_parallel_state, cleanup_default_parallel_state]:
-        try:
-            cleanup_fn()
-        except Exception as exc:
-            logger.debug("Parallel state cleanup via %s failed: %s", cleanup_fn.__name__, exc)
-
-
 def get_task_list(task_string: str) -> List[str]:
     if task_string.lower() in BENCHMARK_GROUPS:
         return BENCHMARK_GROUPS[task_string.lower()]
 
-    tasks = [t.strip().lower() for t in task_string.split(",") if t.strip()]
-    invalid_tasks = [t for t in tasks if t not in AVAILABLE_BENCHMARKS]
+    raw_items = [t.strip().lower() for t in task_string.split(",") if t.strip()]
+    tasks = []
+    invalid_tasks = []
+    
+    for item in raw_items:
+        if item in BENCHMARK_GROUPS:
+            tasks.extend(BENCHMARK_GROUPS[item])
+        elif item in AVAILABLE_BENCHMARKS:
+            tasks.append(item)
+        else:
+            invalid_tasks.append(item)
+            
     if invalid_tasks:
-        logger.warning("Unknown tasks: %s", invalid_tasks)
+        logger.warning("Unknown tasks or groups: %s", invalid_tasks)
         logger.info("Available tasks: %s", list(AVAILABLE_BENCHMARKS.keys()))
         logger.info("Available groups: %s", list(BENCHMARK_GROUPS.keys()))
-        tasks = [t for t in tasks if t in AVAILABLE_BENCHMARKS]
-    return tasks
+        
+    return list(dict.fromkeys(tasks)) # remove duplicates
 
 
 def _merge_lm_eval_results(results_list: List[dict]) -> dict:
@@ -482,7 +375,7 @@ def _build_eval_groups(task_names: List[str], default_limit: Optional[int], gsm8
     """
     Split tasks so gsm8k can use its own limit without affecting other tasks.
     """
-    gsm8k_task_name = AVAILABLE_BENCHMARKS[GSM8K_BENCHMARK_KEY]["task_name"]
+    gsm8k_task_name = AVAILABLE_BENCHMARKS["gsm8k"]["task_name"]
     has_gsm8k = gsm8k_task_name in task_names
 
     regular_tasks = [t for t in task_names if t != gsm8k_task_name]
@@ -604,405 +497,50 @@ except ImportError:
     LMBase = object
 
 
-class BabyLucioleLM(LMBase):
-    """lm-eval wrapper for Baby Luciole checkpoints (SSA Triton / SSA / softmax)."""
+try:
+    from lm_eval.models.dummy import DummyLM
+except ImportError:
+    DummyLM = object
 
-    def __init__(
-        self,
-        checkpoint_path: str,
-        model_type: str = MODEL_TYPE_SSA_TRITON_V4,
-        tokenizer_name: str = DEFAULT_TOKENIZER,
-        device: str = "cuda",
-        batch_size: int = 1,
-        max_length: int = 2048,
-        compiled_bda: bool = False,
-        force_contiguous_qkv: bool = True,
-        enforce_bf16: bool = True,
-    ):
+class RandomBaselineLM(DummyLM):
+    """Random prediction baseline using lm_eval DummyLM."""
+
+    def __init__(self, tokenizer_name: str, max_length: int = 2048):
         super().__init__()
-        self.checkpoint_path = checkpoint_path
-        self.model_type = model_type
-        self._device = device
-        self._batch_size = batch_size
+        self._tokenizer_name_custom = tokenizer_name
         self._max_length = max_length
-        self._compiled_bda = compiled_bda
-        self._force_contiguous_qkv = force_contiguous_qkv
-        self._enforce_bf16 = enforce_bf16
-        self._logged_init_diagnostics = False
-        self._logged_forward_diagnostics = False
-        self._perf_calls = 0
-        self._perf_input_tokens = 0
-        self._perf_prep_seconds = 0.0
-        self._perf_forward_seconds = 0.0
-        self._perf_output_seconds = 0.0
+        self._batch_size = 1
 
-        logger.info(
-            "Initializing BabyLucioleLM wrapper (model_type=%s, checkpoint=%s)...",
-            model_type,
-            checkpoint_path,
+    @cached_property
+    def tokenizer(self):
+        from functools import cached_property
+        from transformers import AutoTokenizer
+        return AutoTokenizer.from_pretrained(
+            self._tokenizer_name_custom, trust_remote_code=True, use_fast=False
         )
-
-        if model_type == MODEL_TYPE_SSA_TRITON_V4:
-            self.model, self.tokenizer = load_triton_model(
-                checkpoint_path=checkpoint_path,
-                tokenizer_name=tokenizer_name,
-                device=device,
-                compiled_bda=compiled_bda,
-                force_contiguous_qkv=force_contiguous_qkv,
-                enforce_bf16=enforce_bf16,
-            )
-        elif model_type in (MODEL_TYPE_SSA, MODEL_TYPE_SOFTMAX):
-            if compiled_bda or not force_contiguous_qkv:
-                logger.warning(
-                    "compiled_bda/force_contiguous_qkv are only used for %s; ignoring for %s",
-                    MODEL_TYPE_SSA_TRITON_V4,
-                    model_type,
-                )
-
-            self.model, self.tokenizer = load_baby_luciole_model(
-                checkpoint_path=checkpoint_path,
-                tokenizer_name=tokenizer_name,
-                device=device,
-                use_ssa=(model_type == MODEL_TYPE_SSA),
-                enforce_bf16=enforce_bf16,
-            )
-        else:
-            raise ValueError(f"Unsupported model_type: {model_type}")
-
-        self._setup_tokenizer()
-        self._log_model_diagnostics(stage="post-init")
-        logger.info("BabyLucioleLM wrapper initialized successfully")
-
-    def _get_wrapped_module(self):
-        if hasattr(self.model, "module") and self.model.module is not None:
-            return self.model.module
-        return self.model
-
-    def _get_parameter_dtype(self) -> Optional[torch.dtype]:
-        module = self._get_wrapped_module()
-        try:
-            return next(module.parameters()).dtype
-        except StopIteration:
-            return None
-
-    def _log_model_diagnostics(self, stage: str) -> None:
-        if self._logged_init_diagnostics:
-            return
-
-        module = self._get_wrapped_module()
-        parameter_dtype = self._get_parameter_dtype()
-        logger.info(
-            "Model diagnostics (%s): model_type=%s model_class=%s wrapped_class=%s checkpoint=%s enforce_bf16=%s compiled_bda=%s force_contiguous_qkv=%s parameter_dtype=%s",
-            stage,
-            self.model_type,
-            type(self.model).__name__,
-            type(module).__name__,
-            self.checkpoint_path,
-            self._enforce_bf16,
-            self._compiled_bda,
-            self._force_contiguous_qkv,
-            parameter_dtype,
-        )
-        if self._enforce_bf16 and parameter_dtype is not None and parameter_dtype != torch.bfloat16:
-            logger.warning(
-                "Model diagnostics (%s): enforce_bf16=True but first parameter dtype is %s",
-                stage,
-                parameter_dtype,
-            )
-        elif not self._enforce_bf16 and parameter_dtype == torch.bfloat16:
-            logger.info(
-                "Model diagnostics (%s): enforce_bf16=False but parameters already resolved to bfloat16",
-                stage,
-            )
-
-        self._logged_init_diagnostics = True
-
-    def _setup_tokenizer(self):
-        if hasattr(self.tokenizer, "vocab_size"):
-            self.vocab_size = self.tokenizer.vocab_size
-        elif hasattr(self.tokenizer, "vocab"):
-            self.vocab_size = len(self.tokenizer.vocab)
-        else:
-            self.vocab_size = 50000
-
-        if hasattr(self.tokenizer, "eos_id"):
-            self._eot_token_id = self.tokenizer.eos_id
-        elif hasattr(self.tokenizer, "eos_token_id"):
-            self._eot_token_id = self.tokenizer.eos_token_id
-        else:
-            self._eot_token_id = 2
-
-        if hasattr(self.tokenizer, "bos_id"):
-            self.prefix_token_id = self.tokenizer.bos_id
-        elif hasattr(self.tokenizer, "bos_token_id"):
-            self.prefix_token_id = self.tokenizer.bos_token_id
-        else:
-            self.prefix_token_id = 1
-
-        logger.info(
-            "Tokenizer setup: vocab_size=%s, eot_token_id=%s, prefix_token_id=%s",
-            self.vocab_size,
-            self._eot_token_id,
-            self.prefix_token_id,
-        )
-
-    @property
-    def device(self):
-        return self._device
-
-    @property
-    def batch_size(self):
-        return self._batch_size
 
     @property
     def max_length(self):
         return self._max_length
 
     @property
-    def rank(self):
-        return 0
+    def batch_size(self):
+        return self._batch_size
 
     @property
-    def world_size(self):
-        return 1
-
-    @property
-    def eot_token_id(self):
-        return self._eot_token_id
-
-    @property
-    def max_gen_toks(self):
-        return 256
-
-    def tok_encode(
-        self,
-        string: str,
-        left_truncate_len: int = None,
-        add_special_tokens: bool = None,
-    ) -> List[int]:
-        if hasattr(self.tokenizer, "text_to_ids"):
-            tokens = self.tokenizer.text_to_ids(string)
-        else:
-            tokens = self.tokenizer.encode(string)
-
-        if left_truncate_len is not None and len(tokens) > left_truncate_len:
-            tokens = tokens[-left_truncate_len:]
-
-        return tokens
-
-    def tok_decode(self, tokens: List[int], skip_special_tokens: bool = True) -> str:
-        if hasattr(self.tokenizer, "ids_to_text"):
-            return self.tokenizer.ids_to_text(tokens)
-        return self.tokenizer.decode(tokens, skip_special_tokens=skip_special_tokens)
-
-    def _model_call(self, input_ids: torch.Tensor) -> torch.Tensor:
-        with torch.no_grad():
-            prep_start = time.perf_counter()
-            seq_len = input_ids.shape[1]
-            position_ids = torch.arange(seq_len, dtype=torch.long, device=self.device)
-            position_ids = position_ids.unsqueeze(0).expand(input_ids.shape[0], -1)
-            attention_mask = torch.ones_like(input_ids, device=self.device)
-            prep_elapsed = time.perf_counter() - prep_start
-
-            if not self._logged_forward_diagnostics:
-                logger.info(
-                    "First forward diagnostics: input_dtype=%s input_shape=%s position_ids_dtype=%s attention_mask_dtype=%s attention_mask_shape=%s parameter_dtype=%s",
-                    input_ids.dtype,
-                    tuple(input_ids.shape),
-                    position_ids.dtype,
-                    attention_mask.dtype,
-                    tuple(attention_mask.shape),
-                    self._get_parameter_dtype(),
-                )
-
-            forward_start = time.perf_counter()
-            if hasattr(self.model, "module") and self.model.module is not None:
-                outputs = self.model.module(
-                    input_ids=input_ids,
-                    position_ids=position_ids,
-                    attention_mask=attention_mask,
-                )
-            else:
-                outputs = self.model(
-                    input_ids=input_ids,
-                    position_ids=position_ids,
-                    attention_mask=attention_mask,
-                )
-            forward_elapsed = time.perf_counter() - forward_start
-
-            output_start = time.perf_counter()
-            if hasattr(outputs, "logits"):
-                logits = outputs.logits
-            elif isinstance(outputs, torch.Tensor):
-                logits = outputs
-            else:
-                logits = outputs[0]
-            output_elapsed = time.perf_counter() - output_start
-
-            if not self._logged_forward_diagnostics:
-                logger.info(
-                    "First forward output diagnostics: output_type=%s logits_dtype=%s logits_shape=%s",
-                    type(outputs).__name__,
-                    getattr(logits, "dtype", None),
-                    tuple(logits.shape) if hasattr(logits, "shape") else None,
-                )
-                self._logged_forward_diagnostics = True
-
-            self._perf_calls += 1
-            self._perf_input_tokens += int(input_ids.numel())
-            self._perf_prep_seconds += prep_elapsed
-            self._perf_forward_seconds += forward_elapsed
-            self._perf_output_seconds += output_elapsed
-
-            if self._perf_calls % 500 == 0:
-                total = self._perf_prep_seconds + self._perf_forward_seconds + self._perf_output_seconds
-                logger.info(
-                    "Forward perf checkpoint: calls=%d input_tokens=%d prep=%.3fs forward=%.3fs output=%.3fs total=%.3fs avg_call=%.4fs",
-                    self._perf_calls,
-                    self._perf_input_tokens,
-                    self._perf_prep_seconds,
-                    self._perf_forward_seconds,
-                    self._perf_output_seconds,
-                    total,
-                    total / self._perf_calls,
-                )
-
-            return logits
+    def device(self):
+        return "cpu"
 
     def get_performance_summary(self) -> dict:
-        total = self._perf_prep_seconds + self._perf_forward_seconds + self._perf_output_seconds
-        avg_call = total / self._perf_calls if self._perf_calls else None
-        tokens_per_second = (
-            self._perf_input_tokens / self._perf_forward_seconds
-            if self._perf_forward_seconds > 0
-            else None
-        )
         return {
-            "calls": self._perf_calls,
-            "input_tokens": self._perf_input_tokens,
-            "prep_seconds": self._perf_prep_seconds,
-            "forward_seconds": self._perf_forward_seconds,
-            "output_seconds": self._perf_output_seconds,
-            "total_seconds": total,
-            "avg_call_seconds": avg_call,
-            "forward_tokens_per_second": tokens_per_second,
+            "calls": 0, "input_tokens": 0, "prep_seconds": 0.0,
+            "forward_seconds": 0.0, "output_seconds": 0.0, "total_seconds": 0.0,
+            "avg_call_seconds": 0.0, "forward_tokens_per_second": 0.0,
         }
 
-    def loglikelihood(self, requests) -> List[tuple]:
-        results = []
-        for request in requests:
-            if hasattr(request, "args"):
-                context, continuation = request.args
-            else:
-                context, continuation = request
-
-            context_ids = self.tok_encode(context)
-            continuation_ids = self.tok_encode(continuation)
-
-            full_ids = context_ids + continuation_ids
-            if len(full_ids) > self.max_length:
-                full_ids = full_ids[-self.max_length :]
-                context_ids = full_ids[: -len(continuation_ids)]
-
-            input_ids = torch.tensor([full_ids], dtype=torch.long, device=self.device)
-            logits = self._model_call(input_ids)
-            log_probs = torch.log_softmax(logits, dim=-1)
-
-            continuation_start = len(context_ids)
-            continuation_logprobs = []
-            greedy_tokens = []
-
-            for i, token_id in enumerate(continuation_ids):
-                pos = continuation_start + i - 1
-                if 0 <= pos < log_probs.shape[1]:
-                    continuation_logprobs.append(log_probs[0, pos, token_id].item())
-                    greedy_tokens.append(log_probs[0, pos].argmax().item() == token_id)
-
-            total_logprob = sum(continuation_logprobs)
-            is_greedy = all(greedy_tokens) if greedy_tokens else False
-            results.append((total_logprob, is_greedy))
-
-        return results
-
-    def loglikelihood_rolling(self, requests) -> List[float]:
-        results = []
-        for request in requests:
-            if hasattr(request, "args"):
-                text = request.args[0]
-            else:
-                text = request
-
-            tokens = self.tok_encode(text)
-            if len(tokens) > self.max_length:
-                tokens = tokens[-self.max_length :]
-
-            input_ids = torch.tensor([tokens], dtype=torch.long, device=self.device)
-            logits = self._model_call(input_ids)
-            log_probs = torch.log_softmax(logits, dim=-1)
-
-            total_logprob = 0.0
-            for i in range(1, len(tokens)):
-                total_logprob += log_probs[0, i - 1, tokens[i]].item()
-            results.append(total_logprob)
-        return results
-
-    def generate_until(self, requests) -> List[str]:
-        results = []
-        for request in requests:
-            if hasattr(request, "args"):
-                context = request.args[0]
-                gen_kwargs = request.args[1] if len(request.args) > 1 else {}
-            else:
-                context, gen_kwargs = request
-
-            until = gen_kwargs.get("until", [])
-            max_gen_toks = gen_kwargs.get("max_gen_toks", 128)
-            temperature = gen_kwargs.get("temperature", 0.0)
-
-            input_ids = self.tok_encode(context)
-            if len(input_ids) > self.max_length - max_gen_toks:
-                input_ids = input_ids[-(self.max_length - max_gen_toks) :]
-
-            input_ids = torch.tensor([input_ids], dtype=torch.long, device=self.device)
-            generated_ids = input_ids.clone()
-
-            for _ in range(max_gen_toks):
-                logits = self._model_call(generated_ids)
-                next_token_logits = logits[:, -1, :]
-
-                if temperature > 0:
-                    probs = torch.softmax(next_token_logits / temperature, dim=-1)
-                    next_token = torch.multinomial(probs, num_samples=1)
-                else:
-                    next_token = torch.argmax(next_token_logits, dim=-1, keepdim=True)
-
-                generated_ids = torch.cat([generated_ids, next_token], dim=-1)
-
-                if next_token.item() == self.eot_token_id:
-                    break
-
-                current_text = self.tok_decode(
-                    generated_ids[0, input_ids.shape[1] :].tolist()
-                )
-                if any(stop_str in current_text for stop_str in until):
-                    break
-
-            generated_text = self.tok_decode(
-                generated_ids[0, input_ids.shape[1] :].tolist()
-            )
-            for stop_str in until:
-                if stop_str in generated_text:
-                    generated_text = generated_text.split(stop_str)[0]
-            results.append(generated_text)
-
-        return results
-
-
 def run_evaluation(
-    model_spec: ModelSpec,
     tasks: List[str],
     tokenizer_name: str = DEFAULT_TOKENIZER,
-    device: str = "cuda",
     batch_size: int = 1,
     max_length: int = 2048,
     num_fewshot: Optional[int] = None,
@@ -1010,9 +548,6 @@ def run_evaluation(
     gsm8k_limit: Optional[int] = 100,
     gsm8k_random_seed: int = 42,
     output_path: Optional[str] = None,
-    compiled_bda: bool = False,
-    force_contiguous_qkv: bool = True,
-    enforce_bf16: bool = True,
 ):
     try:
         import lm_eval
@@ -1026,16 +561,9 @@ def run_evaluation(
     _ensure_dataset_cache_symlinks()
     _patch_datasets_list_feature_type()
 
-    model = BabyLucioleLM(
-        checkpoint_path=model_spec.checkpoint_path,
-        model_type=model_spec.model_type,
+    model = RandomBaselineLM(
         tokenizer_name=tokenizer_name,
-        device=device,
-        batch_size=batch_size,
         max_length=max_length,
-        compiled_bda=compiled_bda,
-        force_contiguous_qkv=force_contiguous_qkv,
-        enforce_bf16=enforce_bf16,
     )
     perf_summary = None
 
@@ -1116,7 +644,7 @@ def run_evaluation(
             "log_samples": False,
         }
 
-        if group_name == AVAILABLE_BENCHMARKS[GSM8K_BENCHMARK_KEY]["task_name"]:
+        if group_name == AVAILABLE_BENCHMARKS["gsm8k"]["task_name"]:
             # Keep subset reproducible while avoiding always using the same head slice.
             eval_kwargs["random_seed"] = gsm8k_random_seed
             eval_kwargs["numpy_random_seed"] = gsm8k_random_seed + 1
@@ -1233,11 +761,8 @@ def run_evaluation(
             )
 
     print("\n" + "=" * 70)
-    print("BENCHMARK RESULTS")
+    print("RANDOM BASELINE EVALUATION RESULTS")
     print("=" * 70)
-    print(f"Model name:   {model_spec.name}")
-    print(f"Model type:   {model_spec.model_type}")
-    print(f"Checkpoint:   {model_spec.checkpoint_path}")
     print("-" * 70)
     for task_name, task_results in results.get("results", {}).items():
         print(f"\n{task_name}:")
@@ -1261,8 +786,7 @@ def run_evaluation(
     print("\n" + "=" * 70)
 
     logger.info(
-        "Finished evaluation for model '%s' in %s",
-        model_spec.name,
+        "Finished random baseline evaluation in %s",
         _format_duration(total_elapsed_seconds),
     )
     perf_summary = model.get_performance_summary()
@@ -1279,20 +803,19 @@ def run_evaluation(
     )
     if estimated_full_dataset_seconds is not None:
         logger.info(
-            "Estimated full-dataset runtime for model '%s': %s",
-            model_spec.name,
+            "Estimated full-dataset runtime: %s",
             _format_duration(estimated_full_dataset_seconds),
         )
     else:
         logger.info(
-            "Estimated full-dataset runtime for model '%s' unavailable",
-            model_spec.name,
+            "Estimated full-dataset runtime unavailable",
         )
 
     payload = {
-        "model_name": model_spec.name,
-        "model_type": model_spec.model_type,
-        "checkpoint": model_spec.checkpoint_path,
+        "evaluation_type": "random_baseline",
+        "model_name": "random_baseline",
+        "model_type": "baseline",
+        "checkpoint": "n/a",
         "tasks": verified_tasks,
         "num_fewshot": num_fewshot,
         "batch_size": batch_size,
@@ -1300,7 +823,6 @@ def run_evaluation(
         "limit": limit,
         "gsm8k_limit": gsm8k_limit,
         "gsm8k_random_seed": gsm8k_random_seed,
-        "enforce_bf16": enforce_bf16,
         "timing": {
             "elapsed_seconds": total_elapsed_seconds,
             "elapsed_human": _format_duration(total_elapsed_seconds),
@@ -1326,45 +848,7 @@ def run_evaluation(
 
 def get_parser():
     parser = argparse.ArgumentParser(
-        description=(
-            "Run LM Evaluation Harness benchmarks on Baby Luciole models "
-            "(SSA Triton / SSA / softmax)."
-        )
-    )
-    parser.add_argument(
-        "--model",
-        action="append",
-        default=None,
-        help=(
-            "Model spec in format 'name|model_type|checkpoint_path'. "
-            "Repeat --model to evaluate multiple models in one run."
-        ),
-    )
-    parser.add_argument(
-        "--checkpoint",
-        type=str,
-        required=False,
-        default=None,
-        help=(
-            "Path to NeMo checkpoint directory for single-model mode. "
-            "Ignored when --model is provided."
-        ),
-    )
-    parser.add_argument(
-        "--model-type",
-        type=str,
-        default=MODEL_TYPE_SSA_TRITON_V4,
-        choices=MODEL_TYPES,
-        help=(
-            "Single-model mode type used with --checkpoint "
-            f"(choices: {MODEL_TYPES})."
-        ),
-    )
-    parser.add_argument(
-        "--model-name",
-        type=str,
-        default=None,
-        help="Optional display name for single-model mode (--checkpoint).",
+        description="Run random baseline evaluation on LM Evaluation Harness benchmarks."
     )
     parser.add_argument(
         "--tasks",
@@ -1381,9 +865,6 @@ def get_parser():
         type=str,
         default=DEFAULT_TOKENIZER,
         help="Tokenizer name or path",
-    )
-    parser.add_argument(
-        "--device", type=str, default="cuda", help="Device to load model on"
     )
     parser.add_argument(
         "--batch_size", type=int, default=1, help="Batch size for evaluation"
@@ -1418,24 +899,6 @@ def get_parser():
     parser.add_argument(
         "--output", type=str, default=None, help="Path to save results JSON"
     )
-    parser.add_argument(
-        "--compiled-bda",
-        action=argparse.BooleanOptionalAction,
-        default=False,
-        help="Enable compiled bias-dropout-add path used in SSA Triton layer spec",
-    )
-    parser.add_argument(
-        "--force-contiguous-qkv",
-        action=argparse.BooleanOptionalAction,
-        default=True,
-        help="Materialize contiguous Q/K/V tensors before Triton attention kernel",
-    )
-    parser.add_argument(
-        "--enforce-bf16",
-        action=argparse.BooleanOptionalAction,
-        default=True,
-        help="Convert loaded benchmark model weights to bfloat16 for faster inference",
-    )
     return parser
 
 
@@ -1445,106 +908,36 @@ def main():
 
     torch.set_float32_matmul_precision("high")
 
-    if args.device.startswith("cuda") and not torch.cuda.is_available():
-        logger.error("CUDA requested but not available. Please run on a GPU node.")
-        sys.exit(1)
-
     tasks = get_task_list(args.tasks)
     if not tasks:
         logger.error("No valid tasks specified")
         parser.print_help()
         sys.exit(1)
 
-    try:
-        model_specs = _build_model_specs(args)
-    except ValueError as exc:
-        logger.error("%s", exc)
-        parser.print_help()
-        sys.exit(1)
-
     logger.info("Tasks to evaluate: %s", tasks)
     effective_gsm8k_limit = args.gsm8k_limit if args.gsm8k_limit and args.gsm8k_limit > 0 else None
     logger.info(
-        "gsm8k subset override: limit=%s (seed=%s)",
+        "GSM8K subset config: limit=%s (seed=%s)",
         effective_gsm8k_limit,
         args.gsm8k_random_seed,
     )
-    logger.info(
-        "Models to evaluate: %s",
-        [
-            {
-                "name": spec.name,
-                "type": spec.model_type,
-                "checkpoint": spec.checkpoint_path,
-            }
-            for spec in model_specs
-        ],
+
+    result = run_evaluation(
+        tasks=tasks,
+        tokenizer_name=args.tokenizer,
+        batch_size=args.batch_size,
+        max_length=args.max_length,
+        num_fewshot=args.num_fewshot,
+        limit=args.limit,
+        gsm8k_limit=effective_gsm8k_limit,
+        gsm8k_random_seed=args.gsm8k_random_seed,
+        output_path=args.output,
     )
-    logger.info("enforce_bf16=%s", args.enforce_bf16)
 
-    all_results = []
-    multi_model = len(model_specs) > 1
-
-    try:
-        for spec in model_specs:
-            logger.info(
-                "Starting evaluation for model '%s' (%s)",
-                spec.name,
-                spec.model_type,
-            )
-
-            per_model_output = _model_output_path(
-                base_output_path=args.output,
-                model_name=spec.name,
-                multi_model=multi_model,
-            )
-
-            model_result = run_evaluation(
-                model_spec=spec,
-                tasks=tasks,
-                tokenizer_name=args.tokenizer,
-                device=args.device,
-                batch_size=args.batch_size,
-                max_length=args.max_length,
-                num_fewshot=args.num_fewshot,
-                limit=args.limit,
-                gsm8k_limit=effective_gsm8k_limit,
-                gsm8k_random_seed=args.gsm8k_random_seed,
-                output_path=per_model_output,
-                compiled_bda=args.compiled_bda,
-                force_contiguous_qkv=args.force_contiguous_qkv,
-                enforce_bf16=args.enforce_bf16,
-            )
-            all_results.append(model_result)
-
-            # Reset Megatron parallel/distributed state before loading next model.
-            _cleanup_parallel_state()
-
-    finally:
-        _cleanup_parallel_state()
-
-    if multi_model:
-        print("\n" + "=" * 70)
-        print("MULTI-MODEL BENCHMARK SUMMARY")
-        print("=" * 70)
-        for model_result in all_results:
-            task_count = len(model_result.get("results", {}).get("results", {}))
-            print(
-                f"- {model_result['model_name']} ({model_result['model_type']}): "
-                f"{task_count} evaluated task(s)"
-            )
-        print("=" * 70)
-
-        if args.output:
-            combined_payload = {
-                "tasks_requested": tasks,
-                "num_models": len(all_results),
-                "models": all_results,
-            }
-            os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
-            with open(args.output, "w", encoding="utf-8") as handle:
-                json.dump(combined_payload, handle, indent=2, default=str)
-            logger.info("Combined results saved to: %s", args.output)
+    print("\n" + "=" * 70)
+    if args.output:
+        print(f"Results saved to: {args.output}")
+    print("=" * 70)
 
 
 if __name__ == "__main__":

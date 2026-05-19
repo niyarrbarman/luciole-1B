@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luciole Benchmark Interactive Report</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root {
+      --bg: #f7f5ef;
+      --panel: #fffdf7;
+      --ink: #1f2937;
+      --accent: #0f766e;
+      --muted: #6b7280;
+      --border: #d1d5db;
+    }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, #efe9dc 0%, transparent 40%),
+        radial-gradient(circle at 80% 90%, #e6f3ee 0%, transparent 30%),
+        var(--bg);
+    }
+    .wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .title {
+      margin: 0 0 10px;
+      font-size: 32px;
+      letter-spacing: 0.2px;
+    }
+    .subtitle {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 360px 1fr;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .controls {
+      padding: 14px;
+      position: sticky;
+      top: 10px;
+      height: fit-content;
+    }
+    .control {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    select, input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+    .run-list {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      max-height: 250px;
+      overflow: auto;
+      padding: 6px;
+    }
+    .run-item {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 4px 2px;
+      font-size: 12px;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    button {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .content {
+      padding: 12px;
+    }
+    #chart {
+      width: 100%;
+      height: 620px;
+    }
+    .table-wrap {
+      margin-top: 10px;
+      overflow: auto;
+      max-height: 260px;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+    .summary-wrap {
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+    }
+    .summary-title {
+      margin: 0 0 6px;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: white;
+      border: 1px solid var(--border);
+    }
+    th, td {
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      padding: 6px 8px;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #f9fafb;
+      z-index: 1;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    @media (max-width: 1100px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .controls {
+        position: static;
+      }
+      #chart {
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Luciole Benchmark Interactive Report</h1>
+  <p class="subtitle">Interactive benchmark explorer: choose scope, task, metric, and visible runs.</p>
+
+  <div class="grid">
+    <aside class="panel controls">
+      <div class="control">
+        <label for="scopeSelect">Metric Scope</label>
+        <select id="scopeSelect">
+          <option value="task">Task metrics</option>
+          <option value="timing">Timing metrics</option>
+          <option value="forward">Forward metrics</option>
+          <option value="run">Run settings</option>
+        </select>
+      </div>
+
+      <div class="control" id="taskControl">
+        <label for="taskSelect">Task</label>
+        <select id="taskSelect"></select>
+      </div>
+
+      <div class="control">
+        <label for="metricSelect">Metric</label>
+        <select id="metricSelect"></select>
+      </div>
+
+      <div class="control">
+        <label for="runFilter">Filter Runs</label>
+        <input id="runFilter" type="text" placeholder="Type to filter runs..." />
+      </div>
+
+      <div class="control">
+        <div class="btn-row">
+          <button id="selectAllBtn" type="button">Select all</button>
+          <button id="selectNoneBtn" type="button">Select none</button>
+        </div>
+        <div class="run-list" id="runList"></div>
+      </div>
+
+      <p class="muted" id="selectionSummary"></p>
+    </aside>
+
+    <section class="panel content">
+      <div id="chart"></div>
+
+      <div class="table-wrap">
+        <table id="valueTable">
+          <thead>
+            <tr><th>Run</th><th>Value</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      
+      <div class="summary-wrap" id="summaryWrap">
+        <h3 class="summary-title">Significant Wins Summary (95% CI)</h3>
+        <p class="muted" id="summaryHint"></p>
+        <div class="table-wrap" style="max-height: 300px; border-top: 0; padding-top: 0; margin-top: 6px;">
+          <table id="summaryTable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Metric</th>
+                <th>Winner</th>
+                <th>Winner value</th>
+                <th>Best challenger</th>
+                <th>Challenger value</th>
+                <th>CI separation</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="summary-wrap" id="trendWrap">
+        <h3 class="summary-title">Task Order Trend</h3>
+        <p class="muted" id="trendHint"></p>
+        <div class="table-wrap" style="max-height: 300px; border-top: 0; padding-top: 0; margin-top: 6px;">
+          <table id="trendTable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Metric used</th>
+                <th>Order</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const DATA = {"runs": ["ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]", "luciole_200k (softmax) [results_softmax_french_bench_200k#1]"], "run_model_names": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": "ssa_luciole_200k", "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": "luciole_200k"}, "task_metrics": {"french_bench_arc_challenge": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.31907613344739094, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.31137724550898205}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.3609923011120616, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.3532934131736527}}, "french_bench_boolqa": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.5449438202247191, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.6404494382022472}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.5449438202247191, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.6404494382022472}}, "french_bench_fquadv2": {"exact,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.15, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.14125}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.2433708757118729, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.2407990094912008}}, "french_bench_fquadv2_bool": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.4975, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.51375}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.4975, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.51375}}, "french_bench_fquadv2_genq": {"rouge1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.22053435858075202, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.20309145735851541}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.19250773877586277, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.18124453194636403}}, "french_bench_fquadv2_hasAns": {"exact,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.285, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.27}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.5164326654178799, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.49849503214076224}, "rouge1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.5275447324248242, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.5113016668404655}}, "french_bench_grammar": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.7983193277310925, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.7899159663865546}}, "french_bench_hellaswag": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.4020132790747483, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.4017991004497751}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.5272006853715999, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.5222745769972157}}, "french_bench_multifquad": {"exact,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.02, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.03}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.39664906575977904, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.4102318637553459}, "rouge1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.4124868769146284, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.42903271273428284}}, "french_bench_opus_perplexity": {"word_perplexity,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 32.4120779044309, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 33.30300105838558}, "byte_perplexity,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 1.7296106776670863, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 1.737013723834845}, "bits_per_byte,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.7904473346201013, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.7966091525688915}}, "french_bench_reading_comp": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.5633802816901409, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.5915492957746479}}, "french_bench_topic_based_nli": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.6033333333333334, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.5666666666666667}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.6033333333333334, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.5616666666666666}}, "french_bench_trivia": {"exact,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.4105263157894737, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.4421052631578947}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.5152923465423466, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.5468380380776503}, "rouge1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.5233271458074094, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.5524814067895787}, "is_included,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.39473684210526316, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.43157894736842106}}, "french_bench_vocab": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.8067226890756303, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.773109243697479}}, "french_bench_xnli": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.3333333333333333, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.3399201596806387}}}, "task_stderr": {"french_bench_arc_challenge": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.01363876408301105, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.013549170237200052}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.014053373664144688, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.013986208268539468}}, "french_bench_boolqa": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.03743016495716991, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.03606913914074032}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.03743016495716991, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.03606913914074032}}, "french_bench_fquadv2": {"exact,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.012632278815997783, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.012321234227589128}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.013593347605324687, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.013378813913323373}}, "french_bench_fquadv2_bool": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.017688507331443153, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.017682038626456065}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.017688507331443153, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.017682038626456065}}, "french_bench_fquadv2_genq": {"f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.00931731071774932, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.009296671673805957}}, "french_bench_fquadv2_hasAns": {"exact,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.02259898859936625, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.022225772481648753}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.020329152764223438, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.020138648565911736}}, "french_bench_grammar": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.03693851725228282, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.037501269180121304}}, "french_bench_hellaswag": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.005074138181243352, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.005073694708369578}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.00516681275287528, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.005169338127829558}}, "french_bench_multifquad": {"exact,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.007008766440504624, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.008540042788362812}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.015036801882963639, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.015198009489372938}}, "french_bench_reading_comp": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.05927935558412972, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.058751136942575236}}, "french_bench_topic_based_nli": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.019988403241478384, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.020247036740072583}, "acc_norm,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.019988403241478384, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.02027347347104929}}, "french_bench_trivia": {"exact,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.025268712068244593, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.025510523434968513}, "f1,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.023348554147606008, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.023414619612206353}, "is_included,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.025107666185708085, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.02544166899513498}}, "french_bench_vocab": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.036350598811449704, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.03855563237965161}}, "french_bench_xnli": {"acc,none": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.0066606747545357725, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.006692851356332757}}}, "scoped_metrics": {"run": {"batch_size": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 64.0, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 64.0}, "max_length": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 2048.0, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 2048.0}, "num_fewshot": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 5.0, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 5.0}, "gsm8k_random_seed": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 42.0, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 42.0}}, "timing": {"elapsed_seconds": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 4565.594198614359, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 3692.1157454606146}, "estimated_full_dataset_seconds": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 4565.591040158644, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 3692.1122973682363}}, "forward": {"calls": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 105319.0, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 114548.0}, "input_tokens": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 94971744.0, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 108476721.0}, "prep_seconds": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 6.819369457662106, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 7.343330079689622}, "forward_seconds": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 3878.0000594360754, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 2762.009181932546}, "output_seconds": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.1189561327919364, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.06047677621245384}, "total_seconds": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 3884.9383850265294, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 2769.4129887884483}, "avg_call_seconds": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 0.036887345920741076, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 0.024176877717537175}, "forward_tokens_per_second": {"ssa_luciole_200k (ssa_triton) [results_ssa_french_bench_200k#1]": 24489.87688097417, "luciole_200k (softmax) [results_softmax_french_bench_200k#1]": 39274.569291656044}}}};
+
+const scopeSelect = document.getElementById('scopeSelect');
+const taskControl = document.getElementById('taskControl');
+const taskSelect = document.getElementById('taskSelect');
+const metricSelect = document.getElementById('metricSelect');
+const runFilter = document.getElementById('runFilter');
+const runList = document.getElementById('runList');
+const selectAllBtn = document.getElementById('selectAllBtn');
+const selectNoneBtn = document.getElementById('selectNoneBtn');
+const selectionSummary = document.getElementById('selectionSummary');
+const valueTableBody = document.querySelector('#valueTable tbody');
+const summaryHint = document.getElementById('summaryHint');
+const summaryTableBody = document.querySelector('#summaryTable tbody');
+const trendHint = document.getElementById('trendHint');
+const trendTableBody = document.querySelector('#trendTable tbody');
+const CI_MULTIPLIER = 1.96;
+
+function uniqueSorted(values) {
+  return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b));
+}
+
+function isPercentLikeMetric(metricName) {
+  return /(acc|accuracy|exact_match|f1|em,|precision|recall)/i.test(metricName) && !/(perplex|loss|ppl)/i.test(metricName);
+}
+
+function isLowerBetterMetric(metricName) {
+  return /(perplex|ppl|loss|error|wer|bpb|bits_per_byte)/i.test(metricName);
+}
+
+function shouldScaleTaskMetricToPercent(metricName, values) {
+  if (isPercentLikeMetric(metricName)) return true;
+  const finiteValues = values.filter(v => Number.isFinite(v));
+  return finiteValues.length > 0 && finiteValues.every(v => v >= 0 && v <= 1);
+}
+
+function maybeScale(value, scaleToPercent) {
+  if (!Number.isFinite(value)) return null;
+  return scaleToPercent ? value * 100 : value;
+}
+
+function formatMetricValue(value, scaleToPercent) {
+  if (!Number.isFinite(value)) return 'N/A';
+  const scaled = maybeScale(value, scaleToPercent);
+  const suffix = scaleToPercent ? '%' : '';
+  if (Math.abs(scaled) >= 1000 || (Math.abs(scaled) > 0 && Math.abs(scaled) < 0.001)) return `${scaled.toExponential(3)}${suffix}`;
+  return `${scaled.toFixed(6).replace(/0+$/, '').replace(/\.$/, '')}${suffix}`;
+}
+
+function clearElement(el) {
+  while (el.firstChild) el.removeChild(el.firstChild);
+}
+
+function option(parent, value, text) {
+  const el = document.createElement('option');
+  el.value = value;
+  el.textContent = text;
+  parent.appendChild(el);
+}
+
+function buildRunChecklist() {
+  clearElement(runList);
+  for (const label of DATA.runs) {
+    const row = document.createElement('label');
+    row.className = 'run-item';
+    row.dataset.label = label.toLowerCase();
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = label;
+    cb.checked = true;
+    cb.addEventListener('change', updateView);
+
+    const span = document.createElement('span');
+    span.textContent = label;
+
+    row.appendChild(cb);
+    row.appendChild(span);
+    runList.appendChild(row);
+  }
+}
+
+function visibleRunCheckboxes() {
+  return Array.from(runList.querySelectorAll('label.run-item')).filter(r => r.style.display !== 'none');
+}
+
+function selectedRuns() {
+  return Array.from(runList.querySelectorAll('input[type=checkbox]'))
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
+}
+
+function metricNamesForTask(taskName) {
+  const taskData = DATA.task_metrics[taskName] || {};
+  return Object.keys(taskData).sort((a, b) => a.localeCompare(b));
+}
+
+function metricNamesForTaskAll() {
+  const out = [];
+  for (const taskName of Object.keys(DATA.task_metrics)) {
+    out.push(...Object.keys(DATA.task_metrics[taskName] || {}));
+  }
+  return uniqueSorted(out);
+}
+
+function metricNamesForScope(scope) {
+  return Object.keys(DATA.scoped_metrics[scope] || {}).sort((a, b) => a.localeCompare(b));
+}
+
+function setOptionsPreserve(selectEl, values) {
+  const prev = selectEl.value;
+  clearElement(selectEl);
+  for (const v of values) option(selectEl, v, v);
+  if (values.includes(prev)) selectEl.value = prev;
+}
+
+function refreshTaskAndMetricSelectors() {
+  const scope = scopeSelect.value;
+
+  if (scope === 'task') {
+    taskControl.style.display = '';
+    const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+    const taskOptions = ['__ALL_TASKS__', ...tasks];
+    setOptionsPreserve(taskSelect, taskOptions);
+
+    const selectedTask = taskSelect.value || '__ALL_TASKS__';
+    const metrics = selectedTask === '__ALL_TASKS__' ? metricNamesForTaskAll() : metricNamesForTask(selectedTask);
+    setOptionsPreserve(metricSelect, metrics);
+  } else {
+    taskControl.style.display = 'none';
+    const metrics = metricNamesForScope(scope);
+    setOptionsPreserve(metricSelect, metrics);
+  }
+}
+
+function formatNumber(value) {
+  if (value === null || value === undefined || Number.isNaN(value)) return 'N/A';
+  if (Math.abs(value) >= 1000 || (Math.abs(value) > 0 && Math.abs(value) < 0.001)) return value.toExponential(3);
+  return value.toFixed(6).replace(/0+$/, '').replace(/\.$/, '');
+}
+
+function getTaskMetricValues(taskName, metricName) {
+  if (taskName === '__ALL_TASKS__') return null;
+  return (DATA.task_metrics[taskName] || {})[metricName] || {};
+}
+
+function getTaskMetricStderr(taskName, metricName) {
+  return (DATA.task_stderr?.[taskName] || {})[metricName] || {};
+}
+
+function isSignificantlyBetter(bestVal, bestSe, otherVal, otherSe, lowerIsBetter) {
+  if (!Number.isFinite(bestVal) || !Number.isFinite(otherVal)) return false;
+  if (!Number.isFinite(bestSe) || !Number.isFinite(otherSe)) return false;
+  const bestCi = CI_MULTIPLIER * bestSe;
+  const otherCi = CI_MULTIPLIER * otherSe;
+
+  if (lowerIsBetter) {
+    return (bestVal + bestCi) < (otherVal - otherCi);
+  }
+  return (bestVal - bestCi) > (otherVal + otherCi);
+}
+
+function clearSummaryTable() {
+  while (summaryTableBody.firstChild) summaryTableBody.removeChild(summaryTableBody.firstChild);
+}
+
+function displayRunName(runLabel) {
+  return (DATA.run_model_names && DATA.run_model_names[runLabel]) || runLabel;
+}
+
+function clearTrendTable() {
+  while (trendTableBody.firstChild) trendTableBody.removeChild(trendTableBody.firstChild);
+}
+
+function chooseTrendMetric(taskMetrics) {
+  const preferred = [
+    'acc,none',
+    'acc_norm,none',
+    'exact_match,strict-match',
+    'exact_match,flexible-extract',
+    'f1,none',
+    'em,none',
+    'perplexity,none',
+    'loss,none',
+  ];
+  for (const metric of preferred) {
+    if (Object.prototype.hasOwnProperty.call(taskMetrics, metric)) return metric;
+  }
+  const allMetrics = Object.keys(taskMetrics).sort((a, b) => a.localeCompare(b));
+  return allMetrics.length > 0 ? allMetrics[0] : null;
+}
+
+function buildTrendTable(rows) {
+  clearTrendTable();
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const cols = [row.task, row.metric, row.order];
+    for (const col of cols) {
+      const td = document.createElement('td');
+      td.textContent = col;
+      tr.appendChild(td);
+    }
+    trendTableBody.appendChild(tr);
+  }
+}
+
+function buildSummaryTable(rows) {
+  clearSummaryTable();
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const cols = [
+      row.task,
+      row.metric,
+      displayRunName(row.winner),
+      row.winnerValue,
+      displayRunName(row.challenger),
+      row.challengerValue,
+      row.separation,
+    ];
+    for (const col of cols) {
+      const td = document.createElement('td');
+      td.textContent = col;
+      tr.appendChild(td);
+    }
+    summaryTableBody.appendChild(tr);
+  }
+}
+
+function updateSignificanceSummary(runs) {
+  const summaryRows = [];
+  const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+
+  for (const task of tasks) {
+    const metrics = Object.keys(DATA.task_metrics[task] || {}).sort((a, b) => a.localeCompare(b));
+
+    for (const metric of metrics) {
+      const values = (DATA.task_metrics[task] || {})[metric] || {};
+      const stderr = getTaskMetricStderr(task, metric);
+
+      const candidates = runs
+        .map(run => ({ run, value: values[run], stderr: stderr[run] }))
+        .filter(item => Number.isFinite(item.value) && Number.isFinite(item.stderr));
+
+      if (candidates.length < 2) continue;
+
+      const lowerIsBetter = isLowerBetterMetric(metric);
+      candidates.sort((a, b) => lowerIsBetter ? a.value - b.value : b.value - a.value);
+
+      const winner = candidates[0];
+      const challenger = candidates[1];
+      const winnerBeatsAll = candidates.slice(1).every(other =>
+        isSignificantlyBetter(winner.value, winner.stderr, other.value, other.stderr, lowerIsBetter)
+      );
+
+      if (!winnerBeatsAll) continue;
+
+      const winnerCi = CI_MULTIPLIER * winner.stderr;
+      const challengerCi = CI_MULTIPLIER * challenger.stderr;
+      const scaleToPercent = shouldScaleTaskMetricToPercent(metric, candidates.map(c => c.value));
+
+      const separationRaw = lowerIsBetter
+        ? (challenger.value - challengerCi) - (winner.value + winnerCi)
+        : (winner.value - winnerCi) - (challenger.value + challengerCi);
+
+      summaryRows.push({
+        task,
+        metric,
+        winner: winner.run,
+        winnerValue: `${formatMetricValue(winner.value, scaleToPercent)} ± ${formatMetricValue(winnerCi, scaleToPercent)}`,
+        challenger: challenger.run,
+        challengerValue: `${formatMetricValue(challenger.value, scaleToPercent)} ± ${formatMetricValue(challengerCi, scaleToPercent)}`,
+        separation: formatMetricValue(separationRaw, scaleToPercent),
+      });
+    }
+  }
+
+  summaryRows.sort((a, b) => (a.task + a.metric).localeCompare(b.task + b.metric));
+  buildSummaryTable(summaryRows);
+
+  if (summaryRows.length === 0) {
+    summaryHint.textContent = 'No statistically significant winner found (among selected runs with available stderr).';
+  } else {
+    summaryHint.textContent = `${summaryRows.length} significant winner case(s) found among selected runs.`;
+  }
+}
+
+function updateTrendSummary(runs) {
+  const trendRows = [];
+  const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+
+  for (const task of tasks) {
+    const taskMetrics = DATA.task_metrics[task] || {};
+    const metric = chooseTrendMetric(taskMetrics);
+    if (!metric) continue;
+
+    const values = taskMetrics[metric] || {};
+    const candidates = runs
+      .map(run => ({ run, value: values[run] }))
+      .filter(item => Number.isFinite(item.value));
+
+    if (candidates.length === 0) continue;
+
+    const lowerIsBetter = isLowerBetterMetric(metric);
+    candidates.sort((a, b) => lowerIsBetter ? a.value - b.value : b.value - a.value);
+
+    trendRows.push({
+      task,
+      metric,
+      order: candidates.map(item => displayRunName(item.run)).join(' > '),
+    });
+  }
+
+  buildTrendTable(trendRows);
+  if (trendRows.length === 0) {
+    trendHint.textContent = 'No task ordering available for the currently selected runs.';
+  } else {
+    trendHint.textContent = `${trendRows.length} task trend row(s) generated from selected runs.`;
+  }
+}
+
+function buildTable(rows) {
+  clearElement(valueTableBody);
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const tdRun = document.createElement('td');
+    const tdVal = document.createElement('td');
+    tdRun.textContent = row.run;
+    tdVal.textContent = formatMetricValue(row.value, row.scaleToPercent);
+    tr.appendChild(tdRun);
+    tr.appendChild(tdVal);
+    valueTableBody.appendChild(tr);
+  }
+}
+
+function updateView() {
+  refreshTaskAndMetricSelectors();
+
+  const scope = scopeSelect.value;
+  const metric = metricSelect.value;
+  const runs = selectedRuns();
+  selectionSummary.textContent = `${runs.length} selected run(s)`;
+  updateSignificanceSummary(runs);
+  updateTrendSummary(runs);
+
+  if (!metric) {
+    Plotly.react('chart', [], {title: 'No metric available'});
+    buildTable([]);
+    return;
+  }
+
+  if (scope === 'task') {
+    const taskName = taskSelect.value;
+
+    if (taskName === '__ALL_TASKS__') {
+      const allTasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+      const z = allTasks.map(task => runs.map(run => {
+        const values = (DATA.task_metrics[task] || {})[metric] || {};
+        const v = values[run];
+        const scaleToPercent = shouldScaleTaskMetricToPercent(metric, Object.values(values));
+        return Number.isFinite(v) ? maybeScale(v, scaleToPercent) : null;
+      }));
+      const scaleToPercent = shouldScaleTaskMetricToPercent(metric, allTasks.flatMap(task => Object.values((DATA.task_metrics[task] || {})[metric] || {})));
+
+      Plotly.react('chart', [{
+        type: 'heatmap',
+        x: runs,
+        y: allTasks,
+        z,
+        colorscale: 'Viridis',
+        colorbar: {title: scaleToPercent ? `${metric} (%)` : metric},
+        hovertemplate: 'Task=%{y}<br>Run=%{x}<br>Value=%{z}<extra></extra>'
+      }], {
+        title: `Task metric heatmap: ${metric}`,
+        margin: {l: 150, r: 20, t: 50, b: 150},
+        xaxis: {tickangle: 45},
+      }, {responsive: true});
+
+      buildTable([]);
+      return;
+    }
+
+    const values = getTaskMetricValues(taskName, metric);
+    const stderrValues = getTaskMetricStderr(taskName, metric);
+    const rawValues = runs.map(run => values[run]);
+    const scaleToPercent = shouldScaleTaskMetricToPercent(metric, rawValues.concat(Object.values(stderrValues)));
+    const rows = runs.map(run => ({ run, value: values[run], scaleToPercent }));
+    const errorValues = runs.map(run => {
+      const stderr = stderrValues[run];
+      return Number.isFinite(stderr) ? maybeScale(stderr * CI_MULTIPLIER, scaleToPercent) : null;
+    });
+
+    Plotly.react('chart', [{
+      type: 'bar',
+      x: runs,
+      y: rows.map(r => maybeScale(r.value, scaleToPercent)),
+      marker: {color: '#0f766e'},
+      error_y: {
+        type: 'data',
+        array: errorValues,
+        visible: true,
+        thickness: 1.2,
+        color: '#334155',
+      },
+      hovertemplate: scaleToPercent ? 'Run=%{x}<br>Value=%{y:.2f}%<extra></extra>' : 'Run=%{x}<br>Value=%{y}<extra></extra>'
+    }], {
+      title: `${taskName} | ${metric}`,
+      margin: {l: 60, r: 20, t: 50, b: 170},
+      xaxis: {tickangle: 45},
+      yaxis: scaleToPercent ? {automargin: true, range: [0, 100], ticksuffix: '%'} : {automargin: true},
+    }, {responsive: true});
+
+    buildTable(rows);
+    return;
+  }
+
+  const values = (DATA.scoped_metrics[scope] || {})[metric] || {};
+  const rows = runs.map(run => ({ run, value: values[run], scaleToPercent: false }));
+
+  Plotly.react('chart', [{
+    type: 'bar',
+    x: runs,
+    y: rows.map(r => Number.isFinite(r.value) ? r.value : null),
+    marker: {color: '#1d4ed8'},
+    hovertemplate: 'Run=%{x}<br>Value=%{y}<extra></extra>'
+  }], {
+    title: `${scope} | ${metric}`,
+    margin: {l: 60, r: 20, t: 50, b: 170},
+    xaxis: {tickangle: 45},
+    yaxis: {automargin: true},
+  }, {responsive: true});
+
+  buildTable(rows);
+}
+
+scopeSelect.addEventListener('change', updateView);
+taskSelect.addEventListener('change', updateView);
+metricSelect.addEventListener('change', updateView);
+
+runFilter.addEventListener('input', () => {
+  const needle = runFilter.value.toLowerCase().trim();
+  const rows = Array.from(runList.querySelectorAll('label.run-item'));
+  for (const row of rows) {
+    const show = !needle || row.dataset.label.includes(needle);
+    row.style.display = show ? '' : 'none';
+  }
+});
+
+selectAllBtn.addEventListener('click', () => {
+  for (const row of visibleRunCheckboxes()) row.querySelector('input').checked = true;
+  updateView();
+});
+
+selectNoneBtn.addEventListener('click', () => {
+  for (const row of visibleRunCheckboxes()) row.querySelector('input').checked = false;
+  updateView();
+});
+
+buildRunChecklist();
+refreshTaskAndMetricSelectors();
+updateView();
+</script>
+</body>
+</html>

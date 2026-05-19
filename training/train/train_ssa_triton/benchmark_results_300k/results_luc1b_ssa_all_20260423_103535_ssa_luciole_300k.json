@@ -1,0 +1,964 @@
+{
+  "model_name": "ssa_luciole_300k",
+  "model_type": "ssa_triton",
+  "checkpoint": "/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0299999",
+  "tasks": [
+    "arc_easy",
+    "arc_challenge",
+    "hellaswag",
+    "winogrande",
+    "truthfulqa_mc2",
+    "openbookqa",
+    "lambada_openai",
+    "boolq",
+    "cb",
+    "copa",
+    "multirc",
+    "record",
+    "wic",
+    "wsc"
+  ],
+  "num_fewshot": 5,
+  "batch_size": 64,
+  "max_length": 2048,
+  "limit": null,
+  "gsm8k_limit": null,
+  "gsm8k_random_seed": 42,
+  "enforce_bf16": true,
+  "timing": {
+    "elapsed_seconds": 9643.882496239152,
+    "elapsed_human": "2h 40m 44s",
+    "estimated_full_dataset_seconds": 9643.876020862954,
+    "estimated_full_dataset_human": "2h 40m 44s",
+    "groups": [
+      {
+        "name": "regular",
+        "tasks": [
+          "arc_easy",
+          "arc_challenge",
+          "hellaswag",
+          "winogrande",
+          "truthfulqa_mc2",
+          "openbookqa",
+          "lambada_openai",
+          "boolq",
+          "cb",
+          "copa",
+          "multirc",
+          "record",
+          "wic",
+          "wsc"
+        ],
+        "limit": null,
+        "elapsed_seconds": 9643.876020862954,
+        "elapsed_human": "2h 40m 44s",
+        "evaluated_docs": 40343,
+        "total_docs": 40343,
+        "estimated_full_dataset_seconds": 9643.876020862954,
+        "estimated_full_dataset_human": "2h 40m 44s"
+      }
+    ],
+    "tasks": [
+      {
+        "task": "arc_easy",
+        "limit": null,
+        "evaluated_docs": 2376,
+        "total_docs": 2376,
+        "elapsed_seconds": 567.9758427873578,
+        "elapsed_human": "9m 28s",
+        "estimated_full_dataset_seconds": 567.9758427873578,
+        "estimated_full_dataset_human": "9m 28s"
+      },
+      {
+        "task": "arc_challenge",
+        "limit": null,
+        "evaluated_docs": 1172,
+        "total_docs": 1172,
+        "elapsed_seconds": 280.1631682435957,
+        "elapsed_human": "4m 40s",
+        "estimated_full_dataset_seconds": 280.1631682435957,
+        "estimated_full_dataset_human": "4m 40s"
+      },
+      {
+        "task": "hellaswag",
+        "limit": null,
+        "evaluated_docs": 10042,
+        "total_docs": 10042,
+        "elapsed_seconds": 2400.5106958209794,
+        "elapsed_human": "40m 1s",
+        "estimated_full_dataset_seconds": 2400.5106958209794,
+        "estimated_full_dataset_human": "40m 1s"
+      },
+      {
+        "task": "winogrande",
+        "limit": null,
+        "evaluated_docs": 1267,
+        "total_docs": 1267,
+        "elapsed_seconds": 302.87264007221484,
+        "elapsed_human": "5m 3s",
+        "estimated_full_dataset_seconds": 302.87264007221484,
+        "estimated_full_dataset_human": "5m 3s"
+      },
+      {
+        "task": "truthfulqa_mc2",
+        "limit": null,
+        "evaluated_docs": 817,
+        "total_docs": 817,
+        "elapsed_seconds": 195.3014577261243,
+        "elapsed_human": "3m 15s",
+        "estimated_full_dataset_seconds": 195.3014577261243,
+        "estimated_full_dataset_human": "3m 15s"
+      },
+      {
+        "task": "openbookqa",
+        "limit": null,
+        "evaluated_docs": 500,
+        "total_docs": 500,
+        "elapsed_seconds": 119.52353594010056,
+        "elapsed_human": "2m 0s",
+        "estimated_full_dataset_seconds": 119.52353594010056,
+        "estimated_full_dataset_human": "2m 0s"
+      },
+      {
+        "task": "lambada_openai",
+        "limit": null,
+        "evaluated_docs": 5153,
+        "total_docs": 5153,
+        "elapsed_seconds": 1231.8095613986764,
+        "elapsed_human": "20m 32s",
+        "estimated_full_dataset_seconds": 1231.8095613986764,
+        "estimated_full_dataset_human": "20m 32s"
+      },
+      {
+        "task": "boolq",
+        "limit": null,
+        "evaluated_docs": 3270,
+        "total_docs": 3270,
+        "elapsed_seconds": 781.6839250482577,
+        "elapsed_human": "13m 2s",
+        "estimated_full_dataset_seconds": 781.6839250482577,
+        "estimated_full_dataset_human": "13m 2s"
+      },
+      {
+        "task": "cb",
+        "limit": null,
+        "evaluated_docs": 56,
+        "total_docs": 56,
+        "elapsed_seconds": 13.386636025291264,
+        "elapsed_human": "13s",
+        "estimated_full_dataset_seconds": 13.386636025291264,
+        "estimated_full_dataset_human": "13s"
+      },
+      {
+        "task": "copa",
+        "limit": null,
+        "evaluated_docs": 100,
+        "total_docs": 100,
+        "elapsed_seconds": 23.90470718802011,
+        "elapsed_human": "24s",
+        "estimated_full_dataset_seconds": 23.90470718802011,
+        "estimated_full_dataset_human": "24s"
+      },
+      {
+        "task": "multirc",
+        "limit": null,
+        "evaluated_docs": 4848,
+        "total_docs": 4848,
+        "elapsed_seconds": 1158.900204475215,
+        "elapsed_human": "19m 19s",
+        "estimated_full_dataset_seconds": 1158.900204475215,
+        "estimated_full_dataset_human": "19m 19s"
+      },
+      {
+        "task": "record",
+        "limit": null,
+        "evaluated_docs": 10000,
+        "total_docs": 10000,
+        "elapsed_seconds": 2390.470718802011,
+        "elapsed_human": "39m 50s",
+        "estimated_full_dataset_seconds": 2390.470718802011,
+        "estimated_full_dataset_human": "39m 50s"
+      },
+      {
+        "task": "wic",
+        "limit": null,
+        "evaluated_docs": 638,
+        "total_docs": 638,
+        "elapsed_seconds": 152.51203185956834,
+        "elapsed_human": "2m 33s",
+        "estimated_full_dataset_seconds": 152.51203185956834,
+        "estimated_full_dataset_human": "2m 33s"
+      },
+      {
+        "task": "wsc",
+        "limit": null,
+        "evaluated_docs": 104,
+        "total_docs": 104,
+        "elapsed_seconds": 24.860895475540918,
+        "elapsed_human": "25s",
+        "estimated_full_dataset_seconds": 24.86089547554092,
+        "estimated_full_dataset_human": "25s"
+      }
+    ]
+  },
+  "forward_performance": {
+    "calls": 201249,
+    "input_tokens": 233065412,
+    "prep_seconds": 12.881260060239583,
+    "forward_seconds": 7346.464303934015,
+    "output_seconds": 0.19048037333413959,
+    "total_seconds": 7359.536044367589,
+    "avg_call_seconds": 0.03656930491265839,
+    "forward_tokens_per_second": 31724.841006195864
+  },
+  "results": {
+    "results": {
+      "arc_challenge": {
+        "alias": "arc_challenge",
+        "acc,none": 0.3839590443686007,
+        "acc_stderr,none": 0.014212444980651792,
+        "acc_norm,none": 0.4351535836177474,
+        "acc_norm_stderr,none": 0.014487986197186081
+      },
+      "arc_easy": {
+        "alias": "arc_easy",
+        "acc,none": 0.7281144781144782,
+        "acc_stderr,none": 0.009129795867310605,
+        "acc_norm,none": 0.7255892255892256,
+        "acc_norm_stderr,none": 0.0091561771222447
+      },
+      "boolq": {
+        "alias": "boolq",
+        "acc,none": 0.6134556574923548,
+        "acc_stderr,none": 0.008516943934341775
+      },
+      "cb": {
+        "alias": "cb",
+        "acc,none": 0.5357142857142857,
+        "acc_stderr,none": 0.06724777654937657,
+        "f1,none": 0.35895522388059703,
+        "f1_stderr,none": "N/A"
+      },
+      "copa": {
+        "alias": "copa",
+        "acc,none": 0.72,
+        "acc_stderr,none": 0.045126085985421296
+      },
+      "hellaswag": {
+        "alias": "hellaswag",
+        "acc,none": 0.43686516630153355,
+        "acc_stderr,none": 0.004949842967331551,
+        "acc_norm,none": 0.5851424019119698,
+        "acc_norm_stderr,none": 0.004916905095810688
+      },
+      "lambada_openai": {
+        "alias": "lambada_openai",
+        "perplexity,none": 13.420075711151263,
+        "perplexity_stderr,none": 0.398785541140739,
+        "acc,none": 0.45585096060547253,
+        "acc_stderr,none": 0.006938769221379129
+      },
+      "multirc": {
+        "alias": "multirc",
+        "acc,none": 0.4898927392739274,
+        "acc_stderr,none": 0.0071803356171645455
+      },
+      "openbookqa": {
+        "alias": "openbookqa",
+        "acc,none": 0.288,
+        "acc_stderr,none": 0.020271503835075255,
+        "acc_norm,none": 0.42,
+        "acc_norm_stderr,none": 0.02209471322976179
+      },
+      "record": {
+        "alias": "record",
+        "f1,none": 0.7996300000000001,
+        "f1_stderr,none": 0.0039670551709472856,
+        "em,none": 0.7915,
+        "em_stderr,none": 0.00406256390011828
+      },
+      "truthfulqa_mc2": {
+        "alias": "truthfulqa_mc2",
+        "acc,none": 0.3648662933781965,
+        "acc_stderr,none": 0.013690269752869228
+      },
+      "wic": {
+        "alias": "wic",
+        "acc,none": 0.5109717868338558,
+        "acc_stderr,none": 0.01980595108597938
+      },
+      "winogrande": {
+        "alias": "winogrande",
+        "acc,none": 0.595895816890292,
+        "acc_stderr,none": 0.013791610664670889
+      },
+      "wsc": {
+        "alias": "wsc",
+        "acc,none": 0.5288461538461539,
+        "acc_stderr,none": 0.04918440626354967
+      }
+    },
+    "group_subtasks": {
+      "arc_easy": [],
+      "arc_challenge": [],
+      "hellaswag": [],
+      "winogrande": [],
+      "truthfulqa_mc2": [],
+      "openbookqa": [],
+      "lambada_openai": [],
+      "boolq": [],
+      "cb": [],
+      "copa": [],
+      "multirc": [],
+      "record": [],
+      "wic": [],
+      "wsc": []
+    },
+    "configs": {
+      "arc_challenge": {
+        "task": "arc_challenge",
+        "tag": [
+          "ai2_arc"
+        ],
+        "dataset_path": "allenai/ai2_arc",
+        "dataset_name": "ARC-Challenge",
+        "training_split": "train",
+        "validation_split": "validation",
+        "test_split": "test",
+        "doc_to_text": "Question: {{question}}\nAnswer:",
+        "doc_to_target": "{{choices.label.index(answerKey)}}",
+        "unsafe_code": false,
+        "doc_to_choice": "{{choices.text}}",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "Question: {{question}}\nAnswer:",
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "arc_easy": {
+        "task": "arc_easy",
+        "tag": [
+          "ai2_arc"
+        ],
+        "dataset_path": "allenai/ai2_arc",
+        "dataset_name": "ARC-Easy",
+        "training_split": "train",
+        "validation_split": "validation",
+        "test_split": "test",
+        "doc_to_text": "Question: {{question}}\nAnswer:",
+        "doc_to_target": "{{choices.label.index(answerKey)}}",
+        "unsafe_code": false,
+        "doc_to_choice": "{{choices.text}}",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "Question: {{question}}\nAnswer:",
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "boolq": {
+        "task": "boolq",
+        "tag": [
+          "super-glue-lm-eval-v1"
+        ],
+        "dataset_path": "super_glue",
+        "dataset_name": "boolq",
+        "training_split": "train",
+        "validation_split": "validation",
+        "doc_to_text": "{{passage}}\nQuestion: {{question}}?\nAnswer:",
+        "doc_to_target": "label",
+        "unsafe_code": false,
+        "doc_to_choice": [
+          "no",
+          "yes"
+        ],
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc"
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "passage",
+        "metadata": {
+          "version": 2.0
+        }
+      },
+      "cb": {
+        "task": "cb",
+        "tag": [
+          "super-glue-lm-eval-v1"
+        ],
+        "dataset_path": "super_glue",
+        "dataset_name": "cb",
+        "training_split": "train",
+        "validation_split": "validation",
+        "doc_to_text": "{{premise}}\nQuestion: {{hypothesis}}. True, False, or Neither?\nAnswer:",
+        "doc_to_target": "label",
+        "unsafe_code": false,
+        "doc_to_choice": [
+          "True",
+          "False",
+          "Neither"
+        ],
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc"
+          },
+          {
+            "metric": "f1",
+            "aggregation": "def cb_multi_fi(items):\n    from sklearn.metrics import f1_score\n\n    preds, golds = zip(*items)\n    preds = np.array(preds)\n    golds = np.array(golds)\n    f11 = f1_score(y_true=golds == 0, y_pred=preds == 0)\n    f12 = f1_score(y_true=golds == 1, y_pred=preds == 1)\n    f13 = f1_score(y_true=golds == 2, y_pred=preds == 2)\n    avg_f1 = np.mean([f11, f12, f13])\n    return avg_f1\n"
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "copa": {
+        "task": "copa",
+        "tag": [
+          "super-glue-lm-eval-v1"
+        ],
+        "dataset_path": "super_glue",
+        "dataset_name": "copa",
+        "training_split": "train",
+        "validation_split": "validation",
+        "doc_to_text": "def doc_to_text(doc):\n    # Drop the period\n    connector = {\n        \"cause\": \"because\",\n        \"effect\": \"therefore\",\n    }[doc[\"question\"]]\n    return doc[\"premise\"].strip()[:-1] + f\" {connector}\"\n",
+        "doc_to_target": "def doc_to_target(doc):\n    correct_choice = doc[\"choice1\"] if doc[\"label\"] == 0 else doc[\"choice2\"]\n    # Connect the sentences\n    return \" \" + convert_choice(correct_choice)\n",
+        "unsafe_code": false,
+        "doc_to_choice": "def doc_to_choice(doc):\n    return [\" \" + convert_choice(doc[\"choice1\"]), \" \" + convert_choice(doc[\"choice2\"])]\n",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc"
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "hellaswag": {
+        "task": "hellaswag",
+        "tag": [
+          "multiple_choice"
+        ],
+        "dataset_path": "hellaswag",
+        "dataset_kwargs": {
+          "trust_remote_code": true
+        },
+        "training_split": "train",
+        "validation_split": "validation",
+        "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc):\n        ctx = doc[\"ctx_a\"] + \" \" + doc[\"ctx_b\"].capitalize()\n        out_doc = {\n            \"query\": preprocess(doc[\"activity_label\"] + \": \" + ctx),\n            \"choices\": [preprocess(ending) for ending in doc[\"endings\"]],\n            \"gold\": int(doc[\"label\"]),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+        "doc_to_text": "{{query}}",
+        "doc_to_target": "{{label}}",
+        "unsafe_code": false,
+        "doc_to_choice": "choices",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "lambada_openai": {
+        "task": "lambada_openai",
+        "tag": [
+          "lambada"
+        ],
+        "dataset_path": "EleutherAI/lambada_openai",
+        "dataset_name": "default",
+        "dataset_kwargs": {
+          "trust_remote_code": true
+        },
+        "test_split": "test",
+        "doc_to_text": "{{text.split(' ')[:-1]|join(' ')}}",
+        "doc_to_target": "{{' '+text.split(' ')[-1]}}",
+        "unsafe_code": false,
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "perplexity",
+            "aggregation": "perplexity",
+            "higher_is_better": false
+          },
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "loglikelihood",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "{{text}}",
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "multirc": {
+        "task": "multirc",
+        "tag": [
+          "super-glue-lm-eval-v1"
+        ],
+        "dataset_path": "super_glue",
+        "dataset_name": "multirc",
+        "training_split": "train",
+        "validation_split": "validation",
+        "doc_to_text": "{{paragraph}}\nQuestion: {{question}}\nAnswer:",
+        "doc_to_target": "label",
+        "unsafe_code": false,
+        "doc_to_choice": "['''{{answer}}\\nIs the answer correct? yes''', '''{{answer}}\\nIs the answer correct? no''']",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc"
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {
+          "version": 2.0
+        }
+      },
+      "openbookqa": {
+        "task": "openbookqa",
+        "dataset_path": "openbookqa",
+        "dataset_name": "main",
+        "training_split": "train",
+        "validation_split": "validation",
+        "test_split": "test",
+        "doc_to_text": "question_stem",
+        "doc_to_target": "{{choices.label.index(answerKey.lstrip())}}",
+        "unsafe_code": false,
+        "doc_to_choice": "{{choices.text}}",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "question_stem",
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "record": {
+        "task": "record",
+        "tag": [
+          "super-glue-lm-eval-v1"
+        ],
+        "dataset_path": "super_glue",
+        "dataset_name": "record",
+        "training_split": "train",
+        "validation_split": "validation",
+        "process_docs": "def process_docs(dataset: datasets.Dataset):\n    def _process_doc(doc):\n        return {\n            \"passage\": doc[\"passage\"],\n            \"query\": doc[\"query\"],\n            \"entities\": sorted(list(set(doc[\"entities\"]))),\n            \"answers\": sorted(list(set(doc[\"answers\"]))),\n        }\n\n    return dataset.map(_process_doc)\n",
+        "doc_to_text": "def doc_to_text(doc):\n    initial_text, *highlights = doc[\"passage\"].strip().split(\"\\n@highlight\\n\")\n    text = initial_text + \"\\n\\n\"\n    for highlight in highlights:\n        text += f\"  - {highlight}.\\n\"\n    return text\n",
+        "doc_to_target": "def doc_to_target(doc):\n    # We only output the first correct entity in a doc\n    return format_answer(query=doc[\"query\"], entity=doc[\"answers\"][0])\n",
+        "unsafe_code": false,
+        "doc_to_choice": "def doc_to_choice(doc):\n    return [format_answer(query=doc[\"query\"], entity=ans) for ans in doc[\"entities\"]]\n",
+        "process_results": "def process_results(doc, results):\n    # ReCoRD's evaluation is actually deceptively simple:\n    # - Pick the maximum likelihood prediction entity\n    # - Evaluate the accuracy and token F1 PER EXAMPLE\n    # - Average over all examples\n    max_idx = np.argmax(np.array([result[0] for result in results]))\n\n    prediction = doc[\"entities\"][max_idx]\n    gold_label_set = doc[\"answers\"]\n    f1 = metric_max_over_ground_truths(\n        squad_metrics.compute_f1, prediction, gold_label_set\n    )\n    em = metric_max_over_ground_truths(\n        squad_metrics.compute_exact, prediction, gold_label_set\n    )\n\n    return {\n        \"f1\": f1,\n        \"em\": em,\n    }\n",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "f1",
+            "aggregation": "mean"
+          },
+          {
+            "metric": "em",
+            "higher_is_better": true,
+            "aggregation": "mean"
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {
+          "version": 2.0
+        }
+      },
+      "truthfulqa_mc2": {
+        "task": "truthfulqa_mc2",
+        "tag": [
+          "truthfulqa"
+        ],
+        "dataset_path": "truthful_qa",
+        "dataset_name": "multiple_choice",
+        "validation_split": "validation",
+        "doc_to_text": "{% set prompt_qa = 'Q: What is human life expectancy in the United States?\nA: Human life expectancy in the United States is 78 years.\n\nQ: Who was president of the United States in 1955?\nA: Dwight D. Eisenhower was president of the United States in 1955.\n\nQ: Which party did he belong to?\nA: He belonged to the Republican Party.\n\nQ: What is the square root of banana?\nA: I have no comment.\n\nQ: How does a telescope work?\nA: Telescopes use lenses or mirrors to focus light and make objects appear closer.\n\nQ: Where were the 1992 Olympics held?\nA: The 1992 Olympics were held in Barcelona, Spain.'%}{{prompt_qa + '\n\nQ: ' + question + '\nA:'}}",
+        "doc_to_target": 0,
+        "unsafe_code": false,
+        "doc_to_choice": "{{mc2_targets.choices}}",
+        "process_results": "def process_results_mc2(doc, results):\n    ll, _ = zip(*results)\n    ll = np.array(ll)\n\n    # Convert log-likelihoods to probabilities.\n    probs = np.exp(ll)\n\n    # Normalize probabilities.\n    probs_norm = probs / np.sum(probs)\n\n    labels = np.array(doc[\"mc2_targets\"][\"labels\"])\n    # Compute the normalized probability mass for the correct answer.\n    pm_true = np.sum(probs_norm[labels == 1])\n\n    return {\"acc\": pm_true}\n",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 0,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "question",
+        "metadata": {
+          "version": 3.0
+        }
+      },
+      "wic": {
+        "task": "wic",
+        "tag": [
+          "super-glue-lm-eval-v1"
+        ],
+        "dataset_path": "super_glue",
+        "dataset_name": "wic",
+        "training_split": "train",
+        "validation_split": "validation",
+        "doc_to_text": "Sentence 1: {{sentence1}}\nSentence 2: {{sentence2}}\nQuestion: Is the word '{{sentence1[start1:end1]}}' used in the same way in the two sentences above?\nAnswer:",
+        "doc_to_target": "label",
+        "unsafe_code": false,
+        "doc_to_choice": [
+          "no",
+          "yes"
+        ],
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc"
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "winogrande": {
+        "task": "winogrande",
+        "dataset_path": "winogrande",
+        "dataset_name": "winogrande_xl",
+        "dataset_kwargs": {
+          "trust_remote_code": true
+        },
+        "training_split": "train",
+        "validation_split": "validation",
+        "doc_to_text": "def doc_to_text(doc):\n    answer_to_num = {\"1\": 0, \"2\": 1}\n    return answer_to_num[doc[\"answer\"]]\n",
+        "doc_to_target": "def doc_to_target(doc):\n    idx = doc[\"sentence\"].index(\"_\") + 1\n    return doc[\"sentence\"][idx:].strip()\n",
+        "unsafe_code": false,
+        "doc_to_choice": "def doc_to_choice(doc):\n    idx = doc[\"sentence\"].index(\"_\")\n    options = [doc[\"option1\"], doc[\"option2\"]]\n    return [doc[\"sentence\"][:idx] + opt for opt in options]\n",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "sentence",
+        "metadata": {
+          "version": 1.0
+        }
+      },
+      "wsc": {
+        "task": "wsc",
+        "tag": [
+          "super-glue-lm-eval-v1"
+        ],
+        "dataset_path": "super_glue",
+        "dataset_name": "wsc.fixed",
+        "training_split": "train",
+        "validation_split": "validation",
+        "doc_to_text": "def default_doc_to_text(x):\n    raw_passage = x[\"text\"]\n    # NOTE: HuggingFace span indices are word-based not character-based.\n    pre = \" \".join(raw_passage.split()[: x[\"span2_index\"]])\n    post = raw_passage[len(pre) + len(x[\"span2_text\"]) + 1 :]\n    passage = general_detokenize(pre + \" *{}*\".format(x[\"span2_text\"]) + post)\n    noun = x[\"span1_text\"]\n    pronoun = x[\"span2_text\"]\n    text = (\n        f\"Passage: {passage}\\n\"\n        + f'Question: In the passage above, does the pronoun \"*{pronoun}*\" refer to \"*{noun}*\"?\\n'\n        + \"Answer:\"\n    )\n    return text\n",
+        "doc_to_target": "label",
+        "unsafe_code": false,
+        "doc_to_choice": [
+          "no",
+          "yes"
+        ],
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc"
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {
+          "version": 1.0
+        }
+      }
+    },
+    "versions": {
+      "arc_challenge": 1.0,
+      "arc_easy": 1.0,
+      "boolq": 2.0,
+      "cb": 1.0,
+      "copa": 1.0,
+      "hellaswag": 1.0,
+      "lambada_openai": 1.0,
+      "multirc": 2.0,
+      "openbookqa": 1.0,
+      "record": 2.0,
+      "truthfulqa_mc2": 3.0,
+      "wic": 1.0,
+      "winogrande": 1.0,
+      "wsc": 1.0
+    },
+    "n-shot": {
+      "arc_challenge": 5,
+      "arc_easy": 5,
+      "boolq": 5,
+      "cb": 5,
+      "copa": 5,
+      "hellaswag": 5,
+      "lambada_openai": 5,
+      "multirc": 5,
+      "openbookqa": 5,
+      "record": 5,
+      "truthfulqa_mc2": 0,
+      "wic": 5,
+      "winogrande": 5,
+      "wsc": 5
+    },
+    "higher_is_better": {
+      "arc_challenge": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "arc_easy": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "boolq": {
+        "acc": true
+      },
+      "cb": {
+        "acc": true,
+        "f1": true
+      },
+      "copa": {
+        "acc": true
+      },
+      "hellaswag": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "lambada_openai": {
+        "perplexity": false,
+        "acc": true
+      },
+      "multirc": {
+        "acc": true
+      },
+      "openbookqa": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "record": {
+        "f1": true,
+        "em": true
+      },
+      "truthfulqa_mc2": {
+        "acc": true
+      },
+      "wic": {
+        "acc": true
+      },
+      "winogrande": {
+        "acc": true
+      },
+      "wsc": {
+        "acc": true
+      }
+    },
+    "n-samples": {
+      "wsc": {
+        "original": 104,
+        "effective": 104
+      },
+      "wic": {
+        "original": 638,
+        "effective": 638
+      },
+      "record": {
+        "original": 10000,
+        "effective": 10000
+      },
+      "multirc": {
+        "original": 4848,
+        "effective": 4848
+      },
+      "copa": {
+        "original": 100,
+        "effective": 100
+      },
+      "cb": {
+        "original": 56,
+        "effective": 56
+      },
+      "boolq": {
+        "original": 3270,
+        "effective": 3270
+      },
+      "lambada_openai": {
+        "original": 5153,
+        "effective": 5153
+      },
+      "openbookqa": {
+        "original": 500,
+        "effective": 500
+      },
+      "truthfulqa_mc2": {
+        "original": 817,
+        "effective": 817
+      },
+      "winogrande": {
+        "original": 1267,
+        "effective": 1267
+      },
+      "hellaswag": {
+        "original": 10042,
+        "effective": 10042
+      },
+      "arc_challenge": {
+        "original": 1172,
+        "effective": 1172
+      },
+      "arc_easy": {
+        "original": 2376,
+        "effective": 2376
+      }
+    },
+    "config": {
+      "model": "BabyLucioleLM",
+      "model_args": null,
+      "batch_size": 64,
+      "batch_sizes": [],
+      "device": null,
+      "use_cache": null,
+      "limit": null,
+      "downsampling_ratio": null,
+      "bootstrap_iters": 100000,
+      "gen_kwargs": null,
+      "random_seed": 0,
+      "numpy_seed": 1234,
+      "torch_seed": 1234,
+      "fewshot_seed": 1234
+    },
+    "git_hash": "1876a79",
+    "date": 1776933438.7368832,
+    "pretty_env_info": "name 'get_pretty_env_info' is not defined",
+    "transformers_version": "4.51.3",
+    "lm_eval_version": "0.4.11",
+    "upper_git_hash": null
+  }
+}

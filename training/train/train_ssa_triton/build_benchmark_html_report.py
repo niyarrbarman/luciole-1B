@@ -232,10 +232,29 @@ def merge_runs_by_identity(runs: List[dict], merge_key: str) -> List[dict]:
     return [grouped[key] for key in output_order]
 
 
+def get_model_type_color(model_type: str) -> str:
+    """Return a distinct color for each model type."""
+    color_map = {
+        "baseline": "#6b7280",       # gray
+        "ssa_triton": "#dc2626",     # red
+        "ssa": "#ef4444",            # lighter red
+        "softmax": "#2563eb",        # blue
+    }
+    return color_map.get(model_type, "#8b5cf6")  # purple fallback
+
+
 def collect_report_data(runs: List[dict]) -> dict:
     run_labels = [run_label(r) for r in runs]
     run_model_names = {
         label: (run.get("model_name") or "unknown_model")
+        for run, label in zip(runs, run_labels)
+    }
+    run_model_types = {
+        label: (run.get("model_type") or "unknown_type")
+        for run, label in zip(runs, run_labels)
+    }
+    run_colors = {
+        label: get_model_type_color(run.get("model_type") or "unknown_type")
         for run, label in zip(runs, run_labels)
     }
 
@@ -292,7 +311,9 @@ def collect_report_data(runs: List[dict]) -> dict:
 
     return {
         "runs": run_labels,
-      "run_model_names": run_model_names,
+        "run_model_names": run_model_names,
+        "run_model_types": run_model_types,
+        "run_colors": run_colors,
         "task_metrics": task_metrics,
         "task_stderr": task_stderr,
         "scoped_metrics": scoped_metrics,
@@ -960,7 +981,7 @@ function updateView() {{
       type: 'bar',
       x: runs,
       y: rows.map(r => maybeScale(r.value, scaleToPercent)),
-      marker: {{color: '#0f766e'}},
+      marker: {{color: runs.map(run => DATA.run_colors[run])}},
       error_y: {{
         type: 'data',
         array: errorValues,
@@ -987,7 +1008,7 @@ function updateView() {{
     type: 'bar',
     x: runs,
     y: rows.map(r => Number.isFinite(r.value) ? r.value : null),
-    marker: {{color: '#1d4ed8'}},
+    marker: {{color: runs.map(run => DATA.run_colors[run])}},
     hovertemplate: 'Run=%{{x}}<br>Value=%{{y}}<extra></extra>'
   }}], {{
     title: `${scope} | ${metric}`,

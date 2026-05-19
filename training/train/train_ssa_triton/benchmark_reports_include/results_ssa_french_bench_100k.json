@@ -1,0 +1,1142 @@
+{
+  "model_name": "ssa_luciole_100k",
+  "model_type": "ssa_triton",
+  "checkpoint": "/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999",
+  "tasks": [
+    "french_bench_arc_challenge",
+    "french_bench_boolqa",
+    "french_bench_fquadv2",
+    "french_bench_fquadv2_bool",
+    "french_bench_fquadv2_genq",
+    "french_bench_fquadv2_hasAns",
+    "french_bench_grammar",
+    "french_bench_hellaswag",
+    "french_bench_multifquad",
+    "french_bench_opus_perplexity",
+    "french_bench_reading_comp",
+    "french_bench_topic_based_nli",
+    "french_bench_trivia",
+    "french_bench_vocab",
+    "french_bench_xnli"
+  ],
+  "num_fewshot": 5,
+  "batch_size": 64,
+  "max_length": 2048,
+  "limit": null,
+  "gsm8k_limit": null,
+  "gsm8k_random_seed": 42,
+  "enforce_bf16": true,
+  "timing": {
+    "elapsed_seconds": 4413.43008484412,
+    "elapsed_human": "1h 13m 33s",
+    "estimated_full_dataset_seconds": 4413.426856870763,
+    "estimated_full_dataset_human": "1h 13m 33s",
+    "groups": [
+      {
+        "name": "regular",
+        "tasks": [
+          "french_bench_arc_challenge",
+          "french_bench_boolqa",
+          "french_bench_fquadv2",
+          "french_bench_fquadv2_bool",
+          "french_bench_fquadv2_genq",
+          "french_bench_fquadv2_hasAns",
+          "french_bench_grammar",
+          "french_bench_hellaswag",
+          "french_bench_multifquad",
+          "french_bench_opus_perplexity",
+          "french_bench_reading_comp",
+          "french_bench_topic_based_nli",
+          "french_bench_trivia",
+          "french_bench_vocab",
+          "french_bench_xnli"
+        ],
+        "limit": null,
+        "elapsed_seconds": 4413.426856870763,
+        "elapsed_human": "1h 13m 33s",
+        "evaluated_docs": 21784,
+        "total_docs": 21784,
+        "estimated_full_dataset_seconds": 4413.426856870763,
+        "estimated_full_dataset_human": "1h 13m 33s"
+      }
+    ],
+    "tasks": [
+      {
+        "task": "french_bench_arc_challenge",
+        "limit": null,
+        "evaluated_docs": 1169,
+        "total_docs": 1169,
+        "elapsed_seconds": 236.8387805582961,
+        "elapsed_human": "3m 57s",
+        "estimated_full_dataset_seconds": 236.83878055829607,
+        "estimated_full_dataset_human": "3m 57s"
+      },
+      {
+        "task": "french_bench_boolqa",
+        "limit": null,
+        "evaluated_docs": 178,
+        "total_docs": 178,
+        "elapsed_seconds": 36.06270567953525,
+        "elapsed_human": "36s",
+        "estimated_full_dataset_seconds": 36.06270567953525,
+        "estimated_full_dataset_human": "36s"
+      },
+      {
+        "task": "french_bench_fquadv2",
+        "limit": null,
+        "evaluated_docs": 800,
+        "total_docs": 800,
+        "elapsed_seconds": 162.07957608779887,
+        "elapsed_human": "2m 42s",
+        "estimated_full_dataset_seconds": 162.07957608779887,
+        "estimated_full_dataset_human": "2m 42s"
+      },
+      {
+        "task": "french_bench_fquadv2_bool",
+        "limit": null,
+        "evaluated_docs": 800,
+        "total_docs": 800,
+        "elapsed_seconds": 162.07957608779887,
+        "elapsed_human": "2m 42s",
+        "estimated_full_dataset_seconds": 162.07957608779887,
+        "estimated_full_dataset_human": "2m 42s"
+      },
+      {
+        "task": "french_bench_fquadv2_genq",
+        "limit": null,
+        "evaluated_docs": 400,
+        "total_docs": 400,
+        "elapsed_seconds": 81.03978804389943,
+        "elapsed_human": "1m 21s",
+        "estimated_full_dataset_seconds": 81.03978804389943,
+        "estimated_full_dataset_human": "1m 21s"
+      },
+      {
+        "task": "french_bench_fquadv2_hasAns",
+        "limit": null,
+        "evaluated_docs": 400,
+        "total_docs": 400,
+        "elapsed_seconds": 81.03978804389943,
+        "elapsed_human": "1m 21s",
+        "estimated_full_dataset_seconds": 81.03978804389943,
+        "estimated_full_dataset_human": "1m 21s"
+      },
+      {
+        "task": "french_bench_grammar",
+        "limit": null,
+        "evaluated_docs": 119,
+        "total_docs": 119,
+        "elapsed_seconds": 24.109336943060082,
+        "elapsed_human": "24s",
+        "estimated_full_dataset_seconds": 24.109336943060082,
+        "estimated_full_dataset_human": "24s"
+      },
+      {
+        "task": "french_bench_hellaswag",
+        "limit": null,
+        "evaluated_docs": 9338,
+        "total_docs": 9338,
+        "elapsed_seconds": 1891.8738518848322,
+        "elapsed_human": "31m 32s",
+        "estimated_full_dataset_seconds": 1891.8738518848322,
+        "estimated_full_dataset_human": "31m 32s"
+      },
+      {
+        "task": "french_bench_multifquad",
+        "limit": null,
+        "evaluated_docs": 400,
+        "total_docs": 400,
+        "elapsed_seconds": 81.03978804389943,
+        "elapsed_human": "1m 21s",
+        "estimated_full_dataset_seconds": 81.03978804389943,
+        "estimated_full_dataset_human": "1m 21s"
+      },
+      {
+        "task": "french_bench_opus_perplexity",
+        "limit": null,
+        "evaluated_docs": 2000,
+        "total_docs": 2000,
+        "elapsed_seconds": 405.19894021949716,
+        "elapsed_human": "6m 45s",
+        "estimated_full_dataset_seconds": 405.19894021949716,
+        "estimated_full_dataset_human": "6m 45s"
+      },
+      {
+        "task": "french_bench_reading_comp",
+        "limit": null,
+        "evaluated_docs": 71,
+        "total_docs": 71,
+        "elapsed_seconds": 14.384562377792149,
+        "elapsed_human": "14s",
+        "estimated_full_dataset_seconds": 14.384562377792149,
+        "estimated_full_dataset_human": "14s"
+      },
+      {
+        "task": "french_bench_topic_based_nli",
+        "limit": null,
+        "evaluated_docs": 600,
+        "total_docs": 600,
+        "elapsed_seconds": 121.55968206584915,
+        "elapsed_human": "2m 2s",
+        "estimated_full_dataset_seconds": 121.55968206584915,
+        "estimated_full_dataset_human": "2m 2s"
+      },
+      {
+        "task": "french_bench_trivia",
+        "limit": null,
+        "evaluated_docs": 380,
+        "total_docs": 380,
+        "elapsed_seconds": 76.98779864170446,
+        "elapsed_human": "1m 17s",
+        "estimated_full_dataset_seconds": 76.98779864170446,
+        "estimated_full_dataset_human": "1m 17s"
+      },
+      {
+        "task": "french_bench_vocab",
+        "limit": null,
+        "evaluated_docs": 119,
+        "total_docs": 119,
+        "elapsed_seconds": 24.109336943060082,
+        "elapsed_human": "24s",
+        "estimated_full_dataset_seconds": 24.109336943060082,
+        "estimated_full_dataset_human": "24s"
+      },
+      {
+        "task": "french_bench_xnli",
+        "limit": null,
+        "evaluated_docs": 5010,
+        "total_docs": 5010,
+        "elapsed_seconds": 1015.0233452498404,
+        "elapsed_human": "16m 55s",
+        "estimated_full_dataset_seconds": 1015.0233452498403,
+        "estimated_full_dataset_human": "16m 55s"
+      }
+    ]
+  },
+  "forward_performance": {
+    "calls": 98667,
+    "input_tokens": 83834423,
+    "prep_seconds": 6.620924349874258,
+    "forward_seconds": 3757.224200279452,
+    "output_seconds": 0.11425581946969032,
+    "total_seconds": 3763.959380448796,
+    "avg_call_seconds": 0.03814810808526453,
+    "forward_tokens_per_second": 22312.86144536294
+  },
+  "results": {
+    "results": {
+      "french_bench_arc_challenge": {
+        "alias": "french_bench_arc_challenge",
+        "acc,none": 0.30367835757057315,
+        "acc_stderr,none": 0.013455208949377732,
+        "acc_norm,none": 0.3413173652694611,
+        "acc_norm_stderr,none": 0.013873814321638936
+      },
+      "french_bench_boolqa": {
+        "alias": "french_bench_boolqa",
+        "acc,none": 0.5393258426966292,
+        "acc_stderr,none": 0.03746587736387869,
+        "acc_norm,none": 0.5393258426966292,
+        "acc_norm_stderr,none": 0.03746587736387869
+      },
+      "french_bench_fquadv2": {
+        "alias": "french_bench_fquadv2",
+        "exact,none": 0.18,
+        "exact_stderr,none": 0.013591575097907253,
+        "f1,none": 0.2452339285226892,
+        "f1_stderr,none": 0.014126980244674217
+      },
+      "french_bench_fquadv2_bool": {
+        "alias": "french_bench_fquadv2_bool",
+        "acc,none": 0.52125,
+        "acc_stderr,none": 0.017672746088763267,
+        "acc_norm,none": 0.52125,
+        "acc_norm_stderr,none": 0.017672746088763267
+      },
+      "french_bench_fquadv2_genq": {
+        "alias": "french_bench_fquadv2_genq",
+        "rouge1,none": 0.18934210860611328,
+        "rouge1_stderr,none": "N/A",
+        "f1,none": 0.16063533259160173,
+        "f1_stderr,none": 0.008847266452001665
+      },
+      "french_bench_fquadv2_hasAns": {
+        "alias": "french_bench_fquadv2_hasAns",
+        "exact,none": 0.255,
+        "exact_stderr,none": 0.02182035333235629,
+        "f1,none": 0.46494547113351214,
+        "f1_stderr,none": 0.020538356474168497,
+        "rouge1,none": 0.4817918079508359,
+        "rouge1_stderr,none": "N/A"
+      },
+      "french_bench_grammar": {
+        "alias": "french_bench_grammar",
+        "acc,none": 0.7983193277310925,
+        "acc_stderr,none": 0.03693851725228282
+      },
+      "french_bench_hellaswag": {
+        "alias": "french_bench_hellaswag",
+        "acc,none": 0.3855215249518098,
+        "acc_stderr,none": 0.005037023457054014,
+        "acc_norm,none": 0.4948597130006425,
+        "acc_norm_stderr,none": 0.0051742019271687765
+      },
+      "french_bench_multifquad": {
+        "alias": "french_bench_multifquad",
+        "exact,none": 0.01,
+        "exact_stderr,none": 0.004981167541368988,
+        "f1,none": 0.3998366768238506,
+        "f1_stderr,none": 0.014936558676351883,
+        "rouge1,none": 0.4168159872390136,
+        "rouge1_stderr,none": "N/A"
+      },
+      "french_bench_opus_perplexity": {
+        "alias": "french_bench_opus_perplexity",
+        "word_perplexity,none": 34.53171385666066,
+        "word_perplexity_stderr,none": "N/A",
+        "byte_perplexity,none": 1.7469545252251835,
+        "byte_perplexity_stderr,none": "N/A",
+        "bits_per_byte,none": 0.8048420541127147,
+        "bits_per_byte_stderr,none": "N/A"
+      },
+      "french_bench_reading_comp": {
+        "alias": "french_bench_reading_comp",
+        "acc,none": 0.5774647887323944,
+        "acc_stderr,none": 0.059039842056825796
+      },
+      "french_bench_topic_based_nli": {
+        "alias": "french_bench_topic_based_nli",
+        "acc,none": 0.335,
+        "acc_stderr,none": 0.01928500762765378,
+        "acc_norm,none": 0.335,
+        "acc_norm_stderr,none": 0.01928500762765378
+      },
+      "french_bench_trivia": {
+        "alias": "french_bench_trivia",
+        "exact,none": 0.3763157894736842,
+        "exact_stderr,none": 0.024885077071639346,
+        "f1,none": 0.4652365651204661,
+        "f1_stderr,none": 0.023764419180077115,
+        "rouge1,none": 0.47643365623174483,
+        "rouge1_stderr,none": "N/A",
+        "is_included,none": 0.3631578947368421,
+        "is_included_stderr,none": 0.0247026772729511
+      },
+      "french_bench_vocab": {
+        "alias": "french_bench_vocab",
+        "acc,none": 0.7815126050420168,
+        "acc_stderr,none": 0.03803997152889486
+      },
+      "french_bench_xnli": {
+        "alias": "french_bench_xnli",
+        "acc,none": 0.32335329341317365,
+        "acc_stderr,none": 0.006609127264370959
+      }
+    },
+    "group_subtasks": {
+      "french_bench_arc_challenge": [],
+      "french_bench_boolqa": [],
+      "french_bench_fquadv2": [],
+      "french_bench_fquadv2_bool": [],
+      "french_bench_fquadv2_genq": [],
+      "french_bench_fquadv2_hasAns": [],
+      "french_bench_grammar": [],
+      "french_bench_hellaswag": [],
+      "french_bench_multifquad": [],
+      "french_bench_opus_perplexity": [],
+      "french_bench_reading_comp": [],
+      "french_bench_topic_based_nli": [],
+      "french_bench_trivia": [],
+      "french_bench_vocab": [],
+      "french_bench_xnli": []
+    },
+    "configs": {
+      "french_bench_arc_challenge": {
+        "task": "french_bench_arc_challenge",
+        "tag": [
+          "french_bench",
+          "french_bench_mc"
+        ],
+        "dataset_path": "manu/french_bench_arc_challenge",
+        "training_split": "train",
+        "validation_split": "validation",
+        "test_split": "test",
+        "doc_to_text": "Question: {{question}}\nR\u00e9ponse:",
+        "doc_to_target": "{{['A', 'B', 'C', 'D'].index(answerKey)}}",
+        "unsafe_code": false,
+        "doc_to_choice": "{{choices}}",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "Question: {{question}}\nR\u00e9ponse:",
+        "metadata": {}
+      },
+      "french_bench_boolqa": {
+        "task": "french_bench_boolqa",
+        "tag": [
+          "french_bench",
+          "french_bench_extra"
+        ],
+        "dataset_path": "manu/french_boolq",
+        "validation_split": "valid",
+        "test_split": "test",
+        "fewshot_split": "valid",
+        "doc_to_text": "\nContexte: {{passage}}\n\nQuestion: {{question}}\n",
+        "doc_to_target": "{{[1, 0].index(label)}}",
+        "unsafe_code": false,
+        "doc_to_choice": [
+          "Oui",
+          "Non"
+        ],
+        "description": "D'apr\u00e8s l'information dans le contexte donn\u00e9, quelle est la r\u00e9ponse \u00e0 la question ?",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "passage",
+        "metadata": {}
+      },
+      "french_bench_fquadv2": {
+        "task": "french_bench_fquadv2",
+        "tag": [
+          "french_bench",
+          "french_bench_extra"
+        ],
+        "dataset_path": "manu/fquad2_test",
+        "validation_split": "valid",
+        "test_split": "test",
+        "fewshot_split": "valid",
+        "doc_to_text": "\nContexte: {{context}}\n\nQuestion: {{question}}\n\nR\u00e9ponse:",
+        "doc_to_target": "{% if answers.text| length > 0 %}{{answers.text[0]}}{% else %}{{['Impossible']}}{% endif %}",
+        "unsafe_code": false,
+        "description": "D'apr\u00e8s l'information dans le contexte donn\u00e9, donne la r\u00e9ponse \u00e0 la question en citant quelques mots du contexte. Si il est impossible de r\u00e9pondre avec les informations du contexte, r\u00e9pond 'Impossible'.",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "def exact(predictions, references):\n    return int(normalize_answer(references[0]) == normalize_answer(predictions[0]))\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "def f1(predictions, references):\n    gold_toks = get_tokens(references[0])\n    pred_toks = get_tokens(predictions[0])\n    common = collections.Counter(gold_toks) & collections.Counter(pred_toks)\n    num_same = sum(common.values())\n    if len(gold_toks) == 0 or len(pred_toks) == 0:\n        # If either is no-answer, then F1 is 1 if they agree, 0 otherwise\n        return int(gold_toks == pred_toks)\n    if num_same == 0:\n        return 0\n    precision = 1.0 * num_same / len(pred_toks)\n    recall = 1.0 * num_same / len(gold_toks)\n    f1 = (2 * precision * recall) / (precision + recall)\n    return f1\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "generate_until",
+        "generation_kwargs": {
+          "until": [
+            "\n"
+          ]
+        },
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "context",
+        "metadata": {}
+      },
+      "french_bench_fquadv2_bool": {
+        "task": "french_bench_fquadv2_bool",
+        "tag": [
+          "french_bench",
+          "french_bench_extra"
+        ],
+        "dataset_path": "manu/fquad2_test",
+        "validation_split": "valid",
+        "test_split": "test",
+        "fewshot_split": "valid",
+        "doc_to_text": "\nContexte: {{context}}\n\nQuestion: {{question}}\n\nD'apr\u00e8s l'information pr\u00e9sente dans le contexte, r\u00e9pondre \u00e0 la question est:\nA. Possible \nB. Impossible\n\nR\u00e9ponse:",
+        "doc_to_target": "{{[False, True].index(is_impossible)}}",
+        "unsafe_code": false,
+        "doc_to_choice": [
+          "A",
+          "B"
+        ],
+        "description": "D'apr\u00e8s l'information pr\u00e9sente dans le contexte, est il possible de r\u00e9pondre \u00e0 la question ?",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "context",
+        "metadata": {}
+      },
+      "french_bench_fquadv2_genq": {
+        "task": "french_bench_fquadv2_genq",
+        "tag": [
+          "french_bench",
+          "french_bench_gen"
+        ],
+        "dataset_path": "manu/fquad2_test",
+        "validation_split": "valid_hasAns",
+        "test_split": "test_hasAns",
+        "fewshot_split": "valid_hasAns",
+        "doc_to_text": "\nContexte: {{context}}\n\nR\u00e9ponse: {% if answers.text| length > 0 %}{{answers.text[0]}}{% else %}{{['Impossible']}}{% endif %}\n\nQuestion:",
+        "doc_to_target": "{{question}}",
+        "unsafe_code": false,
+        "description": "D'apr\u00e8s l'information dans le contexte donn\u00e9, quelle question a \u00e9t\u00e9 pos\u00e9e pour obtenir la r\u00e9ponse donn\u00e9e ?",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "def rouge1(items):\n    \"\"\"\n    # passthrough for efficiency\n    \"\"\"\n    return items\n",
+            "higher_is_better": true,
+            "aggregation": "def rouge1_agg(items):\n    \"\"\"\n    Higher is better\n    \"\"\"\n    refs = list(zip(*items))[0]\n    preds = list(zip(*items))[1]\n    rouge_scorer = evaluate.load(\"rouge\")\n    score = rouge_scorer.compute(predictions=preds, references=refs)[\"rouge1\"]\n    update_hf_metric_lockfiles_permissions(rouge_scorer)\n    return score\n"
+          },
+          {
+            "metric": "def f1(predictions, references):\n    gold_toks = get_tokens(references[0])\n    pred_toks = get_tokens(predictions[0])\n    common = collections.Counter(gold_toks) & collections.Counter(pred_toks)\n    num_same = sum(common.values())\n    if len(gold_toks) == 0 or len(pred_toks) == 0:\n        # If either is no-answer, then F1 is 1 if they agree, 0 otherwise\n        return int(gold_toks == pred_toks)\n    if num_same == 0:\n        return 0\n    precision = 1.0 * num_same / len(pred_toks)\n    recall = 1.0 * num_same / len(gold_toks)\n    f1 = (2 * precision * recall) / (precision + recall)\n    return f1\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "generate_until",
+        "generation_kwargs": {
+          "until": [
+            "\n"
+          ]
+        },
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "question",
+        "metadata": {}
+      },
+      "french_bench_fquadv2_hasAns": {
+        "task": "french_bench_fquadv2_hasAns",
+        "tag": [
+          "french_bench",
+          "french_bench_gen"
+        ],
+        "dataset_path": "manu/fquad2_test",
+        "validation_split": "valid_hasAns",
+        "test_split": "test_hasAns",
+        "fewshot_split": "valid_hasAns",
+        "doc_to_text": "\nContexte: {{context}}\n\nQuestion: {{question}}\n\nR\u00e9ponse:",
+        "doc_to_target": "{% if answers.text| length > 0 %}{{answers.text[0]}}{% else %}{{['Impossible']}}{% endif %}",
+        "unsafe_code": false,
+        "description": "D'apr\u00e8s l'information dans le contexte donn\u00e9, donne la r\u00e9ponse \u00e0 la question en citant quelques mots du contexte. Si il est impossible de r\u00e9pondre avec les informations du contexte, r\u00e9pond 'Impossible'.",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "def exact(predictions, references):\n    return int(normalize_answer(references[0]) == normalize_answer(predictions[0]))\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "def f1(predictions, references):\n    gold_toks = get_tokens(references[0])\n    pred_toks = get_tokens(predictions[0])\n    common = collections.Counter(gold_toks) & collections.Counter(pred_toks)\n    num_same = sum(common.values())\n    if len(gold_toks) == 0 or len(pred_toks) == 0:\n        # If either is no-answer, then F1 is 1 if they agree, 0 otherwise\n        return int(gold_toks == pred_toks)\n    if num_same == 0:\n        return 0\n    precision = 1.0 * num_same / len(pred_toks)\n    recall = 1.0 * num_same / len(gold_toks)\n    f1 = (2 * precision * recall) / (precision + recall)\n    return f1\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "def rouge1(items):\n    \"\"\"\n    # passthrough for efficiency\n    \"\"\"\n    return items\n",
+            "higher_is_better": true,
+            "aggregation": "def rouge1_agg(items):\n    \"\"\"\n    Higher is better\n    \"\"\"\n    refs = list(zip(*items))[0]\n    preds = list(zip(*items))[1]\n    rouge_scorer = evaluate.load(\"rouge\")\n    score = rouge_scorer.compute(predictions=preds, references=refs)[\"rouge1\"]\n    update_hf_metric_lockfiles_permissions(rouge_scorer)\n    return score\n"
+          }
+        ],
+        "output_type": "generate_until",
+        "generation_kwargs": {
+          "until": [
+            "\n"
+          ]
+        },
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "context",
+        "metadata": {}
+      },
+      "french_bench_grammar": {
+        "task": "french_bench_grammar",
+        "tag": [
+          "french_bench",
+          "french_bench_mc"
+        ],
+        "dataset_path": "manu/french-bench-grammar-vocab-reading",
+        "validation_split": "Grammar",
+        "test_split": "Grammar",
+        "fewshot_split": "Grammar",
+        "doc_to_text": "La phrase suivante est correcte grammaticalement:\n",
+        "doc_to_target": "{{[\"answerA\", \"answerB\", \"answerC\", \"answerD\"].index(\"answer\" + answer)}}",
+        "unsafe_code": false,
+        "doc_to_choice": "{{[question.replace('<...>', answerA), question.replace('<...>', answerB), question.replace('<...>', answerC), question.replace('<...>', answerD)]}}",
+        "description": "R\u00e9pond au mieux en compl\u00e9tant la question avec une des r\u00e9ponses propos\u00e9es.",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {}
+      },
+      "french_bench_hellaswag": {
+        "task": "french_bench_hellaswag",
+        "tag": [
+          "french_bench",
+          "french_bench_mc"
+        ],
+        "dataset_path": "manu/french_bench_hellaswag",
+        "training_split": "validation",
+        "validation_split": "validation",
+        "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc):\n        ctx = doc[\"ctx_a\"] + \" \" + doc[\"ctx_b\"].capitalize()\n        out_doc = {\n            \"query\": preprocess(doc[\"activity_label\"] + \": \" + ctx),\n            \"choices\": [preprocess(ending) for ending in doc[\"endings\"]],\n            \"gold\": int(doc[\"label\"]),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+        "doc_to_text": "{{query}}",
+        "doc_to_target": "{{label}}",
+        "unsafe_code": false,
+        "doc_to_choice": "{{choices}}",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {}
+      },
+      "french_bench_multifquad": {
+        "task": "french_bench_multifquad",
+        "tag": [
+          "french_bench",
+          "french_bench_gen"
+        ],
+        "dataset_path": "manu/multifquad_test",
+        "validation_split": "valid",
+        "test_split": "test",
+        "fewshot_split": "valid",
+        "doc_to_text": "\nContexte: {{context}}\n\nQuestion: {{question}}\n\nR\u00e9ponse:",
+        "doc_to_target": "{{', '.join(answers.text)}}",
+        "unsafe_code": false,
+        "description": "D'apr\u00e8s l'information dans le contexte donn\u00e9, donne la r\u00e9ponse \u00e0 la question en citant quelques extraits du contexte.",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "def exact(predictions, references):\n    return int(normalize_answer(references[0]) == normalize_answer(predictions[0]))\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "def f1(predictions, references):\n    gold_toks = get_tokens(references[0])\n    pred_toks = get_tokens(predictions[0])\n    common = collections.Counter(gold_toks) & collections.Counter(pred_toks)\n    num_same = sum(common.values())\n    if len(gold_toks) == 0 or len(pred_toks) == 0:\n        # If either is no-answer, then F1 is 1 if they agree, 0 otherwise\n        return int(gold_toks == pred_toks)\n    if num_same == 0:\n        return 0\n    precision = 1.0 * num_same / len(pred_toks)\n    recall = 1.0 * num_same / len(gold_toks)\n    f1 = (2 * precision * recall) / (precision + recall)\n    return f1\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "def rouge1(items):\n    \"\"\"\n    # passthrough for efficiency\n    \"\"\"\n    return items\n",
+            "higher_is_better": true,
+            "aggregation": "def rouge1_agg(items):\n    \"\"\"\n    Higher is better\n    \"\"\"\n    refs = list(zip(*items))[0]\n    preds = list(zip(*items))[1]\n    rouge_scorer = evaluate.load(\"rouge\")\n    score = rouge_scorer.compute(predictions=preds, references=refs)[\"rouge1\"]\n    update_hf_metric_lockfiles_permissions(rouge_scorer)\n    return score\n"
+          }
+        ],
+        "output_type": "generate_until",
+        "generation_kwargs": {
+          "until": [
+            "\n"
+          ]
+        },
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "context",
+        "metadata": {}
+      },
+      "french_bench_opus_perplexity": {
+        "task": "french_bench_opus_perplexity",
+        "tag": [
+          "french_bench_perplexity"
+        ],
+        "dataset_path": "manu/opus100-en-fr",
+        "validation_split": "validation",
+        "test_split": "test",
+        "fewshot_split": "validation",
+        "doc_to_text": "",
+        "doc_to_target": "{{text}}",
+        "unsafe_code": false,
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "num_fewshot": 0,
+        "metric_list": [
+          {
+            "metric": "word_perplexity",
+            "aggregation": "weighted_perplexity",
+            "higher_is_better": false
+          },
+          {
+            "metric": "byte_perplexity",
+            "aggregation": "weighted_perplexity",
+            "higher_is_better": false
+          },
+          {
+            "metric": "bits_per_byte",
+            "aggregation": "bits_per_byte",
+            "higher_is_better": false
+          }
+        ],
+        "output_type": "loglikelihood_rolling",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "{{text}}",
+        "metadata": {}
+      },
+      "french_bench_reading_comp": {
+        "task": "french_bench_reading_comp",
+        "tag": [
+          "french_bench",
+          "french_bench_extra"
+        ],
+        "dataset_path": "manu/french-bench-grammar-vocab-reading",
+        "validation_split": "Reading",
+        "test_split": "Reading",
+        "fewshot_split": "Reading",
+        "doc_to_text": "Context: {{context}}\n\n",
+        "doc_to_target": "{{[\"answerA\", \"answerB\", \"answerC\", \"answerD\"].index(\"answer\" + answer)}}",
+        "unsafe_code": false,
+        "doc_to_choice": "{{[question.replace('<...>', answerA) if '<...>' in question else question + ' ' +answerA, question.replace('<...>', answerB) if '<...>' in question else question + ' ' + answerB, question.replace('<...>', answerC) if '<...>' in question else question + ' ' + answerC, question.replace('<...>', answerD) if '<...>' in question else question + ' ' + answerD]}}",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {}
+      },
+      "french_bench_topic_based_nli": {
+        "task": "french_bench_topic_based_nli",
+        "tag": [
+          "french_bench",
+          "french_bench_extra"
+        ],
+        "dataset_path": "manu/topic_based_nli_test",
+        "validation_split": "valid",
+        "test_split": "test",
+        "fewshot_split": "valid",
+        "doc_to_text": "\nAvis Client: {{text}}\n\nA propos du th\u00e8me \"{{topic}}\", l'avis client est",
+        "doc_to_target": "{{['positif', 'negatif', 'neutre'].index(polarity)}}",
+        "unsafe_code": false,
+        "doc_to_choice": [
+          "positif",
+          "n\u00e9gatif",
+          "neutre"
+        ],
+        "description": "A propos du th\u00e8me sp\u00e9cifi\u00e9, l'avis client est il positif, n\u00e9gatif, ou neutre ?",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "acc_norm",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "texte",
+        "metadata": {}
+      },
+      "french_bench_trivia": {
+        "task": "french_bench_trivia",
+        "tag": [
+          "french_bench",
+          "french_bench_gen"
+        ],
+        "dataset_path": "manu/french-trivia",
+        "validation_split": "train",
+        "test_split": "train",
+        "fewshot_split": "train",
+        "doc_to_text": "{{Question}}\nAnswer:",
+        "doc_to_target": "{{Answer}}",
+        "unsafe_code": false,
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "def exact(predictions, references):\n    return int(normalize_answer(references[0]) == normalize_answer(predictions[0]))\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "def f1(predictions, references):\n    gold_toks = get_tokens(references[0])\n    pred_toks = get_tokens(predictions[0])\n    common = collections.Counter(gold_toks) & collections.Counter(pred_toks)\n    num_same = sum(common.values())\n    if len(gold_toks) == 0 or len(pred_toks) == 0:\n        # If either is no-answer, then F1 is 1 if they agree, 0 otherwise\n        return int(gold_toks == pred_toks)\n    if num_same == 0:\n        return 0\n    precision = 1.0 * num_same / len(pred_toks)\n    recall = 1.0 * num_same / len(gold_toks)\n    f1 = (2 * precision * recall) / (precision + recall)\n    return f1\n",
+            "aggregation": "mean",
+            "higher_is_better": true
+          },
+          {
+            "metric": "def rouge1(items):\n    \"\"\"\n    # passthrough for efficiency\n    \"\"\"\n    return items\n",
+            "higher_is_better": true,
+            "aggregation": "def rouge1_agg(items):\n    \"\"\"\n    Higher is better\n    \"\"\"\n    refs = list(zip(*items))[0]\n    preds = list(zip(*items))[1]\n    rouge_scorer = evaluate.load(\"rouge\")\n    score = rouge_scorer.compute(predictions=preds, references=refs)[\"rouge1\"]\n    update_hf_metric_lockfiles_permissions(rouge_scorer)\n    return score\n"
+          },
+          {
+            "metric": "def is_included(items):\n    \"\"\"\n    # passthrough for efficiency\n    \"\"\"\n    if items[0] in items[1]:\n        return True\n    return False\n",
+            "higher_is_better": true,
+            "aggregation": "mean"
+          }
+        ],
+        "output_type": "generate_until",
+        "generation_kwargs": {
+          "until": [
+            "\n"
+          ]
+        },
+        "repeats": 1,
+        "should_decontaminate": true,
+        "doc_to_decontamination_query": "Question",
+        "metadata": {}
+      },
+      "french_bench_vocab": {
+        "task": "french_bench_vocab",
+        "tag": [
+          "french_bench",
+          "french_bench_mc"
+        ],
+        "dataset_path": "manu/french-bench-grammar-vocab-reading",
+        "validation_split": "Vocabulary",
+        "test_split": "Vocabulary",
+        "fewshot_split": "Vocabulary",
+        "doc_to_text": "La phrase suivante est logique s\u00e9mantiquement:\n",
+        "doc_to_target": "{{[\"answerA\", \"answerB\", \"answerC\", \"answerD\"].index(\"answer\" + answer)}}",
+        "unsafe_code": false,
+        "doc_to_choice": "{{[question.replace('<...>', answerA), question.replace('<...>', answerB), question.replace('<...>', answerC), question.replace('<...>', answerD)]}}",
+        "description": "",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {}
+      },
+      "french_bench_xnli": {
+        "task": "french_bench_xnli",
+        "tag": [
+          "french_bench",
+          "french_bench_extra"
+        ],
+        "dataset_path": "xnli",
+        "dataset_name": "fr",
+        "validation_split": "validation",
+        "test_split": "test",
+        "fewshot_split": "validation",
+        "doc_to_text": "\nPr\u00e9misse: {{premise}}\n\nHypoth\u00e8se: {{hypothesis}}\n\nLa pr\u00e9misse et l'hypoth\u00e8se sont",
+        "doc_to_target": "label",
+        "unsafe_code": false,
+        "doc_to_choice": "{{['en accord', 'neutres entre elles', 'en contradiction']}}",
+        "description": "La pr\u00e9misse et l'hypoth\u00e8se sont elles en accord, neutres en elles, ou en contradiction ?",
+        "target_delimiter": " ",
+        "fewshot_delimiter": "\n\n",
+        "fewshot_config": {
+          "sampler": "first_n"
+        },
+        "num_fewshot": 5,
+        "metric_list": [
+          {
+            "metric": "acc",
+            "aggregation": "mean",
+            "higher_is_better": true
+          }
+        ],
+        "output_type": "multiple_choice",
+        "repeats": 1,
+        "should_decontaminate": false,
+        "metadata": {}
+      }
+    },
+    "versions": {
+      "french_bench_arc_challenge": "Yaml",
+      "french_bench_boolqa": "Yaml",
+      "french_bench_fquadv2": "Yaml",
+      "french_bench_fquadv2_bool": "Yaml",
+      "french_bench_fquadv2_genq": "Yaml",
+      "french_bench_fquadv2_hasAns": "Yaml",
+      "french_bench_grammar": "Yaml",
+      "french_bench_hellaswag": "Yaml",
+      "french_bench_multifquad": "Yaml",
+      "french_bench_opus_perplexity": "Yaml",
+      "french_bench_reading_comp": "Yaml",
+      "french_bench_topic_based_nli": "Yaml",
+      "french_bench_trivia": "Yaml",
+      "french_bench_vocab": "Yaml",
+      "french_bench_xnli": "Yaml"
+    },
+    "n-shot": {
+      "french_bench_arc_challenge": 5,
+      "french_bench_boolqa": 5,
+      "french_bench_fquadv2": 5,
+      "french_bench_fquadv2_bool": 5,
+      "french_bench_fquadv2_genq": 5,
+      "french_bench_fquadv2_hasAns": 5,
+      "french_bench_grammar": 5,
+      "french_bench_hellaswag": 5,
+      "french_bench_multifquad": 5,
+      "french_bench_opus_perplexity": 0,
+      "french_bench_reading_comp": 5,
+      "french_bench_topic_based_nli": 5,
+      "french_bench_trivia": 5,
+      "french_bench_vocab": 5,
+      "french_bench_xnli": 5
+    },
+    "higher_is_better": {
+      "french_bench_arc_challenge": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "french_bench_boolqa": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "french_bench_fquadv2": {
+        "exact": true,
+        "f1": true
+      },
+      "french_bench_fquadv2_bool": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "french_bench_fquadv2_genq": {
+        "rouge1": true,
+        "f1": true
+      },
+      "french_bench_fquadv2_hasAns": {
+        "exact": true,
+        "f1": true,
+        "rouge1": true
+      },
+      "french_bench_grammar": {
+        "acc": true
+      },
+      "french_bench_hellaswag": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "french_bench_multifquad": {
+        "exact": true,
+        "f1": true,
+        "rouge1": true
+      },
+      "french_bench_opus_perplexity": {
+        "word_perplexity": false,
+        "byte_perplexity": false,
+        "bits_per_byte": false
+      },
+      "french_bench_reading_comp": {
+        "acc": true
+      },
+      "french_bench_topic_based_nli": {
+        "acc": true,
+        "acc_norm": true
+      },
+      "french_bench_trivia": {
+        "exact": true,
+        "f1": true,
+        "rouge1": true,
+        "is_included": true
+      },
+      "french_bench_vocab": {
+        "acc": true
+      },
+      "french_bench_xnli": {
+        "acc": true
+      }
+    },
+    "n-samples": {
+      "french_bench_xnli": {
+        "original": 5010,
+        "effective": 5010
+      },
+      "french_bench_vocab": {
+        "original": 119,
+        "effective": 119
+      },
+      "french_bench_trivia": {
+        "original": 380,
+        "effective": 380
+      },
+      "french_bench_topic_based_nli": {
+        "original": 600,
+        "effective": 600
+      },
+      "french_bench_reading_comp": {
+        "original": 71,
+        "effective": 71
+      },
+      "french_bench_opus_perplexity": {
+        "original": 2000,
+        "effective": 2000
+      },
+      "french_bench_multifquad": {
+        "original": 400,
+        "effective": 400
+      },
+      "french_bench_hellaswag": {
+        "original": 9338,
+        "effective": 9338
+      },
+      "french_bench_grammar": {
+        "original": 119,
+        "effective": 119
+      },
+      "french_bench_fquadv2_hasAns": {
+        "original": 400,
+        "effective": 400
+      },
+      "french_bench_fquadv2_genq": {
+        "original": 400,
+        "effective": 400
+      },
+      "french_bench_fquadv2_bool": {
+        "original": 800,
+        "effective": 800
+      },
+      "french_bench_fquadv2": {
+        "original": 800,
+        "effective": 800
+      },
+      "french_bench_boolqa": {
+        "original": 178,
+        "effective": 178
+      },
+      "french_bench_arc_challenge": {
+        "original": 1169,
+        "effective": 1169
+      }
+    },
+    "config": {
+      "model": "BabyLucioleLM",
+      "model_args": null,
+      "batch_size": 64,
+      "batch_sizes": [],
+      "device": null,
+      "use_cache": null,
+      "limit": null,
+      "downsampling_ratio": null,
+      "bootstrap_iters": 100000,
+      "gen_kwargs": null,
+      "random_seed": 0,
+      "numpy_seed": 1234,
+      "torch_seed": 1234,
+      "fewshot_seed": 1234
+    },
+    "git_hash": "637d366",
+    "date": 1776262252.2532122,
+    "pretty_env_info": "name 'get_pretty_env_info' is not defined",
+    "transformers_version": "4.51.3",
+    "lm_eval_version": "0.4.11",
+    "upper_git_hash": null
+  }
+}

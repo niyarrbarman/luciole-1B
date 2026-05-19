@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J benchmark_luc1b_triton_99ksteps_ssa_fixed
+#SBATCH -J benchmark_luc1b_triton_399ksteps_ssa_fixed
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --gres=gpu:1
@@ -14,17 +14,17 @@ mkdir -p slurm
 # CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0020998-last"}
 
 # SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0011999-last"}
-SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0099999"}
+SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0499999"}
 # SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0015000"}
 # SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-last"}
-SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0100000"}
+SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0500000"}
 
 
-SSA_MODEL_NAME=${SSA_MODEL_NAME:-"ssa_luciole_100k"}
-SOFTMAX_MODEL_NAME=${SOFTMAX_MODEL_NAME:-"luciole_100k"}
-MODEL_SELECTION=${MODEL_SELECTION:-"softmax"} # both|ssa|softmax
+SSA_MODEL_NAME=${SSA_MODEL_NAME:-"ssa_luciole_500k"}
+SOFTMAX_MODEL_NAME=${SOFTMAX_MODEL_NAME:-"luciole_500k"}
+MODEL_SELECTION=${MODEL_SELECTION:-"ssa"} # both|ssa|softmax
 TOKENIZER_PATH=${TOKENIZER:-"/tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2"}
-TASKS=${TASKS:-"french_bench"} # e.g. "copa" or "french_bench"
+TASKS=${TASKS:-"wikitext"} # e.g. "copa" or "french_bench"
 # TASKS=${TASKS:-"gsm8k"}
 BATCH_SIZE=${BATCH_SIZE:-64}
 MAX_LENGTH=${MAX_LENGTH:-2048}
@@ -38,7 +38,7 @@ HF_DATASETS_OFFLINE=${HF_DATASETS_OFFLINE:-1}
 HF_HOME=${HF_HOME:-"/work/m24047/m24047flhg/.cache/huggingface"}
 HF_HOME_LEGACY=${HF_HOME_LEGACY:-"/work/m24047/m24047brmn/lm_eval"}
 HF_CACHE_MERGE_MODE=${HF_CACHE_MERGE_MODE:-"symlink"} # symlink|copy|none
-OUTPUT_DIR=${OUTPUT_DIR:-"benchmark_results_99ksteps_ssa_fixed"}
+OUTPUT_DIR=${OUTPUT_DIR:-"benchmark_results_500k"}
 
 mkdir -p "$OUTPUT_DIR"
 

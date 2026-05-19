@@ -1,0 +1,56 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  softmax
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0199999
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-last
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           all
+Batch Size:      64
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     -1
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+HF Home:         /work/m24047/m24047flhg/.cache/huggingface
+HF Home legacy:  /work/m24047/m24047brmn/lm_eval
+HF merge mode:   symlink
+Output prefix:   benchmark_results_700k/results_luc1b_softmax_all_20260421_104637
+===========================================
+Preparing HF cache (mode=symlink) from /work/m24047/m24047brmn/lm_eval
+-------------------------------------------
+Running model:   luciole_700k (softmax)
+Checkpoint:      /tmpdir/m24047flhg/luciole-phase1-last
+Output:          benchmark_results_700k/results_luc1b_softmax_all_20260421_104637_luciole_700k.json
+-------------------------------------------
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['arc_easy', 'arc_challenge', 'hellaswag', 'winogrande', 'truthfulqa', 'openbookqa', 'lambada', 'boolq', 'cb', 'copa', 'multirc', 'record', 'rte', 'wic', 'wsc', 'axb', 'axg']
+INFO:__main__:gsm8k subset override: limit=None (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'luciole_700k', 'type': 'softmax', 'checkpoint': '/tmpdir/m24047flhg/luciole-phase1-last'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'luciole_700k' (softmax)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+Traceback (most recent call last):
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_random.py", line 1197, in <module>
+    main()
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_random.py", line 1148, in main
+    model_result = run_evaluation(
+                   ^^^^^^^^^^^^^^^
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_random.py", line 682, in run_evaluation
+    model = RandomBaselineLM(
+            ^^^^^^^^^^^^^^^^^
+  File "/users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton/run_benchmarks_random.py", line 623, in __init__
+    self.tokenizer_name = tokenizer_name
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: property 'tokenizer_name' of 'RandomBaselineLM' object has no setter
+Model 'luciole_700k' finished with status 1
+===========================================
+Benchmark finished with status 1 (selection=softmax)
+===========================================

@@ -1,0 +1,34 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0299999
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-last
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           all
+Batch Size:      64
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     -1
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+HF Home:         /work/m24047/m24047flhg/.cache/huggingface
+HF Home legacy:  /work/m24047/m24047brmn/lm_eval
+HF merge mode:   symlink
+Output prefix:   benchmark_results_700k/results_luc1b_ssa_all_20260423_103410
+===========================================
+Preparing HF cache (mode=symlink) from /work/m24047/m24047brmn/lm_eval
+-------------------------------------------
+Running model:   ssa_luciole_200k (ssa_triton)
+Checkpoint:      /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0299999
+Output:          benchmark_results_700k/results_luc1b_ssa_all_20260423_103410_ssa_luciole_200k.json
+-------------------------------------------
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+slurmstepd: error: *** JOB 84852 ON turpancomp0 CANCELLED AT 2026-04-23T10:34:26 ***

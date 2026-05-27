@@ -9,7 +9,7 @@
 #SBATCH --mail-user=niyar-r.barman@utoulouse.fr
 #SBATCH --mail-type=ALL
 #SBATCH --cpus-per-task=288
-#SBATCH --reservation=MC_mercredi
+#SBATCH --reservation=MC_mardi
 
 module purge
 mkdir -p slurm

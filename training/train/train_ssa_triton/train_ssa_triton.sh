@@ -4,12 +4,12 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:4
 #SBATCH -p full-gpu
-#SBATCH --time=15:00:00
+#SBATCH --time=2-15:00:00
 #SBATCH --output=slurm/%x_%j.out
 #SBATCH --mail-user=niyar-r.barman@utoulouse.fr
 #SBATCH --mail-type=ALL
 #SBATCH --cpus-per-task=288
-#SBATCH --reservation=MC_mardi
+#SBATCH --reservation=MC_weekend
 
 module purge
 mkdir -p slurm

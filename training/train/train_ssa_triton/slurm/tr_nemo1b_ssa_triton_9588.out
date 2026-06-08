@@ -1,0 +1,325 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/32bs_ssa_run/outputs
+Name:        nemotron-1B-SSA-Triton-bs1024
+Batch size:  1024
+Nodes:       4
+Duration:    00:09:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 0
+Contig QKV:  1
+Global max:  100
+This-run max:100
+W&B:         1 (mode=offline)
+==========================================
+[2026-03-19T15:09:28.442] error: couldn't chdir to `/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton': Stale file handle: going to /tmp instead
+[2026-03-19T15:09:28.449] error: couldn't chdir to `/gpfs/work/p26037/barman/luciole-1B/training/train/train_ssa_triton': Stale file handle: going to /tmp instead
+FATAL:   While checking container encryption: could not open image /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif: failed to retrieve path for /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif: lstat /gpfs: stale file handle
+srun: error: kairosgh15: task 3: Exited with exit code 255
+W0319 15:09:31.198000 663999 torch/distributed/run.py:763] 
+W0319 15:09:31.198000 663999 torch/distributed/run.py:763] *****************************************
+W0319 15:09:31.198000 663999 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0319 15:09:31.198000 663999 torch/distributed/run.py:763] *****************************************
+[W319 15:09:31.891609622 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh10.calmip.cluster]:19589 (errno: 97 - Address family not supported by protocol).
+W0319 15:09:31.239000 2348954 torch/distributed/run.py:763] 
+W0319 15:09:31.239000 2348954 torch/distributed/run.py:763] *****************************************
+W0319 15:09:31.239000 2348954 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0319 15:09:31.239000 2348954 torch/distributed/run.py:763] *****************************************
+[W319 15:09:31.447243732 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh10.calmip.cluster]:19589 (errno: 97 - Address family not supported by protocol).
+W0319 15:09:31.360000 907727 torch/distributed/run.py:763] 
+W0319 15:09:31.360000 907727 torch/distributed/run.py:763] *****************************************
+W0319 15:09:31.360000 907727 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0319 15:09:31.360000 907727 torch/distributed/run.py:763] *****************************************
+[W319 15:09:31.288282593 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh10.calmip.cluster]:19589 (errno: 97 - Address family not supported by protocol).
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 261, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 711, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 864, in _invoke_run
+    self._initialize_workers(self._worker_group)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 683, in _initialize_workers
+    self._rendezvous(worker_group)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 500, in _rendezvous
+    rdzv_info = spec.rdzv_handler.next_rendezvous()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 1162, in next_rendezvous
+    self._op_executor.run(join_op, deadline, self._get_deadline)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 679, in run
+    raise RendezvousTimeoutError
+torch.distributed.elastic.rendezvous.api.RendezvousTimeoutError
+[W319 15:19:32.967790965 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=kairosgh11.calmip.cluster:56368, remote=kairosgh10.calmip.cluster:19589): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x400066213cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x40001bf291f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40001bf2b0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40001bf2d704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::doWait(c10::ArrayRef<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x148 (0x40001bf2e6b8 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::TCPStore::doGet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x2c (0x40001bf2eb7c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #6: c10d::TCPStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x9c (0x40001bf3007c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #7: <unknown function> + 0xf50874 (0x4000163c0874 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x594060 (0x400015a04060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #9: /usr/bin/python() [0x5036b4]
+frame #10: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #11: /usr/bin/python() [0x4c6f6c]
+frame #12: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #13: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #14: /usr/bin/python() [0x528ba0]
+frame #15: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #16: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #17: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #18: /usr/bin/python() [0x59c3c4]
+frame #19: /usr/bin/python() [0x680e94]
+frame #20: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #21: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #22: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #23: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #24: <unknown function> + 0x284c4 (0x4000147884c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #25: __libc_start_main + 0x98 (0x400014788598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #26: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0319 15:19:32.057000 907727 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'kairosgh11.calmip.cluster_907727_0' has failed to shutdown the rendezvous '9588' due to an error of type RendezvousConnectionError.
+[W319 15:19:32.973118585 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=kairosgh11.calmip.cluster:56368, remote=kairosgh10.calmip.cluster:19589): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x400066213cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x40001bf291f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40001bf2b0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40001bf2d704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::doWait(c10::ArrayRef<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x148 (0x40001bf2e6b8 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::TCPStore::doGet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x2c (0x40001bf2eb7c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #6: c10d::TCPStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x9c (0x40001bf3007c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #7: <unknown function> + 0xf50874 (0x4000163c0874 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x594060 (0x400015a04060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #9: /usr/bin/python() [0x5036b4]
+frame #10: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #11: /usr/bin/python() [0x4c6f6c]
+frame #12: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #13: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #14: /usr/bin/python() [0x528ba0]
+frame #15: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #16: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #17: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #18: /usr/bin/python() [0x59c3c4]
+frame #19: /usr/bin/python() [0x680e94]
+frame #20: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #21: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #22: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #23: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #24: <unknown function> + 0x284c4 (0x4000147884c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #25: __libc_start_main + 0x98 (0x400014788598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #26: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0319 15:19:32.062000 907727 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'kairosgh11.calmip.cluster_907727_0' has failed to shutdown the rendezvous '9588' due to an error of type RendezvousConnectionError.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 117, in _call_store
+    return getattr(self._store, store_op)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.distributed.DistNetworkError: failed to recv, got 0 bytes
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 261, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 711, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 864, in _invoke_run
+    self._initialize_workers(self._worker_group)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 683, in _initialize_workers
+    self._rendezvous(worker_group)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 500, in _rendezvous
+    rdzv_info = spec.rdzv_handler.next_rendezvous()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 1162, in next_rendezvous
+    self._op_executor.run(join_op, deadline, self._get_deadline)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 648, in run
+    has_set = self._state_holder.sync()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 437, in sync
+    get_response = self._backend.get_state()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 75, in get_state
+    base64_state: bytes = self._call_store("get", self._key)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 119, in _call_store
+    raise RendezvousConnectionError(
+torch.distributed.elastic.rendezvous.api.RendezvousConnectionError: The connection to the C10d store has failed. See inner exception for details.
+srun: error: kairosgh10: task 0: Exited with exit code 1
+[W319 15:19:32.025917702 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=kairosgh14.calmip.cluster:41910, remote=kairosgh10.calmip.cluster:19589): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x40008f683cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x4000453991f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40004539b0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40004539d704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::doWait(c10::ArrayRef<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x148 (0x40004539e6b8 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::TCPStore::doGet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x2c (0x40004539eb7c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #6: c10d::TCPStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x9c (0x4000453a007c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #7: <unknown function> + 0xf50874 (0x40003f830874 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x594060 (0x40003ee74060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #9: /usr/bin/python() [0x5036b4]
+frame #10: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #11: /usr/bin/python() [0x4c6f6c]
+frame #12: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #13: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #14: /usr/bin/python() [0x528ba0]
+frame #15: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #16: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #17: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #18: /usr/bin/python() [0x59c3c4]
+frame #19: /usr/bin/python() [0x680e94]
+frame #20: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #21: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #22: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #23: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #24: <unknown function> + 0x284c4 (0x40003dbf84c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #25: __libc_start_main + 0x98 (0x40003dbf8598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #26: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0319 15:19:32.353000 663999 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'kairosgh14.calmip.cluster_663999_0' has failed to shutdown the rendezvous '9588' due to an error of type RendezvousConnectionError.
+[W319 15:19:32.031094074 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=kairosgh14.calmip.cluster:41910, remote=kairosgh10.calmip.cluster:19589): Broken pipe
+Exception raised from sendBytes at /opt/pytorch/pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xd4 (0x40008f683cc4 in /usr/local/lib/python3.12/dist-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5a291f0 (0x4000453991f0 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5a2b0fc (0x40004539b0fc in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5a2d704 (0x40004539d704 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::doWait(c10::ArrayRef<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x148 (0x40004539e6b8 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::TCPStore::doGet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x2c (0x40004539eb7c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #6: c10d::TCPStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x9c (0x4000453a007c in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_cpu.so)
+frame #7: <unknown function> + 0xf50874 (0x40003f830874 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x594060 (0x40003ee74060 in /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch_python.so)
+frame #9: /usr/bin/python() [0x5036b4]
+frame #10: _PyObject_MakeTpCall + 0x78 (0x4c2c98 in /usr/bin/python)
+frame #11: /usr/bin/python() [0x4c6f6c]
+frame #12: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #13: _PyObject_Call_Prepend + 0xc4 (0x4c4774 in /usr/bin/python)
+frame #14: /usr/bin/python() [0x528ba0]
+frame #15: PyObject_Call + 0x6c (0x4c517c in /usr/bin/python)
+frame #16: _PyEval_EvalFrameDefault + 0x3cf4 (0x567308 in /usr/bin/python)
+frame #17: PyEval_EvalCode + 0x130 (0x562204 in /usr/bin/python)
+frame #18: /usr/bin/python() [0x59c3c4]
+frame #19: /usr/bin/python() [0x680e94]
+frame #20: _PyRun_SimpleFileObject + 0x194 (0x680a68 in /usr/bin/python)
+frame #21: _PyRun_AnyFileObject + 0x54 (0x680834 in /usr/bin/python)
+frame #22: Py_RunMain + 0x2dc (0x68b83c in /usr/bin/python)
+frame #23: Py_BytesMain + 0x28 (0x68b3f8 in /usr/bin/python)
+frame #24: <unknown function> + 0x284c4 (0x40003dbf84c4 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #25: __libc_start_main + 0x98 (0x40003dbf8598 in /lib/aarch64-linux-gnu/libc.so.6)
+frame #26: _start + 0x30 (0x5f6df0 in /usr/bin/python)
+
+W0319 15:19:32.358000 663999 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'kairosgh14.calmip.cluster_663999_0' has failed to shutdown the rendezvous '9588' due to an error of type RendezvousConnectionError.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 117, in _call_store
+    return getattr(self._store, store_op)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.distributed.DistNetworkError: failed to recv, got 0 bytes
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 261, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 711, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 864, in _invoke_run
+    self._initialize_workers(self._worker_group)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 683, in _initialize_workers
+    self._rendezvous(worker_group)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/agent/server/api.py", line 500, in _rendezvous
+    rdzv_info = spec.rdzv_handler.next_rendezvous()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 1162, in next_rendezvous
+    self._op_executor.run(join_op, deadline, self._get_deadline)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 648, in run
+    has_set = self._state_holder.sync()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 437, in sync
+    get_response = self._backend.get_state()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 75, in get_state
+    base64_state: bytes = self._call_store("get", self._key)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 119, in _call_store
+    raise RendezvousConnectionError(
+torch.distributed.elastic.rendezvous.api.RendezvousConnectionError: The connection to the C10d store has failed. See inner exception for details.
+srun: error: kairosgh11: task 1: Exited with exit code 1
+srun: error: kairosgh14: task 2: Exited with exit code 1
+==========================================
+SSA Triton Training finished with status 255
+==========================================

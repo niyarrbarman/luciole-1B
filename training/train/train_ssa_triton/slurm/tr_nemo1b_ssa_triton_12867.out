@@ -1,0 +1,59 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/bs1024_fullrun/outputs
+Name:        nemotron-1B-SSA-Triton-bs1024
+Batch size:  1024
+Nodes:       4
+Duration:    00:01:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 1
+Contig QKV:  1
+Global max:  715788
+This-run max:0
+W&B:         0 (mode=offline)
+==========================================
+W0402 15:44:07.837000 596685 torch/distributed/run.py:763] 
+W0402 15:44:07.837000 596685 torch/distributed/run.py:763] *****************************************
+W0402 15:44:07.837000 596685 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0402 15:44:07.837000 596685 torch/distributed/run.py:763] *****************************************
+[W402 15:44:07.050471978 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22868 (errno: 97 - Address family not supported by protocol).
+W0402 15:44:07.888000 207065 torch/distributed/run.py:763] 
+W0402 15:44:07.888000 207065 torch/distributed/run.py:763] *****************************************
+W0402 15:44:07.888000 207065 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0402 15:44:07.888000 207065 torch/distributed/run.py:763] *****************************************
+[W402 15:44:07.850262206 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22868 (errno: 97 - Address family not supported by protocol).
+W0402 15:44:07.909000 1002107 torch/distributed/run.py:763] 
+W0402 15:44:07.909000 1002107 torch/distributed/run.py:763] *****************************************
+W0402 15:44:07.909000 1002107 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0402 15:44:07.909000 1002107 torch/distributed/run.py:763] *****************************************
+[W402 15:44:07.664403459 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22868 (errno: 97 - Address family not supported by protocol).
+W0402 15:44:07.937000 216113 torch/distributed/run.py:763] 
+W0402 15:44:07.937000 216113 torch/distributed/run.py:763] *****************************************
+W0402 15:44:07.937000 216113 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0402 15:44:07.937000 216113 torch/distributed/run.py:763] *****************************************
+[W402 15:44:07.779527820 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh6.calmip.cluster]:22868 (errno: 97 - Address family not supported by protocol).
+[W402 15:44:09.801943032 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh10.calmip.cluster]:33287 (errno: 97 - Address family not supported by protocol).
+[launcher] rank=2/3 | GPU=2 | NUMA=2 | cores=144-215 | script=train_ssa_triton.py
+[launcher] rank=0/3 | GPU=0 | NUMA=0 | cores=0-71 | script=train_ssa_triton.py
+[launcher] rank=3/3 | GPU=3 | NUMA=3 | cores=216-287 | script=train_ssa_triton.py
+[launcher] rank=1/3 | GPU=1 | NUMA=1 | cores=72-143 | script=train_ssa_triton.py
+[launcher] rank=3/3 | GPU=3 | NUMA=3 | cores=216-287 | script=train_ssa_triton.py
+[launcher] rank=2/3 | GPU=2 | NUMA=2 | cores=144-215 | script=train_ssa_triton.py
+[launcher] rank=1/3 | GPU=1 | NUMA=1 | cores=72-143 | script=train_ssa_triton.py
+[launcher] rank=3/3 | GPU=3 | NUMA=3 | cores=216-287 | script=train_ssa_triton.py
+[launcher] rank=2/3 | GPU=2 | NUMA=2 | cores=144-215 | script=train_ssa_triton.py
+[launcher] rank=0/3 | GPU=0 | NUMA=0 | cores=0-71 | script=train_ssa_triton.py
+[launcher] rank=0/3 | GPU=0 | NUMA=0 | cores=0-71 | script=train_ssa_triton.py
+[launcher] rank=0/3 | GPU=0 | NUMA=0 | cores=0-71 | script=train_ssa_triton.py
+[launcher] rank=2/3 | GPU=2 | NUMA=2 | cores=144-215 | script=train_ssa_triton.py[launcher] rank=1/3 | GPU=1 | NUMA=1 | cores=72-143 | script=train_ssa_triton.py
+
+[launcher] rank=1/3 | GPU=1 | NUMA=1 | cores=72-143 | script=train_ssa_triton.py
+[launcher] rank=3/3 | GPU=3 | NUMA=3 | cores=216-287 | script=train_ssa_triton.py
+==========================================
+SSA Triton Training finished with status 0
+==========================================

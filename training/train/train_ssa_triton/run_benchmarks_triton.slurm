@@ -10,16 +10,19 @@
 
 mkdir -p slurm
 
-SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-ssa-triton/checkpoints/baby_luciole-ssa-triton-step=0023999"}
-SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0020998-last"}
+# example of how it should be, you need to give the folder not a .pth or .ckpt
+# CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047brmn/nemo_1b/output/baby_luciole-softmax-test/checkpoints/baby_luciole-softmax-test-step=0020998-last"}
 
-SSA_MODEL_NAME=${SSA_MODEL_NAME:-"baby_luciole_ssa_triton"}
-SOFTMAX_MODEL_NAME=${SOFTMAX_MODEL_NAME:-"baby_luciole_softmax"}
+SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047brmn/kairos/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0009999"}
+SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"# ADD CHECKPOINT PATH HERE"}
+
+SSA_MODEL_NAME=${SSA_MODEL_NAME:-"ssa_luciole_10k"}
+SOFTMAX_MODEL_NAME=${SOFTMAX_MODEL_NAME:-"luciole_10k"}
 MODEL_SELECTION=${MODEL_SELECTION:-"both"} # both|ssa|softmax
-TOKENIZER_PATH=${TOKENIZER:-"/work/m24047/m24047brmn/tokenizers/luciole_50k"}
+TOKENIZER_PATH=${TOKENIZER:-"/tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2"}
 TASKS=${TASKS:-"all"}
 BATCH_SIZE=${BATCH_SIZE:-16}
-MAX_LENGTH=${MAX_LENGTH:-2048}
+MAX_LENGTH=${MAX_LENGTH:-4096}
 LIMIT=${LIMIT:-""}
 GSM8K_LIMIT=${GSM8K_LIMIT:-100}
 GSM8K_RANDOM_SEED=${GSM8K_RANDOM_SEED:-42}

@@ -1,0 +1,153 @@
+
+==================================================================
+  CONTROL — normal training (no crash)
+  before: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313499
+  after:  /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313999
+==================================================================
+[W507 11:53:35.677019685 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [localhost]:53394 (errno: 97 - Address family not supported by protocol).
+/opt/megatron-lm/megatron/core/dist_checkpointing/strategies/torch.py:892: FutureWarning: `load_state_dict` is deprecated and will be removed in future versions. Please use `load` instead.
+  checkpoint.load_state_dict(
+/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/planner_helpers.py:316: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  device = getattr(value, "device", None)
+/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/default_planner.py:362: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  and md.size != obj.size()
+Loading /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313499 ...
+  [ok]   loaded via megatron dist_checkpointing: nemo:weights (weights)
+  [info] megatron dist_checkpointing on root: CheckpointingException: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313499 is not a distributed checkpoint
+
+=== /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313499 ===
+  Top-level keys: ['nemo:weights']
+  Found 2 candidate n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.671875, 2.171875, 2.453125, 2.8125]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.677588939666748, 2.179629325866699, 2.4490811824798584, 2.806478977203369]
+
+  Optimizer state for n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+    nemo:weights.optimizer.state.exp_avg.module.decoder.layers.self_attention.core_attention: step=None |exp_avg|=5.964e-05 
+    nemo:weights.optimizer.state.exp_avg_sq.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+        |exp_avg_sq|=6.636e-08, max=5.046e-07, is_zero=False
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+
+Loading /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313999 ...
+  [ok]   loaded via megatron dist_checkpointing: nemo:weights (weights)
+  [info] megatron dist_checkpointing on root: CheckpointingException: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313999 is not a distributed checkpoint
+
+=== /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0313999 ===
+  Top-level keys: ['nemo:weights']
+  Found 2 candidate n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.671875, 2.171875, 2.453125, 2.8125]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.678346633911133, 2.1796021461486816, 2.4485371112823486, 2.806713819503784]
+
+  Optimizer state for n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+    nemo:weights.optimizer.state.exp_avg.module.decoder.layers.self_attention.core_attention: step=None |exp_avg|=4.755e-05 
+    nemo:weights.optimizer.state.exp_avg_sq.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+        |exp_avg_sq|=6.181e-08, max=3.320e-07, is_zero=False
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+
+=== Diff (after - before) ===
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: |Δ|.mean=3.3398e-01  |Δ|.max=8.0000e+00  before=[3.671875, 2.171875, 2.453125]  after=[3.671875, 2.171875, 2.453125]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: |Δ|.mean=3.3148e-01  |Δ|.max=7.9396e+00  before=[3.677588939666748, 2.179629325866699, 2.4490811824798584]  after=[3.678346633911133, 2.1796021461486816, 2.4485371112823486]
+
+==================================================================
+  DIP 1 — crash near step 314.5k
+  before: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0314499
+  after:  /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0314999
+==================================================================
+[W507 11:54:25.946724844 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [localhost]:53394 (errno: 97 - Address family not supported by protocol).
+/opt/megatron-lm/megatron/core/dist_checkpointing/strategies/torch.py:892: FutureWarning: `load_state_dict` is deprecated and will be removed in future versions. Please use `load` instead.
+  checkpoint.load_state_dict(
+/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/planner_helpers.py:316: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  device = getattr(value, "device", None)
+/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/default_planner.py:362: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  and md.size != obj.size()
+Loading /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0314499 ...
+  [ok]   loaded via megatron dist_checkpointing: nemo:weights (weights)
+  [info] megatron dist_checkpointing on root: CheckpointingException: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0314499 is not a distributed checkpoint
+
+=== /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0314499 ===
+  Top-level keys: ['nemo:weights']
+  Found 2 candidate n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.671875, 2.171875, 2.453125, 2.8125]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.6788904666900635, 2.179553747177124, 2.4465527534484863, 2.8065152168273926]
+
+  Optimizer state for n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+    nemo:weights.optimizer.state.exp_avg.module.decoder.layers.self_attention.core_attention: step=None |exp_avg|=6.065e-05 
+    nemo:weights.optimizer.state.exp_avg_sq.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+        |exp_avg_sq|=7.107e-08, max=4.679e-07, is_zero=False
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+
+Loading /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0314999 ...
+  [ok]   loaded via megatron dist_checkpointing: nemo:weights (weights)
+  [info] megatron dist_checkpointing on root: CheckpointingException: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0314999 is not a distributed checkpoint
+
+=== /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0314999 ===
+  Top-level keys: ['nemo:weights']
+  Found 2 candidate n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.671875, 1.3203125, 2.4375, 2.8125]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.6744000911712646, 1.3200626373291016, 2.4453108310699463, 2.8052403926849365]
+
+  Optimizer state for n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+    nemo:weights.optimizer.state.exp_avg.module.decoder.layers.self_attention.core_attention: step=None |exp_avg|=1.180e-04 
+    nemo:weights.optimizer.state.exp_avg_sq.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+        |exp_avg_sq|=1.938e-07, max=3.345e-06, is_zero=False
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+
+=== Diff (after - before) ===
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: |Δ|.mean=1.0125e+01  |Δ|.max=2.3600e+02  before=[3.671875, 2.171875, 2.453125]  after=[3.671875, 1.3203125, 2.4375]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: |Δ|.mean=1.0034e+01  |Δ|.max=2.3309e+02  before=[3.6788904666900635, 2.179553747177124, 2.4465527534484863]  after=[3.6744000911712646, 1.3200626373291016, 2.4453108310699463]
+
+==================================================================
+  DIP 2 — crash near step 327.5k
+  before: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0327499
+  after:  /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0327999
+==================================================================
+[W507 11:55:06.298721547 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [localhost]:53394 (errno: 97 - Address family not supported by protocol).
+/opt/megatron-lm/megatron/core/dist_checkpointing/strategies/torch.py:892: FutureWarning: `load_state_dict` is deprecated and will be removed in future versions. Please use `load` instead.
+  checkpoint.load_state_dict(
+/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/planner_helpers.py:316: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  device = getattr(value, "device", None)
+/usr/local/lib/python3.12/dist-packages/torch/distributed/checkpoint/default_planner.py:362: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  and md.size != obj.size()
+Loading /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0327499 ...
+  [ok]   loaded via megatron dist_checkpointing: nemo:weights (weights)
+  [info] megatron dist_checkpointing on root: CheckpointingException: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0327499 is not a distributed checkpoint
+
+=== /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0327499 ===
+  Top-level keys: ['nemo:weights']
+  Found 2 candidate n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.671875, 1.765625, 2.453125, 2.8125]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.6745448112487793, 1.7671196460723877, 2.456403970718384, 2.8115663528442383]
+
+  Optimizer state for n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+    nemo:weights.optimizer.state.exp_avg.module.decoder.layers.self_attention.core_attention: step=None |exp_avg|=5.416e-05 
+    nemo:weights.optimizer.state.exp_avg_sq.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+        |exp_avg_sq|=6.368e-08, max=4.089e-07, is_zero=False
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+
+Loading /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0327999 ...
+  [ok]   loaded via megatron dist_checkpointing: nemo:weights (weights)
+  [info] megatron dist_checkpointing on root: CheckpointingException: /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0327999 is not a distributed checkpoint
+
+=== /scratch/barman/bs1024_fullrun/outputs/nemotron-1B-SSA-Triton-bs1024/checkpoints/nemotron-1B-SSA-Triton-bs1024-step=0327999 ===
+  Top-level keys: ['nemo:weights']
+  Found 2 candidate n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.671875, 1.0625, 2.453125, 2.8125]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: shape=(24,) val=[3.6699585914611816, 1.0606523752212524, 2.4544804096221924, 2.810215473175049]
+
+  Optimizer state for n parameters:
+    nemo:weights.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+    nemo:weights.optimizer.state.exp_avg.module.decoder.layers.self_attention.core_attention: step=None |exp_avg|=1.491e-04 
+    nemo:weights.optimizer.state.exp_avg_sq.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+        |exp_avg_sq|=3.571e-07, max=7.229e-06, is_zero=False
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention: step=None exp_avg=NA 
+
+=== Diff (after - before) ===
+    nemo:weights.module.decoder.layers.self_attention.core_attention.ssa_n_raw: |Δ|.mean=9.2578e-01  |Δ|.max=1.3500e+01  before=[3.671875, 1.765625, 2.453125]  after=[3.671875, 1.0625, 2.453125]
+    nemo:weights.optimizer.state.fp32_param.module.decoder.layers.self_attention.core_attention.ssa_n_raw: |Δ|.mean=1.1013e+00  |Δ|.max=1.3576e+01  before=[3.6745448112487793, 1.7671196460723877, 2.456403970718384]  after=[3.6699585914611816, 1.0606523752212524, 2.4544804096221924]
+
+Done. Look for: step counter not advancing by 500 across pairs,
+or exp_avg_sq much higher in DIP pairs than CONTROL.

@@ -1,0 +1,11 @@
+==========================================
+Building Index Mappings
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/luciole_ssa/outputs
+Max steps:   1000
+==========================================
+FATAL:   While checking container encryption: could not open image /work/conteneurs/calmip/nemo_25.04.03_arm.sif: failed to retrieve path for /work/conteneurs/calmip/nemo_25.04.03_arm.sif: lstat /gpfs/work/conteneurs/calmip/nemo_25.04.03_arm.sif: no such file or directory
+srun: error: kairosgh3: task 0: Exited with exit code 255
+==========================================
+Index build finished with status 255
+==========================================

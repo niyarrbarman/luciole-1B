@@ -1,0 +1,346 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/nemo_1b/output_1b
+Name:        nemotron-1B-SSA-Triton
+Nodes:       3
+Duration:    00:12:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 0
+Contig QKV:  1
+Global max:  3000
+This-run max:0
+W&B:         1 (mode=offline)
+==========================================
+W0317 17:37:38.703000 2022122 torch/distributed/run.py:763] 
+W0317 17:37:38.703000 2022122 torch/distributed/run.py:763] *****************************************
+W0317 17:37:38.703000 2022122 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0317 17:37:38.703000 2022122 torch/distributed/run.py:763] *****************************************
+W0317 17:37:38.703000 676596 torch/distributed/run.py:763] 
+W0317 17:37:38.703000 676596 torch/distributed/run.py:763] *****************************************
+W0317 17:37:38.703000 676596 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0317 17:37:38.703000 676596 torch/distributed/run.py:763] *****************************************
+W0317 17:37:38.705000 631452 torch/distributed/run.py:763] 
+W0317 17:37:38.705000 631452 torch/distributed/run.py:763] *****************************************
+W0317 17:37:38.705000 631452 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0317 17:37:38.705000 631452 torch/distributed/run.py:763] *****************************************
+[W317 17:37:38.894959404 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh8.calmip.cluster]:18489 (errno: 97 - Address family not supported by protocol).
+[W317 17:37:38.441214370 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh8.calmip.cluster]:18489 (errno: 97 - Address family not supported by protocol).
+[W317 17:37:38.965421953 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh8.calmip.cluster]:18489 (errno: 97 - Address family not supported by protocol).
+[W317 17:37:40.336764692 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh10.calmip.cluster]:44547 (errno: 97 - Address family not supported by protocol).
+[rank: 2] Seed set to 1234
+[rank: 3] Seed set to 1234
+[rank: 0] Seed set to 1234
+[rank: 1] Seed set to 1234
+[rank: 4] Seed set to 1234
+[rank: 5] Seed set to 1234
+INFO:faiss.loader:Loading faiss with SVE support.
+INFO:faiss.loader:Could not load library with SVE support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_sve'")
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss with SVE support.
+INFO:faiss.loader:Could not load library with SVE support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_sve'")
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss with SVE support.
+INFO:faiss.loader:Could not load library with SVE support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_sve'")
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss with SVE support.
+INFO:faiss.loader:Could not load library with SVE support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_sve'")
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Loading faiss with SVE support.
+INFO:faiss.loader:Could not load library with SVE support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_sve'")
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Loading faiss with SVE support.
+INFO:faiss.loader:Could not load library with SVE support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_sve'")
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-03-17 17:38:11 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:utils:{'data_path': '/work/datasets/AI/tokens_luciole_phase1', 'total_tokens': 3002228277248, 'train': [{'name': 'claire_open_en_text_document', 'weight': 29003.0}, {'name': 'claire_open_fr_text_document', 'weight': 92129.0}, {'name': 'common-corpus_bnl-newspapers-1841-1879_fr_text_document', 'weight': 66237.0}, {'name': 'common-corpus_eurlex_multi_text_document', 'weight': 3601664.0}, {'name': 'common-corpus_gatt-library_multi_text_document', 'weight': 41322.0}, {'name': 'common-corpus_oecd_multi_text_document', 'weight': 121969.0}, {'name': 'common-corpus_tedeutenders_multi_text_document', 'weight': 31276.0}, {'name': 'common-corpus_wto_multi_text_document', 'weight': 577279.0}, {'name': 'common-pile_arxiv-abstracts_en_text_document', 'weight': 140138.0}, {'name': 'common-pile_arxiv-papers_en_text_document', 'weight': 1299034.0}, {'name': 'common-pile_biodiversity-heritage-library_en_text_document', 'weight': 107772.0}, {'name': 'common-pile_caselaw-access-project_en_text_document', 'weight': 929697.0}, {'name': 'common-pile_doab_en_text_document', 'weight': 712786.0}, {'name': 'common-pile_foodista_en_text_document', 'weight': 5603.0}, {'name': 'common-pile_github-archive_en_text_document', 'weight': 2244221.0}, {'name': 'common-pile_library-of-congress_en_text_document', 'weight': 101533.0}, {'name': 'common-pile_libretexts_en_text_document', 'weight': 21049.0}, {'name': 'common-pile_news_en_text_document', 'weight': 14354.0}, {'name': 'common-pile_oercommons_en_text_document', 'weight': 2748.0}, {'name': 'common-pile_peS2o_en_text_document', 'weight': 10166525.0}, {'name': 'common-pile_pre-1929-books_en_text_document', 'weight': 531517.0}, {'name': 'common-pile_pressbooks_en_text_document', 'weight': 31891.0}, {'name': 'common-pile_public-domain-review_en_text_document', 'weight': 382.0}, {'name': 'common-pile_pubmed_en_text_document', 'weight': 1869301.0}, {'name': 'common-pile_python-enhancement-proposals_en_text_document', 'weight': 652.0}, {'name': 'common-pile_regulations_en_text_document', 'weight': 266173.0}, {'name': 'common-pile_stackexchange_en_text_document', 'weight': 4985359.0}, {'name': 'common-pile_ubuntu-irc_en_text_document', 'weight': 482830.0}, {'name': 'common-pile_youtube_en_text_document', 'weight': 204765.0}, {'name': 'croissant-aligned_aligned_text_document', 'weight': 11618464.0}, {'name': 'culturax_fr_text_document_ratio1.30_phase0', 'weight': 57012131.0}, {'name': 'dclm-dolmino_en_text_document_ratio0.75_phase0', 'weight': 93003263.0}, {'name': 'europarl_aligned_text_document', 'weight': 215607.0}, {'name': 'europarl_multi_text_document', 'weight': 99752.0}, {'name': 'eurovoc_filtered_multi_text_document', 'weight': 2150091.0}, {'name': 'fineweb-edu_en_text_document_ratio0.75_phase0', 'weight': 214754282.0}, {'name': 'fineweb2_ar_text_document_ratio0.50_phase0', 'weight': 3350461.0}, {'name': 'fineweb2_ca_text_document_ratio0.05_phase0', 'weight': 92529.0}, {'name': 'fineweb2_de_text_document_ratio0.50_phase0', 'weight': 27173931.0}, {'name': 'fineweb2_es_text_document_ratio0.50_phase0', 'weight': 24393496.0}, {'name': 'fineweb2_fr_text_document_ratio1.30_phase0', 'weight': 50038822.0}, {'name': 'fineweb2_it_text_document_ratio0.50_phase0', 'weight': 13377940.0}, {'name': 'fineweb2_nl_text_document_ratio0.50_phase0', 'weight': 7435763.0}, {'name': 'fineweb2_pt_text_document_ratio0.50_phase0', 'weight': 9800040.0}, {'name': 'fineweb2_regional_text_document', 'weight': 2132152.0}, {'name': 'gallica_monographies_fr_text_document', 'weight': 5842786.0}, {'name': 'gallica_press_fr_text_document', 'weight': 22850320.0}, {'name': 'gutenberg_de_text_document', 'weight': 42330.0}, {'name': 'gutenberg_en_text_document', 'weight': 1187655.0}, {'name': 'gutenberg_es_text_document', 'weight': 21778.0}, {'name': 'gutenberg_fr_text_document', 'weight': 91991.0}, {'name': 'gutenberg_it_text_document', 'weight': 29909.0}, {'name': 'gutenberg_nl_text_document', 'weight': 24430.0}, {'name': 'gutenberg_pt_text_document', 'weight': 9241.0}, {'name': 'hal-cea_full-filtered_fr_text_document', 'weight': 7828031.0}, {'name': 'hplt2_fr_text_document_ratio1.30_phase0', 'weight': 70401931.0}, {'name': 'insee_fr_text_document', 'weight': 55377.0}, {'name': 'math-pile_math_text_document', 'weight': 2345197.0}, {'name': 'opendata_fr_text_document', 'weight': 2749409.0}, {'name': 'parlement_fr_text_document', 'weight': 282826.0}, {'name': 'starcoder-data_code_text_document', 'weight': 62922795.0}, {'name': 'theses_fr_text_document', 'weight': 3239718.0}, {'name': 'wikimedia-vikidia_ar_text_document', 'weight': 265451.0}, {'name': 'wikimedia-vikidia_ca_text_document_ratio0.20_phase0', 'weight': 58530.0}, {'name': 'wikimedia-vikidia_de_text_document', 'weight': 1098595.0}, {'name': 'wikimedia-vikidia_en_text_document', 'weight': 2882825.0}, {'name': 'wikimedia-vikidia_es_text_document', 'weight': 631843.0}, {'name': 'wikimedia-vikidia_fr_text_document', 'weight': 1276052.0}, {'name': 'wikimedia-vikidia_it_text_document', 'weight': 654077.0}, {'name': 'wikimedia-vikidia_pt_text_document', 'weight': 304392.0}, {'name': 'wikimedia-vikidia_regional_text_document', 'weight': 119234.0}, {'name': 'wikimedia_nl_text_document', 'weight': 345319.0}, {'name': 'youtube_fr_text_document', 'weight': 76194.0}]}
+INFO:__main__:Using CLI tokenizer override: /work/p26037/barman/tokenizer_128k-arab-regional_v2
+INFO:__main__:Global batch size: 256
+INFO:__main__:Sequence length: 4096
+INFO:__main__:Tokens per batch: 1048576
+INFO:__main__:Total tokens in datamix: 3002228277248
+INFO:__main__:Global training/LR horizon (from --max_steps): 3000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'config', 'model_chunks', 'lr_mult', 'use_gloo_process_groups', 'no_weight_decay_cond', 'scale_lr_cond'})
+INFO:utils:{'data_path': '/work/datasets/AI/tokens_luciole_phase1', 'total_tokens': 3002228277248, 'train': [{'name': 'claire_open_en_text_document', 'weight': 29003.0}, {'name': 'claire_open_fr_text_document', 'weight': 92129.0}, {'name': 'common-corpus_bnl-newspapers-1841-1879_fr_text_document', 'weight': 66237.0}, {'name': 'common-corpus_eurlex_multi_text_document', 'weight': 3601664.0}, {'name': 'common-corpus_gatt-library_multi_text_document', 'weight': 41322.0}, {'name': 'common-corpus_oecd_multi_text_document', 'weight': 121969.0}, {'name': 'common-corpus_tedeutenders_multi_text_document', 'weight': 31276.0}, {'name': 'common-corpus_wto_multi_text_document', 'weight': 577279.0}, {'name': 'common-pile_arxiv-abstracts_en_text_document', 'weight': 140138.0}, {'name': 'common-pile_arxiv-papers_en_text_document', 'weight': 1299034.0}, {'name': 'common-pile_biodiversity-heritage-library_en_text_document', 'weight': 107772.0}, {'name': 'common-pile_caselaw-access-project_en_text_document', 'weight': 929697.0}, {'name': 'common-pile_doab_en_text_document', 'weight': 712786.0}, {'name': 'common-pile_foodista_en_text_document', 'weight': 5603.0}, {'name': 'common-pile_github-archive_en_text_document', 'weight': 2244221.0}, {'name': 'common-pile_library-of-congress_en_text_document', 'weight': 101533.0}, {'name': 'common-pile_libretexts_en_text_document', 'weight': 21049.0}, {'name': 'common-pile_news_en_text_document', 'weight': 14354.0}, {'name': 'common-pile_oercommons_en_text_document', 'weight': 2748.0}, {'name': 'common-pile_peS2o_en_text_document', 'weight': 10166525.0}, {'name': 'common-pile_pre-1929-books_en_text_document', 'weight': 531517.0}, {'name': 'common-pile_pressbooks_en_text_document', 'weight': 31891.0}, {'name': 'common-pile_public-domain-review_en_text_document', 'weight': 382.0}, {'name': 'common-pile_pubmed_en_text_document', 'weight': 1869301.0}, {'name': 'common-pile_python-enhancement-proposals_en_text_document', 'weight': 652.0}, {'name': 'common-pile_regulations_en_text_document', 'weight': 266173.0}, {'name': 'common-pile_stackexchange_en_text_document', 'weight': 4985359.0}, {'name': 'common-pile_ubuntu-irc_en_text_document', 'weight': 482830.0}, {'name': 'common-pile_youtube_en_text_document', 'weight': 204765.0}, {'name': 'croissant-aligned_aligned_text_document', 'weight': 11618464.0}, {'name': 'culturax_fr_text_document_ratio1.30_phase0', 'weight': 57012131.0}, {'name': 'dclm-dolmino_en_text_document_ratio0.75_phase0', 'weight': 93003263.0}, {'name': 'europarl_aligned_text_document', 'weight': 215607.0}, {'name': 'europarl_multi_text_document', 'weight': 99752.0}, {'name': 'eurovoc_filtered_multi_text_document', 'weight': 2150091.0}, {'name': 'fineweb-edu_en_text_document_ratio0.75_phase0', 'weight': 214754282.0}, {'name': 'fineweb2_ar_text_document_ratio0.50_phase0', 'weight': 3350461.0}, {'name': 'fineweb2_ca_text_document_ratio0.05_phase0', 'weight': 92529.0}, {'name': 'fineweb2_de_text_document_ratio0.50_phase0', 'weight': 27173931.0}, {'name': 'fineweb2_es_text_document_ratio0.50_phase0', 'weight': 24393496.0}, {'name': 'fineweb2_fr_text_document_ratio1.30_phase0', 'weight': 50038822.0}, {'name': 'fineweb2_it_text_document_ratio0.50_phase0', 'weight': 13377940.0}, {'name': 'fineweb2_nl_text_document_ratio0.50_phase0', 'weight': 7435763.0}, {'name': 'fineweb2_pt_text_document_ratio0.50_phase0', 'weight': 9800040.0}, {'name': 'fineweb2_regional_text_document', 'weight': 2132152.0}, {'name': 'gallica_monographies_fr_text_document', 'weight': 5842786.0}, {'name': 'gallica_press_fr_text_document', 'weight': 22850320.0}, {'name': 'gutenberg_de_text_document', 'weight': 42330.0}, {'name': 'gutenberg_en_text_document', 'weight': 1187655.0}, {'name': 'gutenberg_es_text_document', 'weight': 21778.0}, {'name': 'gutenberg_fr_text_document', 'weight': 91991.0}, {'name': 'gutenberg_it_text_document', 'weight': 29909.0}, {'name': 'gutenberg_nl_text_document', 'weight': 24430.0}, {'name': 'gutenberg_pt_text_document', 'weight': 9241.0}, {'name': 'hal-cea_full-filtered_fr_text_document', 'weight': 7828031.0}, {'name': 'hplt2_fr_text_document_ratio1.30_phase0', 'weight': 70401931.0}, {'name': 'insee_fr_text_document', 'weight': 55377.0}, {'name': 'math-pile_math_text_document', 'weight': 2345197.0}, {'name': 'opendata_fr_text_document', 'weight': 2749409.0}, {'name': 'parlement_fr_text_document', 'weight': 282826.0}, {'name': 'starcoder-data_code_text_document', 'weight': 62922795.0}, {'name': 'theses_fr_text_document', 'weight': 3239718.0}, {'name': 'wikimedia-vikidia_ar_text_document', 'weight': 265451.0}, {'name': 'wikimedia-vikidia_ca_text_document_ratio0.20_phase0', 'weight': 58530.0}, {'name': 'wikimedia-vikidia_de_text_document', 'weight': 1098595.0}, {'name': 'wikimedia-vikidia_en_text_document', 'weight': 2882825.0}, {'name': 'wikimedia-vikidia_es_text_document', 'weight': 631843.0}, {'name': 'wikimedia-vikidia_fr_text_document', 'weight': 1276052.0}, {'name': 'wikimedia-vikidia_it_text_document', 'weight': 654077.0}, {'name': 'wikimedia-vikidia_pt_text_document', 'weight': 304392.0}, {'name': 'wikimedia-vikidia_regional_text_document', 'weight': 119234.0}, {'name': 'wikimedia_nl_text_document', 'weight': 345319.0}, {'name': 'youtube_fr_text_document', 'weight': 76194.0}]}
+INFO:__main__:Using CLI tokenizer override: /work/p26037/barman/tokenizer_128k-arab-regional_v2
+INFO:__main__:Global batch size: 256
+INFO:__main__:Sequence length: 4096
+INFO:__main__:Tokens per batch: 1048576
+INFO:__main__:Total tokens in datamix: 3002228277248
+INFO:__main__:Global training/LR horizon (from --max_steps): 3000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'model_chunks', 'no_weight_decay_cond', 'use_gloo_process_groups', 'config', 'lr_mult', 'scale_lr_cond'})
+INFO:utils:{'data_path': '/work/datasets/AI/tokens_luciole_phase1', 'total_tokens': 3002228277248, 'train': [{'name': 'claire_open_en_text_document', 'weight': 29003.0}, {'name': 'claire_open_fr_text_document', 'weight': 92129.0}, {'name': 'common-corpus_bnl-newspapers-1841-1879_fr_text_document', 'weight': 66237.0}, {'name': 'common-corpus_eurlex_multi_text_document', 'weight': 3601664.0}, {'name': 'common-corpus_gatt-library_multi_text_document', 'weight': 41322.0}, {'name': 'common-corpus_oecd_multi_text_document', 'weight': 121969.0}, {'name': 'common-corpus_tedeutenders_multi_text_document', 'weight': 31276.0}, {'name': 'common-corpus_wto_multi_text_document', 'weight': 577279.0}, {'name': 'common-pile_arxiv-abstracts_en_text_document', 'weight': 140138.0}, {'name': 'common-pile_arxiv-papers_en_text_document', 'weight': 1299034.0}, {'name': 'common-pile_biodiversity-heritage-library_en_text_document', 'weight': 107772.0}, {'name': 'common-pile_caselaw-access-project_en_text_document', 'weight': 929697.0}, {'name': 'common-pile_doab_en_text_document', 'weight': 712786.0}, {'name': 'common-pile_foodista_en_text_document', 'weight': 5603.0}, {'name': 'common-pile_github-archive_en_text_document', 'weight': 2244221.0}, {'name': 'common-pile_library-of-congress_en_text_document', 'weight': 101533.0}, {'name': 'common-pile_libretexts_en_text_document', 'weight': 21049.0}, {'name': 'common-pile_news_en_text_document', 'weight': 14354.0}, {'name': 'common-pile_oercommons_en_text_document', 'weight': 2748.0}, {'name': 'common-pile_peS2o_en_text_document', 'weight': 10166525.0}, {'name': 'common-pile_pre-1929-books_en_text_document', 'weight': 531517.0}, {'name': 'common-pile_pressbooks_en_text_document', 'weight': 31891.0}, {'name': 'common-pile_public-domain-review_en_text_document', 'weight': 382.0}, {'name': 'common-pile_pubmed_en_text_document', 'weight': 1869301.0}, {'name': 'common-pile_python-enhancement-proposals_en_text_document', 'weight': 652.0}, {'name': 'common-pile_regulations_en_text_document', 'weight': 266173.0}, {'name': 'common-pile_stackexchange_en_text_document', 'weight': 4985359.0}, {'name': 'common-pile_ubuntu-irc_en_text_document', 'weight': 482830.0}, {'name': 'common-pile_youtube_en_text_document', 'weight': 204765.0}, {'name': 'croissant-aligned_aligned_text_document', 'weight': 11618464.0}, {'name': 'culturax_fr_text_document_ratio1.30_phase0', 'weight': 57012131.0}, {'name': 'dclm-dolmino_en_text_document_ratio0.75_phase0', 'weight': 93003263.0}, {'name': 'europarl_aligned_text_document', 'weight': 215607.0}, {'name': 'europarl_multi_text_document', 'weight': 99752.0}, {'name': 'eurovoc_filtered_multi_text_document', 'weight': 2150091.0}, {'name': 'fineweb-edu_en_text_document_ratio0.75_phase0', 'weight': 214754282.0}, {'name': 'fineweb2_ar_text_document_ratio0.50_phase0', 'weight': 3350461.0}, {'name': 'fineweb2_ca_text_document_ratio0.05_phase0', 'weight': 92529.0}, {'name': 'fineweb2_de_text_document_ratio0.50_phase0', 'weight': 27173931.0}, {'name': 'fineweb2_es_text_document_ratio0.50_phase0', 'weight': 24393496.0}, {'name': 'fineweb2_fr_text_document_ratio1.30_phase0', 'weight': 50038822.0}, {'name': 'fineweb2_it_text_document_ratio0.50_phase0', 'weight': 13377940.0}, {'name': 'fineweb2_nl_text_document_ratio0.50_phase0', 'weight': 7435763.0}, {'name': 'fineweb2_pt_text_document_ratio0.50_phase0', 'weight': 9800040.0}, {'name': 'fineweb2_regional_text_document', 'weight': 2132152.0}, {'name': 'gallica_monographies_fr_text_document', 'weight': 5842786.0}, {'name': 'gallica_press_fr_text_document', 'weight': 22850320.0}, {'name': 'gutenberg_de_text_document', 'weight': 42330.0}, {'name': 'gutenberg_en_text_document', 'weight': 1187655.0}, {'name': 'gutenberg_es_text_document', 'weight': 21778.0}, {'name': 'gutenberg_fr_text_document', 'weight': 91991.0}, {'name': 'gutenberg_it_text_document', 'weight': 29909.0}, {'name': 'gutenberg_nl_text_document', 'weight': 24430.0}, {'name': 'gutenberg_pt_text_document', 'weight': 9241.0}, {'name': 'hal-cea_full-filtered_fr_text_document', 'weight': 7828031.0}, {'name': 'hplt2_fr_text_document_ratio1.30_phase0', 'weight': 70401931.0}, {'name': 'insee_fr_text_document', 'weight': 55377.0}, {'name': 'math-pile_math_text_document', 'weight': 2345197.0}, {'name': 'opendata_fr_text_document', 'weight': 2749409.0}, {'name': 'parlement_fr_text_document', 'weight': 282826.0}, {'name': 'starcoder-data_code_text_document', 'weight': 62922795.0}, {'name': 'theses_fr_text_document', 'weight': 3239718.0}, {'name': 'wikimedia-vikidia_ar_text_document', 'weight': 265451.0}, {'name': 'wikimedia-vikidia_ca_text_document_ratio0.20_phase0', 'weight': 58530.0}, {'name': 'wikimedia-vikidia_de_text_document', 'weight': 1098595.0}, {'name': 'wikimedia-vikidia_en_text_document', 'weight': 2882825.0}, {'name': 'wikimedia-vikidia_es_text_document', 'weight': 631843.0}, {'name': 'wikimedia-vikidia_fr_text_document', 'weight': 1276052.0}, {'name': 'wikimedia-vikidia_it_text_document', 'weight': 654077.0}, {'name': 'wikimedia-vikidia_pt_text_document', 'weight': 304392.0}, {'name': 'wikimedia-vikidia_regional_text_document', 'weight': 119234.0}, {'name': 'wikimedia_nl_text_document', 'weight': 345319.0}, {'name': 'youtube_fr_text_document', 'weight': 76194.0}]}
+INFO:__main__:Using CLI tokenizer override: /work/p26037/barman/tokenizer_128k-arab-regional_v2
+INFO:__main__:Global batch size: 256
+INFO:__main__:Sequence length: 4096
+INFO:__main__:Tokens per batch: 1048576
+INFO:__main__:Total tokens in datamix: 3002228277248
+INFO:__main__:Global training/LR horizon (from --max_steps): 3000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'config', 'model_chunks', 'scale_lr_cond', 'no_weight_decay_cond', 'use_gloo_process_groups', 'lr_mult'})
+INFO:utils:{'data_path': '/work/datasets/AI/tokens_luciole_phase1', 'total_tokens': 3002228277248, 'train': [{'name': 'claire_open_en_text_document', 'weight': 29003.0}, {'name': 'claire_open_fr_text_document', 'weight': 92129.0}, {'name': 'common-corpus_bnl-newspapers-1841-1879_fr_text_document', 'weight': 66237.0}, {'name': 'common-corpus_eurlex_multi_text_document', 'weight': 3601664.0}, {'name': 'common-corpus_gatt-library_multi_text_document', 'weight': 41322.0}, {'name': 'common-corpus_oecd_multi_text_document', 'weight': 121969.0}, {'name': 'common-corpus_tedeutenders_multi_text_document', 'weight': 31276.0}, {'name': 'common-corpus_wto_multi_text_document', 'weight': 577279.0}, {'name': 'common-pile_arxiv-abstracts_en_text_document', 'weight': 140138.0}, {'name': 'common-pile_arxiv-papers_en_text_document', 'weight': 1299034.0}, {'name': 'common-pile_biodiversity-heritage-library_en_text_document', 'weight': 107772.0}, {'name': 'common-pile_caselaw-access-project_en_text_document', 'weight': 929697.0}, {'name': 'common-pile_doab_en_text_document', 'weight': 712786.0}, {'name': 'common-pile_foodista_en_text_document', 'weight': 5603.0}, {'name': 'common-pile_github-archive_en_text_document', 'weight': 2244221.0}, {'name': 'common-pile_library-of-congress_en_text_document', 'weight': 101533.0}, {'name': 'common-pile_libretexts_en_text_document', 'weight': 21049.0}, {'name': 'common-pile_news_en_text_document', 'weight': 14354.0}, {'name': 'common-pile_oercommons_en_text_document', 'weight': 2748.0}, {'name': 'common-pile_peS2o_en_text_document', 'weight': 10166525.0}, {'name': 'common-pile_pre-1929-books_en_text_document', 'weight': 531517.0}, {'name': 'common-pile_pressbooks_en_text_document', 'weight': 31891.0}, {'name': 'common-pile_public-domain-review_en_text_document', 'weight': 382.0}, {'name': 'common-pile_pubmed_en_text_document', 'weight': 1869301.0}, {'name': 'common-pile_python-enhancement-proposals_en_text_document', 'weight': 652.0}, {'name': 'common-pile_regulations_en_text_document', 'weight': 266173.0}, {'name': 'common-pile_stackexchange_en_text_document', 'weight': 4985359.0}, {'name': 'common-pile_ubuntu-irc_en_text_document', 'weight': 482830.0}, {'name': 'common-pile_youtube_en_text_document', 'weight': 204765.0}, {'name': 'croissant-aligned_aligned_text_document', 'weight': 11618464.0}, {'name': 'culturax_fr_text_document_ratio1.30_phase0', 'weight': 57012131.0}, {'name': 'dclm-dolmino_en_text_document_ratio0.75_phase0', 'weight': 93003263.0}, {'name': 'europarl_aligned_text_document', 'weight': 215607.0}, {'name': 'europarl_multi_text_document', 'weight': 99752.0}, {'name': 'eurovoc_filtered_multi_text_document', 'weight': 2150091.0}, {'name': 'fineweb-edu_en_text_document_ratio0.75_phase0', 'weight': 214754282.0}, {'name': 'fineweb2_ar_text_document_ratio0.50_phase0', 'weight': 3350461.0}, {'name': 'fineweb2_ca_text_document_ratio0.05_phase0', 'weight': 92529.0}, {'name': 'fineweb2_de_text_document_ratio0.50_phase0', 'weight': 27173931.0}, {'name': 'fineweb2_es_text_document_ratio0.50_phase0', 'weight': 24393496.0}, {'name': 'fineweb2_fr_text_document_ratio1.30_phase0', 'weight': 50038822.0}, {'name': 'fineweb2_it_text_document_ratio0.50_phase0', 'weight': 13377940.0}, {'name': 'fineweb2_nl_text_document_ratio0.50_phase0', 'weight': 7435763.0}, {'name': 'fineweb2_pt_text_document_ratio0.50_phase0', 'weight': 9800040.0}, {'name': 'fineweb2_regional_text_document', 'weight': 2132152.0}, {'name': 'gallica_monographies_fr_text_document', 'weight': 5842786.0}, {'name': 'gallica_press_fr_text_document', 'weight': 22850320.0}, {'name': 'gutenberg_de_text_document', 'weight': 42330.0}, {'name': 'gutenberg_en_text_document', 'weight': 1187655.0}, {'name': 'gutenberg_es_text_document', 'weight': 21778.0}, {'name': 'gutenberg_fr_text_document', 'weight': 91991.0}, {'name': 'gutenberg_it_text_document', 'weight': 29909.0}, {'name': 'gutenberg_nl_text_document', 'weight': 24430.0}, {'name': 'gutenberg_pt_text_document', 'weight': 9241.0}, {'name': 'hal-cea_full-filtered_fr_text_document', 'weight': 7828031.0}, {'name': 'hplt2_fr_text_document_ratio1.30_phase0', 'weight': 70401931.0}, {'name': 'insee_fr_text_document', 'weight': 55377.0}, {'name': 'math-pile_math_text_document', 'weight': 2345197.0}, {'name': 'opendata_fr_text_document', 'weight': 2749409.0}, {'name': 'parlement_fr_text_document', 'weight': 282826.0}, {'name': 'starcoder-data_code_text_document', 'weight': 62922795.0}, {'name': 'theses_fr_text_document', 'weight': 3239718.0}, {'name': 'wikimedia-vikidia_ar_text_document', 'weight': 265451.0}, {'name': 'wikimedia-vikidia_ca_text_document_ratio0.20_phase0', 'weight': 58530.0}, {'name': 'wikimedia-vikidia_de_text_document', 'weight': 1098595.0}, {'name': 'wikimedia-vikidia_en_text_document', 'weight': 2882825.0}, {'name': 'wikimedia-vikidia_es_text_document', 'weight': 631843.0}, {'name': 'wikimedia-vikidia_fr_text_document', 'weight': 1276052.0}, {'name': 'wikimedia-vikidia_it_text_document', 'weight': 654077.0}, {'name': 'wikimedia-vikidia_pt_text_document', 'weight': 304392.0}, {'name': 'wikimedia-vikidia_regional_text_document', 'weight': 119234.0}, {'name': 'wikimedia_nl_text_document', 'weight': 345319.0}, {'name': 'youtube_fr_text_document', 'weight': 76194.0}]}
+INFO:__main__:Using CLI tokenizer override: /work/p26037/barman/tokenizer_128k-arab-regional_v2
+INFO:__main__:Global batch size: 256
+INFO:__main__:Sequence length: 4096
+INFO:__main__:Tokens per batch: 1048576
+INFO:__main__:Total tokens in datamix: 3002228277248
+INFO:__main__:Global training/LR horizon (from --max_steps): 3000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'no_weight_decay_cond', 'config', 'scale_lr_cond', 'model_chunks', 'lr_mult', 'use_gloo_process_groups'})
+[NeMo I 2026-03-17 17:38:17 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /work/p26037/barman/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:utils:{'data_path': '/work/datasets/AI/tokens_luciole_phase1', 'total_tokens': 3002228277248, 'train': [{'name': 'claire_open_en_text_document', 'weight': 29003.0}, {'name': 'claire_open_fr_text_document', 'weight': 92129.0}, {'name': 'common-corpus_bnl-newspapers-1841-1879_fr_text_document', 'weight': 66237.0}, {'name': 'common-corpus_eurlex_multi_text_document', 'weight': 3601664.0}, {'name': 'common-corpus_gatt-library_multi_text_document', 'weight': 41322.0}, {'name': 'common-corpus_oecd_multi_text_document', 'weight': 121969.0}, {'name': 'common-corpus_tedeutenders_multi_text_document', 'weight': 31276.0}, {'name': 'common-corpus_wto_multi_text_document', 'weight': 577279.0}, {'name': 'common-pile_arxiv-abstracts_en_text_document', 'weight': 140138.0}, {'name': 'common-pile_arxiv-papers_en_text_document', 'weight': 1299034.0}, {'name': 'common-pile_biodiversity-heritage-library_en_text_document', 'weight': 107772.0}, {'name': 'common-pile_caselaw-access-project_en_text_document', 'weight': 929697.0}, {'name': 'common-pile_doab_en_text_document', 'weight': 712786.0}, {'name': 'common-pile_foodista_en_text_document', 'weight': 5603.0}, {'name': 'common-pile_github-archive_en_text_document', 'weight': 2244221.0}, {'name': 'common-pile_library-of-congress_en_text_document', 'weight': 101533.0}, {'name': 'common-pile_libretexts_en_text_document', 'weight': 21049.0}, {'name': 'common-pile_news_en_text_document', 'weight': 14354.0}, {'name': 'common-pile_oercommons_en_text_document', 'weight': 2748.0}, {'name': 'common-pile_peS2o_en_text_document', 'weight': 10166525.0}, {'name': 'common-pile_pre-1929-books_en_text_document', 'weight': 531517.0}, {'name': 'common-pile_pressbooks_en_text_document', 'weight': 31891.0}, {'name': 'common-pile_public-domain-review_en_text_document', 'weight': 382.0}, {'name': 'common-pile_pubmed_en_text_document', 'weight': 1869301.0}, {'name': 'common-pile_python-enhancement-proposals_en_text_document', 'weight': 652.0}, {'name': 'common-pile_regulations_en_text_document', 'weight': 266173.0}, {'name': 'common-pile_stackexchange_en_text_document', 'weight': 4985359.0}, {'name': 'common-pile_ubuntu-irc_en_text_document', 'weight': 482830.0}, {'name': 'common-pile_youtube_en_text_document', 'weight': 204765.0}, {'name': 'croissant-aligned_aligned_text_document', 'weight': 11618464.0}, {'name': 'culturax_fr_text_document_ratio1.30_phase0', 'weight': 57012131.0}, {'name': 'dclm-dolmino_en_text_document_ratio0.75_phase0', 'weight': 93003263.0}, {'name': 'europarl_aligned_text_document', 'weight': 215607.0}, {'name': 'europarl_multi_text_document', 'weight': 99752.0}, {'name': 'eurovoc_filtered_multi_text_document', 'weight': 2150091.0}, {'name': 'fineweb-edu_en_text_document_ratio0.75_phase0', 'weight': 214754282.0}, {'name': 'fineweb2_ar_text_document_ratio0.50_phase0', 'weight': 3350461.0}, {'name': 'fineweb2_ca_text_document_ratio0.05_phase0', 'weight': 92529.0}, {'name': 'fineweb2_de_text_document_ratio0.50_phase0', 'weight': 27173931.0}, {'name': 'fineweb2_es_text_document_ratio0.50_phase0', 'weight': 24393496.0}, {'name': 'fineweb2_fr_text_document_ratio1.30_phase0', 'weight': 50038822.0}, {'name': 'fineweb2_it_text_document_ratio0.50_phase0', 'weight': 13377940.0}, {'name': 'fineweb2_nl_text_document_ratio0.50_phase0', 'weight': 7435763.0}, {'name': 'fineweb2_pt_text_document_ratio0.50_phase0', 'weight': 9800040.0}, {'name': 'fineweb2_regional_text_document', 'weight': 2132152.0}, {'name': 'gallica_monographies_fr_text_document', 'weight': 5842786.0}, {'name': 'gallica_press_fr_text_document', 'weight': 22850320.0}, {'name': 'gutenberg_de_text_document', 'weight': 42330.0}, {'name': 'gutenberg_en_text_document', 'weight': 1187655.0}, {'name': 'gutenberg_es_text_document', 'weight': 21778.0}, {'name': 'gutenberg_fr_text_document', 'weight': 91991.0}, {'name': 'gutenberg_it_text_document', 'weight': 29909.0}, {'name': 'gutenberg_nl_text_document', 'weight': 24430.0}, {'name': 'gutenberg_pt_text_document', 'weight': 9241.0}, {'name': 'hal-cea_full-filtered_fr_text_document', 'weight': 7828031.0}, {'name': 'hplt2_fr_text_document_ratio1.30_phase0', 'weight': 70401931.0}, {'name': 'insee_fr_text_document', 'weight': 55377.0}, {'name': 'math-pile_math_text_document', 'weight': 2345197.0}, {'name': 'opendata_fr_text_document', 'weight': 2749409.0}, {'name': 'parlement_fr_text_document', 'weight': 282826.0}, {'name': 'starcoder-data_code_text_document', 'weight': 62922795.0}, {'name': 'theses_fr_text_document', 'weight': 3239718.0}, {'name': 'wikimedia-vikidia_ar_text_document', 'weight': 265451.0}, {'name': 'wikimedia-vikidia_ca_text_document_ratio0.20_phase0', 'weight': 58530.0}, {'name': 'wikimedia-vikidia_de_text_document', 'weight': 1098595.0}, {'name': 'wikimedia-vikidia_en_text_document', 'weight': 2882825.0}, {'name': 'wikimedia-vikidia_es_text_document', 'weight': 631843.0}, {'name': 'wikimedia-vikidia_fr_text_document', 'weight': 1276052.0}, {'name': 'wikimedia-vikidia_it_text_document', 'weight': 654077.0}, {'name': 'wikimedia-vikidia_pt_text_document', 'weight': 304392.0}, {'name': 'wikimedia-vikidia_regional_text_document', 'weight': 119234.0}, {'name': 'wikimedia_nl_text_document', 'weight': 345319.0}, {'name': 'youtube_fr_text_document', 'weight': 76194.0}]}
+INFO:__main__:Using CLI tokenizer override: /work/p26037/barman/tokenizer_128k-arab-regional_v2
+INFO:__main__:Global batch size: 256
+INFO:__main__:Sequence length: 4096
+INFO:__main__:Tokens per batch: 1048576
+INFO:__main__:Total tokens in datamix: 3002228277248
+INFO:__main__:Global training/LR horizon (from --max_steps): 3000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'scale_lr_cond', 'config', 'no_weight_decay_cond', 'model_chunks', 'lr_mult', 'use_gloo_process_groups'})
+INFO:utils:{'data_path': '/work/datasets/AI/tokens_luciole_phase1', 'total_tokens': 3002228277248, 'train': [{'name': 'claire_open_en_text_document', 'weight': 29003.0}, {'name': 'claire_open_fr_text_document', 'weight': 92129.0}, {'name': 'common-corpus_bnl-newspapers-1841-1879_fr_text_document', 'weight': 66237.0}, {'name': 'common-corpus_eurlex_multi_text_document', 'weight': 3601664.0}, {'name': 'common-corpus_gatt-library_multi_text_document', 'weight': 41322.0}, {'name': 'common-corpus_oecd_multi_text_document', 'weight': 121969.0}, {'name': 'common-corpus_tedeutenders_multi_text_document', 'weight': 31276.0}, {'name': 'common-corpus_wto_multi_text_document', 'weight': 577279.0}, {'name': 'common-pile_arxiv-abstracts_en_text_document', 'weight': 140138.0}, {'name': 'common-pile_arxiv-papers_en_text_document', 'weight': 1299034.0}, {'name': 'common-pile_biodiversity-heritage-library_en_text_document', 'weight': 107772.0}, {'name': 'common-pile_caselaw-access-project_en_text_document', 'weight': 929697.0}, {'name': 'common-pile_doab_en_text_document', 'weight': 712786.0}, {'name': 'common-pile_foodista_en_text_document', 'weight': 5603.0}, {'name': 'common-pile_github-archive_en_text_document', 'weight': 2244221.0}, {'name': 'common-pile_library-of-congress_en_text_document', 'weight': 101533.0}, {'name': 'common-pile_libretexts_en_text_document', 'weight': 21049.0}, {'name': 'common-pile_news_en_text_document', 'weight': 14354.0}, {'name': 'common-pile_oercommons_en_text_document', 'weight': 2748.0}, {'name': 'common-pile_peS2o_en_text_document', 'weight': 10166525.0}, {'name': 'common-pile_pre-1929-books_en_text_document', 'weight': 531517.0}, {'name': 'common-pile_pressbooks_en_text_document', 'weight': 31891.0}, {'name': 'common-pile_public-domain-review_en_text_document', 'weight': 382.0}, {'name': 'common-pile_pubmed_en_text_document', 'weight': 1869301.0}, {'name': 'common-pile_python-enhancement-proposals_en_text_document', 'weight': 652.0}, {'name': 'common-pile_regulations_en_text_document', 'weight': 266173.0}, {'name': 'common-pile_stackexchange_en_text_document', 'weight': 4985359.0}, {'name': 'common-pile_ubuntu-irc_en_text_document', 'weight': 482830.0}, {'name': 'common-pile_youtube_en_text_document', 'weight': 204765.0}, {'name': 'croissant-aligned_aligned_text_document', 'weight': 11618464.0}, {'name': 'culturax_fr_text_document_ratio1.30_phase0', 'weight': 57012131.0}, {'name': 'dclm-dolmino_en_text_document_ratio0.75_phase0', 'weight': 93003263.0}, {'name': 'europarl_aligned_text_document', 'weight': 215607.0}, {'name': 'europarl_multi_text_document', 'weight': 99752.0}, {'name': 'eurovoc_filtered_multi_text_document', 'weight': 2150091.0}, {'name': 'fineweb-edu_en_text_document_ratio0.75_phase0', 'weight': 214754282.0}, {'name': 'fineweb2_ar_text_document_ratio0.50_phase0', 'weight': 3350461.0}, {'name': 'fineweb2_ca_text_document_ratio0.05_phase0', 'weight': 92529.0}, {'name': 'fineweb2_de_text_document_ratio0.50_phase0', 'weight': 27173931.0}, {'name': 'fineweb2_es_text_document_ratio0.50_phase0', 'weight': 24393496.0}, {'name': 'fineweb2_fr_text_document_ratio1.30_phase0', 'weight': 50038822.0}, {'name': 'fineweb2_it_text_document_ratio0.50_phase0', 'weight': 13377940.0}, {'name': 'fineweb2_nl_text_document_ratio0.50_phase0', 'weight': 7435763.0}, {'name': 'fineweb2_pt_text_document_ratio0.50_phase0', 'weight': 9800040.0}, {'name': 'fineweb2_regional_text_document', 'weight': 2132152.0}, {'name': 'gallica_monographies_fr_text_document', 'weight': 5842786.0}, {'name': 'gallica_press_fr_text_document', 'weight': 22850320.0}, {'name': 'gutenberg_de_text_document', 'weight': 42330.0}, {'name': 'gutenberg_en_text_document', 'weight': 1187655.0}, {'name': 'gutenberg_es_text_document', 'weight': 21778.0}, {'name': 'gutenberg_fr_text_document', 'weight': 91991.0}, {'name': 'gutenberg_it_text_document', 'weight': 29909.0}, {'name': 'gutenberg_nl_text_document', 'weight': 24430.0}, {'name': 'gutenberg_pt_text_document', 'weight': 9241.0}, {'name': 'hal-cea_full-filtered_fr_text_document', 'weight': 7828031.0}, {'name': 'hplt2_fr_text_document_ratio1.30_phase0', 'weight': 70401931.0}, {'name': 'insee_fr_text_document', 'weight': 55377.0}, {'name': 'math-pile_math_text_document', 'weight': 2345197.0}, {'name': 'opendata_fr_text_document', 'weight': 2749409.0}, {'name': 'parlement_fr_text_document', 'weight': 282826.0}, {'name': 'starcoder-data_code_text_document', 'weight': 62922795.0}, {'name': 'theses_fr_text_document', 'weight': 3239718.0}, {'name': 'wikimedia-vikidia_ar_text_document', 'weight': 265451.0}, {'name': 'wikimedia-vikidia_ca_text_document_ratio0.20_phase0', 'weight': 58530.0}, {'name': 'wikimedia-vikidia_de_text_document', 'weight': 1098595.0}, {'name': 'wikimedia-vikidia_en_text_document', 'weight': 2882825.0}, {'name': 'wikimedia-vikidia_es_text_document', 'weight': 631843.0}, {'name': 'wikimedia-vikidia_fr_text_document', 'weight': 1276052.0}, {'name': 'wikimedia-vikidia_it_text_document', 'weight': 654077.0}, {'name': 'wikimedia-vikidia_pt_text_document', 'weight': 304392.0}, {'name': 'wikimedia-vikidia_regional_text_document', 'weight': 119234.0}, {'name': 'wikimedia_nl_text_document', 'weight': 345319.0}, {'name': 'youtube_fr_text_document', 'weight': 76194.0}]}
+INFO:__main__:Using CLI tokenizer override: /work/p26037/barman/tokenizer_128k-arab-regional_v2
+INFO:__main__:Global batch size: 256
+INFO:__main__:Sequence length: 4096
+INFO:__main__:Tokens per batch: 1048576
+INFO:__main__:Total tokens in datamix: 3002228277248
+INFO:__main__:Global training/LR horizon (from --max_steps): 3000
+INFO:__main__:Patched megatron.core.optimizer (accepted params: {'scale_lr_cond', 'lr_mult', 'no_weight_decay_cond', 'config', 'use_gloo_process_groups', 'model_chunks'})
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 3000
+INFO:__main__:Training from scratch, trainer.max_steps = 3000
+INFO:__main__:Detected vocab_size from tokenizer: 128000
+INFO:__main__:Detected vocab_size from tokenizer: 128000
+INFO:__main__:LR scheduler max_steps = 3000, warmup_steps = 2000, min_lr = 2.9999999999999997e-05
+INFO:__main__:LR scheduler max_steps = 3000, warmup_steps = 2000, min_lr = 2.9999999999999997e-05
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=32, Hkv=8, D=64)...
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:Training from scratch, trainer.max_steps = 3000
+INFO:__main__:Training from scratch, trainer.max_steps = 3000
+INFO:__main__:Detected vocab_size from tokenizer: 128000
+INFO:__main__:Detected vocab_size from tokenizer: 128000
+INFO:__main__:LR scheduler max_steps = 3000, warmup_steps = 2000, min_lr = 2.9999999999999997e-05
+INFO:__main__:LR scheduler max_steps = 3000, warmup_steps = 2000, min_lr = 2.9999999999999997e-05
+INFO:__main__:Enabled W&B logging: project=luciole_ssa name=nemotron-1B-SSA-Triton group=nemotron-1B-SSA-Triton mode=offline id=nemo1b-ssa-triton-v1 dir=/tmpdir/barman/nemo_1b/output_1b/nemotron-1B-SSA-Triton/wandb
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:__main__:SSA Triton: Using fused Triton SSA FlashAttention triton (n=1.50, b=0.80, compiled_bda=True)
+INFO:__main__:SSA Triton: force_contiguous_qkv=True
+INFO:utils:Config saved to /tmpdir/barman/nemo_1b/output_1b/job_8488/config_nemotron-1B-SSA-Triton.json
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=32, Hkv=8, D=64)...
+INFO:__main__:Training from scratch, trainer.max_steps = 3000
+INFO:__main__:Training from scratch, trainer.max_steps = 3000
+INFO:__main__:Detected vocab_size from tokenizer: 128000
+INFO:__main__:Detected vocab_size from tokenizer: 128000
+INFO:__main__:LR scheduler max_steps = 3000, warmup_steps = 2000, min_lr = 2.9999999999999997e-05
+INFO:__main__:Warming up Triton kernels on cuda:0 (Hq=32, Hkv=8, D=64)...
+INFO:__main__:LR scheduler max_steps = 3000, warmup_steps = 2000, min_lr = 2.9999999999999997e-05
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=32, Hkv=8, D=64)...
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=32, Hkv=8, D=64)...
+INFO:__main__:Warming up Triton kernels on cuda:1 (Hq=32, Hkv=8, D=64)...
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+Traceback (most recent call last):
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 625, in <module>
+    main()
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 619, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 169, in pretrain
+Traceback (most recent call last):
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 625, in <module>
+    main()
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 619, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 169, in pretrain
+    _validate_config(model, data, trainer, log=log, resume=resume, optim=optim)
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1253, in _validate_config
+    _validate_config(model, data, trainer, log=log, resume=resume, optim=optim)
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1253, in _validate_config
+    data.global_batch_size
+AssertionError: Global batch size must be divisible by the product of micro batch size and data parallel size
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+    data.global_batch_size
+AssertionError: Global batch size must be divisible by the product of micro batch size and data parallel size
+Traceback (most recent call last):
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 625, in <module>
+    main()
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 619, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 169, in pretrain
+    _validate_config(model, data, trainer, log=log, resume=resume, optim=optim)
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1253, in _validate_config
+    data.global_batch_size
+AssertionError: Global batch size must be divisible by the product of micro batch size and data parallel size
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+INFO:__main__:Triton kernel warmup complete.
+INFO:__main__:Restored RNG state after Triton warmup.
+Traceback (most recent call last):
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 625, in <module>
+    main()
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 619, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 169, in pretrain
+Traceback (most recent call last):
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 625, in <module>
+    main()
+  File "/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py", line 619, in main
+    recipe_obj()
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 169, in pretrain
+    _validate_config(model, data, trainer, log=log, resume=resume, optim=optim)
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1253, in _validate_config
+    _validate_config(model, data, trainer, log=log, resume=resume, optim=optim)
+  File "/opt/NeMo/nemo/collections/llm/api.py", line 1253, in _validate_config
+    data.global_batch_size
+AssertionError: Global batch size must be divisible by the product of micro batch size and data parallel size
+    data.global_batch_size
+AssertionError: Global batch size must be divisible by the product of micro batch size and data parallel size
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+wandb: WARNING The anonymous setting has no effect and will be removed in a future version.
+wandb: WARNING `start_method` is deprecated and will be removed in a future version of wandb. This setting is currently non-functional and safely ignored.
+wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id nemo1b-ssa-triton-v1.
+W0317 17:39:24.031000 2022122 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 2022207 closing signal SIGTERM
+E0317 17:39:24.260000 2022122 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 1 (pid: 2022208) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-17_17:39:24
+  host      : kairosgh10.calmip.cluster
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 2022208)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+W0317 17:39:24.617000 676596 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 676680 closing signal SIGTERM
+E0317 17:39:24.734000 676596 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 1 (pid: 676681) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-17_17:39:24
+  host      : kairosgh12.calmip.cluster
+  rank      : 3 (local_rank: 1)
+  exitcode  : 1 (pid: 676681)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: kairosgh12: task 2: Exited with exit code 1
+W0317 17:39:25.609000 631452 torch/distributed/elastic/multiprocessing/api.py:898] Sending process 631543 closing signal SIGTERM
+srun: error: kairosgh10: task 1: Exited with exit code 1
+E0317 17:39:25.725000 631452 torch/distributed/elastic/multiprocessing/api.py:870] failed (exitcode: 1) local_rank: 0 (pid: 631542) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+7c8ec84dab.nv25.3', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 889, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 880, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-17_17:39:25
+  host      : kairosgh8.calmip.cluster
+  rank      : 4 (local_rank: 0)
+  exitcode  : 1 (pid: 631542)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: kairosgh8: task 0: Exited with exit code 1
+==========================================
+SSA Triton Training finished with status 1
+==========================================

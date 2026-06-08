@@ -1,0 +1,44 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/bs1024_fullrun/outputs
+Name:        nemotron-1B-SSA-Triton-bs1024
+Batch size:  1024
+Nodes:       4
+Duration:    00:02:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 1
+Contig QKV:  1
+Global max:  715788
+This-run max:0
+W&B:         0 (mode=offline)
+==========================================
+W0401 09:06:49.669000 318832 torch/distributed/run.py:763] 
+W0401 09:06:49.669000 318832 torch/distributed/run.py:763] *****************************************
+W0401 09:06:49.669000 318832 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0401 09:06:49.669000 318832 torch/distributed/run.py:763] *****************************************
+[W401 09:06:49.937486726 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh9.calmip.cluster]:22422 (errno: 97 - Address family not supported by protocol).
+W0401 09:06:49.704000 640159 torch/distributed/run.py:763] 
+W0401 09:06:49.704000 640159 torch/distributed/run.py:763] *****************************************
+W0401 09:06:49.704000 640159 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0401 09:06:49.704000 640159 torch/distributed/run.py:763] *****************************************
+W0401 09:06:49.714000 294622 torch/distributed/run.py:763] 
+W0401 09:06:49.714000 294622 torch/distributed/run.py:763] *****************************************
+W0401 09:06:49.714000 294622 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0401 09:06:49.714000 294622 torch/distributed/run.py:763] *****************************************
+[W401 09:06:49.459013564 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh9.calmip.cluster]:22422 (errno: 97 - Address family not supported by protocol).
+[W401 09:06:49.753607580 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh9.calmip.cluster]:22422 (errno: 97 - Address family not supported by protocol).
+W0401 09:06:49.883000 339066 torch/distributed/run.py:763] 
+W0401 09:06:49.883000 339066 torch/distributed/run.py:763] *****************************************
+W0401 09:06:49.883000 339066 torch/distributed/run.py:763] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0401 09:06:49.883000 339066 torch/distributed/run.py:763] *****************************************
+[W401 09:06:49.218517129 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh9.calmip.cluster]:22422 (errno: 97 - Address family not supported by protocol).
+[W401 09:06:51.044751815 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [kairosgh10.calmip.cluster]:40181 (errno: 97 - Address family not supported by protocol).
+[2026-04-01T09:07:06.070] error: *** JOB 12421 ON kairosgh9 CANCELLED AT 2026-04-01T09:07:06 DUE to SIGNAL Terminated ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+[2026-04-01T09:07:06.071] error: *** STEP 12421.0 ON kairosgh9 CANCELLED AT 2026-04-01T09:07:06 DUE to SIGNAL Terminated ***
+W0401 09:07:06.070000 318832 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers

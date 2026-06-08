@@ -1,23 +1,29 @@
 #!/bin/bash
 #SBATCH -J tr_nemo1b_ssa_triton
-#SBATCH -N 6
-#SBATCH -n 6
+#SBATCH -N 16
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:2
-#SBATCH -p small
-#SBATCH --time=24:00:00
+#SBATCH --gres=gpu:4
+#SBATCH -p full-gpu
+#SBATCH --time=2-15:00:00
 #SBATCH --output=slurm/%x_%j.out
+#SBATCH --mail-user=niyar-r.barman@utoulouse.fr
+#SBATCH --mail-type=ALL
+#SBATCH --cpus-per-task=288
+#SBATCH --reservation=MC_weekend
 
+module purge
 mkdir -p slurm
 
 # Defaults
-DATAMIX=${DATAMIX:-"/work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
-OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/m24047brmn/nemo_1b/output_1b"}
-NAME=${NAME:-"nemotron-1B-SSA-Triton"}
+DATAMIX=${DATAMIX:-"/work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json"}
+OUTPUT_DIR=${OUTPUT_DIR:-"/tmpdir/barman/bs1024_fullrun/outputs"}
+mkdir -p "$OUTPUT_DIR"
+BATCH_SIZE=${BATCH_SIZE:-1024}
+NAME=${NAME:-"nemotron-1B-SSA-Triton-bs${BATCH_SIZE}"}
 SEED=${SEED:-1234}
 
 # W&B logging (optional)
-USE_WANDB=${USE_WANDB:-1}
+USE_WANDB=${USE_WANDB:-0}
 WANDB_PROJECT=${WANDB_PROJECT:-"luciole_ssa"}
 WANDB_ENTITY=${WANDB_ENTITY:-""}
 WANDB_GROUP=${WANDB_GROUP:-"${NAME}"}
@@ -34,16 +40,16 @@ WANDB_LOG_MODEL=${WANDB_LOG_MODEL:-0}
 WANDB_API_KEY=${WANDB_API_KEY:-${api_key:-""}}
 
 # SSA hyperparameters
-SSA_N=1.5                                        # fixed
-SSA_B=0.8                                        # fixed
-SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton} # pinned to tutorial-based triton kernel
+SSA_N=1.5 # fixed
+SSA_B=0.8 # fixed
+SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION:-triton}
 SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA:-1}
 LR_WARMUP_STEPS=${LR_WARMUP_STEPS:-2000}
-SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-0}
+SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-1}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3000}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-715788}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
 THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-0}
 
@@ -63,12 +69,18 @@ fi
 export MASTER_PORT=$(echo "${SLURM_JOB_ID:-0} % 100000 % 50000 + 10001" | bc)
 export MASTER_ADDR=$(hostname --ip-address)
 
-# Convert SBATCH time to DD:HH:MM:SS for StatelessTimer
-SBATCH_TIME=$(grep -E '^#SBATCH --time=' "$0" | head -n1 | sed -E 's/^#SBATCH --time=//')
-if [[ "$SBATCH_TIME" == *-* ]]; then
-  SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F'[-:]' '{printf "%02d:%02d:%02d:%02d", $1, $2, $3, $4}')
+# Convert actual SLURM wall time to DD:HH:MM:SS for StatelessTimer
+if [[ -n "${SLURM_JOB_END_TIME:-}" && -n "${SLURM_JOB_START_TIME:-}" ]]; then
+  WALL_SECS=$((SLURM_JOB_END_TIME - SLURM_JOB_START_TIME))
+  SLURM_DURATION=$(printf "%02d:%02d:%02d:%02d" $((WALL_SECS / 86400)) $(((WALL_SECS % 86400) / 3600)) $(((WALL_SECS % 3600) / 60)) $((WALL_SECS % 60)))
 else
-  SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F':' '{printf "00:%02d:%02d:%02d", $1, $2, $3}')
+  # Fallback: parse from script header
+  SBATCH_TIME=$(grep -E '^#SBATCH --time=' "$0" | head -n1 | sed -E 's/^#SBATCH --time=//')
+  if [[ "$SBATCH_TIME" == *-* ]]; then
+    SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F'[-:]' '{printf "%02d:%02d:%02d:%02d", $1, $2, $3, $4}')
+  else
+    SLURM_DURATION=$(echo "$SBATCH_TIME" | awk -F':' '{printf "00:%02d:%02d:%02d", $1, $2, $3}')
+  fi
 fi
 
 echo "=========================================="
@@ -76,6 +88,7 @@ echo "Starting SSA Triton Training"
 echo "Datamix:     $DATAMIX"
 echo "Output:      $OUTPUT_DIR"
 echo "Name:        $NAME"
+echo "Batch size:  $BATCH_SIZE"
 echo "Nodes:       $SLURM_NNODES"
 echo "Duration:    ${SLURM_DURATION}"
 echo "SSA n:       $SSA_N"
@@ -137,7 +150,7 @@ fi
 
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
-export TRITON_CACHE_DIR="/tmpdir/m24047brmn/triton_cache"
+export TRITON_CACHE_DIR="/tmpdir/barman/bs1024_fullrun/triton_cache"
 mkdir -p "$TRITON_CACHE_DIR"
 
 WANDB_ENV_ARGS=()
@@ -161,32 +174,34 @@ srun apptainer exec \
   --env "SSA_KERNEL_VERSION=${SSA_KERNEL_VERSION}" \
   --env "SSA_TRITON_COMPILE_BDA=${SSA_TRITON_COMPILE_BDA}" \
   --env "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600" \
+  --env "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True" \
   "${WANDB_ENV_ARGS[@]}" \
-  --bind /tmpdir,/work --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
+  --bind /tmpdir,/work --nv /work/conteneurs/shared/AI/nemo_25.04.03_arm.sif \
   torchrun \
   --nnodes=${SLURM_NNODES} \
-  --nproc_per_node=2 \
+  --nproc_per_node=4 \
   --rdzv_id=${SLURM_JOB_ID} \
   --rdzv_backend=c10d \
   --rdzv_endpoint="${MASTER_ADDR}:${MASTER_PORT}" \
-  /work/m24047/m24047brmn/nemo/OpenLLM-BPI-Training/training/train/train_ssa_triton/train_ssa_triton.py \
+  /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/launcher.py \
+  /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/train_ssa_triton.py \
   --datamix "$DATAMIX" \
   --output_dir "$OUTPUT_DIR" \
   --name "$NAME" \
   --arch nemotron1b \
-  --tokenizer /work/m24047/m24047brmn/Luciole-23B-Base \
+  --tokenizer /work/p26037/barman/tokenizer_128k-arab-regional_v2 \
   --max_steps ${GLOBAL_MAX_STEPS} \
-  --seq_length 2048 \
-  --batch_size 384 \
-  --micro_batch_size 2 \
+  --seq_length 4096 \
+  --batch_size ${BATCH_SIZE} \
+  --micro_batch_size ${MICRO_BATCH_SIZE:-4} \
   --num_nodes ${SLURM_NNODES} \
-  --gpus_per_node 2 \
+  --gpus_per_node 4 \
   --tensor_parallelism 1 \
   --pipeline_parallelism 1 \
   --context_parallelism 1 \
   --duration "${SLURM_DURATION}" \
-  --save_every_n_steps 1000 \
-  --log_ssa_every_n_steps 1000 \
+  --save_every_n_steps 500 \
+  --log_ssa_every_n_steps 500 \
   --ssa_n $SSA_N \
   --ssa_b $SSA_B \
   --warmup_steps ${LR_WARMUP_STEPS} \

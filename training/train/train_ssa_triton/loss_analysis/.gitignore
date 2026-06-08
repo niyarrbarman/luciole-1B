@@ -1,0 +1,4 @@
+.venv/
+slurm_logs/
+*.html
+__pycache__/

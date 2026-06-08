@@ -1,0 +1,25 @@
+==========================================
+Starting SSA Triton Training
+Datamix:     /work/p26037/barman/luciole-1B/training/train/train_ssa_triton/datamix_luciole_phase1.json
+Output:      /tmpdir/barman/bs1024_fullrun/outputs
+Name:        nemotron-1B-SSA-Triton-bs1024
+Batch size:  1024
+Nodes:       4
+Duration:    00:01:00:00
+SSA n:       1.5
+SSA b:       0.8
+Kernel ver:  triton
+Compile BDA: 1
+Warmup step: 2000
+Skip warmup: 1
+Contig QKV:  1
+Global max:  715788
+This-run max:0
+W&B:         0 (mode=offline)
+==========================================
+[2026-04-02T16:09:19.829] error: *** JOB 12880 ON kairosgh4 CANCELLED AT 2026-04-02T16:09:19 DUE to SIGNAL Terminated ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+srun: error: kairosgh14: task 2: Terminated
+INFO:    Cleanup error: while unmounting /var/lib/apptainer/mnt/session/final directory: no such file or directory, while unmounting /var/lib/apptainer/mnt/session/rootfs directory: no such file or directory
+[2026-04-02T16:09:19.834] error: *** STEP 12880.0 ON kairosgh4 CANCELLED AT 2026-04-02T16:09:19 DUE to SIGNAL Terminated ***
+srun: error: kairosgh6: task 1: Terminated

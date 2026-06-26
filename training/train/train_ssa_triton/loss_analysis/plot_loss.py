@@ -2,8 +2,7 @@
 """Parse SLURM logs from nemotron-1B SSA Triton training and plot loss curves.
 
 Produces an interactive Plotly HTML file with:
-  - Train loss vs global step (primary x-axis)
-  - Train loss vs tokens consumed (secondary x-axis)
+  - Train loss vs tokens consumed
   - Learning rate overlay
   - Smoothed (EMA) loss curve
   - SLURM job boundaries as vertical markers
@@ -95,16 +94,16 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True, full: bool = False) -> g
     raw_opacity = 0.3 if smooth else 0.6
     fig.add_trace(
         go.Scattergl(
-            x=plot_df["global_step"],
+            x=plot_df["tokens_B"],
             y=plot_df["reduced_train_loss"],
             mode="lines",
             line=dict(width=0.5, color=f"rgba(99,110,250,{raw_opacity})"),
             name="Per-step loss",
-            customdata=plot_df[["tokens_B", "lr"]].values,
+            customdata=plot_df[["global_step", "lr"]].values,
             hovertemplate=(
-                "Step: %{x:,}<br>"
+                "Tokens: %{x:.2f}B<br>"
+                "Step: %{customdata[0]:,}<br>"
                 "Loss: %{y:.4f}<br>"
-                "Tokens: %{customdata[0]:.2f}B<br>"
                 "LR: %{customdata[1]:.2e}<br>"
                 "<extra></extra>"
             ),
@@ -116,16 +115,16 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True, full: bool = False) -> g
     if smooth:
         fig.add_trace(
             go.Scattergl(
-                x=plot_df["global_step"],
+                x=plot_df["tokens_B"],
                 y=plot_df["loss_ema"],
                 mode="lines",
                 line=dict(color="rgb(99,110,250)", width=2),
                 name="Smoothed loss",
-                customdata=plot_df[["tokens_B", "lr"]].values,
+                customdata=plot_df[["global_step", "lr"]].values,
                 hovertemplate=(
-                    "Step: %{x:,}<br>"
+                    "Tokens: %{x:.2f}B<br>"
+                    "Step: %{customdata[0]:,}<br>"
                     "Loss (EMA): %{y:.4f}<br>"
-                    "Tokens: %{customdata[0]:.2f}B<br>"
                     "LR: %{customdata[1]:.2e}<br>"
                     "<extra></extra>"
                 ),
@@ -136,26 +135,31 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True, full: bool = False) -> g
     # --- Learning rate on secondary y-axis ---
     fig.add_trace(
         go.Scattergl(
-            x=plot_df["global_step"],
+            x=plot_df["tokens_B"],
             y=plot_df["lr"],
             mode="lines",
             line=dict(color="rgba(239,85,59,0.6)", width=1.5, dash="dot"),
             name="Learning rate",
-            hovertemplate="Step: %{x:,}<br>LR: %{y:.2e}<extra></extra>",
+            customdata=plot_df[["global_step"]].values,
+            hovertemplate=(
+                "Tokens: %{x:.2f}B<br>"
+                "Step: %{customdata[0]:,}<br>"
+                "LR: %{y:.2e}<extra></extra>"
+            ),
         ),
         secondary_y=True,
     )
 
     # --- SLURM job boundaries (toggleable via legend) ---
-    job_starts = df.groupby("job_id")["global_step"].min().sort_values()
+    job_starts = df.groupby("job_id")["tokens_B"].min().sort_values()
     job_counts = df["job_id"].value_counts()
     sig_jobs = job_counts[job_counts > 100].index
     y_lo = df["reduced_train_loss"].min() - 1.0
     y_hi = df["reduced_train_loss"].max() + 1.0
     b_x, b_y = [], []
-    for job_id, step in job_starts.items():
+    for job_id, tokens_b in job_starts.items():
         if job_id in sig_jobs:
-            b_x.extend([step, step, None])
+            b_x.extend([tokens_b, tokens_b, None])
             b_y.extend([y_lo, y_hi, None])
     if b_x:
         fig.add_trace(
@@ -180,7 +184,7 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True, full: bool = False) -> g
             x=0.5,
         ),
         xaxis=dict(
-            title="Global Step",
+            title="Tokens Consumed (B)",
             showgrid=True,
             gridcolor="rgba(200,200,200,0.3)",
         ),
@@ -204,34 +208,6 @@ def make_plot(df: pd.DataFrame, *, smooth: bool = True, full: bool = False) -> g
         hovermode="x unified",
         autosize=True,
         margin=dict(l=60, r=60, t=80, b=50),
-    )
-
-    # --- Secondary x-axis for tokens (top) ---
-    # We build a mapping step→tokens_B for tick labels
-    step_min, step_max = plot_df["global_step"].min(), plot_df["global_step"].max()
-    tok_min, tok_max = plot_df["tokens_B"].min(), plot_df["tokens_B"].max()
-
-    # Add a transparent trace on xaxis2 for the tokens axis
-    fig.add_trace(
-        go.Scattergl(
-            x=plot_df["tokens_B"],
-            y=plot_df["loss_ema"],
-            mode="lines",
-            line=dict(width=0),
-            showlegend=False,
-            hoverinfo="skip",
-            xaxis="x2",
-        ),
-        secondary_y=False,
-    )
-    fig.update_layout(
-        xaxis2=dict(
-            title="Tokens (B)",
-            overlaying="x",
-            side="top",
-            showgrid=False,
-            range=[tok_min, tok_max],
-        ),
     )
 
     return fig

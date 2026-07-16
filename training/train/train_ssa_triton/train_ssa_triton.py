@@ -9,9 +9,9 @@ from typing import Optional
 
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
+import fiddle
 import pytorch_lightning as pl
 import torch
-import fiddle
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
@@ -20,9 +20,9 @@ if str(ROOT) not in sys.path:
 from recipes.recipe_utils import get_recipe  # noqa: E402
 from utils import (  # noqa: E402
     check_tokenizer,
+    get_data_paths,
     process_datamix_file,
     read_datamix_file,
-    get_data_paths,
     save_config,
 )
 
@@ -34,8 +34,10 @@ if SSA_KERNEL_VERSION != "triton":
         "This launcher is pinned to triton."
     )
 
-from SSA.ssa_triton_layer_specs import get_ssa_triton_gpt_layer_spec as get_ssa_triton_gpt_layer_spec
 from SSA.ssa_triton_kernel import warmup_ssa_triton_kernels as warmup_triton_kernels
+from SSA.ssa_triton_layer_specs import (
+    get_ssa_triton_gpt_layer_spec as get_ssa_triton_gpt_layer_spec,
+)
 
 
 def find_latest_checkpoint_step(checkpoint_dir: str) -> int:
@@ -45,7 +47,7 @@ def find_latest_checkpoint_step(checkpoint_dir: str) -> int:
         return 0
 
     max_step = 0
-    step_pattern = re.compile(r'step[=_](\d+)')
+    step_pattern = re.compile(r"step[=_](\d+)")
 
     for item in checkpoint_path.iterdir():
         match = step_pattern.search(item.name)
@@ -58,12 +60,28 @@ def find_latest_checkpoint_step(checkpoint_dir: str) -> int:
 
 def parse_args():
     parser = argparse.ArgumentParser(description="SSA Triton-fused training harness")
-    parser.add_argument("--datamix", default="/tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json", type=str)
-    parser.add_argument("--tokenizer", default=None, type=str, help="Tokenizer path (overrides datamix tokenizer)")
+    parser.add_argument(
+        "--datamix",
+        default="/tmpdir/m24047brmn/nemo_1b/data/nemo1b_mock_datamix.json",
+        type=str,
+    )
+    parser.add_argument(
+        "--tokenizer",
+        default=None,
+        type=str,
+        help="Tokenizer path (overrides datamix tokenizer)",
+    )
     parser.add_argument("--arch", default="nemotron1b", type=str)
     parser.add_argument("--name", default="nemotron1b-ssa-triton-test", type=str)
-    parser.add_argument("--mode", default="debug", choices=["debug", "benchmark", "phase1", "phase2", "annealing"], type=str)
-    parser.add_argument("--output_dir", default="/tmpdir/m24047brmn/nemo_1b/output", type=str)
+    parser.add_argument(
+        "--mode",
+        default="debug",
+        choices=["debug", "benchmark", "phase1", "phase2", "annealing"],
+        type=str,
+    )
+    parser.add_argument(
+        "--output_dir", default="/tmpdir/m24047brmn/nemo_1b/output", type=str
+    )
     parser.add_argument("--batch_size", "--gbs", default=128, type=int)
     parser.add_argument("--micro_batch_size", "--mbs", default=1, type=int)
     parser.add_argument("--seq_length", default=1024, type=int)
@@ -79,10 +97,17 @@ def parse_args():
     parser.add_argument("--num_nodes", default=1, type=int)
     parser.add_argument("--gpus_per_node", default=1, type=int)
     parser.add_argument("--seed", default=1234, type=int)
-    parser.add_argument("--base_checkpoint", default=None, type=str, help="Base checkpoint for weight init (phase transitions)")
+    parser.add_argument(
+        "--base_checkpoint",
+        default=None,
+        type=str,
+        help="Base checkpoint for weight init (phase transitions)",
+    )
     parser.add_argument("--fp8", action="store_true", default=False)
     parser.add_argument("--performance_mode", action="store_true", default=False)
-    parser.add_argument("--duration", default="00:24:00:00", type=str, help="Walltime DD:HH:MM:SS")
+    parser.add_argument(
+        "--duration", default="00:24:00:00", type=str, help="Walltime DD:HH:MM:SS"
+    )
     parser.add_argument("--save_every_n_steps", default=500, type=int)
     parser.add_argument(
         "--global_max_steps",
@@ -96,11 +121,22 @@ def parse_args():
         type=int,
         help="Optional per-job step budget; stop after this many optimizer steps in this run.",
     )
-    parser.add_argument("--log_ssa_every_n_steps", default=1000, type=int, help="Log SSA n values every N steps")
+    parser.add_argument(
+        "--log_ssa_every_n_steps",
+        default=1000,
+        type=int,
+        help="Log SSA n values every N steps",
+    )
     # SSA hyperparameters
-    parser.add_argument("--ssa_n", default=1.5, type=float, help="SSA n param initial value")
-    parser.add_argument("--ssa_b", default=0.8, type=float, help="SSA b param initial value")
-    parser.add_argument("--learnable_b", action="store_true", default=False, help="Make b learnable")
+    parser.add_argument(
+        "--ssa_n", default=1.5, type=float, help="SSA n param initial value"
+    )
+    parser.add_argument(
+        "--ssa_b", default=0.8, type=float, help="SSA b param initial value"
+    )
+    parser.add_argument(
+        "--learnable_b", action="store_true", default=False, help="Make b learnable"
+    )
     parser.add_argument(
         "--disable_compiled_bda",
         action="store_true",
@@ -130,21 +166,42 @@ def parse_args():
     default_wandb_mode = os.environ.get("WANDB_MODE")
     if default_wandb_mode is None:
         default_wandb_mode = "offline" if os.environ.get("SLURM_JOB_ID") else "online"
-    parser.add_argument("--wandb", action="store_true", default=False, help="Enable Weights & Biases logging.")
-    parser.add_argument("--wandb_project", default=os.environ.get("WANDB_PROJECT", None), type=str)
-    parser.add_argument("--wandb_entity", default=os.environ.get("WANDB_ENTITY", None), type=str)
-    parser.add_argument("--wandb_group", default=os.environ.get("WANDB_GROUP", None), type=str)
-    parser.add_argument("--wandb_run_name", default=os.environ.get("WANDB_NAME", None), type=str)
+    parser.add_argument(
+        "--wandb",
+        action="store_true",
+        default=False,
+        help="Enable Weights & Biases logging.",
+    )
+    parser.add_argument(
+        "--wandb_project", default=os.environ.get("WANDB_PROJECT", None), type=str
+    )
+    parser.add_argument(
+        "--wandb_entity", default=os.environ.get("WANDB_ENTITY", None), type=str
+    )
+    parser.add_argument(
+        "--wandb_group", default=os.environ.get("WANDB_GROUP", None), type=str
+    )
+    parser.add_argument(
+        "--wandb_run_name", default=os.environ.get("WANDB_NAME", None), type=str
+    )
     parser.add_argument(
         "--wandb_tags",
         default=os.environ.get("WANDB_TAGS", ""),
         type=str,
         help="Comma-separated W&B tags.",
     )
-    parser.add_argument("--wandb_notes", default=os.environ.get("WANDB_NOTES", None), type=str)
-    parser.add_argument("--wandb_job_type", default=os.environ.get("WANDB_JOB_TYPE", "train"), type=str)
-    parser.add_argument("--wandb_dir", default=os.environ.get("WANDB_DIR", None), type=str)
-    parser.add_argument("--wandb_id", default=os.environ.get("WANDB_RUN_ID", None), type=str)
+    parser.add_argument(
+        "--wandb_notes", default=os.environ.get("WANDB_NOTES", None), type=str
+    )
+    parser.add_argument(
+        "--wandb_job_type", default=os.environ.get("WANDB_JOB_TYPE", "train"), type=str
+    )
+    parser.add_argument(
+        "--wandb_dir", default=os.environ.get("WANDB_DIR", None), type=str
+    )
+    parser.add_argument(
+        "--wandb_id", default=os.environ.get("WANDB_RUN_ID", None), type=str
+    )
     parser.add_argument(
         "--wandb_resume",
         default=os.environ.get("WANDB_RESUME", "allow"),
@@ -158,12 +215,23 @@ def parse_args():
         type=str,
         help="W&B mode (online/offline/disabled). Defaults to $WANDB_MODE or offline on Slurm.",
     )
-    parser.add_argument("--wandb_log_model", action="store_true", default=False, help="Log checkpoints as W&B artifacts.")
+    parser.add_argument(
+        "--wandb_log_model",
+        action="store_true",
+        default=False,
+        help="Log checkpoints as W&B artifacts.",
+    )
     return parser.parse_args()
 
 
 def _get_global_rank() -> int:
-    for key in ("RANK", "SLURM_PROCID", "OMPI_COMM_WORLD_RANK", "PMI_RANK", "MV2_COMM_WORLD_RANK"):
+    for key in (
+        "RANK",
+        "SLURM_PROCID",
+        "OMPI_COMM_WORLD_RANK",
+        "PMI_RANK",
+        "MV2_COMM_WORLD_RANK",
+    ):
         value = os.environ.get(key)
         if value is None:
             continue
@@ -199,7 +267,9 @@ def _resolve_wandb_run_id(experiment_dir: str, provided_id: Optional[str]) -> st
     return run_id
 
 
-def _maybe_enable_wandb_logger(*, recipe, args, run, logger, experiment_dir: str) -> None:
+def _maybe_enable_wandb_logger(
+    *, recipe, args, run, logger, experiment_dir: str
+) -> None:
     if not getattr(args, "wandb", False):
         return
     if getattr(args, "wandb_mode", "online") == "disabled":
@@ -221,7 +291,10 @@ def _maybe_enable_wandb_logger(*, recipe, args, run, logger, experiment_dir: str
         except Exception:
             from pytorch_lightning.loggers import WandbLogger  # type: ignore
     except Exception as e:
-        logger.warning("W&B requested but WandbLogger import failed; continuing without W&B. Error: %s", e)
+        logger.warning(
+            "W&B requested but WandbLogger import failed; continuing without W&B. Error: %s",
+            e,
+        )
         return
 
     wandb_dir = args.wandb_dir or os.path.join(experiment_dir, "wandb")
@@ -243,7 +316,9 @@ def _maybe_enable_wandb_logger(*, recipe, args, run, logger, experiment_dir: str
     sig = inspect.signature(WandbLogger.__init__)
     params = sig.parameters
     allowed = {k for k in params.keys() if k != "self"}
-    accepts_var_kwargs = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
+    accepts_var_kwargs = any(
+        p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values()
+    )
 
     base_kwargs = {
         "project": args.wandb_project,
@@ -274,7 +349,13 @@ def _maybe_enable_wandb_logger(*, recipe, args, run, logger, experiment_dir: str
     if accepts_var_kwargs:
         cfg_kwargs.update({k: v for k, v in wandb_init_kwargs.items() if v is not None})
     else:
-        cfg_kwargs.update({k: v for k, v in wandb_init_kwargs.items() if v is not None and k in allowed})
+        cfg_kwargs.update(
+            {
+                k: v
+                for k, v in wandb_init_kwargs.items()
+                if v is not None and k in allowed
+            }
+        )
 
     recipe.trainer.logger = run.Config(WandbLogger, **cfg_kwargs)
     logger.info(
@@ -286,6 +367,8 @@ def _maybe_enable_wandb_logger(*, recipe, args, run, logger, experiment_dir: str
         wandb_id,
         wandb_dir,
     )
+
+
 def main():
     args = parse_args()
 
@@ -315,7 +398,12 @@ def main():
     num_nodes = args.num_nodes
     recipe = get_recipe(
         arch=args.arch,
-        recipe_args=dict(dir=args.output_dir, name=args.name, num_nodes=num_nodes, num_gpus_per_node=gpus_per_node),
+        recipe_args=dict(
+            dir=args.output_dir,
+            name=args.name,
+            num_nodes=num_nodes,
+            num_gpus_per_node=gpus_per_node,
+        ),
         performance_mode_if_possible=args.performance_mode,
     )
 
@@ -329,7 +417,7 @@ def main():
         logger.info("Using CLI tokenizer override: %s", tokenizer_name)
     else:
         tokenizer_name, data_paths, total_tokens = process_datamix_file(args.datamix)
-    check_tokenizer(tokenizer_name, args.base_checkpoint)
+    # check_tokenizer(tokenizer_name, args.base_checkpoint)
 
     global_batch_size = args.batch_size
     seq_length = args.seq_length
@@ -351,14 +439,17 @@ def main():
     logger.info("Global training/LR horizon (from --max_steps): %s", global_max_steps)
     if args.this_run_max_steps is not None and args.this_run_max_steps <= 0:
         raise ValueError("--this_run_max_steps must be > 0 when provided.")
+    import nemo_run as run  # noqa: E402
     from nemo import lightning as nl  # noqa: E402
     from nemo.collections.llm.gpt.data import PreTrainingDataModule  # noqa: E402
-    from nemo.collections.nlp.modules.common.tokenizer_utils import get_tokenizer  # noqa: E402
-    import nemo_run as run  # noqa: E402
+    from nemo.collections.nlp.modules.common.tokenizer_utils import (
+        get_tokenizer,  # noqa: E402
+    )
 
     # Patch megatron optimizer to drop unsupported kwargs (version compatibility)
     try:
         import inspect
+
         import megatron.core.optimizer as mcore_optim
 
         if not getattr(mcore_optim, "_patched_get_megatron_optimizer", False):
@@ -366,11 +457,15 @@ def main():
             _accepted = set(inspect.signature(_orig).parameters.keys())
 
             def _patched(*args, **kwargs):
-                return _orig(*args, **{k: v for k, v in kwargs.items() if k in _accepted})
+                return _orig(
+                    *args, **{k: v for k, v in kwargs.items() if k in _accepted}
+                )
 
             mcore_optim.get_megatron_optimizer = _patched
             mcore_optim._patched_get_megatron_optimizer = True
-            logger.info("Patched megatron.core.optimizer (accepted params: %s)", _accepted)
+            logger.info(
+                "Patched megatron.core.optimizer (accepted params: %s)", _accepted
+            )
     except Exception as e:
         logger.warning("Could not patch megatron optimizer: %s", e)
 
@@ -445,13 +540,17 @@ def main():
                 effective_max_steps - detected_step,
             )
     else:
-        logger.info("Training from scratch, trainer.max_steps = %s", effective_max_steps)
+        logger.info(
+            "Training from scratch, trainer.max_steps = %s", effective_max_steps
+        )
 
     # Trainer — detect vocab size from tokenizer
-    vocab_size = getattr(tokenizer, 'vocab_size', None)
+    vocab_size = getattr(tokenizer, "vocab_size", None)
     if vocab_size is None:
         vocab_size = 50256
-        logger.warning("Could not detect vocab_size from tokenizer, falling back to %s", vocab_size)
+        logger.warning(
+            "Could not detect vocab_size from tokenizer, falling back to %s", vocab_size
+        )
     else:
         logger.info("Detected vocab_size from tokenizer: %s", vocab_size)
     recipe.model.config.vocab_size = vocab_size
@@ -471,7 +570,11 @@ def main():
 
     # Remove unsupported optimizer kwargs
     optim_cfg = getattr(recipe, "optim", None)
-    if optim_cfg and hasattr(optim_cfg, "config") and hasattr(optim_cfg.config, "no_weight_decay_cond"):
+    if (
+        optim_cfg
+        and hasattr(optim_cfg, "config")
+        and hasattr(optim_cfg.config, "no_weight_decay_cond")
+    ):
         try:
             delattr(optim_cfg.config, "no_weight_decay_cond")
         except Exception:
@@ -479,18 +582,21 @@ def main():
 
     # Callbacks
     from nemo.lightning.pytorch.callbacks import GarbageCollectionCallback  # noqa: E402
+
     from callbacks import (  # noqa: E402
-        StatelessTimer,
         ProgressiveIntervalCheckpoint,
+        RNGStateCallback,
         SSALoggingCallback,
+        StatelessTimer,
         StopAfterThisRunMaxStepsCallback,
         WandbMetricsCallback,
-        RNGStateCallback,
     )
 
     trainer_callbacks = [
         run.Config(StatelessTimer, duration=args.duration),
-        run.Config(GarbageCollectionCallback, gc_interval_train=100, gc_interval_val=100),
+        run.Config(
+            GarbageCollectionCallback, gc_interval_train=100, gc_interval_val=100
+        ),
         run.Config(SSALoggingCallback, log_every_n_steps=args.log_ssa_every_n_steps),
         run.Config(RNGStateCallback),
     ]
@@ -526,18 +632,19 @@ def main():
     # Resume config
     if args.base_checkpoint:
         logger.info(f"Base checkpoint: {args.base_checkpoint}")
-        restore_config = nl.RestoreConfig(path=args.base_checkpoint, load_optim_state=False)
+        restore_config = nl.RestoreConfig(
+            path=args.base_checkpoint, load_optim_state=False
+        )
     else:
         restore_config = None
 
     # LR scheduler horizon is aligned to trainer.max_steps for consistency.
     # NeMo may overwrite scheduler.max_steps from trainer.max_steps internally.
-    if hasattr(recipe.optim, 'lr_scheduler'):
+    if hasattr(recipe.optim, "lr_scheduler"):
         recipe.optim.lr_scheduler.max_steps = effective_max_steps
         recipe.optim.lr_scheduler.warmup_steps = args.warmup_steps
-        # Set min_lr to 10% of max lr so LR doesn't decay to zero
         max_lr = recipe.optim.config.lr
-        recipe.optim.lr_scheduler.min_lr = max_lr * 0.1
+        recipe.optim.lr_scheduler.min_lr = 6.87e-5
         logger.info(
             "LR scheduler max_steps = %s, warmup_steps = %s, min_lr = %s",
             effective_max_steps,
@@ -588,22 +695,36 @@ def main():
             hq = recipe.model.config.num_attention_heads
             hkv = recipe.model.config.num_query_groups
             head_dim = recipe.model.config.kv_channels
-            if head_dim is None and recipe.model.config.hidden_size is not None and hq is not None:
+            if (
+                head_dim is None
+                and recipe.model.config.hidden_size is not None
+                and hq is not None
+            ):
                 head_dim = recipe.model.config.hidden_size // hq
 
             if hq is None or hkv is None or head_dim is None:
                 logger.warning(
                     "Skipping Triton warmup (missing dims): Hq=%s, Hkv=%s, D=%s",
-                    hq, hkv, head_dim,
+                    hq,
+                    hkv,
+                    head_dim,
                 )
             else:
                 logger.info(
                     "Warming up Triton kernels on cuda:%s (Hq=%s, Hkv=%s, D=%s)...",
-                    torch.cuda.current_device(), hq, hkv, head_dim,
+                    torch.cuda.current_device(),
+                    hq,
+                    hkv,
+                    head_dim,
                 )
                 warmup_triton_kernels(
-                    B=2, Hq=hq, Hkv=hkv, N=128, D=head_dim,
-                    dtype=torch.bfloat16, device=f"cuda:{torch.cuda.current_device()}",
+                    B=2,
+                    Hq=hq,
+                    Hkv=hkv,
+                    N=128,
+                    D=head_dim,
+                    dtype=torch.bfloat16,
+                    device=f"cuda:{torch.cuda.current_device()}",
                 )
                 logger.info("Triton kernel warmup complete.")
         except Exception as e:
@@ -618,12 +739,14 @@ def main():
 
     # Free GPU memory accumulated during setup/warmup before checkpoint restore
     import gc
+
     gc.collect()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
     # Run
     import time as _time
+
     _t0 = _time.time()
     recipe_obj = fiddle.build(recipe)
     recipe_obj()

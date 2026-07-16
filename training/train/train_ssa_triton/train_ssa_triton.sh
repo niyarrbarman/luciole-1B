@@ -15,7 +15,7 @@ module load gcc slurm
 mkdir -p slurm
 
 # Defaults
-DATAMIX=${DATAMIX:-"/lustre/work/pdl17996/udl62d273/luciole-1B/training/train/train_ssa_triton/luciole_phase2_variant.json"}
+DATAMIX=${DATAMIX:-"/lustre/work/pdl17996/udl62d273/luciole-1B/training/train/train_ssa_triton/luciole_phase2.json"}
 OUTPUT_DIR=${OUTPUT_DIR:-"/lustre/work/pdl17996/udl62d273/phase2_outputs/outputs"}
 mkdir -p "$OUTPUT_DIR"
 BATCH_SIZE=${BATCH_SIZE:-1024}

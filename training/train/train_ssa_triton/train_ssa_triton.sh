@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -J tr_p2_nemo1b_ssa
-#SBATCH -N 1
+#SBATCH -N 4
 #SBATCH --ntasks-per-node=1
 #SBATCH --gpus-per-node=4
 #SBATCH --time=2-00:00:00
@@ -55,7 +55,7 @@ SKIP_TRITON_WARMUP=${SKIP_TRITON_WARMUP:-1}
 DISABLE_COMPILED_BDA=${DISABLE_COMPILED_BDA:-0}
 FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 # GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-3817000}
-GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-10}
+GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-20}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
 THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-0}
 
@@ -208,8 +208,8 @@ srun apptainer exec \
   --pipeline_parallelism 1 \
   --context_parallelism 1 \
   --duration "${SLURM_DURATION}" \
-  --save_every_n_steps 5000 \
-  --log_ssa_every_n_steps 500 \
+  --save_every_n_steps 5 \
+  --log_ssa_every_n_steps 2 \
   --ssa_n $SSA_N \
   --ssa_b $SSA_B \
   --warmup_steps ${LR_WARMUP_STEPS} \

@@ -432,9 +432,16 @@ def build_html(report_data: dict, title: str) -> str:
     .content {{
       padding: 12px;
     }}
+    .chart-scroll {{
+      max-height: 620px;
+      overflow-y: auto;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }}
     #chart {{
       width: 100%;
-      height: 620px;
+      height: auto;
     }}
     .table-wrap {{
       margin-top: 10px;
@@ -533,7 +540,9 @@ def build_html(report_data: dict, title: str) -> str:
     </aside>
 
     <section class=\"panel content\">
-      <div id=\"chart\"></div>
+      <div class=\"chart-scroll\">
+        <div id=\"chart\"></div>
+      </div>
 
       <div class=\"table-wrap\">
         <table id=\"valueTable\">
@@ -543,7 +552,6 @@ def build_html(report_data: dict, title: str) -> str:
           <tbody></tbody>
         </table>
       </div>
-      
       <div class="summary-wrap" id="summaryWrap">
         <h3 class="summary-title">Significant Wins Summary (95% CI)</h3>
         <p class="muted" id="summaryHint"></p>
@@ -597,11 +605,14 @@ const runList = document.getElementById('runList');
 const selectAllBtn = document.getElementById('selectAllBtn');
 const selectNoneBtn = document.getElementById('selectNoneBtn');
 const selectionSummary = document.getElementById('selectionSummary');
+const valueTableWrapper = document.getElementById('valueTableWrapper');
 const valueTableBody = document.querySelector('#valueTable tbody');
 const summaryHint = document.getElementById('summaryHint');
 const summaryTableBody = document.querySelector('#summaryTable tbody');
 const trendHint = document.getElementById('trendHint');
 const trendTableBody = document.querySelector('#trendTable tbody');
+const chartEl = document.getElementById('chart');
+const chartScroll = document.querySelector('.chart-scroll');
 const CI_MULTIPLIER = 1.96;
 
 function uniqueSorted(values) {{
@@ -648,6 +659,7 @@ function option(parent, value, text) {{
 
 function buildRunChecklist() {{
   clearElement(runList);
+  const defaultSelected = new Set(['luciole_715k', 'ssa_luciole_715k']);
   for (const label of DATA.runs) {{
     const row = document.createElement('label');
     row.className = 'run-item';
@@ -656,7 +668,9 @@ function buildRunChecklist() {{
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.value = label;
-    cb.checked = true;
+    const normalizedLabel = label.toLowerCase();
+    cb.checked = defaultSelected.has(normalizedLabel) ||
+      Array.from(defaultSelected).some(name => normalizedLabel.includes(name));
     cb.addEventListener('change', updateView);
 
     const span = document.createElement('span');
@@ -777,6 +791,25 @@ function chooseTrendMetric(taskMetrics) {{
   const allMetrics = Object.keys(taskMetrics).sort((a, b) => a.localeCompare(b));
   return allMetrics.length > 0 ? allMetrics[0] : null;
 }}
+
+function normalizeRunName(name) {{
+  return String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+}}
+
+function pickFocusRuns(allRuns) {{
+  const preferred = ['luciole715', 'ssaluciole715', 'luciole715k', 'ssaluciole715k'];
+  const matched = allRuns.filter(run => preferred.includes(normalizeRunName(DATA.run_model_names?.[run])));
+  if (matched.length >= 2) return matched;
+  return allRuns;
+}}
+
+function resolveMetric(taskName, preferredMetrics) {{
+  const taskMetrics = DATA.task_metrics[taskName] || {};
+  for (const metric of preferredMetrics) {{
+    if (Object.prototype.hasOwnProperty.call(taskMetrics, metric)) return metric;
+  }}
+  return null;
+}
 
 function buildTrendTable(rows) {{
   clearTrendTable();
@@ -920,6 +953,64 @@ function buildTable(rows) {{
   }}
 }}
 
+function buildFocusScoresTable(focusRows, runs) {{
+  clearElement(chartEl);
+  Plotly.purge(chartEl);
+
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  ['Task', 'Metric', ...runs].forEach(headerText => {{
+    const th = document.createElement('th');
+    th.textContent = headerText;
+    headerRow.appendChild(th);
+  }});
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  focusRows.forEach(row => {{
+    const metricNameRaw = resolveMetric(row.task, row.metrics);
+    const metricName = metricNameRaw ? metricNameRaw.split(',')[0] : null;
+    const values = metricNameRaw ? ((DATA.task_metrics[row.task] || {{}})[metricNameRaw] || {{}}) : {{}};
+    const scaleToPercent = shouldScaleTaskMetricToPercent(metricName || '', Object.values(values));
+
+    const numericValues = runs.map(run => values[run]).filter(v => Number.isFinite(v));
+    const compareLowest = metricName && metricName.includes('perplexity');
+    const bestValue = numericValues.length > 0
+      ? (compareLowest ? Math.min(...numericValues) : Math.max(...numericValues))
+      : null;
+
+    const tr = document.createElement('tr');
+    const tdTask = document.createElement('td');
+    tdTask.textContent = row.task;
+    tr.appendChild(tdTask);
+
+    const tdMetric = document.createElement('td');
+    tdMetric.textContent = metricName || 'missing';
+    tr.appendChild(tdMetric);
+
+    runs.forEach(run => {{
+      const td = document.createElement('td');
+      const value = values[run];
+      const formatted = formatMetricValue(value, scaleToPercent);
+      if (bestValue !== null && Number.isFinite(value) && value === bestValue) {{
+        const bold = document.createElement('strong');
+        bold.textContent = formatted;
+        td.appendChild(bold);
+      }} else {{
+        td.textContent = formatted;
+      }}
+      tr.appendChild(td);
+    }});
+
+    tbody.appendChild(tr);
+  }});
+
+  table.appendChild(tbody);
+  chartEl.appendChild(table);
+}}
+
 function updateView() {{
   refreshTaskAndMetricSelectors();
 
@@ -927,6 +1018,15 @@ function updateView() {{
   const metric = metricSelect.value;
   const runs = selectedRuns();
   selectionSummary.textContent = `${runs.length} selected run(s)`;
+  if (valueTableWrapper) {
+    valueTableWrapper.style.display = '';
+  }
+  if (chartScroll) {
+    chartScroll.style.maxHeight = '';
+  }
+  if (chartEl) {
+    chartEl.style.height = '';
+  }
   updateSignificanceSummary(runs);
   updateTrendSummary(runs);
 
@@ -940,32 +1040,35 @@ function updateView() {{
     const taskName = taskSelect.value;
 
     if (taskName === '__ALL_TASKS__') {{
-      const allTasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
-      const z = allTasks.map(task => runs.map(run => {{
-        const values = (DATA.task_metrics[task] || {{}})[metric] || {{}};
-        const v = values[run];
-        const scaleToPercent = shouldScaleTaskMetricToPercent(metric, Object.values(values));
-        return Number.isFinite(v) ? maybeScale(v, scaleToPercent) : null;
-      }}));
-      const scaleToPercent = shouldScaleTaskMetricToPercent(metric, allTasks.flatMap(task => Object.values((DATA.task_metrics[task] || {{}})[metric] || {{}})));
+      const focusRows = [
+        {{ label: 'arc_challenge | acc_norm', task: 'arc_challenge', metrics: ['acc_norm,none', 'acc_norm'] }},
+        {{ label: 'arc_easy | acc_norm', task: 'arc_easy', metrics: ['acc_norm,none', 'acc_norm'] }},
+        {{ label: 'boolq | acc', task: 'boolq', metrics: ['acc,none', 'acc'] }},
+        {{ label: 'cb | acc', task: 'cb', metrics: ['acc,none', 'acc'] }},
+        {{ label: 'copa | acc', task: 'copa', metrics: ['acc,none', 'acc'] }},
+        {{ label: 'hellaswag | acc_norm', task: 'hellaswag', metrics: ['acc_norm,none', 'acc_norm'] }},
+        {{ label: 'openbookqa | acc_norm', task: 'openbookqa', metrics: ['acc_norm,none', 'acc_norm'] }},
+        {{ label: 'record | f1', task: 'record', metrics: ['f1,none', 'f1'] }},
+        {{ label: 'winogrande | acc', task: 'winogrande', metrics: ['acc,none', 'acc'] }},
+        {{ label: 'wsc | acc', task: 'wsc', metrics: ['acc,none', 'acc'] }},
+        {{ label: 'lambada_openai | perplexity', task: 'lambada_openai', metrics: ['perplexity,none', 'word_perplexity,none', 'ppl,none'] }},
+        {{ label: 'wikitext | perplexity', task: 'wikitext', metrics: ['word_perplexity,none', 'perplexity,none', 'ppl,none'] }},
+      ];
 
-      Plotly.react('chart', [{
-        type: 'heatmap',
-        x: runs,
-        y: allTasks,
-        z,
-        colorscale: 'Viridis',
-        colorbar: {{title: scaleToPercent ? `${metric} (%)` : metric}},
-        hovertemplate: 'Task=%{{y}}<br>Run=%{{x}}<br>Value=%{{z}}<extra></extra>'
-      }}], {{
-        title: `Task metric heatmap: ${metric}`,
-        margin: {{l: 150, r: 20, t: 50, b: 150}},
-        xaxis: {{tickangle: 45}},
-      }}, {{responsive: true}});
-
+      const focusRuns = pickFocusRuns(runs);
+      if (valueTableWrapper) {
+        valueTableWrapper.style.display = 'none';
+      }
+      if (chartScroll) {
+        chartScroll.style.maxHeight = '800px';
+      }
+      if (chartEl) {
+        chartEl.style.height = '760px';
+      }
+      buildFocusScoresTable(focusRows, focusRuns);
       buildTable([]);
       return;
-    }}
+    }
 
     const values = getTaskMetricValues(taskName, metric);
     const stderrValues = getTaskMetricStderr(taskName, metric);
@@ -976,6 +1079,13 @@ function updateView() {{
       const stderr = stderrValues[run];
       return Number.isFinite(stderr) ? maybeScale(stderr * CI_MULTIPLIER, scaleToPercent) : null;
     });
+
+    if (chartScroll) {
+      chartScroll.style.maxHeight = '800px';
+    }
+    if (chartEl) {
+      chartEl.style.height = '760px';
+    }
 
     Plotly.react('chart', [{
       type: 'bar',
@@ -995,6 +1105,7 @@ function updateView() {{
       margin: {{l: 60, r: 20, t: 50, b: 170}},
       xaxis: {{tickangle: 45}},
       yaxis: scaleToPercent ? {{automargin: true, range: [0, 100], ticksuffix: '%'}} : {{automargin: true}},
+      showlegend: false,
     }}, {{responsive: true}});
 
     buildTable(rows);
@@ -1015,6 +1126,7 @@ function updateView() {{
     margin: {{l: 60, r: 20, t: 50, b: 170}},
     xaxis: {{tickangle: 45}},
     yaxis: {{automargin: true}},
+    showlegend: false,
   }}, {{responsive: true}});
 
   buildTable(rows);
@@ -1046,6 +1158,24 @@ selectNoneBtn.addEventListener('click', () => {{
 buildRunChecklist();
 refreshTaskAndMetricSelectors();
 updateView();
+
+chartEl.on('plotly_click', (event) => {{
+  const point = event?.points?.[0];
+  const payload = point?.customdata;
+  if (!payload?.task || !payload?.metric) return;
+
+  scopeSelect.value = 'task';
+  refreshTaskAndMetricSelectors();
+
+  if (Array.from(taskSelect.options).some(opt => opt.value === payload.task)) {{
+    taskSelect.value = payload.task;
+  }}
+  if (Array.from(metricSelect.options).some(opt => opt.value === payload.metric)) {{
+    metricSelect.value = payload.metric;
+  }}
+
+  updateView();
+}});
 </script>
 </body>
 </html>

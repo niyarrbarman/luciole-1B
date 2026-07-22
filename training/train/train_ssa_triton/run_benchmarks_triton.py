@@ -59,6 +59,7 @@ _DATASET_CACHE_ALIASES = {
     "lambada_openai": "EleutherAI___lambada_openai",
     "orange_sum": "EdinburghNLP___orange_sum",
     "xnli": "facebook___xnli",
+    "wikitext": "EleutherAI___wikitext_document_level",
 }
 
 

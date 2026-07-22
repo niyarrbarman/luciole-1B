@@ -1,0 +1,120 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  softmax
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-last
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           wikitext
+Batch Size:      64
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     -1
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+HF Home:         /work/m24047/m24047flhg/.cache/huggingface
+HF Home legacy:  /work/m24047/m24047brmn/lm_eval
+HF merge mode:   symlink
+Output prefix:   benchmark_results_715k/results_luc1b_softmax_wikitext_20260601_122236
+===========================================
+Preparing HF cache (mode=symlink) from /work/m24047/m24047brmn/lm_eval
+-------------------------------------------
+Running model:   luciole_715k (softmax)
+Checkpoint:      /tmpdir/m24047flhg/luciole-phase1-last
+Output:          benchmark_results_715k/results_luc1b_softmax_wikitext_20260601_122236_luciole_715k.json
+-------------------------------------------
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['wikitext']
+INFO:__main__:gsm8k subset override: limit=None (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'luciole_715k', 'type': 'softmax', 'checkpoint': '/tmpdir/m24047flhg/luciole-phase1-last'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'luciole_715k' (softmax)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=softmax, checkpoint=/tmpdir/m24047flhg/luciole-phase1-last)...
+INFO:eval_perplexity:Detected HuggingFace checkpoint format
+INFO:eval_perplexity:Loading HuggingFace model from /tmpdir/m24047flhg/luciole-phase1-last
+INFO:eval_perplexity:Loaded HF config: layers=24 hidden=2048 heads=32 vocab=128000
+INFO:eval_perplexity:Model loaded successfully from HuggingFace CausalLM format
+INFO:eval_perplexity:Tokenizer loaded from checkpoint
+INFO:eval_perplexity:Model ready for evaluation (HF format)
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:Model diagnostics (post-init): model_type=softmax model_class=NemotronForCausalLM wrapped_class=NemotronForCausalLM checkpoint=/tmpdir/m24047flhg/luciole-phase1-last enforce_bf16=True compiled_bda=False force_contiguous_qkv=True parameter_dtype=torch.bfloat16
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: wikitext -> wikitext
+INFO:__main__:  Description: WikiText - Language modeling benchmark
+WARNING:lm_eval.api.task:[Task: wikitext] metric word_perplexity is defined, but aggregation is not. using default aggregation=weighted_perplexity
+WARNING:lm_eval.api.task:[Task: wikitext] metric word_perplexity is defined, but higher_is_better is not. using default higher_is_better=False
+WARNING:lm_eval.api.task:[Task: wikitext] metric byte_perplexity is defined, but aggregation is not. using default aggregation=weighted_perplexity
+WARNING:lm_eval.api.task:[Task: wikitext] metric byte_perplexity is defined, but higher_is_better is not. using default higher_is_better=False
+WARNING:lm_eval.api.task:[Task: wikitext] metric bits_per_byte is defined, but aggregation is not. using default aggregation=bits_per_byte
+WARNING:lm_eval.api.task:[Task: wikitext] metric bits_per_byte is defined, but higher_is_better is not. using default higher_is_better=False
+Using the latest cached version of the dataset since EleutherAI/wikitext_document_level couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since EleutherAI/wikitext_document_level couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wikitext-2-raw-v1' at /work/m24047/m24047flhg/.cache/huggingface/datasets/EleutherAI___wikitext_document_level/wikitext-2-raw-v1/0.0.0/647234772b9554e208af6c826f23b99e3cac88c8 (last modified on Mon Jun  1 11:06:21 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wikitext-2-raw-v1' at /work/m24047/m24047flhg/.cache/huggingface/datasets/EleutherAI___wikitext_document_level/wikitext-2-raw-v1/0.0.0/647234772b9554e208af6c826f23b99e3cac88c8 (last modified on Mon Jun  1 11:06:21 2026).
+INFO:__main__:Running evaluation on tasks: ['wikitext']
+INFO:__main__:Evaluating group 'regular' tasks=['wikitext'] limit=None
+INFO:lm_eval.evaluator:Setting random seed to 0 | Setting numpy seed to 1234 | Setting fewshot manual seed to 1234
+INFO:lm_eval.evaluator:Using pre-initialized model
+WARNING:lm_eval.api.task:[Task: wikitext] metric word_perplexity is defined, but aggregation is not. using default aggregation=weighted_perplexity
+WARNING:lm_eval.api.task:[Task: wikitext] metric word_perplexity is defined, but higher_is_better is not. using default higher_is_better=False
+WARNING:lm_eval.api.task:[Task: wikitext] metric byte_perplexity is defined, but aggregation is not. using default aggregation=weighted_perplexity
+WARNING:lm_eval.api.task:[Task: wikitext] metric byte_perplexity is defined, but higher_is_better is not. using default higher_is_better=False
+WARNING:lm_eval.api.task:[Task: wikitext] metric bits_per_byte is defined, but aggregation is not. using default aggregation=bits_per_byte
+WARNING:lm_eval.api.task:[Task: wikitext] metric bits_per_byte is defined, but higher_is_better is not. using default higher_is_better=False
+Using the latest cached version of the dataset since EleutherAI/wikitext_document_level couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since EleutherAI/wikitext_document_level couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'wikitext-2-raw-v1' at /work/m24047/m24047flhg/.cache/huggingface/datasets/EleutherAI___wikitext_document_level/wikitext-2-raw-v1/0.0.0/647234772b9554e208af6c826f23b99e3cac88c8 (last modified on Mon Jun  1 11:06:21 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'wikitext-2-raw-v1' at /work/m24047/m24047flhg/.cache/huggingface/datasets/EleutherAI___wikitext_document_level/wikitext-2-raw-v1/0.0.0/647234772b9554e208af6c826f23b99e3cac88c8 (last modified on Mon Jun  1 11:06:21 2026).
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of wikitext from None to 5
+INFO:lm_eval.api.task:Building contexts for wikitext on rank 0...
+  0%|          | 0/62 [00:00<?, ?it/s]/usr/local/lib/python3.12/dist-packages/lm_eval/api/task.py:1181: Warning: Both target_delimiter and target start with a space. This may cause issues.
+  labeled_examples += self.sampler.get_context(
+ 23%|██▎       | 14/62 [00:00<00:00, 139.04it/s] 45%|████▌     | 28/62 [00:00<00:00, 124.39it/s] 68%|██████▊   | 42/62 [00:00<00:00, 128.73it/s] 90%|█████████ | 56/62 [00:00<00:00, 129.76it/s]100%|██████████| 62/62 [00:00<00:00, 131.07it/s]
+INFO:lm_eval.evaluator:Running loglikelihood_rolling requests
+INFO:__main__:First forward diagnostics: input_dtype=torch.int64 input_shape=(1, 1373) position_ids_dtype=torch.int64 attention_mask_dtype=torch.int64 attention_mask_shape=(1, 1373) parameter_dtype=torch.bfloat16
+INFO:__main__:First forward output diagnostics: output_type=CausalLMOutputWithPast logits_dtype=torch.bfloat16 logits_shape=(1, 1373, 128000)
+INFO:__main__:Completed group 'regular' in 9s (evaluated 62/62 docs, full dataset estimate 9s)
+
+======================================================================
+BENCHMARK RESULTS
+======================================================================
+Model name:   luciole_715k
+Model type:   softmax
+Checkpoint:   /tmpdir/m24047flhg/luciole-phase1-last
+----------------------------------------------------------------------
+
+wikitext:
+--------------------------------------------------
+  alias: wikitext
+  word_perplexity,none: 2.8607
+  word_perplexity_stderr,none: N/A
+  byte_perplexity,none: 1.2172
+  byte_perplexity_stderr,none: N/A
+  bits_per_byte,none: 0.2836
+  bits_per_byte_stderr,none: N/A
+
+TASK TIMING
+----------------------------------------------------------------------
+task                 elapsed      full-est     docs          
+----------------------------------------------------------------------
+wikitext             9s           9s           62/62         
+
+======================================================================
+INFO:__main__:Finished evaluation for model 'luciole_715k' in 9s
+INFO:__main__:Forward perf summary: calls=62 input_tokens=110326 prep=0.025s forward=1.982s output=0.000s total=2.007s avg_call=0.0324s forward_toks_per_s=55669.1
+INFO:__main__:Estimated full-dataset runtime for model 'luciole_715k': 9s
+INFO:__main__:Results saved to: benchmark_results_715k/results_luc1b_softmax_wikitext_20260601_122236_luciole_715k.json
+Model 'luciole_715k' finished with status 0
+===========================================
+Benchmark finished with status 0 (selection=softmax)
+Results saved to:
+benchmark_results_715k/results_luc1b_softmax_wikitext_20260601_122236_luciole_715k.json
+===========================================

@@ -1,0 +1,349 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-last
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           gsm8k
+Batch Size:      64
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     -1
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+HF Home:         /work/m24047/m24047flhg/.cache/huggingface
+HF Home legacy:  /work/m24047/m24047brmn/lm_eval
+HF merge mode:   symlink
+Output prefix:   benchmark_results_715k/results_luc1b_ssa_gsm8k_20260602_135139
+===========================================
+Preparing HF cache (mode=symlink) from /work/m24047/m24047brmn/lm_eval
+-------------------------------------------
+Running model:   ssa_luciole_715k (ssa_triton)
+Checkpoint:      /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last
+Output:          benchmark_results_715k/results_luc1b_ssa_gsm8k_20260602_135139_ssa_luciole_715k.json
+-------------------------------------------
+INFO:numexpr.utils:Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+INFO:numexpr.utils:Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+INFO:datasets:PyTorch version 2.7.0a0+7c8ec84dab.nv25.3 available.
+INFO:datasets:Polars version 1.21.0 available.
+INFO:__main__:Tasks to evaluate: ['gsm8k']
+INFO:__main__:gsm8k subset override: limit=None (seed=42)
+INFO:__main__:Models to evaluate: [{'name': 'ssa_luciole_715k', 'type': 'ssa_triton', 'checkpoint': '/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last'}]
+INFO:__main__:enforce_bf16=True
+INFO:__main__:Starting evaluation for model 'ssa_luciole_715k' (ssa_triton)
+INFO:__main__:Enabled datasets compatibility shim: List -> Sequence
+INFO:__main__:Initializing BabyLucioleLM wrapper (model_type=ssa_triton, checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last)...
+INFO:faiss.loader:Loading faiss.
+INFO:faiss.loader:Successfully loaded faiss.
+[NeMo W 2026-06-02 13:53:51 nemo_logging:405] /usr/local/lib/python3.12/dist-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+      warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+    
+INFO:eval_perplexity_triton:No tokenizer in checkpoint, using: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+[NeMo I 2026-06-02 13:54:35 nemo_logging:393] Getting HuggingFace AutoTokenizer with pretrained_model_name: /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: True
+INFO:eval_perplexity_triton:Loaded model architecture from checkpoint context: layers=24 hidden=2048 heads=32 q_groups=8 ffn=8192 kv=64 vocab=128000
+INFO:eval_perplexity_triton:Triton SSA config enabled (compiled_bda=False, force_contiguous_qkv=True)
+INFO:eval_perplexity_triton:Initialized parallel state with backend nccl
+INFO:eval_perplexity_triton:Creating NemotronModel...
+INFO:eval_perplexity_triton:Configuring model...
+[NeMo I 2026-06-02 13:54:35 nemo_logging:393] Use preset vocab_size: 128000, original vocab_size: 128000, dummy tokens: 0.
+INFO:eval_perplexity_triton:Loading model weights from /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last...
+INFO:eval_perplexity_triton:Added 'module.' prefix to sharded state dict
+INFO:eval_perplexity_triton:Model weights loaded successfully
+INFO:eval_perplexity_triton:Converted model to bfloat16 for inference
+INFO:eval_perplexity_triton:Warming up Triton kernels for eval (Hq=32, Hkv=8, D=64, N=2048)...
+INFO:eval_perplexity_triton:Triton kernel warmup complete.
+INFO:eval_perplexity_triton:Model ready for evaluation
+INFO:__main__:Tokenizer setup: vocab_size=128000, eot_token_id=1, prefix_token_id=0
+INFO:__main__:Model diagnostics (post-init): model_type=ssa_triton model_class=NemotronModel wrapped_class=GPTModel checkpoint=/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last enforce_bf16=True compiled_bda=False force_contiguous_qkv=True parameter_dtype=torch.bfloat16
+INFO:__main__:BabyLucioleLM wrapper initialized successfully
+INFO:__main__:Added task: gsm8k -> gsm8k
+INFO:__main__:  Description: GSM8K - Grade school math word problems
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047flhg/.cache/huggingface/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047flhg/.cache/huggingface/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+INFO:__main__:Running evaluation on tasks: ['gsm8k']
+INFO:__main__:Evaluating group 'gsm8k' tasks=['gsm8k'] limit=None
+INFO:__main__:gsm8k subset config: limit=None, random_seed=42
+INFO:lm_eval.evaluator:Setting random seed to 42 | Setting numpy seed to 43 | Setting fewshot manual seed to 44
+INFO:lm_eval.evaluator:Using pre-initialized model
+Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+WARNING:datasets.load:Using the latest cached version of the dataset since gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /work/m24047/m24047flhg/.cache/huggingface/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'main' at /work/m24047/m24047flhg/.cache/huggingface/datasets/gsm8k/main/0.0.0/cc7b047b6e5bb11b4f1af84efc572db110a51b3c (last modified on Mon Feb 16 20:17:05 2026).
+INFO:lm_eval.evaluator:gsm8k: Using gen_kwargs: {'until': ['Question:', '</s>', '<|im_end|>'], 'do_sample': False, 'temperature': 0.0}
+WARNING:lm_eval.evaluator:Overwriting default num_fewshot of gsm8k from 5 to 5
+INFO:lm_eval.api.task:Building contexts for gsm8k on rank 0...
+  0%|          | 0/1319 [00:00<?, ?it/s]  2%|▏         | 32/1319 [00:00<00:04, 310.22it/s]  5%|▍         | 64/1319 [00:00<00:04, 310.20it/s]  7%|▋         | 96/1319 [00:00<00:03, 310.09it/s] 10%|▉         | 128/1319 [00:00<00:03, 309.93it/s] 12%|█▏        | 159/1319 [00:00<00:03, 309.55it/s] 14%|█▍        | 190/1319 [00:00<00:03, 309.49it/s] 17%|█▋        | 221/1319 [00:00<00:03, 309.37it/s] 19%|█▉        | 252/1319 [00:00<00:03, 309.15it/s] 21%|██▏       | 283/1319 [00:00<00:03, 309.29it/s] 24%|██▍       | 315/1319 [00:01<00:03, 309.38it/s] 26%|██▋       | 347/1319 [00:01<00:03, 309.69it/s] 29%|██▊       | 378/1319 [00:01<00:03, 309.70it/s] 31%|███       | 410/1319 [00:01<00:02, 310.37it/s] 34%|███▎      | 442/1319 [00:01<00:02, 310.56it/s] 36%|███▌      | 474/1319 [00:01<00:02, 310.60it/s] 38%|███▊      | 506/1319 [00:01<00:02, 310.48it/s] 41%|████      | 538/1319 [00:01<00:02, 310.19it/s] 43%|████▎     | 570/1319 [00:01<00:02, 309.93it/s] 46%|████▌     | 601/1319 [00:01<00:02, 309.72it/s] 48%|████▊     | 632/1319 [00:02<00:02, 309.72it/s] 50%|█████     | 664/1319 [00:02<00:02, 309.88it/s] 53%|█████▎    | 695/1319 [00:02<00:02, 309.82it/s] 55%|█████▌    | 726/1319 [00:02<00:01, 309.78it/s] 57%|█████▋    | 757/1319 [00:02<00:01, 309.80it/s] 60%|█████▉    | 789/1319 [00:02<00:01, 310.24it/s] 62%|██████▏   | 821/1319 [00:02<00:01, 310.46it/s] 65%|██████▍   | 853/1319 [00:02<00:01, 310.52it/s] 67%|██████▋   | 885/1319 [00:02<00:01, 310.61it/s] 70%|██████▉   | 917/1319 [00:02<00:01, 310.82it/s] 72%|███████▏  | 949/1319 [00:03<00:01, 310.71it/s] 74%|███████▍  | 981/1319 [00:03<00:01, 310.64it/s] 77%|███████▋  | 1013/1319 [00:03<00:00, 310.40it/s] 79%|███████▉  | 1045/1319 [00:03<00:00, 310.44it/s] 82%|████████▏ | 1077/1319 [00:03<00:00, 310.36it/s] 84%|████████▍ | 1109/1319 [00:03<00:00, 310.18it/s] 87%|████████▋ | 1141/1319 [00:03<00:00, 310.12it/s] 89%|████████▉ | 1173/1319 [00:03<00:00, 310.18it/s] 91%|█████████▏| 1205/1319 [00:03<00:00, 310.06it/s] 94%|█████████▍| 1237/1319 [00:03<00:00, 309.88it/s] 96%|█████████▌| 1268/1319 [00:04<00:00, 309.49it/s] 98%|█████████▊| 1299/1319 [00:04<00:00, 309.36it/s]100%|██████████| 1319/1319 [00:04<00:00, 309.99it/s]
+INFO:lm_eval.evaluator:Running generate_until requests
+INFO:__main__:First forward diagnostics: input_dtype=torch.int64 input_shape=(1, 962) position_ids_dtype=torch.int64 attention_mask_dtype=torch.int64 attention_mask_shape=(1, 962) parameter_dtype=torch.bfloat16
+INFO:__main__:First forward output diagnostics: output_type=Tensor logits_dtype=torch.bfloat16 logits_shape=(1, 962, 128000)
+INFO:__main__:Forward perf checkpoint: calls=500 input_tokens=548956 prep=0.033s forward=24.239s output=0.001s total=24.273s avg_call=0.0485s
+INFO:__main__:Forward perf checkpoint: calls=1000 input_tokens=1057377 prep=0.067s forward=42.415s output=0.001s total=42.483s avg_call=0.0425s
+INFO:__main__:Forward perf checkpoint: calls=1500 input_tokens=1620097 prep=0.100s forward=60.599s output=0.002s total=60.701s avg_call=0.0405s
+INFO:__main__:Forward perf checkpoint: calls=2000 input_tokens=2130894 prep=0.134s forward=78.816s output=0.002s total=78.952s avg_call=0.0395s
+INFO:__main__:Forward perf checkpoint: calls=2500 input_tokens=2635161 prep=0.167s forward=97.056s output=0.003s total=97.226s avg_call=0.0389s
+INFO:__main__:Forward perf checkpoint: calls=3000 input_tokens=3129531 prep=0.200s forward=115.293s output=0.004s total=115.497s avg_call=0.0385s
+INFO:__main__:Forward perf checkpoint: calls=3500 input_tokens=3628585 prep=0.234s forward=133.542s output=0.004s total=133.780s avg_call=0.0382s
+INFO:__main__:Forward perf checkpoint: calls=4000 input_tokens=4189762 prep=0.267s forward=151.795s output=0.005s total=152.068s avg_call=0.0380s
+INFO:__main__:Forward perf checkpoint: calls=4500 input_tokens=4769207 prep=0.301s forward=170.015s output=0.006s total=170.322s avg_call=0.0378s
+INFO:__main__:Forward perf checkpoint: calls=5000 input_tokens=5346665 prep=0.334s forward=188.238s output=0.006s total=188.579s avg_call=0.0377s
+INFO:__main__:Forward perf checkpoint: calls=5500 input_tokens=5883464 prep=0.368s forward=206.463s output=0.007s total=206.838s avg_call=0.0376s
+INFO:__main__:Forward perf checkpoint: calls=6000 input_tokens=6479805 prep=0.401s forward=224.696s output=0.007s total=225.104s avg_call=0.0375s
+INFO:__main__:Forward perf checkpoint: calls=6500 input_tokens=6998249 prep=0.435s forward=242.911s output=0.008s total=243.353s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=7000 input_tokens=7551680 prep=0.468s forward=261.122s output=0.009s total=261.598s avg_call=0.0374s
+INFO:__main__:Forward perf checkpoint: calls=7500 input_tokens=8059751 prep=0.501s forward=279.350s output=0.009s total=279.860s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8000 input_tokens=8597072 prep=0.535s forward=297.551s output=0.010s total=298.096s avg_call=0.0373s
+INFO:__main__:Forward perf checkpoint: calls=8500 input_tokens=9116812 prep=0.568s forward=315.780s output=0.010s total=316.358s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=9000 input_tokens=9672550 prep=0.601s forward=334.004s output=0.011s total=334.617s avg_call=0.0372s
+INFO:__main__:Forward perf checkpoint: calls=9500 input_tokens=10235115 prep=0.635s forward=352.243s output=0.012s total=352.889s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=10000 input_tokens=10755516 prep=0.668s forward=370.496s output=0.012s total=371.176s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=10500 input_tokens=11283330 prep=0.702s forward=388.725s output=0.013s total=389.440s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=11000 input_tokens=11848235 prep=0.735s forward=406.945s output=0.014s total=407.694s avg_call=0.0371s
+INFO:__main__:Forward perf checkpoint: calls=11500 input_tokens=12371911 prep=0.768s forward=425.190s output=0.014s total=425.973s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=12000 input_tokens=12930288 prep=0.802s forward=443.442s output=0.015s total=444.258s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=12500 input_tokens=13494876 prep=0.835s forward=461.664s output=0.016s total=462.514s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=13000 input_tokens=14047993 prep=0.869s forward=479.911s output=0.016s total=480.796s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=13500 input_tokens=14603810 prep=0.902s forward=498.141s output=0.017s total=499.060s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=14000 input_tokens=15114921 prep=0.936s forward=516.366s output=0.017s total=517.319s avg_call=0.0370s
+INFO:__main__:Forward perf checkpoint: calls=14500 input_tokens=15649406 prep=0.969s forward=534.603s output=0.018s total=535.591s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=15000 input_tokens=16139043 prep=1.003s forward=552.818s output=0.019s total=553.840s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=15500 input_tokens=16724594 prep=1.037s forward=571.046s output=0.019s total=572.101s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=16000 input_tokens=17265636 prep=1.070s forward=589.288s output=0.020s total=590.378s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=16500 input_tokens=17735663 prep=1.103s forward=607.517s output=0.021s total=608.641s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=17000 input_tokens=18267307 prep=1.137s forward=625.739s output=0.021s total=626.897s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=17500 input_tokens=18765940 prep=1.170s forward=643.973s output=0.022s total=645.165s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=18000 input_tokens=19300075 prep=1.204s forward=662.202s output=0.023s total=663.428s avg_call=0.0369s
+INFO:__main__:Forward perf checkpoint: calls=18500 input_tokens=19882606 prep=1.237s forward=680.429s output=0.023s total=681.689s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=19000 input_tokens=20455323 prep=1.271s forward=698.656s output=0.024s total=699.950s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=19500 input_tokens=20990425 prep=1.304s forward=716.888s output=0.024s total=718.217s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=20000 input_tokens=21520597 prep=1.337s forward=735.125s output=0.025s total=736.488s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=20500 input_tokens=21985908 prep=1.371s forward=753.352s output=0.026s total=754.748s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=21000 input_tokens=22514921 prep=1.404s forward=771.576s output=0.026s total=773.007s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=21500 input_tokens=23012088 prep=1.438s forward=789.813s output=0.027s total=791.278s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=22000 input_tokens=23552537 prep=1.471s forward=808.043s output=0.027s total=809.541s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=22500 input_tokens=24057180 prep=1.505s forward=826.277s output=0.028s total=827.810s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=23000 input_tokens=24563200 prep=1.539s forward=844.506s output=0.029s total=846.073s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=23500 input_tokens=25068500 prep=1.572s forward=862.713s output=0.029s total=864.315s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=24000 input_tokens=25592619 prep=1.606s forward=880.935s output=0.030s total=882.570s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=24500 input_tokens=26148381 prep=1.639s forward=899.116s output=0.031s total=900.786s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=25000 input_tokens=26639000 prep=1.673s forward=917.307s output=0.031s total=919.011s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=25500 input_tokens=27164472 prep=1.706s forward=935.491s output=0.032s total=937.230s avg_call=0.0368s
+INFO:__main__:Forward perf checkpoint: calls=26000 input_tokens=27701686 prep=1.740s forward=953.726s output=0.032s total=955.498s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=26500 input_tokens=28256682 prep=1.774s forward=971.931s output=0.033s total=973.738s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=27000 input_tokens=28815734 prep=1.807s forward=990.188s output=0.034s total=992.029s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=27500 input_tokens=29371220 prep=1.841s forward=1008.416s output=0.034s total=1010.291s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=28000 input_tokens=29943494 prep=1.875s forward=1026.659s output=0.035s total=1028.569s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=28500 input_tokens=30538605 prep=1.908s forward=1044.883s output=0.036s total=1046.827s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=29000 input_tokens=31022345 prep=1.942s forward=1063.119s output=0.036s total=1065.097s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=29500 input_tokens=31550639 prep=1.975s forward=1081.324s output=0.037s total=1083.335s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=30000 input_tokens=32051035 prep=2.008s forward=1099.525s output=0.037s total=1101.570s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=30500 input_tokens=32590668 prep=2.042s forward=1117.726s output=0.038s total=1119.805s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=31000 input_tokens=33189324 prep=2.075s forward=1135.961s output=0.039s total=1138.075s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=31500 input_tokens=33760866 prep=2.109s forward=1154.164s output=0.039s total=1156.313s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=32000 input_tokens=34267129 prep=2.143s forward=1172.391s output=0.040s total=1174.574s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=32500 input_tokens=34718782 prep=2.176s forward=1190.612s output=0.041s total=1192.828s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=33000 input_tokens=35238054 prep=2.209s forward=1208.832s output=0.041s total=1211.083s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=33500 input_tokens=35739236 prep=2.243s forward=1227.050s output=0.042s total=1229.334s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=34000 input_tokens=36244004 prep=2.276s forward=1245.292s output=0.043s total=1247.611s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=34500 input_tokens=36844841 prep=2.310s forward=1263.497s output=0.043s total=1265.850s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=35000 input_tokens=37373911 prep=2.343s forward=1281.732s output=0.044s total=1284.120s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=35500 input_tokens=37883207 prep=2.377s forward=1299.956s output=0.044s total=1302.377s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=36000 input_tokens=38399281 prep=2.410s forward=1318.156s output=0.045s total=1320.612s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=36500 input_tokens=38934557 prep=2.444s forward=1336.369s output=0.046s total=1338.859s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=37000 input_tokens=39534174 prep=2.477s forward=1354.601s output=0.046s total=1357.125s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=37500 input_tokens=40096736 prep=2.511s forward=1372.855s output=0.047s total=1375.413s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=38000 input_tokens=40603386 prep=2.544s forward=1391.104s output=0.048s total=1393.695s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=38500 input_tokens=41126917 prep=2.578s forward=1409.332s output=0.048s total=1411.958s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=39000 input_tokens=41659374 prep=2.611s forward=1427.613s output=0.049s total=1430.273s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=39500 input_tokens=42210310 prep=2.645s forward=1445.897s output=0.049s total=1448.592s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=40000 input_tokens=42752094 prep=2.678s forward=1464.205s output=0.050s total=1466.933s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=40500 input_tokens=43290086 prep=2.712s forward=1482.492s output=0.051s total=1485.254s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=41000 input_tokens=43808893 prep=2.745s forward=1500.767s output=0.051s total=1503.563s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=41500 input_tokens=44290847 prep=2.778s forward=1519.035s output=0.052s total=1521.865s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=42000 input_tokens=44821866 prep=2.811s forward=1537.288s output=0.053s total=1540.152s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=42500 input_tokens=45364349 prep=2.845s forward=1555.536s output=0.053s total=1558.434s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=43000 input_tokens=45893823 prep=2.879s forward=1573.758s output=0.054s total=1576.690s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=43500 input_tokens=46468148 prep=2.912s forward=1591.976s output=0.054s total=1594.943s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=44000 input_tokens=46933319 prep=2.946s forward=1610.205s output=0.055s total=1613.205s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=44500 input_tokens=47481831 prep=2.979s forward=1628.436s output=0.056s total=1631.471s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=45000 input_tokens=48049019 prep=3.012s forward=1646.634s output=0.056s total=1649.703s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=45500 input_tokens=48532073 prep=3.046s forward=1664.844s output=0.057s total=1667.947s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=46000 input_tokens=49057593 prep=3.079s forward=1683.054s output=0.058s total=1686.191s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=46500 input_tokens=49527287 prep=3.112s forward=1701.239s output=0.058s total=1704.410s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=47000 input_tokens=50113789 prep=3.146s forward=1719.465s output=0.059s total=1722.670s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=47500 input_tokens=50666481 prep=3.179s forward=1737.682s output=0.059s total=1740.921s avg_call=0.0367s
+INFO:__main__:Forward perf checkpoint: calls=48000 input_tokens=51212807 prep=3.213s forward=1755.902s output=0.060s total=1759.175s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=48500 input_tokens=51736811 prep=3.246s forward=1774.110s output=0.061s total=1777.417s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=49000 input_tokens=52239009 prep=3.280s forward=1792.316s output=0.061s total=1795.657s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=49500 input_tokens=52757160 prep=3.313s forward=1810.518s output=0.062s total=1813.893s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=50000 input_tokens=53282068 prep=3.347s forward=1828.744s output=0.063s total=1832.153s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=50500 input_tokens=53874593 prep=3.380s forward=1846.954s output=0.063s total=1850.398s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=51000 input_tokens=54433728 prep=3.414s forward=1865.186s output=0.064s total=1868.664s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=51500 input_tokens=54976428 prep=3.447s forward=1883.410s output=0.064s total=1886.921s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=52000 input_tokens=55475069 prep=3.481s forward=1901.661s output=0.065s total=1905.207s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=52500 input_tokens=55963015 prep=3.514s forward=1919.883s output=0.066s total=1923.463s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=53000 input_tokens=56476103 prep=3.548s forward=1938.097s output=0.066s total=1941.710s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=53500 input_tokens=56959810 prep=3.581s forward=1956.303s output=0.067s total=1959.951s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=54000 input_tokens=57501496 prep=3.614s forward=1974.510s output=0.068s total=1978.192s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=54500 input_tokens=58016945 prep=3.648s forward=1992.719s output=0.068s total=1996.435s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=55000 input_tokens=58511238 prep=3.681s forward=2010.943s output=0.069s total=2014.693s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=55500 input_tokens=59061207 prep=3.715s forward=2029.141s output=0.069s total=2032.925s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=56000 input_tokens=59682502 prep=3.748s forward=2047.324s output=0.070s total=2051.142s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=56500 input_tokens=60223205 prep=3.782s forward=2065.524s output=0.071s total=2069.376s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=57000 input_tokens=60758651 prep=3.815s forward=2083.705s output=0.071s total=2087.591s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=57500 input_tokens=61235128 prep=3.849s forward=2101.901s output=0.072s total=2105.822s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=58000 input_tokens=61693792 prep=3.882s forward=2120.084s output=0.073s total=2124.039s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=58500 input_tokens=62198798 prep=3.915s forward=2138.287s output=0.073s total=2142.275s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=59000 input_tokens=62735456 prep=3.949s forward=2156.469s output=0.074s total=2160.492s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=59500 input_tokens=63264251 prep=3.982s forward=2174.650s output=0.074s total=2178.707s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=60000 input_tokens=63760449 prep=4.016s forward=2192.823s output=0.075s total=2196.914s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=60500 input_tokens=64281396 prep=4.050s forward=2211.025s output=0.076s total=2215.151s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=61000 input_tokens=64866672 prep=4.083s forward=2229.213s output=0.076s total=2233.372s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=61500 input_tokens=65390237 prep=4.117s forward=2247.415s output=0.077s total=2251.609s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=62000 input_tokens=65901653 prep=4.150s forward=2265.618s output=0.078s total=2269.846s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=62500 input_tokens=66383422 prep=4.183s forward=2283.822s output=0.078s total=2288.083s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=63000 input_tokens=66902072 prep=4.216s forward=2302.028s output=0.079s total=2306.324s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=63500 input_tokens=67371681 prep=4.250s forward=2320.229s output=0.080s total=2324.558s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=64000 input_tokens=67870970 prep=4.283s forward=2338.433s output=0.080s total=2342.797s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=64500 input_tokens=68406781 prep=4.317s forward=2356.646s output=0.081s total=2361.043s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=65000 input_tokens=68951330 prep=4.350s forward=2374.861s output=0.081s total=2379.293s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=65500 input_tokens=69473055 prep=4.384s forward=2393.072s output=0.082s total=2397.537s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=66000 input_tokens=70058009 prep=4.417s forward=2411.324s output=0.083s total=2415.824s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=66500 input_tokens=70587896 prep=4.450s forward=2429.550s output=0.083s total=2434.083s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=67000 input_tokens=71156910 prep=4.484s forward=2447.750s output=0.084s total=2452.318s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=67500 input_tokens=71734215 prep=4.517s forward=2465.976s output=0.085s total=2470.577s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=68000 input_tokens=72300528 prep=4.551s forward=2484.198s output=0.085s total=2488.834s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=68500 input_tokens=72779170 prep=4.584s forward=2502.437s output=0.086s total=2507.106s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=69000 input_tokens=73319409 prep=4.617s forward=2520.702s output=0.086s total=2525.406s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=69500 input_tokens=73851107 prep=4.651s forward=2538.981s output=0.087s total=2543.719s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=70000 input_tokens=74362508 prep=4.684s forward=2557.241s output=0.088s total=2562.013s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=70500 input_tokens=74891480 prep=4.718s forward=2575.501s output=0.088s total=2580.307s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=71000 input_tokens=75482387 prep=4.751s forward=2593.737s output=0.089s total=2598.577s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=71500 input_tokens=76059817 prep=4.785s forward=2611.976s output=0.090s total=2616.851s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=72000 input_tokens=76588637 prep=4.818s forward=2630.210s output=0.090s total=2635.118s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=72500 input_tokens=77128634 prep=4.852s forward=2648.446s output=0.091s total=2653.389s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=73000 input_tokens=77615421 prep=4.885s forward=2666.679s output=0.092s total=2671.655s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=73500 input_tokens=78137645 prep=4.919s forward=2684.905s output=0.092s total=2689.916s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=74000 input_tokens=78642547 prep=4.952s forward=2703.131s output=0.093s total=2708.176s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=74500 input_tokens=79089396 prep=4.986s forward=2721.355s output=0.093s total=2726.434s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=75000 input_tokens=79603246 prep=5.019s forward=2739.587s output=0.094s total=2744.700s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=75500 input_tokens=80093508 prep=5.052s forward=2757.825s output=0.095s total=2762.972s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=76000 input_tokens=80631218 prep=5.086s forward=2776.069s output=0.095s total=2781.250s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=76500 input_tokens=81154344 prep=5.119s forward=2794.324s output=0.096s total=2799.540s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=77000 input_tokens=81642104 prep=5.153s forward=2812.565s output=0.097s total=2817.814s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=77500 input_tokens=82189160 prep=5.187s forward=2830.801s output=0.097s total=2836.085s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=78000 input_tokens=82704015 prep=5.220s forward=2849.055s output=0.098s total=2854.373s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=78500 input_tokens=83263816 prep=5.254s forward=2867.287s output=0.098s total=2872.639s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=79000 input_tokens=83808915 prep=5.287s forward=2885.537s output=0.099s total=2890.923s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=79500 input_tokens=84349332 prep=5.321s forward=2903.783s output=0.100s total=2909.203s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=80000 input_tokens=84979559 prep=5.354s forward=2922.016s output=0.100s total=2927.470s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=80500 input_tokens=85486342 prep=5.388s forward=2940.244s output=0.101s total=2945.733s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=81000 input_tokens=86018085 prep=5.422s forward=2958.458s output=0.102s total=2963.982s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=81500 input_tokens=86532942 prep=5.456s forward=2976.672s output=0.102s total=2982.230s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=82000 input_tokens=87077577 prep=5.489s forward=2994.894s output=0.103s total=3000.486s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=82500 input_tokens=87597453 prep=5.523s forward=3013.107s output=0.103s total=3018.734s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=83000 input_tokens=88145021 prep=5.556s forward=3031.310s output=0.104s total=3036.971s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=83500 input_tokens=88726530 prep=5.590s forward=3049.514s output=0.105s total=3055.209s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=84000 input_tokens=89259651 prep=5.624s forward=3067.732s output=0.105s total=3073.461s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=84500 input_tokens=89719884 prep=5.657s forward=3085.928s output=0.106s total=3091.691s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=85000 input_tokens=90279728 prep=5.691s forward=3104.156s output=0.107s total=3109.954s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=85500 input_tokens=90852031 prep=5.724s forward=3122.394s output=0.107s total=3128.225s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=86000 input_tokens=91398391 prep=5.758s forward=3140.629s output=0.108s total=3146.495s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=86500 input_tokens=91913163 prep=5.791s forward=3158.860s output=0.108s total=3164.760s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=87000 input_tokens=92455010 prep=5.825s forward=3177.086s output=0.109s total=3183.020s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=87500 input_tokens=92971819 prep=5.859s forward=3195.311s output=0.110s total=3201.279s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=88000 input_tokens=93517556 prep=5.892s forward=3213.532s output=0.110s total=3219.534s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=88500 input_tokens=94090819 prep=5.926s forward=3231.764s output=0.111s total=3237.801s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=89000 input_tokens=94600857 prep=5.959s forward=3249.980s output=0.112s total=3256.051s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=89500 input_tokens=95144923 prep=5.993s forward=3268.199s output=0.112s total=3274.304s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=90000 input_tokens=95755073 prep=6.027s forward=3286.433s output=0.113s total=3292.572s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=90500 input_tokens=96271449 prep=6.060s forward=3304.638s output=0.113s total=3310.812s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=91000 input_tokens=96775821 prep=6.093s forward=3322.849s output=0.114s total=3329.056s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=91500 input_tokens=97325911 prep=6.127s forward=3341.043s output=0.115s total=3347.284s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=92000 input_tokens=97854703 prep=6.160s forward=3359.220s output=0.115s total=3365.495s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=92500 input_tokens=98381188 prep=6.193s forward=3377.401s output=0.116s total=3383.711s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=93000 input_tokens=98928055 prep=6.227s forward=3395.600s output=0.116s total=3401.944s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=93500 input_tokens=99439640 prep=6.260s forward=3413.833s output=0.117s total=3420.211s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=94000 input_tokens=100009537 prep=6.294s forward=3432.043s output=0.118s total=3438.455s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=94500 input_tokens=100550779 prep=6.327s forward=3450.243s output=0.118s total=3456.689s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=95000 input_tokens=101129931 prep=6.361s forward=3468.462s output=0.119s total=3474.941s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=95500 input_tokens=101664488 prep=6.394s forward=3486.681s output=0.119s total=3493.195s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=96000 input_tokens=102228188 prep=6.428s forward=3504.872s output=0.120s total=3511.420s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=96500 input_tokens=102710557 prep=6.461s forward=3523.063s output=0.121s total=3529.644s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=97000 input_tokens=103269618 prep=6.494s forward=3541.257s output=0.121s total=3547.872s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=97500 input_tokens=103787080 prep=6.527s forward=3559.477s output=0.122s total=3566.126s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=98000 input_tokens=104339994 prep=6.561s forward=3577.656s output=0.123s total=3584.340s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=98500 input_tokens=104893384 prep=6.594s forward=3595.840s output=0.123s total=3602.557s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=99000 input_tokens=105449429 prep=6.628s forward=3614.035s output=0.124s total=3620.787s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=99500 input_tokens=106009745 prep=6.661s forward=3632.261s output=0.124s total=3639.047s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=100000 input_tokens=106506942 prep=6.695s forward=3650.444s output=0.125s total=3657.263s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=100500 input_tokens=107098742 prep=6.728s forward=3668.643s output=0.126s total=3675.496s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=101000 input_tokens=107626401 prep=6.762s forward=3686.855s output=0.126s total=3693.743s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=101500 input_tokens=108162310 prep=6.795s forward=3705.065s output=0.127s total=3711.987s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=102000 input_tokens=108694668 prep=6.829s forward=3723.257s output=0.127s total=3730.213s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=102500 input_tokens=109280277 prep=6.862s forward=3741.479s output=0.128s total=3748.469s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=103000 input_tokens=109820728 prep=6.896s forward=3759.695s output=0.129s total=3766.719s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=103500 input_tokens=110314679 prep=6.929s forward=3777.875s output=0.129s total=3784.933s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=104000 input_tokens=110828898 prep=6.962s forward=3796.071s output=0.130s total=3803.163s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=104500 input_tokens=111324331 prep=6.996s forward=3814.267s output=0.131s total=3821.394s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=105000 input_tokens=111885198 prep=7.029s forward=3832.457s output=0.131s total=3839.617s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=105500 input_tokens=112389555 prep=7.063s forward=3850.674s output=0.132s total=3857.869s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=106000 input_tokens=112932227 prep=7.096s forward=3868.875s output=0.132s total=3876.103s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=106500 input_tokens=113445298 prep=7.130s forward=3887.072s output=0.133s total=3894.335s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=107000 input_tokens=113983459 prep=7.163s forward=3905.262s output=0.134s total=3912.558s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=107500 input_tokens=114545064 prep=7.196s forward=3923.440s output=0.134s total=3930.771s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=108000 input_tokens=115029115 prep=7.230s forward=3941.602s output=0.135s total=3948.967s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=108500 input_tokens=115536512 prep=7.263s forward=3959.782s output=0.136s total=3967.181s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=109000 input_tokens=116091021 prep=7.297s forward=3977.980s output=0.136s total=3985.413s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=109500 input_tokens=116636745 prep=7.330s forward=3996.194s output=0.137s total=4003.661s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=110000 input_tokens=117178506 prep=7.363s forward=4014.419s output=0.137s total=4021.920s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=110500 input_tokens=117719524 prep=7.397s forward=4032.626s output=0.138s total=4040.161s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=111000 input_tokens=118214262 prep=7.430s forward=4050.811s output=0.139s total=4058.380s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=111500 input_tokens=118754488 prep=7.463s forward=4068.993s output=0.139s total=4076.595s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=112000 input_tokens=119265493 prep=7.497s forward=4087.178s output=0.140s total=4094.814s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=112500 input_tokens=119794190 prep=7.530s forward=4105.366s output=0.140s total=4113.037s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=113000 input_tokens=120322229 prep=7.564s forward=4123.572s output=0.141s total=4131.277s avg_call=0.0366s
+INFO:__main__:Forward perf checkpoint: calls=113500 input_tokens=120867355 prep=7.597s forward=4141.778s output=0.142s total=4149.517s avg_call=0.0366s
+INFO:__main__:Completed group 'gsm8k' in 1h 14m 54s (evaluated 1319/1319 docs, full dataset estimate 1h 14m 54s)
+
+======================================================================
+BENCHMARK RESULTS
+======================================================================
+Model name:   ssa_luciole_715k
+Model type:   ssa_triton
+Checkpoint:   /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last
+----------------------------------------------------------------------
+
+gsm8k:
+--------------------------------------------------
+  alias: gsm8k
+  exact_match,strict-match: 0.0296
+  exact_match_stderr,strict-match: 0.0047
+  exact_match,flexible-extract: 0.0318
+  exact_match_stderr,flexible-extract: 0.0048
+
+TASK TIMING
+----------------------------------------------------------------------
+task                 elapsed      full-est     docs          
+----------------------------------------------------------------------
+gsm8k                1h 14m 54s   1h 14m 54s   1319/1319     
+
+======================================================================
+INFO:__main__:Finished evaluation for model 'ssa_luciole_715k' in 1h 14m 54s
+INFO:__main__:Forward perf summary: calls=113670 input_tokens=121022822 prep=7.608s forward=4147.968s output=0.142s total=4155.718s avg_call=0.0366s forward_toks_per_s=29176.4
+INFO:__main__:Estimated full-dataset runtime for model 'ssa_luciole_715k': 1h 14m 54s
+INFO:__main__:Results saved to: benchmark_results_715k/results_luc1b_ssa_gsm8k_20260602_135139_ssa_luciole_715k.json
+INFO:eval_perplexity_triton:Destroyed Megatron model parallel state
+INFO:eval_perplexity_triton:Destroyed process group
+Model 'ssa_luciole_715k' finished with status 0
+===========================================
+Benchmark finished with status 0 (selection=ssa)
+Results saved to:
+benchmark_results_715k/results_luc1b_ssa_gsm8k_20260602_135139_ssa_luciole_715k.json
+===========================================

@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH -J benchmark_luc1b_triton_715ksteps_ssa_fixed
+#SBATCH -J test_dataset
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --gres=gpu:1
 #SBATCH -p small
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=4:00:00
-#SBATCH --output=slurm/%x_%j.out
+#SBATCH --output=slurmtest/%x_%j.out
 
 mkdir -p slurm
 
@@ -18,13 +18,13 @@ mkdir -p slurm
 SSA_CHECKPOINT=${SSA_CHECKPOINT:-"/tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last"}
 
 # SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0015000"}
-SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-last"}
-# SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0500000"}
+# SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-last"}
+SOFTMAX_CHECKPOINT=${SOFTMAX_CHECKPOINT:-"/tmpdir/m24047flhg/luciole-phase1-step0500000"}
 
 
 SSA_MODEL_NAME=${SSA_MODEL_NAME:-"ssa_luciole_715k"}
 SOFTMAX_MODEL_NAME=${SOFTMAX_MODEL_NAME:-"luciole_715k"}
-MODEL_SELECTION=${MODEL_SELECTION:-"softmax"} # both|ssa|softmax
+MODEL_SELECTION=${MODEL_SELECTION:-"ssa"} # both|ssa|softmax
 TOKENIZER_PATH=${TOKENIZER:-"/tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2"}
 TASKS=${TASKS:-"gsm8k"} # e.g. "copa" or "french_bench"
 # TASKS=${TASKS:-"gsm8k"}
@@ -165,26 +165,12 @@ run_single_model() {
         --env "HF_HOME=${HF_HOME}" \
         --env "HF_DATASETS_CACHE=${HF_HOME}/datasets" \
         --env "HF_HUB_CACHE=${HF_HOME}/hub" \
-        --env "HF_DATASETS_OFFLINE=${HF_DATASETS_OFFLINE}" \
+        --env "HF_DATASETS_OFFLINE=0" \
         --bind /tmpdir,/work \
         --nv /work/conteneurs/calmip/nemo_25.04.03_arm.sif \
         bash -c "cd /users/m24047/m24047flhg/luciole-eval/luciole-1B/training/train/train_ssa_triton && \
             export PYTHONPATH=/usr/lib/python3.12:/usr/local/lib/python3.12/dist-packages:/usr/local/lib/python3.12/dist-packages/lightning_utilities-0.14.0-py3.12.egg:/opt/venv/lib/python3.12/site-packages:/opt/nemo:/opt/NeMo:/opt/NeMo/examples:/opt/megatron-lm:${MYENVS}/nemo/lib/python3.12/site-packages:\${PYTHONPATH} && \
-            python3 run_benchmarks_triton.py \
-                --checkpoint '$checkpoint' \
-                --model-type '$model_type' \
-                --model-name '$model_name' \
-                --tokenizer '$TOKENIZER_PATH' \
-                --tasks '$TASKS' \
-                --batch_size $BATCH_SIZE \
-                --max_length $MAX_LENGTH \
-                --gsm8k-limit $GSM8K_LIMIT \
-                --gsm8k-random-seed $GSM8K_RANDOM_SEED \
-                --output '$output_file' \
-                $COMPILED_BDA_ARG \
-                $CONTIG_QKV_ARG \
-                $LIMIT_ARG \
-                $FEWSHOT_ARG"
+            python3 test_dataset.py "
 
     local model_status=$?
     echo "Model '$model_name' finished with status $model_status"

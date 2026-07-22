@@ -1,0 +1,36 @@
+===========================================
+LM Evaluation Harness - Baby Luciole
+===========================================
+Model selection:  ssa
+SSA checkpoint:  /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last
+Softmax ckpt:    /tmpdir/m24047flhg/luciole-phase1-step0500000
+Tokenizer:       /tmpdir/m24047brmn/kairos/tokenizer_128k-arab-regional_v2
+Tasks:           wikitext
+Batch Size:      64
+Max Length:      2048
+Limit:           'None (full dataset)'
+GSM8K Limit:     -1
+GSM8K Seed:      42
+Num Fewshot:     5
+Compiled BDA:    0
+Contiguous QKV:  1
+HF Offline:      1
+HF Home:         /work/m24047/m24047flhg/.cache/huggingface
+HF Home legacy:  /work/m24047/m24047brmn/lm_eval
+HF merge mode:   symlink
+Output prefix:   benchmark_results_715k/results_luc1b_ssa_wikitext_20260601_105059
+===========================================
+Preparing HF cache (mode=symlink) from /work/m24047/m24047brmn/lm_eval
+-------------------------------------------
+Running model:   ssa_luciole_715k (ssa_triton)
+Checkpoint:      /tmpdir/m24047flhg/nemotron-1B-SSA-Triton-bs1024-step=0715787-last
+Output:          benchmark_results_715k/results_luc1b_ssa_wikitext_20260601_105059_ssa_luciole_715k.json
+-------------------------------------------
+/usr/bin/bash: line 4: warning: here-document at line 1 delimited by end-of-file (wanted `PY')
+  File "<stdin>", line 1
+    from datasets import load_dataset
+IndentationError: unexpected indent
+Model 'ssa_luciole_715k' finished with status 1
+===========================================
+Benchmark finished with status 1 (selection=ssa)
+===========================================

@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luciole Benchmark Interactive Report</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root {
+      --bg: #f7f5ef;
+      --panel: #fffdf7;
+      --ink: #1f2937;
+      --accent: #0f766e;
+      --muted: #6b7280;
+      --border: #d1d5db;
+    }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, #efe9dc 0%, transparent 40%),
+        radial-gradient(circle at 80% 90%, #e6f3ee 0%, transparent 30%),
+        var(--bg);
+    }
+    .wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .title {
+      margin: 0 0 10px;
+      font-size: 32px;
+      letter-spacing: 0.2px;
+    }
+    .subtitle {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 360px 1fr;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .controls {
+      padding: 14px;
+      position: sticky;
+      top: 10px;
+      height: fit-content;
+    }
+    .control {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    select, input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+    .run-list {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      max-height: 250px;
+      overflow: auto;
+      padding: 6px;
+    }
+    .run-item {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 4px 2px;
+      font-size: 12px;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    button {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .content {
+      padding: 12px;
+    }
+    .chart-scroll {
+      max-height: 620px;
+      overflow-y: auto;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    #chart {
+      width: 100%;
+      height: auto;
+    }
+    .table-wrap {
+      margin-top: 10px;
+      overflow: auto;
+      max-height: 260px;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+    .summary-wrap {
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+    }
+    .summary-title {
+      margin: 0 0 6px;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: white;
+      border: 1px solid var(--border);
+    }
+    th, td {
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      padding: 6px 8px;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #f9fafb;
+      z-index: 1;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    @media (max-width: 1100px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .controls {
+        position: static;
+      }
+      #chart {
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Luciole Benchmark Interactive Report</h1>
+  <p class="subtitle">Interactive benchmark explorer: choose scope, task, metric, and visible runs.</p>
+
+  <div class="grid">
+    <aside class="panel controls">
+      <div class="control">
+        <label for="scopeSelect">Metric Scope</label>
+        <select id="scopeSelect">
+          <option value="task">Task metrics</option>
+          <option value="timing">Timing metrics</option>
+          <option value="forward">Forward metrics</option>
+          <option value="run">Run settings</option>
+        </select>
+      </div>
+
+      <div class="control" id="taskControl">
+        <label for="taskSelect">Task</label>
+        <select id="taskSelect"></select>
+      </div>
+
+      <div class="control">
+        <label for="metricSelect">Metric</label>
+        <select id="metricSelect"></select>
+      </div>
+
+      <div class="control">
+        <label for="runFilter">Filter Runs</label>
+        <input id="runFilter" type="text" placeholder="Type to filter runs..." />
+      </div>
+
+      <div class="control">
+        <div class="btn-row">
+          <button id="selectAllBtn" type="button">Select all</button>
+          <button id="selectNoneBtn" type="button">Select none</button>
+        </div>
+        <div class="run-list" id="runList"></div>
+      </div>
+
+      <p class="muted" id="selectionSummary"></p>
+    </aside>
+
+    <section class="panel content">
+      <div class="chart-scroll">
+        <div id="chart"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="valueTable">
+          <thead>
+            <tr><th>Run</th><th>Value</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="summary-wrap" id="summaryWrap">
+        <h3 class="summary-title">Significant Wins Summary (95% CI)</h3>
+        <p class="muted" id="summaryHint"></p>
+        <div class="table-wrap" style="max-height: 300px; border-top: 0; padding-top: 0; margin-top: 6px;">
+          <table id="summaryTable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Metric</th>
+                <th>Winner</th>
+                <th>Winner value</th>
+                <th>Best challenger</th>
+                <th>Challenger value</th>
+                <th>CI separation</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="summary-wrap" id="trendWrap">
+        <h3 class="summary-title">Task Order Trend</h3>
+        <p class="muted" id="trendHint"></p>
+        <div class="table-wrap" style="max-height: 300px; border-top: 0; padding-top: 0; margin-top: 6px;">
+          <table id="trendTable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Metric used</th>
+                <th>Order</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const DATA = {"runs": ["random_baseline (baseline) [merged:2]", "luciole_100k (softmax) [merged:2]", "luciole_200k (softmax) [merged:2]", "luciole_300k (softmax) [merged:2]", "luciole_400k (softmax) [merged:2]", "luciole_500k (softmax) [merged:3]", "luciole_715k (softmax) [merged:3]", "ssa_luciole_100k (ssa_triton) [merged:2]", "ssa_luciole_200k (ssa_triton) [merged:2]", "ssa_luciole_300k (ssa_triton) [merged:2]", "ssa_luciole_400k (ssa_triton) [merged:2]", "ssa_luciole_500k (ssa_triton) [merged:2]", "ssa_luciole_715k (ssa_triton) [merged:3]"], "run_model_names": {"random_baseline (baseline) [merged:2]": "random_baseline", "luciole_100k (softmax) [merged:2]": "luciole_100k", "luciole_200k (softmax) [merged:2]": "luciole_200k", "luciole_300k (softmax) [merged:2]": "luciole_300k", "luciole_400k (softmax) [merged:2]": "luciole_400k", "luciole_500k (softmax) [merged:3]": "luciole_500k", "luciole_715k (softmax) [merged:3]": "luciole_715k", "ssa_luciole_100k (ssa_triton) [merged:2]": "ssa_luciole_100k", "ssa_luciole_200k (ssa_triton) [merged:2]": "ssa_luciole_200k", "ssa_luciole_300k (ssa_triton) [merged:2]": "ssa_luciole_300k", "ssa_luciole_400k (ssa_triton) [merged:2]": "ssa_luciole_400k", "ssa_luciole_500k (ssa_triton) [merged:2]": "ssa_luciole_500k", "ssa_luciole_715k (ssa_triton) [merged:3]": "ssa_luciole_715k"}, "run_model_types": {"random_baseline (baseline) [merged:2]": "baseline", "luciole_100k (softmax) [merged:2]": "softmax", "luciole_200k (softmax) [merged:2]": "softmax", "luciole_300k (softmax) [merged:2]": "softmax", "luciole_400k (softmax) [merged:2]": "softmax", "luciole_500k (softmax) [merged:3]": "softmax", "luciole_715k (softmax) [merged:3]": "softmax", "ssa_luciole_100k (ssa_triton) [merged:2]": "ssa_triton", "ssa_luciole_200k (ssa_triton) [merged:2]": "ssa_triton", "ssa_luciole_300k (ssa_triton) [merged:2]": "ssa_triton", "ssa_luciole_400k (ssa_triton) [merged:2]": "ssa_triton", "ssa_luciole_500k (ssa_triton) [merged:2]": "ssa_triton", "ssa_luciole_715k (ssa_triton) [merged:3]": "ssa_triton"}, "run_colors": {"random_baseline (baseline) [merged:2]": "#6b7280", "luciole_100k (softmax) [merged:2]": "#2563eb", "luciole_200k (softmax) [merged:2]": "#2563eb", "luciole_300k (softmax) [merged:2]": "#2563eb", "luciole_400k (softmax) [merged:2]": "#2563eb", "luciole_500k (softmax) [merged:3]": "#2563eb", "luciole_715k (softmax) [merged:3]": "#2563eb", "ssa_luciole_100k (ssa_triton) [merged:2]": "#dc2626", "ssa_luciole_200k (ssa_triton) [merged:2]": "#dc2626", "ssa_luciole_300k (ssa_triton) [merged:2]": "#dc2626", "ssa_luciole_400k (ssa_triton) [merged:2]": "#dc2626", "ssa_luciole_500k (ssa_triton) [merged:2]": "#dc2626", "ssa_luciole_715k (ssa_triton) [merged:3]": "#dc2626"}, "task_metrics": {"arc_challenge": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.24146757679180889, "luciole_100k (softmax) [merged:2]": 0.36006825938566556, "luciole_200k (softmax) [merged:2]": 0.36860068259385664, "luciole_300k (softmax) [merged:2]": 0.3796928327645051, "luciole_400k (softmax) [merged:2]": 0.38310580204778155, "luciole_500k (softmax) [merged:3]": 0.3771331058020478, "luciole_715k (softmax) [merged:3]": 0.3890784982935154, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.34215017064846415, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.363481228668942, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.3839590443686007, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.3822525597269625, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.39761092150170646, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.41638225255972694}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.2431740614334471, "luciole_100k (softmax) [merged:2]": 0.38822525597269625, "luciole_200k (softmax) [merged:2]": 0.4129692832764505, "luciole_300k (softmax) [merged:2]": 0.4129692832764505, "luciole_400k (softmax) [merged:2]": 0.41467576791808874, "luciole_500k (softmax) [merged:3]": 0.4274744027303754, "luciole_715k (softmax) [merged:3]": 0.42150170648464164, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.36945392491467577, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.3984641638225256, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.4351535836177474, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.4351535836177474, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.43686006825938567, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.4453924914675768}}, "arc_easy": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.2727272727272727, "luciole_100k (softmax) [merged:2]": 0.6961279461279462, "luciole_200k (softmax) [merged:2]": 0.718013468013468, "luciole_300k (softmax) [merged:2]": 0.7209595959595959, "luciole_400k (softmax) [merged:2]": 0.7218013468013468, "luciole_500k (softmax) [merged:3]": 0.726010101010101, "luciole_715k (softmax) [merged:3]": 0.7323232323232324, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.70496632996633, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.7125420875420876, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.7281144781144782, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.7247474747474747, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.7327441077441077, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.7550505050505051}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.2689393939393939, "luciole_100k (softmax) [merged:2]": 0.6948653198653199, "luciole_200k (softmax) [merged:2]": 0.7079124579124579, "luciole_300k (softmax) [merged:2]": 0.7129629629629629, "luciole_400k (softmax) [merged:2]": 0.7226430976430976, "luciole_500k (softmax) [merged:3]": 0.7239057239057239, "luciole_715k (softmax) [merged:3]": 0.7289562289562289, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.6986531986531986, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.7196969696969697, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.7255892255892256, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.7314814814814815, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.73989898989899, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.7529461279461279}}, "boolq": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.5146788990825688, "luciole_100k (softmax) [merged:2]": 0.5889908256880734, "luciole_200k (softmax) [merged:2]": 0.636085626911315, "luciole_300k (softmax) [merged:2]": 0.652599388379205, "luciole_400k (softmax) [merged:2]": 0.6437308868501529, "luciole_500k (softmax) [merged:3]": 0.6345565749235474, "luciole_715k (softmax) [merged:3]": 0.636085626911315, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5865443425076453, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.6009174311926605, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.6134556574923548, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.6125382262996942, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.6339449541284403, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.653211009174312}}, "cb": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.25, "luciole_100k (softmax) [merged:2]": 0.48214285714285715, "luciole_200k (softmax) [merged:2]": 0.5714285714285714, "luciole_300k (softmax) [merged:2]": 0.5, "luciole_400k (softmax) [merged:2]": 0.5357142857142857, "luciole_500k (softmax) [merged:3]": 0.48214285714285715, "luciole_715k (softmax) [merged:3]": 0.44642857142857145, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4107142857142857, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5535714285714286, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5357142857142857, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5178571428571429, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.48214285714285715, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.625}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.2371449688522859, "luciole_100k (softmax) [merged:2]": 0.3955535989434295, "luciole_200k (softmax) [merged:2]": 0.3955082742316785, "luciole_300k (softmax) [merged:2]": 0.33210150283321016, "luciole_400k (softmax) [merged:2]": 0.3677298311444653, "luciole_500k (softmax) [merged:3]": 0.3019233430192334, "luciole_715k (softmax) [merged:3]": 0.2588042588042588, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3444765111431778, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.35555555555555557, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.35895522388059703, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.35257335257335254, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.3268398268398269, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.4360587002096436}}, "copa": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.48, "luciole_100k (softmax) [merged:2]": 0.72, "luciole_200k (softmax) [merged:2]": 0.77, "luciole_300k (softmax) [merged:2]": 0.74, "luciole_400k (softmax) [merged:2]": 0.75, "luciole_500k (softmax) [merged:3]": 0.76, "luciole_715k (softmax) [merged:3]": 0.78, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.75, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.78, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.72, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.73, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.76, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.81}}, "hellaswag": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.2504481179047998, "luciole_100k (softmax) [merged:2]": 0.403505277833101, "luciole_200k (softmax) [merged:2]": 0.42342162915753834, "luciole_300k (softmax) [merged:2]": 0.4340768771161123, "luciole_400k (softmax) [merged:2]": 0.441346345349532, "luciole_500k (softmax) [merged:3]": 0.44074885480979886, "luciole_715k (softmax) [merged:3]": 0.4486158135829516, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.40689105755825533, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.42730531766580365, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.43686516630153355, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.45120493925512845, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.45429197371041624, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.46335391356303524}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.2535351523600876, "luciole_100k (softmax) [merged:2]": 0.5237004580760805, "luciole_200k (softmax) [merged:2]": 0.5546703843855806, "luciole_300k (softmax) [merged:2]": 0.5703047201752639, "luciole_400k (softmax) [merged:2]": 0.5866361282613025, "luciole_500k (softmax) [merged:3]": 0.5803624775941048, "luciole_715k (softmax) [merged:3]": 0.5899223262298346, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.526090420235013, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5655247958573989, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5851424019119698, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.6025692093208525, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.6048595897231627, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.6213901613224457}}, "lambada_openai": {"perplexity,none": {"random_baseline (baseline) [merged:2]": 1.6484928970743753, "luciole_100k (softmax) [merged:2]": 22.43184816952555, "luciole_200k (softmax) [merged:2]": 15.75920456600549, "luciole_300k (softmax) [merged:2]": 14.668104433894213, "luciole_400k (softmax) [merged:2]": 14.053281179058889, "luciole_500k (softmax) [merged:3]": 13.586553626786587, "luciole_715k (softmax) [merged:3]": 14.288806957676929, "ssa_luciole_100k (ssa_triton) [merged:2]": 19.24636736401142, "ssa_luciole_200k (ssa_triton) [merged:2]": 15.880850647490451, "ssa_luciole_300k (ssa_triton) [merged:2]": 13.420075711151263, "ssa_luciole_400k (ssa_triton) [merged:2]": 13.405609750061815, "ssa_luciole_500k (ssa_triton) [merged:2]": 12.921915333078744, "ssa_luciole_715k (ssa_triton) [merged:3]": 11.923729541844713}, "acc,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.3733747331651465, "luciole_200k (softmax) [merged:2]": 0.4354744808849214, "luciole_300k (softmax) [merged:2]": 0.44420725790801474, "luciole_400k (softmax) [merged:2]": 0.44614787502425773, "luciole_500k (softmax) [merged:3]": 0.4601203182612071, "luciole_715k (softmax) [merged:3]": 0.4457597516010091, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.40597710071802834, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.4308169998059383, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.45585096060547253, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.4696293421307976, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.4698234038424219, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.4874830196002329}}, "multirc": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.4977310231023102, "luciole_100k (softmax) [merged:2]": 0.4667904290429043, "luciole_200k (softmax) [merged:2]": 0.47648514851485146, "luciole_300k (softmax) [merged:2]": 0.5499174917491749, "luciole_400k (softmax) [merged:2]": 0.5641501650165016, "luciole_500k (softmax) [merged:3]": 0.5651815181518152, "luciole_715k (softmax) [merged:3]": 0.46204620462046203, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5255775577557755, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.49525577557755773, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.4898927392739274, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.46163366336633666, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.511963696369637, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.5010313531353136}}, "openbookqa": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.242, "luciole_100k (softmax) [merged:2]": 0.308, "luciole_200k (softmax) [merged:2]": 0.282, "luciole_300k (softmax) [merged:2]": 0.288, "luciole_400k (softmax) [merged:2]": 0.292, "luciole_500k (softmax) [merged:3]": 0.28, "luciole_715k (softmax) [merged:3]": 0.296, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.284, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.304, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.288, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.29, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.28, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.316}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.272, "luciole_100k (softmax) [merged:2]": 0.37, "luciole_200k (softmax) [merged:2]": 0.38, "luciole_300k (softmax) [merged:2]": 0.402, "luciole_400k (softmax) [merged:2]": 0.386, "luciole_500k (softmax) [merged:3]": 0.366, "luciole_715k (softmax) [merged:3]": 0.408, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.358, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.412, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.42, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.412, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.424, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.428}}, "record": {"f1,none": {"random_baseline (baseline) [merged:2]": 0.15535668109668108, "luciole_100k (softmax) [merged:2]": 0.7659257142857143, "luciole_200k (softmax) [merged:2]": 0.7937423809523809, "luciole_300k (softmax) [merged:2]": 0.7971895238095238, "luciole_400k (softmax) [merged:2]": 0.8080742857142857, "luciole_500k (softmax) [merged:3]": 0.8126309523809524, "luciole_715k (softmax) [merged:3]": 0.80588, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.7716666666666667, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.7922719047619048, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.7996300000000001, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.8092552380952381, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.8163528571428571, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.8244023809523809}, "em,none": {"random_baseline (baseline) [merged:2]": 0.1482, "luciole_100k (softmax) [merged:2]": 0.7588, "luciole_200k (softmax) [merged:2]": 0.7861, "luciole_300k (softmax) [merged:2]": 0.7895, "luciole_400k (softmax) [merged:2]": 0.8009, "luciole_500k (softmax) [merged:3]": 0.8053, "luciole_715k (softmax) [merged:3]": 0.7984, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.7655, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.7847, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.7915, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.8017, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.8089, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.8173}}, "truthfulqa_mc2": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.4499069714770704, "luciole_100k (softmax) [merged:2]": 0.3749683359065202, "luciole_200k (softmax) [merged:2]": 0.38741212139839676, "luciole_300k (softmax) [merged:2]": 0.37263754276611766, "luciole_400k (softmax) [merged:2]": 0.3917166041115945, "luciole_500k (softmax) [merged:3]": 0.3725647108193797, "luciole_715k (softmax) [merged:3]": 0.3709551728658298, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3761768380712612, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.3844338405606237, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.3648662933781965, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.3828109970427771, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.401919960229584, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.37496430703582556}}, "wic": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.5078369905956113, "luciole_100k (softmax) [merged:2]": 0.5329153605015674, "luciole_200k (softmax) [merged:2]": 0.5094043887147336, "luciole_300k (softmax) [merged:2]": 0.5266457680250783, "luciole_400k (softmax) [merged:2]": 0.4843260188087774, "luciole_500k (softmax) [merged:3]": 0.49059561128526646, "luciole_715k (softmax) [merged:3]": 0.5015673981191222, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.49686520376175547, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5156739811912225, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5109717868338558, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5062695924764891, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.54858934169279, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.5360501567398119}}, "winogrande": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.5138121546961326, "luciole_100k (softmax) [merged:2]": 0.5580110497237569, "luciole_200k (softmax) [merged:2]": 0.5737963693764798, "luciole_300k (softmax) [merged:2]": 0.5840568271507498, "luciole_400k (softmax) [merged:2]": 0.5982636148382005, "luciole_500k (softmax) [merged:3]": 0.6022099447513812, "luciole_715k (softmax) [merged:3]": 0.6077348066298343, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5753749013417522, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.579321231254933, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.595895816890292, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5951065509076559, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.6211523283346487, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.6132596685082873}}, "wsc": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.4519230769230769, "luciole_100k (softmax) [merged:2]": 0.49038461538461536, "luciole_200k (softmax) [merged:2]": 0.5769230769230769, "luciole_300k (softmax) [merged:2]": 0.4519230769230769, "luciole_400k (softmax) [merged:2]": 0.38461538461538464, "luciole_500k (softmax) [merged:3]": 0.41346153846153844, "luciole_715k (softmax) [merged:3]": 0.47115384615384615, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5769230769230769, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5576923076923077, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5288461538461539, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5096153846153846, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.3942307692307692, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.5384615384615384}}, "french_bench_arc_challenge": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.2643284858853721, "luciole_100k (softmax) [merged:2]": 0.2934131736526946, "luciole_200k (softmax) [merged:2]": 0.31137724550898205, "luciole_300k (softmax) [merged:2]": 0.32591958939264326, "luciole_400k (softmax) [merged:2]": 0.31822070145423437, "luciole_500k (softmax) [merged:3]": 0.32164242942686055, "luciole_715k (softmax) [merged:3]": 0.32164242942686055, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.30367835757057315, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.31907613344739094, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.31907613344739094, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.3455945252352438, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.32934131736526945, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.3515825491873396}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.2754491017964072, "luciole_100k (softmax) [merged:2]": 0.339606501283148, "luciole_200k (softmax) [merged:2]": 0.3532934131736527, "luciole_300k (softmax) [merged:2]": 0.358426005132592, "luciole_400k (softmax) [merged:2]": 0.3763900769888794, "luciole_500k (softmax) [merged:3]": 0.3712574850299401, "luciole_715k (softmax) [merged:3]": 0.3686911890504705, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3413173652694611, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.3609923011120616, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.3635585970915312, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.3840889649272883, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.3823781009409752, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.38922155688622756}}, "french_bench_boolqa": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.5337078651685393, "luciole_100k (softmax) [merged:2]": 0.5730337078651685, "luciole_200k (softmax) [merged:2]": 0.6404494382022472, "luciole_300k (softmax) [merged:2]": 0.550561797752809, "luciole_400k (softmax) [merged:2]": 0.6348314606741573, "luciole_500k (softmax) [merged:3]": 0.601123595505618, "luciole_715k (softmax) [merged:3]": 0.5842696629213483, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5393258426966292, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5449438202247191, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5955056179775281, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5674157303370787, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.6179775280898876, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.5898876404494382}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.5337078651685393, "luciole_100k (softmax) [merged:2]": 0.5730337078651685, "luciole_200k (softmax) [merged:2]": 0.6404494382022472, "luciole_300k (softmax) [merged:2]": 0.550561797752809, "luciole_400k (softmax) [merged:2]": 0.6348314606741573, "luciole_500k (softmax) [merged:3]": 0.601123595505618, "luciole_715k (softmax) [merged:3]": 0.5842696629213483, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5393258426966292, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5449438202247191, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5955056179775281, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5674157303370787, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.6179775280898876, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.5898876404494382}}, "french_bench_fquadv2": {"exact,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.1675, "luciole_200k (softmax) [merged:2]": 0.14125, "luciole_300k (softmax) [merged:2]": 0.135, "luciole_400k (softmax) [merged:2]": 0.155, "luciole_500k (softmax) [merged:3]": 0.1225, "luciole_715k (softmax) [merged:3]": 0.17125, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.18, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.15, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.25625, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.1725, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.2875, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.21375}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.25672782460009325, "luciole_200k (softmax) [merged:2]": 0.2407990094912008, "luciole_300k (softmax) [merged:2]": 0.2404379461881112, "luciole_400k (softmax) [merged:2]": 0.25079014987973375, "luciole_500k (softmax) [merged:3]": 0.22286961069469105, "luciole_715k (softmax) [merged:3]": 0.2516789659108997, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.2452339285226892, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.2433708757118729, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.3132383380835919, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.25922427019901356, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.34919807062589653, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.3070980832039739}}, "french_bench_fquadv2_bool": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.5075, "luciole_100k (softmax) [merged:2]": 0.49875, "luciole_200k (softmax) [merged:2]": 0.51375, "luciole_300k (softmax) [merged:2]": 0.53375, "luciole_400k (softmax) [merged:2]": 0.5, "luciole_500k (softmax) [merged:3]": 0.5025, "luciole_715k (softmax) [merged:3]": 0.5, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.52125, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.4975, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.50125, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.50375, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.56375, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.51}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.5075, "luciole_100k (softmax) [merged:2]": 0.49875, "luciole_200k (softmax) [merged:2]": 0.51375, "luciole_300k (softmax) [merged:2]": 0.53375, "luciole_400k (softmax) [merged:2]": 0.5, "luciole_500k (softmax) [merged:3]": 0.5025, "luciole_715k (softmax) [merged:3]": 0.5, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.52125, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.4975, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.50125, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.50375, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.56375, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.51}}, "french_bench_fquadv2_genq": {"rouge1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.19412936331416641, "luciole_200k (softmax) [merged:2]": 0.20309145735851541, "luciole_300k (softmax) [merged:2]": 0.215738710942183, "luciole_400k (softmax) [merged:2]": 0.2083051982044375, "luciole_500k (softmax) [merged:3]": 0.2161098670473638, "luciole_715k (softmax) [merged:3]": 0.2064725895100959, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.18934210860611328, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.22053435858075202, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.20775624652525265, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.21028549228163876, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.20244498621843876, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.2260285656508839}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.16897155803108138, "luciole_200k (softmax) [merged:2]": 0.18124453194636403, "luciole_300k (softmax) [merged:2]": 0.18932264928708473, "luciole_400k (softmax) [merged:2]": 0.18095983353538794, "luciole_500k (softmax) [merged:3]": 0.1871662188933205, "luciole_715k (softmax) [merged:3]": 0.18014117925838463, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.16063533259160173, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.19250773877586277, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.18084309180481728, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.18412191307474216, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.1752370789501745, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.1970638863225825}}, "french_bench_fquadv2_hasAns": {"exact,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.2175, "luciole_200k (softmax) [merged:2]": 0.27, "luciole_300k (softmax) [merged:2]": 0.275, "luciole_400k (softmax) [merged:2]": 0.3025, "luciole_500k (softmax) [merged:3]": 0.2725, "luciole_715k (softmax) [merged:3]": 0.2675, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.255, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.285, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.3525, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.3525, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.345, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.385}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.412339107842082, "luciole_200k (softmax) [merged:2]": 0.49849503214076224, "luciole_300k (softmax) [merged:2]": 0.49088303768566094, "luciole_400k (softmax) [merged:2]": 0.5391282961974685, "luciole_500k (softmax) [merged:3]": 0.4883842329543445, "luciole_715k (softmax) [merged:3]": 0.4806412767428624, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.46494547113351214, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5164326654178799, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5546825253053668, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5588273295894942, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.5713925068622888, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.6257084012726878}, "rouge1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.4322237290910849, "luciole_200k (softmax) [merged:2]": 0.5113016668404655, "luciole_300k (softmax) [merged:2]": 0.5047009190757417, "luciole_400k (softmax) [merged:2]": 0.5539196808252214, "luciole_500k (softmax) [merged:3]": 0.4930294762623658, "luciole_715k (softmax) [merged:3]": 0.4916904979717013, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4817918079508359, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5275447324248242, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5684231163666176, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5726189405480929, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.579091167626895, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.6348444946837679}}, "french_bench_grammar": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.18487394957983194, "luciole_100k (softmax) [merged:2]": 0.8235294117647058, "luciole_200k (softmax) [merged:2]": 0.7899159663865546, "luciole_300k (softmax) [merged:2]": 0.7983193277310925, "luciole_400k (softmax) [merged:2]": 0.7983193277310925, "luciole_500k (softmax) [merged:3]": 0.7899159663865546, "luciole_715k (softmax) [merged:3]": 0.8067226890756303, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.7983193277310925, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.7983193277310925, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.8151260504201681, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.8235294117647058, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.8571428571428571, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.8235294117647058}}, "french_bench_hellaswag": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.24962518740629686, "luciole_100k (softmax) [merged:2]": 0.3854144356393232, "luciole_200k (softmax) [merged:2]": 0.4017991004497751, "luciole_300k (softmax) [merged:2]": 0.4097237095737845, "luciole_400k (softmax) [merged:2]": 0.41518526451060184, "luciole_500k (softmax) [merged:3]": 0.4160419790104948, "luciole_715k (softmax) [merged:3]": 0.42086099807239236, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3855215249518098, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.4020132790747483, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.4111158706361105, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.42161062325979864, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.4272863568215892, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.43617476975797814}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.24705504390661812, "luciole_100k (softmax) [merged:2]": 0.4948597130006425, "luciole_200k (softmax) [merged:2]": 0.5222745769972157, "luciole_300k (softmax) [merged:2]": 0.5410152066823731, "luciole_400k (softmax) [merged:2]": 0.5411222959948597, "luciole_500k (softmax) [merged:3]": 0.5508674234311416, "luciole_715k (softmax) [merged:3]": 0.5514028699935747, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4948597130006425, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5272006853715999, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5396230456200471, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5566502463054187, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.5651103019918612, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.5766759477404155}}, "french_bench_multifquad": {"exact,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.015, "luciole_200k (softmax) [merged:2]": 0.03, "luciole_300k (softmax) [merged:2]": 0.0325, "luciole_400k (softmax) [merged:2]": 0.025, "luciole_500k (softmax) [merged:3]": 0.0475, "luciole_715k (softmax) [merged:3]": 0.04, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.01, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.02, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.0575, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.04, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.0425, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.055}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.3505098669561608, "luciole_200k (softmax) [merged:2]": 0.4102318637553459, "luciole_300k (softmax) [merged:2]": 0.4196833803955508, "luciole_400k (softmax) [merged:2]": 0.41867962254406527, "luciole_500k (softmax) [merged:3]": 0.4428095809978011, "luciole_715k (softmax) [merged:3]": 0.45243133868782415, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3998366768238506, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.39664906575977904, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.46277819457550207, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.4515686759285044, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.4177644770143201, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.4851283573502541}, "rouge1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.3712381432152654, "luciole_200k (softmax) [merged:2]": 0.42903271273428284, "luciole_300k (softmax) [merged:2]": 0.4333740009326799, "luciole_400k (softmax) [merged:2]": 0.43762286798427047, "luciole_500k (softmax) [merged:3]": 0.4627282025432803, "luciole_715k (softmax) [merged:3]": 0.47653629247820783, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4168159872390136, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.4124868769146284, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.4788608701459484, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.46337294065758183, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.43182663388361714, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.5034757624904513}}, "french_bench_opus_perplexity": {"word_perplexity,none": {"random_baseline (baseline) [merged:2]": 1.013814626899362, "luciole_100k (softmax) [merged:2]": 34.45614320964011, "luciole_200k (softmax) [merged:2]": 33.30300105838558, "luciole_300k (softmax) [merged:2]": 32.352438252969634, "luciole_400k (softmax) [merged:2]": 31.94181212158258, "luciole_500k (softmax) [merged:3]": 31.260683966860842, "luciole_715k (softmax) [merged:3]": 30.524879508017612, "ssa_luciole_100k (ssa_triton) [merged:2]": 34.53171385666066, "ssa_luciole_200k (ssa_triton) [merged:2]": 32.4120779044309, "ssa_luciole_300k (ssa_triton) [merged:2]": 30.93907548263425, "ssa_luciole_400k (ssa_triton) [merged:2]": 30.044501136112366, "ssa_luciole_500k (ssa_triton) [merged:2]": 28.670613093719165, "ssa_luciole_715k (ssa_triton) [merged:3]": 27.637782917682365}, "byte_perplexity,none": {"random_baseline (baseline) [merged:2]": 1.0021633576716695, "luciole_100k (softmax) [merged:2]": 1.7463517993564683, "luciole_200k (softmax) [merged:2]": 1.737013723834845, "luciole_300k (softmax) [merged:2]": 1.729109010170742, "luciole_400k (softmax) [merged:2]": 1.7256336612363044, "luciole_500k (softmax) [merged:3]": 1.7197850129085424, "luciole_715k (softmax) [merged:3]": 1.7133449786047457, "ssa_luciole_100k (ssa_triton) [merged:2]": 1.7469545252251835, "ssa_luciole_200k (ssa_triton) [merged:2]": 1.7296106776670863, "ssa_luciole_300k (ssa_triton) [merged:2]": 1.7169860594506656, "ssa_luciole_400k (ssa_triton) [merged:2]": 1.7090696025822554, "ssa_luciole_500k (ssa_triton) [merged:2]": 1.6965158652425227, "ssa_luciole_715k (ssa_triton) [merged:3]": 1.6867403274902553}, "bits_per_byte,none": {"random_baseline (baseline) [merged:2]": 0.0031176942553116566, "luciole_100k (softmax) [merged:2]": 0.8043442165057918, "luciole_200k (softmax) [merged:2]": 0.7966091525688915, "luciole_300k (softmax) [merged:2]": 0.7900288252989953, "luciole_400k (softmax) [merged:2]": 0.7871262239528191, "luciole_500k (softmax) [merged:3]": 0.7822282276039993, "luciole_715k (softmax) [merged:3]": 0.7768156644479317, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.8048420541127147, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.7904473346201013, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.7798783258612829, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.7732111525760753, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.7625749217080031, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.754237888813704}}, "french_bench_reading_comp": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.15492957746478872, "luciole_100k (softmax) [merged:2]": 0.5633802816901409, "luciole_200k (softmax) [merged:2]": 0.5915492957746479, "luciole_300k (softmax) [merged:2]": 0.5915492957746479, "luciole_400k (softmax) [merged:2]": 0.6338028169014085, "luciole_500k (softmax) [merged:3]": 0.5633802816901409, "luciole_715k (softmax) [merged:3]": 0.6338028169014085, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.5774647887323944, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5633802816901409, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5915492957746479, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.647887323943662, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.5774647887323944, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.6056338028169014}}, "french_bench_topic_based_nli": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.30333333333333334, "luciole_100k (softmax) [merged:2]": 0.475, "luciole_200k (softmax) [merged:2]": 0.5666666666666667, "luciole_300k (softmax) [merged:2]": 0.33666666666666667, "luciole_400k (softmax) [merged:2]": 0.605, "luciole_500k (softmax) [merged:3]": 0.57, "luciole_715k (softmax) [merged:3]": 0.5483333333333333, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.335, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.6033333333333334, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.615, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.625, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.6}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.30666666666666664, "luciole_100k (softmax) [merged:2]": 0.5, "luciole_200k (softmax) [merged:2]": 0.5616666666666666, "luciole_300k (softmax) [merged:2]": 0.33666666666666667, "luciole_400k (softmax) [merged:2]": 0.605, "luciole_500k (softmax) [merged:3]": 0.5683333333333334, "luciole_715k (softmax) [merged:3]": 0.5483333333333333, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.335, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.6033333333333334, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.61, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.625, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.6}}, "french_bench_trivia": {"exact,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.40789473684210525, "luciole_200k (softmax) [merged:2]": 0.4421052631578947, "luciole_300k (softmax) [merged:2]": 0.4263157894736842, "luciole_400k (softmax) [merged:2]": 0.4342105263157895, "luciole_500k (softmax) [merged:3]": 0.4394736842105263, "luciole_715k (softmax) [merged:3]": 0.4710526315789474, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3763157894736842, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.4105263157894737, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.45263157894736844, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.45, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.46842105263157896, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.48157894736842105}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.5080060423890944, "luciole_200k (softmax) [merged:2]": 0.5468380380776503, "luciole_300k (softmax) [merged:2]": 0.5402453540611435, "luciole_400k (softmax) [merged:2]": 0.5449001291106554, "luciole_500k (softmax) [merged:3]": 0.542228283412494, "luciole_715k (softmax) [merged:3]": 0.5878913397909651, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.4652365651204661, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5152923465423466, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5512900266601976, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.546210156802262, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.5790125784462169, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.605144679881522}, "rouge1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.5162653010059464, "luciole_200k (softmax) [merged:2]": 0.5524814067895787, "luciole_300k (softmax) [merged:2]": 0.5497397879897883, "luciole_400k (softmax) [merged:2]": 0.5529969664838088, "luciole_500k (softmax) [merged:3]": 0.552024146905726, "luciole_715k (softmax) [merged:3]": 0.5998921134124078, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.47643365623174483, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.5233271458074094, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.5593977694132495, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.5569423011199326, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.5851715608952455, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.6106737487658543}, "is_included,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.39210526315789473, "luciole_200k (softmax) [merged:2]": 0.43157894736842106, "luciole_300k (softmax) [merged:2]": 0.4342105263157895, "luciole_400k (softmax) [merged:2]": 0.42105263157894735, "luciole_500k (softmax) [merged:3]": 0.43157894736842106, "luciole_715k (softmax) [merged:3]": 0.44473684210526315, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.3631578947368421, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.39473684210526316, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.4421052631578947, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.43157894736842106, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.45263157894736844, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.45789473684210524}}, "french_bench_vocab": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.3025210084033613, "luciole_100k (softmax) [merged:2]": 0.7647058823529411, "luciole_200k (softmax) [merged:2]": 0.773109243697479, "luciole_300k (softmax) [merged:2]": 0.7899159663865546, "luciole_400k (softmax) [merged:2]": 0.7983193277310925, "luciole_500k (softmax) [merged:3]": 0.773109243697479, "luciole_715k (softmax) [merged:3]": 0.7899159663865546, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.7815126050420168, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.8067226890756303, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.8151260504201681, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.8067226890756303, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.8151260504201681, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.8235294117647058}}, "french_bench_xnli": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.33712574850299404, "luciole_100k (softmax) [merged:2]": 0.3335329341317365, "luciole_200k (softmax) [merged:2]": 0.3399201596806387, "luciole_300k (softmax) [merged:2]": 0.3333333333333333, "luciole_400k (softmax) [merged:2]": 0.33512974051896205, "luciole_500k (softmax) [merged:3]": 0.3337325349301397, "luciole_715k (softmax) [merged:3]": 0.3265469061876248, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.32335329341317365, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.3333333333333333, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.3333333333333333, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.3343313373253493, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.3375249500998004, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.3403193612774451}}, "gsm8k": {"exact_match,strict-match": {"luciole_100k (softmax) [merged:2]": 0.008339651250947688, "luciole_715k (softmax) [merged:3]": 0.018, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.008339651250947688}, "exact_match,flexible-extract": {"luciole_100k (softmax) [merged:2]": 0.018953752843062926, "luciole_715k (softmax) [merged:3]": 0.03, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013646702047005308}}, "wikitext": {"word_perplexity,none": {"luciole_500k (softmax) [merged:3]": 2.8772494160732704, "luciole_715k (softmax) [merged:3]": 2.8607453809569985, "ssa_luciole_715k (ssa_triton) [merged:3]": 2.7596597517112347}, "byte_perplexity,none": {"luciole_500k (softmax) [merged:3]": 1.2185155865118722, "luciole_715k (softmax) [merged:3]": 1.2172054639983132, "ssa_luciole_715k (ssa_triton) [merged:3]": 1.2090442323789674}, "bits_per_byte,none": {"luciole_500k (softmax) [merged:3]": 0.28512470525868067, "luciole_715k (softmax) [merged:3]": 0.283572715193849, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.273867025948879}}}, "task_stderr": {"arc_challenge": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.012506564839739446, "luciole_100k (softmax) [merged:2]": 0.014027516814585158, "luciole_200k (softmax) [merged:2]": 0.014097810678042156, "luciole_300k (softmax) [merged:2]": 0.014182119866974712, "luciole_400k (softmax) [merged:2]": 0.01420647266167275, "luciole_500k (softmax) [merged:3]": 0.01416336689619262, "luciole_715k (softmax) [merged:3]": 0.014247309976045494, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013864152159177238, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.014056207319068465, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.014212444980651792, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.014200454049979326, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.014301752223279512, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.014405618279436053}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.012536554144587002, "luciole_100k (softmax) [merged:2]": 0.014241614207414086, "luciole_200k (softmax) [merged:2]": 0.014388344935398392, "luciole_300k (softmax) [merged:2]": 0.014388344935398392, "luciole_400k (softmax) [merged:2]": 0.014397070564409184, "luciole_500k (softmax) [merged:3]": 0.014456862944650666, "luciole_715k (softmax) [merged:3]": 0.014430197069326089, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.014104578366491963, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.014306946052735529, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.014487986197186081, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.014487986197186081, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.01449442158425651, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.01452398763834407}}, "arc_easy": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.009138630726364266, "luciole_100k (softmax) [merged:2]": 0.009437524848293723, "luciole_200k (softmax) [merged:2]": 0.009233124071053615, "luciole_300k (softmax) [merged:2]": 0.009203588704032725, "luciole_400k (softmax) [merged:2]": 0.00919505960158374, "luciole_500k (softmax) [merged:3]": 0.00915180590154416, "luciole_715k (softmax) [merged:3]": 0.009085000147099275, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.00935811055108733, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.009286682281593562, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.009129795867310605, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.00916488889517479, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.009080463246017426, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.008824588611218978}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.009098548093009251, "luciole_100k (softmax) [merged:2]": 0.009448531094163992, "luciole_200k (softmax) [merged:2]": 0.009330705616569084, "luciole_300k (softmax) [merged:2]": 0.009282621598983217, "luciole_400k (softmax) [merged:2]": 0.009186490105111987, "luciole_500k (softmax) [merged:3]": 0.00917355987383544, "luciole_715k (softmax) [merged:3]": 0.009120919741760646, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.009415259879351578, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.009216306864088211, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.0091561771222447, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.00909404255499491, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.009001718541079735, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.008850055161459041}}, "boolq": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.008741285568667921, "luciole_100k (softmax) [merged:2]": 0.008605429733982026, "luciole_200k (softmax) [merged:2]": 0.008414918909129048, "luciole_300k (softmax) [merged:2]": 0.008327816752599684, "luciole_400k (softmax) [merged:2]": 0.008375944670158064, "luciole_500k (softmax) [merged:3]": 0.008422437370062711, "luciole_715k (softmax) [merged:3]": 0.008414918909129048, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.008613059239942654, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.008565077958836848, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.008516943934341775, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.008520666536136857, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.008425419107728585, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.008324380793263109}}, "cb": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.058387420812114225, "luciole_100k (softmax) [merged:2]": 0.06737697508644648, "luciole_200k (softmax) [merged:2]": 0.06672848092813055, "luciole_300k (softmax) [merged:2]": 0.06741998624632421, "luciole_400k (softmax) [merged:2]": 0.06724777654937657, "luciole_500k (softmax) [merged:3]": 0.06737697508644648, "luciole_715k (softmax) [merged:3]": 0.06703189227942397, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0663363415035954, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.06703189227942397, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.06724777654937657, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.06737697508644648, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.06737697508644648, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.06527912098338669}}, "copa": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.05021167315686783, "luciole_100k (softmax) [merged:2]": 0.045126085985421296, "luciole_200k (softmax) [merged:2]": 0.042295258468165065, "luciole_300k (softmax) [merged:2]": 0.0440844002276808, "luciole_400k (softmax) [merged:2]": 0.04351941398892446, "luciole_500k (softmax) [merged:3]": 0.04292346959909278, "luciole_715k (softmax) [merged:3]": 0.041633319989322654, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.04351941398892446, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.041633319989322654, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.045126085985421296, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.04461960433384737, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.04292346959909278, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.039427724440366255}}, "hellaswag": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.00432385630053922, "luciole_100k (softmax) [merged:2]": 0.004895977676625195, "luciole_200k (softmax) [merged:2]": 0.0049309115150848225, "luciole_300k (softmax) [merged:2]": 0.00494622151214541, "luciole_400k (softmax) [merged:2]": 0.004955330277304427, "luciole_500k (softmax) [merged:3]": 0.004954622308738955, "luciole_715k (softmax) [merged:3]": 0.004963362085275328, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004902502514738693, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.004936762568216922, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.004949842967331551, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.0049659636472103, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.004968888130290374, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.004976361454341516}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.004341454841892553, "luciole_100k (softmax) [merged:2]": 0.004984172621822951, "luciole_200k (softmax) [merged:2]": 0.004959864299178115, "luciole_300k (softmax) [merged:2]": 0.004940208641371802, "luciole_400k (softmax) [merged:2]": 0.00491430579857555, "luciole_500k (softmax) [merged:3]": 0.004924910433106354, "luciole_715k (softmax) [merged:3]": 0.004908423147162027, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004982983592459131, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.004946748608271048, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.004916905095810688, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.004883663587184836, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.0048788169610120505, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.004840493603165867}}, "lambada_openai": {"perplexity,none": {"random_baseline (baseline) [merged:2]": 0.006661758410328377, "luciole_100k (softmax) [merged:2]": 0.7142140124674586, "luciole_200k (softmax) [merged:2]": 0.4855813973721563, "luciole_300k (softmax) [merged:2]": 0.44306401157129766, "luciole_400k (softmax) [merged:2]": 0.4232725351149395, "luciole_500k (softmax) [merged:3]": 0.41209568961984366, "luciole_715k (softmax) [merged:3]": 0.42907217291802835, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.6077235653581458, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.47974123502695465, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.398785541140739, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.39827500889693074, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.37873033605217316, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.34237565575088325}, "acc,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.006738891851978593, "luciole_200k (softmax) [merged:2]": 0.006907727823573744, "luciole_300k (softmax) [merged:2]": 0.006922474004091096, "luciole_400k (softmax) [merged:2]": 0.006925456414702241, "luciole_500k (softmax) [merged:3]": 0.006943785077347272, "luciole_715k (softmax) [merged:3]": 0.006924868480005648, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.006841706431619948, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.006898973060283646, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.006938769221379129, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.006953115269071172, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.00695327926909387, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.006963794528807907}}, "multirc": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.00718172915807796, "luciole_100k (softmax) [merged:2]": 0.00716594432552405, "luciole_200k (softmax) [merged:2]": 0.007173856378641286, "luciole_300k (softmax) [merged:2]": 0.0071459228756027395, "luciole_400k (softmax) [merged:2]": 0.007122448092523401, "luciole_500k (softmax) [merged:3]": 0.007120515951038964, "luciole_715k (softmax) [merged:3]": 0.007161082575637834, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0071724001146068785, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.007181479807463865, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.0071803356171645455, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.00716062901166144, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.007179746948242926, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.0071817878275525155}}, "openbookqa": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.019173085678337164, "luciole_100k (softmax) [merged:2]": 0.020667032987466052, "luciole_200k (softmax) [merged:2]": 0.020143572847290726, "luciole_300k (softmax) [merged:2]": 0.020271503835075255, "luciole_400k (softmax) [merged:2]": 0.020354375480530096, "luciole_500k (softmax) [merged:3]": 0.020099950647503192, "luciole_715k (softmax) [merged:3]": 0.020435342091896222, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.020186703693570774, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.02059164957122494, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.020271503835075255, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.020313179231745138, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.020099950647503192, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.020812359515855822}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.019920483209566107, "luciole_100k (softmax) [merged:2]": 0.021613289165165816, "luciole_200k (softmax) [merged:2]": 0.021728881438701678, "luciole_300k (softmax) [merged:2]": 0.021948929609938706, "luciole_400k (softmax) [merged:2]": 0.021793529219281196, "luciole_500k (softmax) [merged:3]": 0.021564276850201684, "luciole_715k (softmax) [merged:3]": 0.022000910893877113, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.021461434862859133, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.02203367799374094, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.02209471322976179, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.02203367799374094, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.022122993778135334, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.022149790663861947}}, "record": {"f1,none": {"random_baseline (baseline) [merged:2]": 0.00358271698501633, "luciole_100k (softmax) [merged:2]": 0.004204611932293411, "luciole_200k (softmax) [merged:2]": 0.004013212167962425, "luciole_300k (softmax) [merged:2]": 0.0039868324727489555, "luciole_400k (softmax) [merged:2]": 0.0039056590286627073, "luciole_500k (softmax) [merged:3]": 0.003869422671343553, "luciole_715k (softmax) [merged:3]": 0.003922262960882483, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004171567275100139, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.004023491057437073, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.0039670551709472856, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.003894813691293333, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.0038382401432660767, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.0037721416175866816}, "em,none": {"random_baseline (baseline) [merged:2]": 0.003553158945762121, "luciole_100k (softmax) [merged:2]": 0.004278327524704117, "luciole_200k (softmax) [merged:2]": 0.004100775613961779, "luciole_300k (softmax) [merged:2]": 0.00407684155489349, "luciole_400k (softmax) [merged:2]": 0.003993433829597673, "luciole_500k (softmax) [merged:3]": 0.003959893821292131, "luciole_715k (softmax) [merged:3]": 0.004012150761795167, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004237070954920121, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.004110508560757757, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.00406256390011828, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.003987392748412552, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.003931872958590632, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.0038643970236552612}}, "truthfulqa_mc2": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.0048566111534114765, "luciole_100k (softmax) [merged:2]": 0.013886028751659205, "luciole_200k (softmax) [merged:2]": 0.013803425906049382, "luciole_300k (softmax) [merged:2]": 0.013737601932102987, "luciole_400k (softmax) [merged:2]": 0.013973289903821778, "luciole_500k (softmax) [merged:3]": 0.0135964167483376, "luciole_715k (softmax) [merged:3]": 0.013847348329070058, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013831906453361744, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.013822912779880904, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.013690269752869228, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.013943804146708429, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.013943194262222115, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.013894322485738565}}, "wic": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.019808287657813853, "luciole_100k (softmax) [merged:2]": 0.019767747983778016, "luciole_200k (softmax) [merged:2]": 0.019807216763271532, "luciole_300k (softmax) [merged:2]": 0.019782570188812184, "luciole_400k (softmax) [merged:2]": 0.01980098495534782, "luciole_500k (softmax) [merged:3]": 0.019807216763271532, "luciole_715k (softmax) [merged:3]": 0.01981062395406044, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.019810331932097497, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.01980098495534782, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.01980595108597938, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.019809163801196537, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.019716956176587804, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.019759161625189293}}, "winogrande": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.014047122916440271, "luciole_100k (softmax) [merged:2]": 0.013957584079108864, "luciole_200k (softmax) [merged:2]": 0.013898585965412248, "luciole_300k (softmax) [merged:2]": 0.013852485356798155, "luciole_400k (softmax) [merged:2]": 0.013778439266649437, "luciole_500k (softmax) [merged:3]": 0.013755743513749094, "luciole_715k (softmax) [merged:3]": 0.013722400462000807, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013891893150264218, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.013874526372008252, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.013791610664670889, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.013795927003124962, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.013633724603180382, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.013687214761883042}}, "wsc": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.049038186969314376, "luciole_100k (softmax) [merged:2]": 0.049257353142735334, "luciole_200k (softmax) [merged:2]": 0.04867993747918682, "luciole_300k (softmax) [merged:2]": 0.049038186969314376, "luciole_400k (softmax) [merged:2]": 0.04793668868075045, "luciole_500k (softmax) [merged:3]": 0.04852294969729055, "luciole_715k (softmax) [merged:3]": 0.04918440626354967, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.04867993747918682, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.04893740777701002, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.04918440626354967, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.049257353142735334, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.0481515477599071, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.04912048887947827}}, "french_bench_arc_challenge": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.012903054533598605, "luciole_100k (softmax) [merged:2]": 0.013322973103306495, "luciole_200k (softmax) [merged:2]": 0.013549170237200052, "luciole_300k (softmax) [merged:2]": 0.013714805850719254, "luciole_400k (softmax) [merged:2]": 0.013629022173069308, "luciole_500k (softmax) [merged:3]": 0.013667673121050137, "luciole_715k (softmax) [merged:3]": 0.013667673121050137, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013455208949377732, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.01363876408301105, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.01363876408301105, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.013915072312713276, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.013751575689335976, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.013970745495641942}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.013071749252641672, "luciole_100k (softmax) [merged:2]": 0.013856960245091535, "luciole_200k (softmax) [merged:2]": 0.013986208268539468, "luciole_300k (softmax) [merged:2]": 0.014031422783275271, "luciole_400k (softmax) [merged:2]": 0.014176015188369313, "luciole_500k (softmax) [merged:3]": 0.014136848432206936, "luciole_715k (softmax) [merged:3]": 0.014116625174147706, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013873814321638936, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.014053373664144688, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.01407488970407309, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.014231592050243907, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.014219568830456842, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.014266547006095438}}, "french_bench_boolqa": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.0374968006036899, "luciole_100k (softmax) [merged:2]": 0.03717921762559314, "luciole_200k (softmax) [merged:2]": 0.03606913914074032, "luciole_300k (softmax) [merged:2]": 0.037389649660569645, "luciole_400k (softmax) [merged:2]": 0.03619005678691264, "luciole_500k (softmax) [merged:3]": 0.036805644558509265, "luciole_715k (softmax) [merged:3]": 0.037044683959609616, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03746587736387869, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.03743016495716991, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.03689033043843921, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.03723912037707517, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.03652112637307604, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.03696999944942627}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.0374968006036899, "luciole_100k (softmax) [merged:2]": 0.03717921762559314, "luciole_200k (softmax) [merged:2]": 0.03606913914074032, "luciole_300k (softmax) [merged:2]": 0.037389649660569645, "luciole_400k (softmax) [merged:2]": 0.03619005678691264, "luciole_500k (softmax) [merged:3]": 0.036805644558509265, "luciole_715k (softmax) [merged:3]": 0.037044683959609616, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03746587736387869, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.03743016495716991, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.03689033043843921, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.03723912037707517, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.03652112637307604, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.03696999944942627}}, "french_bench_fquadv2": {"exact,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.013210709331875943, "luciole_200k (softmax) [merged:2]": 0.012321234227589128, "luciole_300k (softmax) [merged:2]": 0.012089310952205832, "luciole_400k (softmax) [merged:2]": 0.01280326733955869, "luciole_500k (softmax) [merged:3]": 0.011598937739977304, "luciole_715k (softmax) [merged:3]": 0.0133276528236308, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.013591575097907253, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.012632278815997783, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.015444435409116868, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.01336611401098664, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.016011719346952, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.014503071941650184}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.013892389666649138, "luciole_200k (softmax) [merged:2]": 0.013378813913323373, "luciole_300k (softmax) [merged:2]": 0.01344680641202875, "luciole_400k (softmax) [merged:2]": 0.013738590980391287, "luciole_500k (softmax) [merged:3]": 0.012921065045268394, "luciole_715k (softmax) [merged:3]": 0.014008999912028027, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.014126980244674217, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.013593347605324687, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.015483266942246943, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.014146012036442373, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.016040813994767818, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.015045316996178216}}, "french_bench_fquadv2_bool": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.01768673834803183, "luciole_100k (softmax) [merged:2]": 0.017688673164567875, "luciole_200k (softmax) [merged:2]": 0.017682038626456065, "luciole_300k (softmax) [merged:2]": 0.017648385301627267, "luciole_400k (softmax) [merged:2]": 0.017688728441930625, "luciole_500k (softmax) [merged:3]": 0.017688507331443153, "luciole_715k (softmax) [merged:3]": 0.017688728441930625, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.017672746088763267, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.017688507331443153, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.017688673164567875, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.01768823093944697, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.017544363132418136, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.017685190342396895}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.01768673834803183, "luciole_100k (softmax) [merged:2]": 0.017688673164567875, "luciole_200k (softmax) [merged:2]": 0.017682038626456065, "luciole_300k (softmax) [merged:2]": 0.017648385301627267, "luciole_400k (softmax) [merged:2]": 0.017688728441930625, "luciole_500k (softmax) [merged:3]": 0.017688507331443153, "luciole_715k (softmax) [merged:3]": 0.017688728441930625, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.017672746088763267, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.017688507331443153, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.017688673164567875, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.01768823093944697, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.017544363132418136, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.017685190342396895}}, "french_bench_fquadv2_genq": {"f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.008539663534585342, "luciole_200k (softmax) [merged:2]": 0.009296671673805957, "luciole_300k (softmax) [merged:2]": 0.00921277332071876, "luciole_400k (softmax) [merged:2]": 0.009085291668506619, "luciole_500k (softmax) [merged:3]": 0.009192678148453334, "luciole_715k (softmax) [merged:3]": 0.009093701632701812, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.008847266452001665, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.00931731071774932, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.008590837675324647, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.008422545755590538, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.008917303076853442, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.009428039771223747}}, "french_bench_fquadv2_hasAns": {"exact,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.02065310513893006, "luciole_200k (softmax) [merged:2]": 0.022225772481648753, "luciole_300k (softmax) [merged:2]": 0.022353673451850818, "luciole_400k (softmax) [merged:2]": 0.02299579072303111, "luciole_500k (softmax) [merged:3]": 0.02229016607742972, "luciole_715k (softmax) [merged:3]": 0.022160484939004143, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.02182035333235629, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.02259898859936625, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.02391734671079153, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.02391734671079153, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.02379818025519276, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.02436023506930052}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.02053281796438879, "luciole_200k (softmax) [merged:2]": 0.020138648565911736, "luciole_300k (softmax) [merged:2]": 0.020613166416705755, "luciole_400k (softmax) [merged:2]": 0.020393471196068536, "luciole_500k (softmax) [merged:3]": 0.020510211201090714, "luciole_715k (softmax) [merged:3]": 0.02020724695164004, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.020538356474168497, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.020329152764223438, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.020922110961089153, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.020577972161251908, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.020482741024886283, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.019548605510199223}}, "french_bench_grammar": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.03573627179185365, "luciole_100k (softmax) [merged:2]": 0.03509414936549958, "luciole_200k (softmax) [merged:2]": 0.037501269180121304, "luciole_300k (softmax) [merged:2]": 0.03693851725228282, "luciole_400k (softmax) [merged:2]": 0.03693851725228282, "luciole_500k (softmax) [merged:3]": 0.037501269180121304, "luciole_715k (softmax) [merged:3]": 0.036350598811449704, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03693851725228282, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.03693851725228282, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.03573627179185365, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.03509414936549958, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.03221340120012124, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.03509414936549958}}, "french_bench_hellaswag": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.004478985397083106, "luciole_100k (softmax) [merged:2]": 0.005036762659832168, "luciole_200k (softmax) [merged:2]": 0.005073694708369578, "luciole_300k (softmax) [merged:2]": 0.0050894346036323606, "luciole_400k (softmax) [merged:2]": 0.005099486422152596, "luciole_500k (softmax) [merged:3]": 0.005101004555870443, "luciole_715k (softmax) [merged:3]": 0.005109248988858255, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.005037023457054014, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.005074138181243352, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.005092058294916574, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.005110486519492903, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.005119465234768102, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.0051321441217428414}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.004463492375270441, "luciole_100k (softmax) [merged:2]": 0.0051742019271687765, "luciole_200k (softmax) [merged:2]": 0.005169338127829558, "luciole_300k (softmax) [merged:2]": 0.005157036500820394, "luciole_400k (softmax) [merged:2]": 0.005156945162312857, "luciole_500k (softmax) [merged:3]": 0.005147627875675983, "luciole_715k (softmax) [merged:3]": 0.005147058177051284, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0051742019271687765, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.00516681275287528, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.005158202085829056, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.005141155729141837, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.005130414954638908, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.0051132698383069015}}, "french_bench_multifquad": {"exact,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.006085234193354429, "luciole_200k (softmax) [merged:2]": 0.008540042788362812, "luciole_300k (softmax) [merged:2]": 0.008877296377695385, "luciole_400k (softmax) [merged:2]": 0.007816023641463079, "luciole_500k (softmax) [merged:3]": 0.01064860822562541, "luciole_715k (softmax) [merged:3]": 0.009810229431759453, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.004981167541368988, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.007008766440504624, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.011654352613384097, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.009810229431759453, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.01009897759037653, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.011413288653790233}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.014382854998982167, "luciole_200k (softmax) [merged:2]": 0.015198009489372938, "luciole_300k (softmax) [merged:2]": 0.015599641858585051, "luciole_400k (softmax) [merged:2]": 0.01499178848619918, "luciole_500k (softmax) [merged:3]": 0.015306117371108468, "luciole_715k (softmax) [merged:3]": 0.015637317725762125, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.014936558676351883, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.015036801882963639, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.015874265827833238, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.015841029749677514, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.016150301575454308, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.015918538910492698}}, "french_bench_reading_comp": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.0432478576664078, "luciole_100k (softmax) [merged:2]": 0.05927935558412972, "luciole_200k (softmax) [merged:2]": 0.058751136942575236, "luciole_300k (softmax) [merged:2]": 0.058751136942575236, "luciole_400k (softmax) [merged:2]": 0.05758184314388002, "luciole_500k (softmax) [merged:3]": 0.05927935558412972, "luciole_715k (softmax) [merged:3]": 0.05758184314388002, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.059039842056825796, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.05927935558412972, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.058751136942575236, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.05708756925195616, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.059039842056825796, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.05841251085444428}}, "french_bench_topic_based_nli": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.018782749794784028, "luciole_100k (softmax) [merged:2]": 0.020403893372947828, "luciole_200k (softmax) [merged:2]": 0.020247036740072583, "luciole_300k (softmax) [merged:2]": 0.019308678847479326, "luciole_400k (softmax) [merged:2]": 0.019973897825008347, "luciole_500k (softmax) [merged:3]": 0.02022824683332484, "luciole_715k (softmax) [merged:3]": 0.02033377121690212, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.01928500762765378, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.019988403241478384, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.02042944616113592, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.019881745555758088, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.01978072618858012, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.020016687528977447}, "acc_norm,none": {"random_baseline (baseline) [merged:2]": 0.018840434540100273, "luciole_100k (softmax) [merged:2]": 0.02042944616113592, "luciole_200k (softmax) [merged:2]": 0.02027347347104929, "luciole_300k (softmax) [merged:2]": 0.019308678847479326, "luciole_400k (softmax) [merged:2]": 0.019973897825008347, "luciole_500k (softmax) [merged:3]": 0.020237758539681298, "luciole_715k (softmax) [merged:3]": 0.02033377121690212, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.01928500762765378, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.019988403241478384, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.02042944616113592, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.01992892211237063, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.01978072618858012, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.020016687528977447}}, "french_bench_trivia": {"exact,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.025243752094038313, "luciole_200k (softmax) [merged:2]": 0.025510523434968513, "luciole_300k (softmax) [merged:2]": 0.025402856357745005, "luciole_400k (softmax) [merged:2]": 0.025459976617683042, "luciole_500k (softmax) [merged:3]": 0.02549440236026332, "luciole_715k (softmax) [merged:3]": 0.025640196111313934, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.024885077071639346, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.025268712068244593, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.025567760490171964, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.02555453581639778, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.025631999402292237, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.025665838450694776}, "f1,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.02354817180457591, "luciole_200k (softmax) [merged:2]": 0.023414619612206353, "luciole_300k (softmax) [merged:2]": 0.023303347856652796, "luciole_400k (softmax) [merged:2]": 0.023414251523724935, "luciole_500k (softmax) [merged:3]": 0.02343395932693246, "luciole_715k (softmax) [merged:3]": 0.022871007336410676, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.023764419180077115, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.023348554147606008, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.023374521956786895, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.02356286431579084, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.02308504299877565, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.022639193321051968}, "is_included,none": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.02507817464845895, "luciole_200k (softmax) [merged:2]": 0.02544166899513498, "luciole_300k (softmax) [merged:2]": 0.025459976617683042, "luciole_400k (softmax) [merged:2]": 0.025361102548560527, "luciole_500k (softmax) [merged:3]": 0.02544166899513498, "luciole_715k (softmax) [merged:3]": 0.025525918504790315, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0247026772729511, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.025107666185708085, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.025510523434968513, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.02544166899513498, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.025567760490171964, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.0255920474751319}}, "french_bench_vocab": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.04228655753449824, "luciole_100k (softmax) [merged:2]": 0.03904916456144794, "luciole_200k (softmax) [merged:2]": 0.03855563237965161, "luciole_300k (softmax) [merged:2]": 0.037501269180121304, "luciole_400k (softmax) [merged:2]": 0.03693851725228282, "luciole_500k (softmax) [merged:3]": 0.03855563237965161, "luciole_715k (softmax) [merged:3]": 0.037501269180121304, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03803997152889486, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.036350598811449704, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.03573627179185365, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.036350598811449704, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.03573627179185365, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.03509414936549958}}, "french_bench_xnli": {"acc,none": {"random_baseline (baseline) [merged:2]": 0.006679377985812659, "luciole_100k (softmax) [merged:2]": 0.0066616711899316425, "luciole_200k (softmax) [merged:2]": 0.006692851356332757, "luciole_300k (softmax) [merged:2]": 0.0066606747545357725, "luciole_400k (softmax) [merged:2]": 0.006669594382503499, "luciole_500k (softmax) [merged:3]": 0.006662666282522523, "luciole_715k (softmax) [merged:3]": 0.006625992608575342, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.006609127264370959, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.0066606747545357725, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.0066606747545357725, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.006665643509475048, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.006681318701926398, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.006694754901092132}}, "gsm8k": {"exact_match,strict-match": {"luciole_100k (softmax) [merged:2]": 0.0025049422268605156, "luciole_715k (softmax) [merged:3]": 0.004206387249611468, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.0025049422268605265}, "exact_match,flexible-extract": {"luciole_100k (softmax) [merged:2]": 0.003756078341031472, "luciole_715k (softmax) [merged:3]": 0.005397140829099188, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.003195747075480825}}}, "scoped_metrics": {"run": {"batch_size": {"random_baseline (baseline) [merged:2]": 64.0, "luciole_100k (softmax) [merged:2]": 64.0, "luciole_200k (softmax) [merged:2]": 64.0, "luciole_300k (softmax) [merged:2]": 64.0, "luciole_400k (softmax) [merged:2]": 64.0, "luciole_500k (softmax) [merged:3]": 64.0, "luciole_715k (softmax) [merged:3]": 64.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 64.0, "ssa_luciole_200k (ssa_triton) [merged:2]": 64.0, "ssa_luciole_300k (ssa_triton) [merged:2]": 64.0, "ssa_luciole_400k (ssa_triton) [merged:2]": 64.0, "ssa_luciole_500k (ssa_triton) [merged:2]": 64.0, "ssa_luciole_715k (ssa_triton) [merged:3]": 64.0}, "max_length": {"random_baseline (baseline) [merged:2]": 2048.0, "luciole_100k (softmax) [merged:2]": 2048.0, "luciole_200k (softmax) [merged:2]": 2048.0, "luciole_300k (softmax) [merged:2]": 2048.0, "luciole_400k (softmax) [merged:2]": 2048.0, "luciole_500k (softmax) [merged:3]": 2048.0, "luciole_715k (softmax) [merged:3]": 2048.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 2048.0, "ssa_luciole_200k (ssa_triton) [merged:2]": 2048.0, "ssa_luciole_300k (ssa_triton) [merged:2]": 2048.0, "ssa_luciole_400k (ssa_triton) [merged:2]": 2048.0, "ssa_luciole_500k (ssa_triton) [merged:2]": 2048.0, "ssa_luciole_715k (ssa_triton) [merged:3]": 2048.0}, "num_fewshot": {"random_baseline (baseline) [merged:2]": 5.0, "luciole_100k (softmax) [merged:2]": 5.0, "luciole_200k (softmax) [merged:2]": 5.0, "luciole_300k (softmax) [merged:2]": 5.0, "luciole_400k (softmax) [merged:2]": 5.0, "luciole_500k (softmax) [merged:3]": 5.0, "luciole_715k (softmax) [merged:3]": 5.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 5.0, "ssa_luciole_200k (ssa_triton) [merged:2]": 5.0, "ssa_luciole_300k (ssa_triton) [merged:2]": 5.0, "ssa_luciole_400k (ssa_triton) [merged:2]": 5.0, "ssa_luciole_500k (ssa_triton) [merged:2]": 5.0, "ssa_luciole_715k (ssa_triton) [merged:3]": 5.0}, "gsm8k_random_seed": {"random_baseline (baseline) [merged:2]": 42.0, "luciole_100k (softmax) [merged:2]": 42.0, "luciole_200k (softmax) [merged:2]": 42.0, "luciole_300k (softmax) [merged:2]": 42.0, "luciole_400k (softmax) [merged:2]": 42.0, "luciole_500k (softmax) [merged:3]": 42.0, "luciole_715k (softmax) [merged:3]": 42.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 42.0, "ssa_luciole_200k (ssa_triton) [merged:2]": 42.0, "ssa_luciole_300k (ssa_triton) [merged:2]": 42.0, "ssa_luciole_400k (ssa_triton) [merged:2]": 42.0, "ssa_luciole_500k (ssa_triton) [merged:2]": 42.0, "ssa_luciole_715k (ssa_triton) [merged:3]": 42.0}, "gsm8k_limit": {"luciole_715k (softmax) [merged:3]": 1000.0}}, "timing": {"elapsed_seconds": {"random_baseline (baseline) [merged:2]": 323.13059812411666, "luciole_100k (softmax) [merged:2]": 14697.84983785078, "luciole_200k (softmax) [merged:2]": 11166.185185398906, "luciole_300k (softmax) [merged:2]": 11046.840999851003, "luciole_400k (softmax) [merged:2]": 10898.955391574884, "luciole_500k (softmax) [merged:3]": 11384.843555836065, "luciole_715k (softmax) [merged:3]": 13530.819139034662, "ssa_luciole_100k (ssa_triton) [merged:2]": 18631.926179999136, "ssa_luciole_200k (ssa_triton) [merged:2]": 14051.179882600904, "ssa_luciole_300k (ssa_triton) [merged:2]": 14012.492831115145, "ssa_luciole_400k (ssa_triton) [merged:2]": 13683.320733855246, "ssa_luciole_500k (ssa_triton) [merged:2]": 13642.038682446815, "ssa_luciole_715k (ssa_triton) [merged:3]": 13734.519806222932}, "estimated_full_dataset_seconds": {"random_baseline (baseline) [merged:2]": 323.1147269802168, "luciole_100k (softmax) [merged:2]": 14697.839183613658, "luciole_200k (softmax) [merged:2]": 11166.174896903336, "luciole_300k (softmax) [merged:2]": 11046.830418046564, "luciole_400k (softmax) [merged:2]": 10898.944834954105, "luciole_500k (softmax) [merged:3]": 11384.832657170658, "luciole_715k (softmax) [merged:3]": 14292.460799914092, "ssa_luciole_100k (ssa_triton) [merged:2]": 18631.91621257877, "ssa_luciole_200k (ssa_triton) [merged:2]": 14051.17030634731, "ssa_luciole_300k (ssa_triton) [merged:2]": 14012.483167045983, "ssa_luciole_400k (ssa_triton) [merged:2]": 13683.31113036396, "ssa_luciole_500k (ssa_triton) [merged:2]": 13642.029187018052, "ssa_luciole_715k (ssa_triton) [merged:3]": 13734.510062791}}, "forward": {"calls": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 446651.0, "luciole_200k (softmax) [merged:2]": 315797.0, "luciole_300k (softmax) [merged:2]": 306856.0, "luciole_400k (softmax) [merged:2]": 304278.0, "luciole_500k (softmax) [merged:3]": 317870.0, "luciole_715k (softmax) [merged:3]": 214498.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 426781.0, "ssa_luciole_200k (ssa_triton) [merged:2]": 306568.0, "ssa_luciole_300k (ssa_triton) [merged:2]": 299444.0, "ssa_luciole_400k (ssa_triton) [merged:2]": 300817.0, "ssa_luciole_500k (ssa_triton) [merged:2]": 301818.0, "ssa_luciole_715k (ssa_triton) [merged:3]": 297684.0}, "input_tokens": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 477277821.0, "luciole_200k (softmax) [merged:2]": 341542133.0, "luciole_300k (softmax) [merged:2]": 327961759.0, "luciole_400k (softmax) [merged:2]": 323827639.0, "luciole_500k (softmax) [merged:3]": 344485325.0, "luciole_715k (softmax) [merged:3]": 193045144.0, "ssa_luciole_100k (ssa_triton) [merged:2]": 452519267.0, "ssa_luciole_200k (ssa_triton) [merged:2]": 328037156.0, "ssa_luciole_300k (ssa_triton) [merged:2]": 316443468.0, "ssa_luciole_400k (ssa_triton) [merged:2]": 318665252.0, "ssa_luciole_500k (ssa_triton) [merged:2]": 320593629.0, "ssa_luciole_715k (ssa_triton) [merged:3]": 313315688.0}, "prep_seconds": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 28.549114160239697, "luciole_200k (softmax) [merged:2]": 19.55440542846918, "luciole_300k (softmax) [merged:2]": 20.01786125265062, "luciole_400k (softmax) [merged:2]": 18.882736424217, "luciole_500k (softmax) [merged:3]": 20.510720766731538, "luciole_715k (softmax) [merged:3]": 13.965190555958543, "ssa_luciole_100k (ssa_triton) [merged:2]": 27.229300351580605, "ssa_luciole_200k (ssa_triton) [merged:2]": 19.499103276990354, "ssa_luciole_300k (ssa_triton) [merged:2]": 19.507679551374167, "ssa_luciole_400k (ssa_triton) [merged:2]": 18.429639431647956, "ssa_luciole_500k (ssa_triton) [merged:2]": 18.321443083230406, "ssa_luciole_715k (ssa_triton) [merged:3]": 18.879533951345365}, "forward_seconds": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 10713.122824643739, "luciole_200k (softmax) [merged:2]": 7540.99749133829, "luciole_300k (softmax) [merged:2]": 7630.543286108412, "luciole_400k (softmax) [merged:2]": 7271.027955855476, "luciole_500k (softmax) [merged:3]": 7839.0622977800085, "luciole_715k (softmax) [merged:3]": 5268.890018738166, "ssa_luciole_100k (ssa_triton) [merged:2]": 15294.25219230249, "ssa_luciole_200k (ssa_triton) [merged:2]": 11059.002936504781, "ssa_luciole_300k (ssa_triton) [merged:2]": 11058.72612709552, "ssa_luciole_400k (ssa_triton) [merged:2]": 10705.478102886584, "ssa_luciole_500k (ssa_triton) [merged:2]": 10647.411626346642, "ssa_luciole_715k (ssa_triton) [merged:3]": 10771.838042665331}, "output_seconds": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.22516644187271595, "luciole_200k (softmax) [merged:2]": 0.15442219469696283, "luciole_300k (softmax) [merged:2]": 0.19269785936921835, "luciole_400k (softmax) [merged:2]": 0.18368817563168705, "luciole_500k (softmax) [merged:3]": 0.1917870714678429, "luciole_715k (softmax) [merged:3]": 0.13493564940290526, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.42458934348542243, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.3427637657150626, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.2929738569073379, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.27171997586265206, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.2724336041137576, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.30106174160027876}, "total_seconds": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 10741.897105245851, "luciole_200k (softmax) [merged:2]": 7560.706318961456, "luciole_300k (softmax) [merged:2]": 7650.753845220432, "luciole_400k (softmax) [merged:2]": 7290.094380455324, "luciole_500k (softmax) [merged:3]": 7859.764805618208, "luciole_715k (softmax) [merged:3]": 5282.990144943527, "ssa_luciole_100k (ssa_triton) [merged:2]": 15321.906081997557, "ssa_luciole_200k (ssa_triton) [merged:2]": 11078.844803547487, "ssa_luciole_300k (ssa_triton) [merged:2]": 11078.526780503802, "ssa_luciole_400k (ssa_triton) [merged:2]": 10724.179462294094, "ssa_luciole_500k (ssa_triton) [merged:2]": 10666.005503033986, "ssa_luciole_715k (ssa_triton) [merged:3]": 10791.018638358277}, "avg_call_seconds": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 0.024049866910061436, "luciole_200k (softmax) [merged:2]": 0.023941666067003348, "luciole_300k (softmax) [merged:2]": 0.02493271712210428, "luciole_400k (softmax) [merged:2]": 0.023958664052134312, "luciole_500k (softmax) [merged:3]": 0.024726349783302005, "luciole_715k (softmax) [merged:3]": 0.02462955433124564, "ssa_luciole_100k (ssa_triton) [merged:2]": 0.03590109700759302, "ssa_luciole_200k (ssa_triton) [merged:2]": 0.03613829494124464, "ssa_luciole_300k (ssa_triton) [merged:2]": 0.03699699035714124, "ssa_luciole_400k (ssa_triton) [merged:2]": 0.03565017755743224, "ssa_luciole_500k (ssa_triton) [merged:2]": 0.03533919614812233, "ssa_luciole_715k (ssa_triton) [merged:3]": 0.03624991144421023}, "forward_tokens_per_second": {"random_baseline (baseline) [merged:2]": 0.0, "luciole_100k (softmax) [merged:2]": 44550.76533819836, "luciole_200k (softmax) [merged:2]": 45291.373374981325, "luciole_300k (softmax) [merged:2]": 42980.132174476006, "luciole_400k (softmax) [merged:2]": 44536.70663433723, "luciole_500k (softmax) [merged:3]": 43944.710721020405, "luciole_715k (softmax) [merged:3]": 36638.67404964963, "ssa_luciole_100k (ssa_triton) [merged:2]": 29587.53793975951, "ssa_luciole_200k (ssa_triton) [merged:2]": 29662.453105711604, "ssa_luciole_300k (ssa_triton) [merged:2]": 28614.820944400326, "ssa_luciole_400k (ssa_triton) [merged:2]": 29766.559600367247, "ssa_luciole_500k (ssa_triton) [merged:2]": 30110.006098261707, "ssa_luciole_715k (ssa_triton) [merged:3]": 29086.557629163417}}}};
+
+const scopeSelect = document.getElementById('scopeSelect');
+const taskControl = document.getElementById('taskControl');
+const taskSelect = document.getElementById('taskSelect');
+const metricSelect = document.getElementById('metricSelect');
+const runFilter = document.getElementById('runFilter');
+const runList = document.getElementById('runList');
+const selectAllBtn = document.getElementById('selectAllBtn');
+const selectNoneBtn = document.getElementById('selectNoneBtn');
+const selectionSummary = document.getElementById('selectionSummary');
+const valueTableWrapper = document.getElementById('valueTableWrapper');
+const valueTableBody = document.querySelector('#valueTable tbody');
+const summaryHint = document.getElementById('summaryHint');
+const summaryTableBody = document.querySelector('#summaryTable tbody');
+const trendHint = document.getElementById('trendHint');
+const trendTableBody = document.querySelector('#trendTable tbody');
+const chartEl = document.getElementById('chart');
+const chartScroll = document.querySelector('.chart-scroll');
+const CI_MULTIPLIER = 1.96;
+
+function uniqueSorted(values) {
+  return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b));
+}
+
+function isPercentLikeMetric(metricName) {
+  return /(acc|accuracy|exact_match|f1|em,|precision|recall)/i.test(metricName) && !/(perplex|loss|ppl)/i.test(metricName);
+}
+
+function isLowerBetterMetric(metricName) {
+  return /(perplex|ppl|loss|error|wer|bpb|bits_per_byte)/i.test(metricName);
+}
+
+function shouldScaleTaskMetricToPercent(metricName, values) {
+  if (isPercentLikeMetric(metricName)) return true;
+  const finiteValues = values.filter(v => Number.isFinite(v));
+  return finiteValues.length > 0 && finiteValues.every(v => v >= 0 && v <= 1);
+}
+
+function maybeScale(value, scaleToPercent) {
+  if (!Number.isFinite(value)) return null;
+  return scaleToPercent ? value * 100 : value;
+}
+
+function formatMetricValue(value, scaleToPercent) {
+  if (!Number.isFinite(value)) return 'N/A';
+  const scaled = maybeScale(value, scaleToPercent);
+  const suffix = scaleToPercent ? '%' : '';
+  if (Math.abs(scaled) >= 1000 || (Math.abs(scaled) > 0 && Math.abs(scaled) < 0.001)) return `${scaled.toExponential(3)}${suffix}`;
+  return `${scaled.toFixed(6).replace(/0+$/, '').replace(/\.$/, '')}${suffix}`;
+}
+
+function clearElement(el) {
+  while (el.firstChild) el.removeChild(el.firstChild);
+}
+
+function option(parent, value, text) {
+  const el = document.createElement('option');
+  el.value = value;
+  el.textContent = text;
+  parent.appendChild(el);
+}
+
+function buildRunChecklist() {
+  clearElement(runList);
+  const defaultSelected = new Set(['luciole_715k', 'ssa_luciole_715k']);
+  for (const label of DATA.runs) {
+    const row = document.createElement('label');
+    row.className = 'run-item';
+    row.dataset.label = label.toLowerCase();
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = label;
+    const normalizedLabel = label.toLowerCase();
+    cb.checked = defaultSelected.has(normalizedLabel) ||
+      Array.from(defaultSelected).some(name => normalizedLabel.includes(name));
+    cb.addEventListener('change', updateView);
+
+    const span = document.createElement('span');
+    span.textContent = label;
+
+    row.appendChild(cb);
+    row.appendChild(span);
+    runList.appendChild(row);
+  }
+}
+
+function visibleRunCheckboxes() {
+  return Array.from(runList.querySelectorAll('label.run-item')).filter(r => r.style.display !== 'none');
+}
+
+function selectedRuns() {
+  return Array.from(runList.querySelectorAll('input[type=checkbox]'))
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
+}
+
+function metricNamesForTask(taskName) {
+  const taskData = DATA.task_metrics[taskName] || {};
+  return Object.keys(taskData).sort((a, b) => a.localeCompare(b));
+}
+
+function metricNamesForTaskAll() {
+  const out = [];
+  for (const taskName of Object.keys(DATA.task_metrics)) {
+    out.push(...Object.keys(DATA.task_metrics[taskName] || {}));
+  }
+  return uniqueSorted(out);
+}
+
+function metricNamesForScope(scope) {
+  return Object.keys(DATA.scoped_metrics[scope] || {}).sort((a, b) => a.localeCompare(b));
+}
+
+function setOptionsPreserve(selectEl, values) {
+  const prev = selectEl.value;
+  clearElement(selectEl);
+  for (const v of values) option(selectEl, v, v);
+  if (values.includes(prev)) selectEl.value = prev;
+}
+
+function refreshTaskAndMetricSelectors() {
+  const scope = scopeSelect.value;
+
+  if (scope === 'task') {
+    taskControl.style.display = '';
+    const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+    const taskOptions = ['__ALL_TASKS__', ...tasks];
+    setOptionsPreserve(taskSelect, taskOptions);
+
+    const selectedTask = taskSelect.value || '__ALL_TASKS__';
+    const metrics = selectedTask === '__ALL_TASKS__' ? metricNamesForTaskAll() : metricNamesForTask(selectedTask);
+    setOptionsPreserve(metricSelect, metrics);
+  } else {
+    taskControl.style.display = 'none';
+    const metrics = metricNamesForScope(scope);
+    setOptionsPreserve(metricSelect, metrics);
+  }
+}
+
+function formatNumber(value) {
+  if (value === null || value === undefined || Number.isNaN(value)) return 'N/A';
+  if (Math.abs(value) >= 1000 || (Math.abs(value) > 0 && Math.abs(value) < 0.001)) return value.toExponential(3);
+  return value.toFixed(6).replace(/0+$/, '').replace(/\.$/, '');
+}
+
+function getTaskMetricValues(taskName, metricName) {
+  if (taskName === '__ALL_TASKS__') return null;
+  return (DATA.task_metrics[taskName] || {})[metricName] || {};
+}
+
+function getTaskMetricStderr(taskName, metricName) {
+  return (DATA.task_stderr?.[taskName] || {})[metricName] || {};
+}
+
+function isSignificantlyBetter(bestVal, bestSe, otherVal, otherSe, lowerIsBetter) {
+  if (!Number.isFinite(bestVal) || !Number.isFinite(otherVal)) return false;
+  if (!Number.isFinite(bestSe) || !Number.isFinite(otherSe)) return false;
+  const bestCi = CI_MULTIPLIER * bestSe;
+  const otherCi = CI_MULTIPLIER * otherSe;
+
+  if (lowerIsBetter) {
+    return (bestVal + bestCi) < (otherVal - otherCi);
+  }
+  return (bestVal - bestCi) > (otherVal + otherCi);
+}
+
+function clearSummaryTable() {
+  while (summaryTableBody.firstChild) summaryTableBody.removeChild(summaryTableBody.firstChild);
+}
+
+function displayRunName(runLabel) {
+  return (DATA.run_model_names && DATA.run_model_names[runLabel]) || runLabel;
+}
+
+function clearTrendTable() {
+  while (trendTableBody.firstChild) trendTableBody.removeChild(trendTableBody.firstChild);
+}
+
+function chooseTrendMetric(taskMetrics) {
+  const preferred = [
+    'acc,none',
+    'acc_norm,none',
+    'exact_match,strict-match',
+    'exact_match,flexible-extract',
+    'f1,none',
+    'em,none',
+    'perplexity,none',
+    'loss,none',
+  ];
+  for (const metric of preferred) {
+    if (Object.prototype.hasOwnProperty.call(taskMetrics, metric)) return metric;
+  }
+  const allMetrics = Object.keys(taskMetrics).sort((a, b) => a.localeCompare(b));
+  return allMetrics.length > 0 ? allMetrics[0] : null;
+}
+
+function normalizeRunName(name) {
+  return String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+}
+
+function pickFocusRuns(allRuns) {
+  const preferred = ['luciole715', 'ssaluciole715', 'luciole715k', 'ssaluciole715k'];
+  const matched = allRuns.filter(run => preferred.includes(normalizeRunName(DATA.run_model_names?.[run])));
+  if (matched.length >= 2) return matched;
+  return allRuns;
+}
+
+function resolveMetric(taskName, preferredMetrics) {
+  const taskMetrics = DATA.task_metrics[taskName] || {};
+  for (const metric of preferredMetrics) {
+    if (Object.prototype.hasOwnProperty.call(taskMetrics, metric)) return metric;
+  }
+  return null;
+}
+
+function buildTrendTable(rows) {
+  clearTrendTable();
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const cols = [row.task, row.metric, row.order];
+    for (const col of cols) {
+      const td = document.createElement('td');
+      td.textContent = col;
+      tr.appendChild(td);
+    }
+    trendTableBody.appendChild(tr);
+  }
+}
+
+function buildSummaryTable(rows) {
+  clearSummaryTable();
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const cols = [
+      row.task,
+      row.metric,
+      displayRunName(row.winner),
+      row.winnerValue,
+      displayRunName(row.challenger),
+      row.challengerValue,
+      row.separation,
+    ];
+    for (const col of cols) {
+      const td = document.createElement('td');
+      td.textContent = col;
+      tr.appendChild(td);
+    }
+    summaryTableBody.appendChild(tr);
+  }
+}
+
+function updateSignificanceSummary(runs) {
+  const summaryRows = [];
+  const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+
+  for (const task of tasks) {
+    const metrics = Object.keys(DATA.task_metrics[task] || {}).sort((a, b) => a.localeCompare(b));
+
+    for (const metric of metrics) {
+      const values = (DATA.task_metrics[task] || {})[metric] || {};
+      const stderr = getTaskMetricStderr(task, metric);
+
+      const candidates = runs
+        .map(run => ({ run, value: values[run], stderr: stderr[run] }))
+        .filter(item => Number.isFinite(item.value) && Number.isFinite(item.stderr));
+
+      if (candidates.length < 2) continue;
+
+      const lowerIsBetter = isLowerBetterMetric(metric);
+      candidates.sort((a, b) => lowerIsBetter ? a.value - b.value : b.value - a.value);
+
+      const winner = candidates[0];
+      const challenger = candidates[1];
+      const winnerBeatsAll = candidates.slice(1).every(other =>
+        isSignificantlyBetter(winner.value, winner.stderr, other.value, other.stderr, lowerIsBetter)
+      );
+
+      if (!winnerBeatsAll) continue;
+
+      const winnerCi = CI_MULTIPLIER * winner.stderr;
+      const challengerCi = CI_MULTIPLIER * challenger.stderr;
+      const scaleToPercent = shouldScaleTaskMetricToPercent(metric, candidates.map(c => c.value));
+
+      const separationRaw = lowerIsBetter
+        ? (challenger.value - challengerCi) - (winner.value + winnerCi)
+        : (winner.value - winnerCi) - (challenger.value + challengerCi);
+
+      summaryRows.push({
+        task,
+        metric,
+        winner: winner.run,
+        winnerValue: `${formatMetricValue(winner.value, scaleToPercent)} ± ${formatMetricValue(winnerCi, scaleToPercent)}`,
+        challenger: challenger.run,
+        challengerValue: `${formatMetricValue(challenger.value, scaleToPercent)} ± ${formatMetricValue(challengerCi, scaleToPercent)}`,
+        separation: formatMetricValue(separationRaw, scaleToPercent),
+      });
+    }
+  }
+
+  summaryRows.sort((a, b) => (a.task + a.metric).localeCompare(b.task + b.metric));
+  buildSummaryTable(summaryRows);
+
+  if (summaryRows.length === 0) {
+    summaryHint.textContent = 'No statistically significant winner found (among selected runs with available stderr).';
+  } else {
+    summaryHint.textContent = `${summaryRows.length} significant winner case(s) found among selected runs.`;
+  }
+}
+
+function updateTrendSummary(runs) {
+  const trendRows = [];
+  const tasks = Object.keys(DATA.task_metrics).sort((a, b) => a.localeCompare(b));
+
+  for (const task of tasks) {
+    const taskMetrics = DATA.task_metrics[task] || {};
+    const metric = chooseTrendMetric(taskMetrics);
+    if (!metric) continue;
+
+    const values = taskMetrics[metric] || {};
+    const candidates = runs
+      .map(run => ({ run, value: values[run] }))
+      .filter(item => Number.isFinite(item.value));
+
+    if (candidates.length === 0) continue;
+
+    const lowerIsBetter = isLowerBetterMetric(metric);
+    candidates.sort((a, b) => lowerIsBetter ? a.value - b.value : b.value - a.value);
+
+    trendRows.push({
+      task,
+      metric,
+      order: candidates.map(item => displayRunName(item.run)).join(' > '),
+    });
+  }
+
+  buildTrendTable(trendRows);
+  if (trendRows.length === 0) {
+    trendHint.textContent = 'No task ordering available for the currently selected runs.';
+  } else {
+    trendHint.textContent = `${trendRows.length} task trend row(s) generated from selected runs.`;
+  }
+}
+
+function buildTable(rows) {
+  clearElement(valueTableBody);
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+    const tdRun = document.createElement('td');
+    const tdVal = document.createElement('td');
+    tdRun.textContent = row.run;
+    tdVal.textContent = formatMetricValue(row.value, row.scaleToPercent);
+    tr.appendChild(tdRun);
+    tr.appendChild(tdVal);
+    valueTableBody.appendChild(tr);
+  }
+}
+
+function buildFocusScoresTable(focusRows, runs) {
+  clearElement(chartEl);
+  Plotly.purge(chartEl);
+
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  ['Task', 'Metric', ...runs].forEach(headerText => {
+    const th = document.createElement('th');
+    th.textContent = headerText;
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  focusRows.forEach(row => {
+    const metricNameRaw = resolveMetric(row.task, row.metrics);
+    const metricName = metricNameRaw ? metricNameRaw.split(',')[0] : null;
+    const values = metricNameRaw ? ((DATA.task_metrics[row.task] || {})[metricNameRaw] || {}) : {};
+    const scaleToPercent = shouldScaleTaskMetricToPercent(metricName || '', Object.values(values));
+
+    const numericValues = runs.map(run => values[run]).filter(v => Number.isFinite(v));
+    const compareLowest = metricName && metricName.includes('perplexity');
+    const bestValue = numericValues.length > 0
+      ? (compareLowest ? Math.min(...numericValues) : Math.max(...numericValues))
+      : null;
+
+    const tr = document.createElement('tr');
+    const tdTask = document.createElement('td');
+    tdTask.textContent = row.task;
+    tr.appendChild(tdTask);
+
+    const tdMetric = document.createElement('td');
+    tdMetric.textContent = metricName || 'missing';
+    tr.appendChild(tdMetric);
+
+    runs.forEach(run => {
+      const td = document.createElement('td');
+      const value = values[run];
+      const formatted = formatMetricValue(value, scaleToPercent);
+      if (bestValue !== null && Number.isFinite(value) && value === bestValue) {
+        const bold = document.createElement('strong');
+        bold.textContent = formatted;
+        td.appendChild(bold);
+      } else {
+        td.textContent = formatted;
+      }
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  chartEl.appendChild(table);
+}
+
+function updateView() {
+  refreshTaskAndMetricSelectors();
+
+  const scope = scopeSelect.value;
+  const metric = metricSelect.value;
+  const runs = selectedRuns();
+  selectionSummary.textContent = `${runs.length} selected run(s)`;
+  if (valueTableWrapper) {
+    valueTableWrapper.style.display = '';
+  }
+  if (chartScroll) {
+    chartScroll.style.maxHeight = '';
+  }
+  if (chartEl) {
+    chartEl.style.height = '';
+  }
+  updateSignificanceSummary(runs);
+  updateTrendSummary(runs);
+
+  if (!metric) {
+    Plotly.react('chart', [], {title: 'No metric available'});
+    buildTable([]);
+    return;
+  }
+
+  if (scope === 'task') {
+    const taskName = taskSelect.value;
+
+    if (taskName === '__ALL_TASKS__') {
+      const focusRows = [
+        { label: 'arc_challenge | acc_norm', task: 'arc_challenge', metrics: ['acc_norm,none', 'acc_norm'] },
+        { label: 'arc_easy | acc_norm', task: 'arc_easy', metrics: ['acc_norm,none', 'acc_norm'] },
+        { label: 'boolq | acc', task: 'boolq', metrics: ['acc,none', 'acc'] },
+        { label: 'cb | acc', task: 'cb', metrics: ['acc,none', 'acc'] },
+        { label: 'copa | acc', task: 'copa', metrics: ['acc,none', 'acc'] },
+        { label: 'hellaswag | acc_norm', task: 'hellaswag', metrics: ['acc_norm,none', 'acc_norm'] },
+        { label: 'openbookqa | acc_norm', task: 'openbookqa', metrics: ['acc_norm,none', 'acc_norm'] },
+        { label: 'record | f1', task: 'record', metrics: ['f1,none', 'f1'] },
+        { label: 'winogrande | acc', task: 'winogrande', metrics: ['acc,none', 'acc'] },
+        { label: 'wsc | acc', task: 'wsc', metrics: ['acc,none', 'acc'] },
+        { label: 'lambada_openai | perplexity', task: 'lambada_openai', metrics: ['perplexity,none', 'word_perplexity,none', 'ppl,none'] },
+        { label: 'wikitext | perplexity', task: 'wikitext', metrics: ['word_perplexity,none', 'perplexity,none', 'ppl,none'] },
+      ];
+
+      const focusRuns = pickFocusRuns(runs);
+      if (valueTableWrapper) {
+        valueTableWrapper.style.display = 'none';
+      }
+      if (chartScroll) {
+        chartScroll.style.maxHeight = '800px';
+      }
+      if (chartEl) {
+        chartEl.style.height = '760px';
+      }
+      buildFocusScoresTable(focusRows, focusRuns);
+      buildTable([]);
+      return;
+    }
+
+    const values = getTaskMetricValues(taskName, metric);
+    const stderrValues = getTaskMetricStderr(taskName, metric);
+    const rawValues = runs.map(run => values[run]);
+    const scaleToPercent = shouldScaleTaskMetricToPercent(metric, rawValues.concat(Object.values(stderrValues)));
+    const rows = runs.map(run => ({ run, value: values[run], scaleToPercent }));
+    const errorValues = runs.map(run => {
+      const stderr = stderrValues[run];
+      return Number.isFinite(stderr) ? maybeScale(stderr * CI_MULTIPLIER, scaleToPercent) : null;
+    });
+
+    if (chartScroll) {
+      chartScroll.style.maxHeight = '800px';
+    }
+    if (chartEl) {
+      chartEl.style.height = '760px';
+    }
+
+    Plotly.react('chart', [{
+      type: 'bar',
+      x: runs,
+      y: rows.map(r => maybeScale(r.value, scaleToPercent)),
+      marker: {color: runs.map(run => DATA.run_colors[run])},
+      error_y: {
+        type: 'data',
+        array: errorValues,
+        visible: true,
+        thickness: 1.2,
+        color: '#334155',
+      },
+      hovertemplate: scaleToPercent ? 'Run=%{x}<br>Value=%{y:.2f}%<extra></extra>' : 'Run=%{x}<br>Value=%{y}<extra></extra>'
+    }], {
+      title: `${taskName} | ${metric}`,
+      margin: {l: 60, r: 20, t: 50, b: 170},
+      xaxis: {tickangle: 45},
+      yaxis: scaleToPercent ? {automargin: true, range: [0, 100], ticksuffix: '%'} : {automargin: true},
+      showlegend: false,
+    }, {responsive: true});
+
+    buildTable(rows);
+    return;
+  }
+
+  const values = (DATA.scoped_metrics[scope] || {})[metric] || {};
+  const rows = runs.map(run => ({ run, value: values[run], scaleToPercent: false }));
+
+  Plotly.react('chart', [{
+    type: 'bar',
+    x: runs,
+    y: rows.map(r => Number.isFinite(r.value) ? r.value : null),
+    marker: {color: runs.map(run => DATA.run_colors[run])},
+    hovertemplate: 'Run=%{x}<br>Value=%{y}<extra></extra>'
+  }], {
+    title: `${scope} | ${metric}`,
+    margin: {l: 60, r: 20, t: 50, b: 170},
+    xaxis: {tickangle: 45},
+    yaxis: {automargin: true},
+    showlegend: false,
+  }, {responsive: true});
+
+  buildTable(rows);
+}
+
+scopeSelect.addEventListener('change', updateView);
+taskSelect.addEventListener('change', updateView);
+metricSelect.addEventListener('change', updateView);
+
+runFilter.addEventListener('input', () => {
+  const needle = runFilter.value.toLowerCase().trim();
+  const rows = Array.from(runList.querySelectorAll('label.run-item'));
+  for (const row of rows) {
+    const show = !needle || row.dataset.label.includes(needle);
+    row.style.display = show ? '' : 'none';
+  }
+});
+
+selectAllBtn.addEventListener('click', () => {
+  for (const row of visibleRunCheckboxes()) row.querySelector('input').checked = true;
+  updateView();
+});
+
+selectNoneBtn.addEventListener('click', () => {
+  for (const row of visibleRunCheckboxes()) row.querySelector('input').checked = false;
+  updateView();
+});
+
+buildRunChecklist();
+refreshTaskAndMetricSelectors();
+updateView();
+
+chartEl.on('plotly_click', (event) => {
+  const point = event?.points?.[0];
+  const payload = point?.customdata;
+  if (!payload?.task || !payload?.metric) return;
+
+  scopeSelect.value = 'task';
+  refreshTaskAndMetricSelectors();
+
+  if (Array.from(taskSelect.options).some(opt => opt.value === payload.task)) {
+    taskSelect.value = payload.task;
+  }
+  if (Array.from(metricSelect.options).some(opt => opt.value === payload.metric)) {
+    metricSelect.value = payload.metric;
+  }
+
+  updateView();
+});
+</script>
+</body>
+</html>

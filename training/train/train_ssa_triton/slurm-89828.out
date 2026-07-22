@@ -1,0 +1,4 @@
+usage: slurm_script [-h] [--output OUTPUT] [--title TITLE]
+                    [--merge-runs-by {none,model,model+checkpoint}]
+                    inputs [inputs ...]
+slurm_script: error: the following arguments are required: inputs

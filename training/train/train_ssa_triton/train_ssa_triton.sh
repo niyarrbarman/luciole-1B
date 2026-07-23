@@ -19,7 +19,8 @@ DATAMIX=${DATAMIX:-"/lustre/work/pdl17996/udl62d273/luciole-1B/training/train/tr
 OUTPUT_DIR=${OUTPUT_DIR:-"/lustre/work/pdl17996/udl62d273/phase2_outputs/outputs"}
 mkdir -p "$OUTPUT_DIR"
 BATCH_SIZE=${BATCH_SIZE:-1024}
-NAME=${NAME:-"nemotron-1B-SSA-Triton-phase2-test-warmup-bs${BATCH_SIZE}"}
+MICRO_BATCH_SIZE=${MICRO_BATCH_SIZE:-8}
+NAME=${NAME:-"nemotron-1B-SSA-Triton-phase2-test-warmup-bs${BATCH_SIZE}-mbs${MICRO_BATCH_SIZE}"}
 SEED=${SEED:-1234}
 
 export HF_HOME="${HF_HOME:-/lustre/work/pdl17996/udl62d273/hf-cache}"
@@ -95,6 +96,7 @@ echo "Datamix:     $DATAMIX"
 echo "Output:      $OUTPUT_DIR"
 echo "Name:        $NAME"
 echo "Batch size:  $BATCH_SIZE"
+echo "Micro batch: $MICRO_BATCH_SIZE"
 echo "Nodes:       $SLURM_NNODES"
 echo "Duration:    ${SLURM_DURATION}"
 echo "SSA n:       $SSA_N"
@@ -200,7 +202,7 @@ srun apptainer exec \
   --max_steps ${GLOBAL_MAX_STEPS} \
   --seq_length 4096 \
   --batch_size ${BATCH_SIZE} \
-  --micro_batch_size ${MICRO_BATCH_SIZE:-8} \
+  --micro_batch_size ${MICRO_BATCH_SIZE} \
   --num_nodes ${SLURM_NNODES} \
   --gpus_per_node 4 \
   --base_checkpoint /lustre/work/pdl17996/udl62d273/checkpoint_phase1/nemotron-1B-SSA-Triton-bs1024-step=0715787-last \
@@ -210,6 +212,7 @@ srun apptainer exec \
   --duration "${SLURM_DURATION}" \
   --save_every_n_steps 5 \
   --log_ssa_every_n_steps 2 \
+  --log_gpu_every_n_steps ${LOG_GPU_EVERY_N_STEPS:-2} \
   --ssa_n $SSA_N \
   --ssa_b $SSA_B \
   --warmup_steps ${LR_WARMUP_STEPS} \

@@ -127,6 +127,12 @@ def parse_args():
         type=int,
         help="Log SSA n values every N steps",
     )
+    parser.add_argument(
+        "--log_gpu_every_n_steps",
+        default=10,
+        type=int,
+        help="Log GPU memory/utilization stats to the logger (TensorBoard/W&B) every N steps",
+    )
     # SSA hyperparameters
     parser.add_argument(
         "--ssa_n", default=1.5, type=float, help="SSA n param initial value"
@@ -584,6 +590,7 @@ def main():
     from nemo.lightning.pytorch.callbacks import GarbageCollectionCallback  # noqa: E402
 
     from callbacks import (  # noqa: E402
+        GPUStatsCallback,
         ProgressiveIntervalCheckpoint,
         RNGStateCallback,
         SSALoggingCallback,
@@ -598,6 +605,7 @@ def main():
             GarbageCollectionCallback, gc_interval_train=100, gc_interval_val=100
         ),
         run.Config(SSALoggingCallback, log_every_n_steps=args.log_ssa_every_n_steps),
+        run.Config(GPUStatsCallback, log_every_n_steps=args.log_gpu_every_n_steps),
         run.Config(RNGStateCallback),
     ]
     if args.wandb:

@@ -557,3 +557,94 @@ class RNGStateCallback(Callback, IOMixin):
             logging.info("RNGStateCallback: restored RNG state from checkpoint.")
         except Exception as e:
             logging.warning(f"RNGStateCallback: restore skipped due to error: {e}")
+
+
+class GPUStatsCallback(Callback, IOMixin):
+    """Log GPU memory + utilization to the active logger (TensorBoard / W&B) every N steps.
+
+    Memory is read from torch (always available). Utilization / power / temperature /
+    SM-clock come from NVML (``pynvml``) when present — the NVIDIA NeMo containers ship it.
+    Rank 0 only, and every read is guarded so this purely-diagnostic callback can never
+    block or crash training.
+
+    Metrics land under ``gpu/`` in TensorBoard:
+      gpu/util_pct            SM utilization %  (persistently low => step is
+                              overhead / launch / comm-bound, not compute-bound)
+      gpu/mem_util_pct        memory-controller utilization %
+      gpu/mem_allocated_gb    live torch allocation
+      gpu/mem_reserved_gb     caching-allocator reserved (~ nvidia-smi process memory)
+      gpu/mem_max_reserved_gb running high-water mark (OOM headroom, e.g. at mbs 32)
+      gpu/power_w, gpu/temp_c, gpu/sm_clock_mhz
+    """
+
+    def __init__(self, log_every_n_steps: int = 10):
+        self.log_every_n_steps = max(1, int(log_every_n_steps))
+        self._nvml_ready = None  # None = not yet tried; True/False after first attempt
+        self._pynvml = None
+        self._handle = None
+
+    def _init_nvml(self):
+        if self._nvml_ready is not None:
+            return
+        try:
+            import pynvml
+
+            pynvml.nvmlInit()
+            idx = int(os.environ.get("LOCAL_RANK", torch.cuda.current_device()))
+            self._handle = pynvml.nvmlDeviceGetHandleByIndex(idx)
+            self._pynvml = pynvml
+            self._nvml_ready = True
+        except Exception as e:
+            logging.warning(
+                f"GPUStatsCallback: NVML unavailable, logging memory only ({e})."
+            )
+            self._nvml_ready = False
+
+    def on_train_batch_end(
+        self, trainer, pl_module, outputs, batch, batch_idx: int
+    ) -> None:
+        step = trainer.global_step
+        if step % self.log_every_n_steps != 0:
+            return
+        if get_rank() != 0 or not torch.cuda.is_available():
+            return
+
+        try:
+            dev = torch.cuda.current_device()
+            gb = 1024.0**3
+            metrics = {
+                "gpu/mem_allocated_gb": torch.cuda.memory_allocated(dev) / gb,
+                "gpu/mem_reserved_gb": torch.cuda.memory_reserved(dev) / gb,
+                "gpu/mem_max_reserved_gb": torch.cuda.max_memory_reserved(dev) / gb,
+            }
+
+            self._init_nvml()
+            if self._nvml_ready:
+                nvml, h = self._pynvml, self._handle
+
+                def _try(key, fn):
+                    try:
+                        metrics[key] = float(fn())
+                    except Exception:
+                        pass  # metric not supported on this GPU/driver — skip it
+
+                try:
+                    u = nvml.nvmlDeviceGetUtilizationRates(h)
+                    metrics["gpu/util_pct"] = float(u.gpu)
+                    metrics["gpu/mem_util_pct"] = float(u.memory)
+                except Exception:
+                    pass
+                _try("gpu/power_w", lambda: nvml.nvmlDeviceGetPowerUsage(h) / 1000.0)
+                _try(
+                    "gpu/temp_c",
+                    lambda: nvml.nvmlDeviceGetTemperature(h, nvml.NVML_TEMPERATURE_GPU),
+                )
+                _try(
+                    "gpu/sm_clock_mhz",
+                    lambda: nvml.nvmlDeviceGetClockInfo(h, nvml.NVML_CLOCK_SM),
+                )
+
+            if trainer.logger is not None:
+                trainer.logger.log_metrics(metrics, step=step)
+        except Exception as e:
+            logging.warning(f"GPUStatsCallback: skipped ({e}).")

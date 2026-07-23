@@ -643,8 +643,8 @@ def main():
     if hasattr(recipe.optim, "lr_scheduler"):
         recipe.optim.lr_scheduler.max_steps = effective_max_steps
         recipe.optim.lr_scheduler.warmup_steps = args.warmup_steps
-        recipe.optim.config.lr = 3e-5
-        recipe.optim.lr_scheduler.min_lr = 3e-6
+        recipe.optim.config.lr = 3e-4
+        recipe.optim.lr_scheduler.min_lr = 6.87e-5
         logger.info(
             "LR scheduler max_steps = %s, warmup_steps = %s, min_lr = %s",
             effective_max_steps,

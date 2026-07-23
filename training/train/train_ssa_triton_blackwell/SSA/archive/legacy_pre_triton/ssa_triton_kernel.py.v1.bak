@@ -1,0 +1,682 @@
+# Copyright (c) 2025, SSA Triton Kernel Implementation
+# Fused SSA Flash Attention: scale -> causal mask -> SSA transform -> online softmax -> V accumulation
+#
+# SSA formula: softmax(n * sgn(s) * ln(1 + b|s|))   where s = scale * Q @ K^T
+#
+# This kernel fuses the entire attention computation into a single tiled pass
+# over K/V blocks per query block, using the online softmax algorithm
+# (FlashAttention-2 style). No O(S^2) attention matrix is ever materialized.
+#
+# Hardware target: NVIDIA A100-80GB (sm_80)
+
+import torch
+import triton
+import triton.language as tl
+import math
+
+
+# ============================================================
+# Forward Kernel
+# ============================================================
+
+@triton.jit
+def _ssa_attn_fwd_kernel(
+    Q, K, V, Out, L,  # L = logsumexp per row (for backward)
+    softmax_scale,
+    ssa_n_ptr, ssa_b_ptr,  # pointers to scalar SSA params
+    stride_qb, stride_qh, stride_qm, stride_qk,
+    stride_kb, stride_kh, stride_kn, stride_kk,
+    stride_vb, stride_vh, stride_vn, stride_vk,
+    stride_ob, stride_oh, stride_om, stride_ok,
+    stride_lb, stride_lh, stride_lm,
+    N_CTX: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    BLOCK_N: tl.constexpr,
+    BLOCK_D: tl.constexpr,
+    IS_CAUSAL: tl.constexpr,
+):
+    """
+    Fused SSA FlashAttention forward kernel.
+
+    Grid: (cdiv(N_CTX, BLOCK_M), batch * n_heads)
+
+    For each query tile Q_i [BLOCK_M, BLOCK_D]:
+      - Iterate over K/V tiles in SRAM
+      - Compute S = Q_i @ K_j^T * scale
+      - Apply causal mask
+      - Apply SSA transform: n * sign(s) * log(1 + b*|s|)
+      - Online softmax accumulation
+      - Accumulate output: O += P @ V_j
+    """
+    # Program IDs
+    pid_m = tl.program_id(0)  # query block index
+    pid_bh = tl.program_id(1)  # batch * head index
+
+    # Load scalar SSA params
+    ssa_n = tl.load(ssa_n_ptr).to(tl.float32)
+    ssa_b = tl.load(ssa_b_ptr).to(tl.float32)
+
+    # Compute batch and head indices
+    # (We assume Out has shape [B, H, N_CTX, D])
+    # pid_bh = batch_idx * num_heads + head_idx
+    # We don't need to decompose it - just use strides
+
+    # Offsets for this query block
+    offs_m = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)  # [BLOCK_M]
+    offs_d = tl.arange(0, BLOCK_D)                      # [BLOCK_D]
+    offs_n = tl.arange(0, BLOCK_N)                      # [BLOCK_N]
+
+    # Base pointers for this (batch, head)
+    q_base = Q + pid_bh * stride_qh  # stride_qh = H * N * D per batch, but we use combined bh
+    k_base = K + pid_bh * stride_kh
+    v_base = V + pid_bh * stride_vh
+    o_base = Out + pid_bh * stride_oh
+    l_base = L + pid_bh * stride_lh
+
+    # Load Q block: [BLOCK_M, BLOCK_D]
+    q_ptrs = q_base + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
+    q_mask = offs_m[:, None] < N_CTX
+    q = tl.load(q_ptrs, mask=q_mask, other=0.0)
+
+    # Initialize accumulators
+    m_i = tl.full([BLOCK_M], value=float('-inf'), dtype=tl.float32)  # running max
+    l_i = tl.full([BLOCK_M], value=0.0, dtype=tl.float32)           # running sum(exp)
+    acc = tl.zeros([BLOCK_M, BLOCK_D], dtype=tl.float32)            # output accumulator
+
+    # Determine loop bound (causal: only need to go up to the query positions)
+    if IS_CAUSAL:
+        loop_bound = tl.minimum(N_CTX, (pid_m + 1) * BLOCK_M)
+    else:
+        loop_bound = N_CTX
+
+    # Number of KV blocks to iterate
+    n_blocks = tl.cdiv(loop_bound, BLOCK_N)
+
+    for j in range(0, n_blocks):
+        # Current KV block offset
+        start_n = j * BLOCK_N
+        offs_n_j = start_n + offs_n  # [BLOCK_N]
+
+        # Load K block: [BLOCK_N, BLOCK_D]
+        k_ptrs = k_base + offs_n_j[:, None] * stride_kn + offs_d[None, :] * stride_kk
+        k_mask = offs_n_j[:, None] < N_CTX
+        k = tl.load(k_ptrs, mask=k_mask, other=0.0)
+
+        # Compute S = Q @ K^T * scale: [BLOCK_M, BLOCK_N]
+        s = tl.dot(q, tl.trans(k))
+        s = s * softmax_scale
+
+        # Apply causal mask: positions where q_idx < kv_idx get -inf
+        if IS_CAUSAL:
+            causal_mask = offs_m[:, None] >= offs_n_j[None, :]
+            s = tl.where(causal_mask, s, float('-inf'))
+
+        # Mask out-of-bounds KV positions
+        kv_valid = offs_n_j[None, :] < N_CTX
+        s = tl.where(kv_valid, s, float('-inf'))
+
+        # ============================================================
+        # SSA TRANSFORM (all in registers, no HBM round-trip)
+        # f(s) = n * sign(s) * log(1 + b * |s|)
+        #
+        # For s = -inf (masked): sign(-inf)=-1, log(1+inf)=inf -> -inf  ✓
+        # For s = 0: sign(0)=0 -> 0  ✓
+        # ============================================================
+        s_fp32 = s.to(tl.float32)
+        abs_s = tl.abs(s_fp32)
+        # Use tl.where for sign to be safe (no NaN at 0)
+        sign_s = tl.where(s_fp32 > 0, 1.0, tl.where(s_fp32 < 0, -1.0, 0.0))
+        # log(1 + b * |s|)  -- for masked positions: log(1 + inf) = inf, fine
+        log_term = tl.log(1.0 + ssa_b * abs_s)
+        ssa_logits = ssa_n * sign_s * log_term  # [BLOCK_M, BLOCK_N]
+
+        # ============================================================
+        # Online softmax update (FlashAttention-2 algorithm)
+        # ============================================================
+        # Row-wise max of this tile
+        m_ij = tl.max(ssa_logits, axis=1)  # [BLOCK_M]
+        # New running max
+        m_new = tl.maximum(m_i, m_ij)
+        # Rescale factor for old accumulators
+        alpha = tl.exp(m_i - m_new)  # [BLOCK_M]
+        # Compute exp(logits - m_new) for this tile
+        p = tl.exp(ssa_logits - m_new[:, None])  # [BLOCK_M, BLOCK_N]
+        # Update running sum
+        l_new = alpha * l_i + tl.sum(p, axis=1)  # [BLOCK_M]
+
+        # Load V block: [BLOCK_N, BLOCK_D]
+        v_ptrs = v_base + offs_n_j[:, None] * stride_vn + offs_d[None, :] * stride_vk
+        v_mask = offs_n_j[:, None] < N_CTX
+        v = tl.load(v_ptrs, mask=v_mask, other=0.0)
+
+        # Update output accumulator: rescale old + add new contribution
+        p_v = tl.dot(p.to(v.dtype), v)  # [BLOCK_M, BLOCK_D]
+        acc = alpha[:, None] * acc + p_v.to(tl.float32)
+
+        # Update running statistics
+        m_i = m_new
+        l_i = l_new
+
+    # Final normalization
+    acc = acc / l_i[:, None]
+
+    # Store logsumexp: L = m + log(l) for backward pass
+    lse = m_i + tl.log(l_i)
+    l_ptrs = l_base + offs_m * stride_lm
+    l_mask = offs_m < N_CTX
+    tl.store(l_ptrs, lse, mask=l_mask)
+
+    # Store output
+    o_ptrs = o_base + offs_m[:, None] * stride_om + offs_d[None, :] * stride_ok
+    o_mask = offs_m[:, None] < N_CTX
+    tl.store(o_ptrs, acc.to(Out.dtype.element_ty), mask=o_mask)
+
+
+# ============================================================
+# Backward Kernel - dQ
+# ============================================================
+
+@triton.jit
+def _ssa_attn_bwd_dq_kernel(
+    Q, K, V, Out, dO, dQ, L, D,
+    softmax_scale,
+    ssa_n_ptr, ssa_b_ptr,
+    stride_qb, stride_qh, stride_qm, stride_qk,
+    stride_kb, stride_kh, stride_kn, stride_kk,
+    stride_vb, stride_vh, stride_vn, stride_vk,
+    stride_ob, stride_oh, stride_om, stride_ok,
+    stride_dob, stride_doh, stride_dom, stride_dok,
+    stride_dqb, stride_dqh, stride_dqm, stride_dqk,
+    stride_lb, stride_lh, stride_lm,
+    stride_db, stride_dh, stride_dm,
+    N_CTX: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    BLOCK_N: tl.constexpr,
+    BLOCK_D: tl.constexpr,
+    IS_CAUSAL: tl.constexpr,
+):
+    """
+    Backward kernel computing dQ.
+    Grid: (cdiv(N_CTX, BLOCK_M), B * H)
+    
+    For each query block i, iterate over all valid KV blocks j:
+      Recompute S_ij, SSA logits, P_ij
+      dP_ij = dO_i @ V_j^T
+      dSSA_ij = P_ij * (dP_ij - D_i)   where D_i = rowsum(dO * O)
+      dS_ij = dSSA_ij * (n * b) / (1 + b * |S_ij|)
+      dQ_i += dS_ij @ K_j * scale
+    """
+    pid_m = tl.program_id(0)
+    pid_bh = tl.program_id(1)
+
+    ssa_n = tl.load(ssa_n_ptr).to(tl.float32)
+    ssa_b = tl.load(ssa_b_ptr).to(tl.float32)
+
+    offs_m = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_d = tl.arange(0, BLOCK_D)
+    offs_n = tl.arange(0, BLOCK_N)
+
+    q_base = Q + pid_bh * stride_qh
+    k_base = K + pid_bh * stride_kh
+    v_base = V + pid_bh * stride_vh
+    do_base = dO + pid_bh * stride_doh
+    dq_base = dQ + pid_bh * stride_dqh
+    l_base = L + pid_bh * stride_lh
+    d_base = D + pid_bh * stride_dh
+
+    # Load Q block, dO block, logsumexp, D
+    q_ptrs = q_base + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
+    q_mask = offs_m[:, None] < N_CTX
+    q = tl.load(q_ptrs, mask=q_mask, other=0.0)
+
+    do_ptrs = do_base + offs_m[:, None] * stride_dom + offs_d[None, :] * stride_dok
+    do = tl.load(do_ptrs, mask=q_mask, other=0.0)
+
+    l_ptrs = l_base + offs_m * stride_lm
+    l_mask = offs_m < N_CTX
+    lse = tl.load(l_ptrs, mask=l_mask, other=0.0)  # [BLOCK_M]
+
+    d_ptrs = d_base + offs_m * stride_dm
+    Di = tl.load(d_ptrs, mask=l_mask, other=0.0)  # [BLOCK_M] = rowsum(dO * O)
+
+    # Accumulate dQ
+    dq_acc = tl.zeros([BLOCK_M, BLOCK_D], dtype=tl.float32)
+
+    if IS_CAUSAL:
+        loop_bound = tl.minimum(N_CTX, (pid_m + 1) * BLOCK_M)
+    else:
+        loop_bound = N_CTX
+    n_blocks = tl.cdiv(loop_bound, BLOCK_N)
+
+    for j in range(0, n_blocks):
+        start_n = j * BLOCK_N
+        offs_n_j = start_n + offs_n
+
+        # Load K, V blocks
+        k_ptrs = k_base + offs_n_j[:, None] * stride_kn + offs_d[None, :] * stride_kk
+        k_mask = offs_n_j[:, None] < N_CTX
+        k = tl.load(k_ptrs, mask=k_mask, other=0.0)
+
+        v_ptrs = v_base + offs_n_j[:, None] * stride_vn + offs_d[None, :] * stride_vk
+        v = tl.load(v_ptrs, mask=k_mask, other=0.0)
+
+        # Recompute S = Q @ K^T * scale
+        s = tl.dot(q, tl.trans(k)) * softmax_scale
+
+        if IS_CAUSAL:
+            causal_mask = offs_m[:, None] >= offs_n_j[None, :]
+            s = tl.where(causal_mask, s, float('-inf'))
+        kv_valid = offs_n_j[None, :] < N_CTX
+        s = tl.where(kv_valid, s, float('-inf'))
+
+        # Recompute SSA transform
+        s_fp32 = s.to(tl.float32)
+        # Build a validity mask: True for real positions, False for masked (-inf)
+        valid = s_fp32 > float('-inf')
+        # Sanitize s for backward: replace -inf with 0 to avoid 0*inf=NaN
+        # P=0 for masked positions, so they contribute zero regardless
+        s_safe = tl.where(valid, s_fp32, 0.0)
+        abs_s = tl.abs(s_safe)
+        sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
+        log_term = tl.log(1.0 + ssa_b * abs_s)
+        ssa_logits = tl.where(valid, ssa_n * sign_s * log_term, float('-inf'))
+
+        # Recompute P = exp(ssa_logits - lse)
+        p = tl.exp(ssa_logits - lse[:, None])  # [BLOCK_M, BLOCK_N]
+
+        # dP = dO @ V^T
+        dp = tl.dot(do, tl.trans(v)).to(tl.float32)  # [BLOCK_M, BLOCK_N]
+
+        # dSSA = P * (dP - Di)
+        ds_ssa = p * (dp - Di[:, None])  # [BLOCK_M, BLOCK_N]
+
+        # SSA backward: df/ds = n * b / (1 + b * |s|)
+        # dS = dSSA * df/ds  (safe: abs_s is finite, denom > 0)
+        denom = 1.0 + ssa_b * abs_s
+        df_ds = ssa_n * ssa_b / denom
+        ds = ds_ssa * df_ds  # [BLOCK_M, BLOCK_N]
+
+        # dQ += dS @ K * scale
+        dq_acc += tl.dot(ds.to(k.dtype), k).to(tl.float32) * softmax_scale
+
+    # Store dQ
+    dq_ptrs = dq_base + offs_m[:, None] * stride_dqm + offs_d[None, :] * stride_dqk
+    dq_mask = offs_m[:, None] < N_CTX
+    tl.store(dq_ptrs, dq_acc.to(dQ.dtype.element_ty), mask=dq_mask)
+
+
+# ============================================================
+# Backward Kernel - dK, dV, dn, db
+# ============================================================
+
+@triton.jit
+def _ssa_attn_bwd_dkv_kernel(
+    Q, K, V, Out, dO, dK, dV, L, D,
+    DN, DB,  # per-block partial sums for dn, db
+    softmax_scale,
+    ssa_n_ptr, ssa_b_ptr,
+    stride_qb, stride_qh, stride_qm, stride_qk,
+    stride_kb, stride_kh, stride_kn, stride_kk,
+    stride_vb, stride_vh, stride_vn, stride_vk,
+    stride_ob, stride_oh, stride_om, stride_ok,
+    stride_dob, stride_doh, stride_dom, stride_dok,
+    stride_dkb, stride_dkh, stride_dkn, stride_dkk,
+    stride_dvb, stride_dvh, stride_dvn, stride_dvk,
+    stride_lb, stride_lh, stride_lm,
+    stride_db, stride_dh, stride_dm,
+    N_CTX: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    BLOCK_N: tl.constexpr,
+    BLOCK_D: tl.constexpr,
+    IS_CAUSAL: tl.constexpr,
+    NUM_BLOCKS_M: tl.constexpr,  # total Q blocks for DN/DB indexing
+):
+    """
+    Backward kernel computing dK, dV and partial dn, db.
+    Grid: (cdiv(N_CTX, BLOCK_N), B * H)
+
+    For each KV block j, iterate over all valid query blocks i:
+      Recompute S_ij, SSA logits, P_ij
+      dV_j += P_ij^T @ dO_i
+      dP_ij = dO_i @ V_j^T
+      dSSA_ij = P_ij * (dP_ij - D_i)
+      dS_ij = dSSA_ij * n * b / (1 + b * |S_ij|)
+      dK_j += dS_ij^T @ Q_i * scale
+      dn_partial += sum(dSSA_ij * sign(S_ij) * log(1 + b|S_ij|))
+      db_partial += sum(dSSA_ij * n * |S_ij| / (1 + b|S_ij|))
+    """
+    pid_n = tl.program_id(0)  # KV block index
+    pid_bh = tl.program_id(1)
+
+    ssa_n = tl.load(ssa_n_ptr).to(tl.float32)
+    ssa_b = tl.load(ssa_b_ptr).to(tl.float32)
+
+    offs_n = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
+    offs_d = tl.arange(0, BLOCK_D)
+    offs_m = tl.arange(0, BLOCK_M)
+
+    k_base = K + pid_bh * stride_kh
+    v_base = V + pid_bh * stride_vh
+    q_base = Q + pid_bh * stride_qh
+    do_base = dO + pid_bh * stride_doh
+    dk_base = dK + pid_bh * stride_dkh
+    dv_base = dV + pid_bh * stride_dvh
+    l_base = L + pid_bh * stride_lh
+    d_base = D + pid_bh * stride_dh
+
+    # Load K, V blocks for this KV tile
+    k_ptrs = k_base + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
+    k_mask = offs_n[:, None] < N_CTX
+    k = tl.load(k_ptrs, mask=k_mask, other=0.0)
+
+    v_ptrs = v_base + offs_n[:, None] * stride_vn + offs_d[None, :] * stride_vk
+    v = tl.load(v_ptrs, mask=k_mask, other=0.0)
+
+    # Accumulators
+    dk_acc = tl.zeros([BLOCK_N, BLOCK_D], dtype=tl.float32)
+    dv_acc = tl.zeros([BLOCK_N, BLOCK_D], dtype=tl.float32)
+    dn_acc = 0.0
+    db_acc = 0.0
+
+    # For causal, only Q blocks where q_idx >= kv_idx matter
+    if IS_CAUSAL:
+        start_block = pid_n * BLOCK_N // BLOCK_M
+    else:
+        start_block = 0
+
+    n_q_blocks = tl.cdiv(N_CTX, BLOCK_M)
+
+    for i in range(start_block, n_q_blocks):
+        offs_m_i = i * BLOCK_M + offs_m
+
+        # Load Q, dO, lse, D for this query block
+        q_ptrs = q_base + offs_m_i[:, None] * stride_qm + offs_d[None, :] * stride_qk
+        q_mask = offs_m_i[:, None] < N_CTX
+        q = tl.load(q_ptrs, mask=q_mask, other=0.0)
+
+        do_ptrs = do_base + offs_m_i[:, None] * stride_dom + offs_d[None, :] * stride_dok
+        do = tl.load(do_ptrs, mask=q_mask, other=0.0)
+
+        l_ptrs = l_base + offs_m_i * stride_lm
+        l_mask = offs_m_i < N_CTX
+        lse = tl.load(l_ptrs, mask=l_mask, other=0.0)
+
+        d_ptrs = d_base + offs_m_i * stride_dm
+        Di = tl.load(d_ptrs, mask=l_mask, other=0.0)
+
+        # Recompute S = Q @ K^T * scale  -> [BLOCK_M, BLOCK_N]
+        s = tl.dot(q, tl.trans(k)) * softmax_scale
+
+        if IS_CAUSAL:
+            causal_mask = offs_m_i[:, None] >= offs_n[None, :]
+            s = tl.where(causal_mask, s, float('-inf'))
+        kv_valid = offs_n[None, :] < N_CTX
+        s = tl.where(kv_valid, s, float('-inf'))
+
+        # SSA transform
+        s_fp32 = s.to(tl.float32)
+        # Sanitize: replace -inf with 0 for safe backward math
+        # P=0 for masked positions so they contribute zero regardless
+        valid = s_fp32 > float('-inf')
+        s_safe = tl.where(valid, s_fp32, 0.0)
+        abs_s = tl.abs(s_safe)
+        sign_s = tl.where(s_safe > 0, 1.0, tl.where(s_safe < 0, -1.0, 0.0))
+        log_term = tl.log(1.0 + ssa_b * abs_s)
+        ssa_logits = tl.where(valid, ssa_n * sign_s * log_term, float('-inf'))
+
+        # P = exp(ssa_logits - lse)
+        p = tl.exp(ssa_logits - lse[:, None])
+
+        # dV += P^T @ dO
+        dv_acc += tl.dot(tl.trans(p.to(do.dtype)), do).to(tl.float32)
+
+        # dP = dO @ V^T
+        dp = tl.dot(do, tl.trans(v)).to(tl.float32)
+
+        # dSSA = P * (dP - D)  — P=0 for masked, so ds_ssa=0 there
+        ds_ssa = p * (dp - Di[:, None])
+
+        # SSA backward: df/ds = n * b / (1 + b * |s|)  (all finite, abs_s is sanitized)
+        denom = 1.0 + ssa_b * abs_s
+        df_ds = ssa_n * ssa_b / denom
+        ds = ds_ssa * df_ds
+
+        # dK += dS^T @ Q * scale
+        dk_acc += tl.dot(tl.trans(ds.to(q.dtype)), q).to(tl.float32) * softmax_scale
+
+        # Partial dn: sum(dSSA * sign(s) * log(1 + b|s|))  — all finite now
+        dn_contrib = ds_ssa * sign_s * log_term
+        dn_acc += tl.sum(dn_contrib)
+
+        # Partial db: sum(dSSA * n * |s| / (1 + b|s|))  — all finite now
+        db_contrib = ds_ssa * ssa_n * abs_s / denom
+        db_acc += tl.sum(db_contrib)
+
+    # Store dK, dV
+    dk_ptrs = dk_base + offs_n[:, None] * stride_dkn + offs_d[None, :] * stride_dkk
+    dk_mask = offs_n[:, None] < N_CTX
+    tl.store(dk_ptrs, dk_acc.to(dK.dtype.element_ty), mask=dk_mask)
+
+    dv_ptrs = dv_base + offs_n[:, None] * stride_dvn + offs_d[None, :] * stride_dvk
+    tl.store(dv_ptrs, dv_acc.to(dV.dtype.element_ty), mask=dk_mask)
+
+    # Store partial dn, db for this (bh, kv_block)
+    # DN shape: [B*H, num_kv_blocks]
+    dn_ptr = DN + pid_bh * NUM_BLOCKS_M + pid_n
+    db_ptr = DB + pid_bh * NUM_BLOCKS_M + pid_n
+    tl.store(dn_ptr, dn_acc)
+    tl.store(db_ptr, db_acc)
+
+
+# ============================================================
+# D precompute kernel: D_i = rowsum(dO_i * O_i)
+# ============================================================
+
+@triton.jit
+def _ssa_attn_bwd_preprocess_kernel(
+    Out, dO, D,
+    stride_ob, stride_oh, stride_om, stride_ok,
+    stride_dob, stride_doh, stride_dom, stride_dok,
+    stride_db, stride_dh, stride_dm,
+    N_CTX: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    BLOCK_D: tl.constexpr,
+):
+    """Precompute D_i = sum_d(O_i[d] * dO_i[d]) per row."""
+    pid_m = tl.program_id(0)
+    pid_bh = tl.program_id(1)
+
+    offs_m = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_d = tl.arange(0, BLOCK_D)
+
+    o_base = Out + pid_bh * stride_oh
+    do_base = dO + pid_bh * stride_doh
+    d_base = D + pid_bh * stride_dh
+
+    o_ptrs = o_base + offs_m[:, None] * stride_om + offs_d[None, :] * stride_ok
+    do_ptrs = do_base + offs_m[:, None] * stride_dom + offs_d[None, :] * stride_dok
+    mask = offs_m[:, None] < N_CTX
+
+    o = tl.load(o_ptrs, mask=mask, other=0.0).to(tl.float32)
+    do = tl.load(do_ptrs, mask=mask, other=0.0).to(tl.float32)
+
+    d = tl.sum(o * do, axis=1)  # [BLOCK_M]
+
+    d_ptrs = d_base + offs_m * stride_dm
+    d_mask = offs_m < N_CTX
+    tl.store(d_ptrs, d, mask=d_mask)
+
+
+# ============================================================
+# Python Wrapper Functions
+# ============================================================
+
+def ssa_flash_attn_forward(q, k, v, softmax_scale, ssa_n, ssa_b, causal=True):
+    """
+    Forward pass wrapper.
+
+    Args:
+        q, k, v: [B, H, N, D] in float16/bfloat16
+        softmax_scale: float
+        ssa_n, ssa_b: scalar tensors (float32, on device)
+        causal: bool
+
+    Returns:
+        out: [B, H, N, D]
+        lse: [B, H, N]  (logsumexp for backward)
+    """
+    B, H, N, D = q.shape
+    assert k.shape == (B, H, N, D) or k.shape[2] == N  # allow GQA handled externally
+    assert v.shape == k.shape
+
+    # Ensure SSA params are float32 on device
+    if ssa_n.dim() == 0:
+        ssa_n = ssa_n.contiguous()
+    if ssa_b.dim() == 0:
+        ssa_b = ssa_b.contiguous()
+
+    out = torch.empty_like(q)
+    lse = torch.empty((B, H, N), device=q.device, dtype=torch.float32)
+
+    # Tile sizes tuned for A100 (sm_80)
+    # head_dim=32 for baby_luciole, but be general
+    BLOCK_D = triton.next_power_of_2(D)
+    if BLOCK_D <= 32:
+        BLOCK_M = 128
+        BLOCK_N = 128
+    elif BLOCK_D <= 64:
+        BLOCK_M = 128
+        BLOCK_N = 64
+    else:
+        BLOCK_M = 64
+        BLOCK_N = 64
+
+    grid = (triton.cdiv(N, BLOCK_M), B * H)
+
+    _ssa_attn_fwd_kernel[grid](
+        q, k, v, out, lse,
+        softmax_scale,
+        ssa_n, ssa_b,
+        # Q strides
+        q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+        # K strides
+        k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+        # V strides
+        v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+        # Out strides
+        out.stride(0), out.stride(1), out.stride(2), out.stride(3),
+        # L strides
+        lse.stride(0), lse.stride(1), lse.stride(2),
+        N_CTX=N,
+        BLOCK_M=BLOCK_M,
+        BLOCK_N=BLOCK_N,
+        BLOCK_D=BLOCK_D,
+        IS_CAUSAL=causal,
+    )
+
+    return out, lse
+
+
+def ssa_flash_attn_backward(q, k, v, out, dout, lse, softmax_scale, ssa_n, ssa_b, causal=True):
+    """
+    Backward pass wrapper.
+
+    Args:
+        q, k, v: [B, H, N, D]
+        out: [B, H, N, D] (saved from forward)
+        dout: [B, H, N, D] (upstream gradient)
+        lse: [B, H, N]
+        softmax_scale: float
+        ssa_n, ssa_b: scalar tensors
+        causal: bool
+
+    Returns:
+        dq, dk, dv: [B, H, N, D]
+        dn, db: scalar tensors
+    """
+    B, H, N, D = q.shape
+
+    BLOCK_D = triton.next_power_of_2(D)
+    if BLOCK_D <= 32:
+        BLOCK_M = 128
+        BLOCK_N = 128
+    elif BLOCK_D <= 64:
+        BLOCK_M = 128
+        BLOCK_N = 64
+    else:
+        BLOCK_M = 64
+        BLOCK_N = 64
+
+    # Precompute D = rowsum(dO * O)
+    D_vec = torch.empty((B, H, N), device=q.device, dtype=torch.float32)
+    grid_pre = (triton.cdiv(N, BLOCK_M), B * H)
+
+    _ssa_attn_bwd_preprocess_kernel[grid_pre](
+        out, dout, D_vec,
+        out.stride(0), out.stride(1), out.stride(2), out.stride(3),
+        dout.stride(0), dout.stride(1), dout.stride(2), dout.stride(3),
+        D_vec.stride(0), D_vec.stride(1), D_vec.stride(2),
+        N_CTX=N,
+        BLOCK_M=BLOCK_M,
+        BLOCK_D=BLOCK_D,
+    )
+
+    # dQ kernel
+    dq = torch.zeros_like(q)
+    grid_dq = (triton.cdiv(N, BLOCK_M), B * H)
+
+    _ssa_attn_bwd_dq_kernel[grid_dq](
+        q, k, v, out, dout, dq, lse, D_vec,
+        softmax_scale,
+        ssa_n, ssa_b,
+        q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+        k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+        v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+        out.stride(0), out.stride(1), out.stride(2), out.stride(3),
+        dout.stride(0), dout.stride(1), dout.stride(2), dout.stride(3),
+        dq.stride(0), dq.stride(1), dq.stride(2), dq.stride(3),
+        lse.stride(0), lse.stride(1), lse.stride(2),
+        D_vec.stride(0), D_vec.stride(1), D_vec.stride(2),
+        N_CTX=N,
+        BLOCK_M=BLOCK_M,
+        BLOCK_N=BLOCK_N,
+        BLOCK_D=BLOCK_D,
+        IS_CAUSAL=causal,
+    )
+
+    # dK, dV, partial dn/db kernel
+    dk = torch.zeros_like(k)
+    dv = torch.zeros_like(v)
+    num_kv_blocks = triton.cdiv(N, BLOCK_N)
+    dn_partial = torch.zeros((B * H, num_kv_blocks), device=q.device, dtype=torch.float32)
+    db_partial = torch.zeros((B * H, num_kv_blocks), device=q.device, dtype=torch.float32)
+
+    grid_dkv = (num_kv_blocks, B * H)
+
+    _ssa_attn_bwd_dkv_kernel[grid_dkv](
+        q, k, v, out, dout, dk, dv, lse, D_vec,
+        dn_partial, db_partial,
+        softmax_scale,
+        ssa_n, ssa_b,
+        q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+        k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+        v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+        out.stride(0), out.stride(1), out.stride(2), out.stride(3),
+        dout.stride(0), dout.stride(1), dout.stride(2), dout.stride(3),
+        dk.stride(0), dk.stride(1), dk.stride(2), dk.stride(3),
+        dv.stride(0), dv.stride(1), dv.stride(2), dv.stride(3),
+        lse.stride(0), lse.stride(1), lse.stride(2),
+        D_vec.stride(0), D_vec.stride(1), D_vec.stride(2),
+        N_CTX=N,
+        BLOCK_M=BLOCK_M,
+        BLOCK_N=BLOCK_N,
+        BLOCK_D=BLOCK_D,
+        IS_CAUSAL=causal,
+        NUM_BLOCKS_M=num_kv_blocks,
+    )
+
+    # Reduce partial dn, db across all blocks and batch*heads
+    dn = dn_partial.sum()
+    db = db_partial.sum()
+
+    return dq, dk, dv, dn, db

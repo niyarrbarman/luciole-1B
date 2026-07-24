@@ -210,9 +210,9 @@ srun apptainer exec \
   --pipeline_parallelism 1 \
   --context_parallelism 1 \
   --duration "${SLURM_DURATION}" \
-  --save_every_n_steps 5 \
-  --log_ssa_every_n_steps 2 \
-  --log_gpu_every_n_steps ${LOG_GPU_EVERY_N_STEPS:-2} \
+  --save_every_n_steps 100 \
+  --log_ssa_every_n_steps 20 \
+  --log_gpu_every_n_steps ${LOG_GPU_EVERY_N_STEPS:-5} \
   --ssa_n $SSA_N \
   --ssa_b $SSA_B \
   --warmup_steps ${LR_WARMUP_STEPS} \

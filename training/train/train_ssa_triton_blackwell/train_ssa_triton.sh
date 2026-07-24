@@ -62,6 +62,14 @@ FORCE_CONTIGUOUS_QKV=${FORCE_CONTIGUOUS_QKV:-1}
 GLOBAL_MAX_STEPS=${GLOBAL_MAX_STEPS:-100}
 # Backward-compatible alias: if THIS_RUN_MAX_STEPS is unset, use legacy MAX_STEPS when provided.
 THIS_RUN_MAX_STEPS=${THIS_RUN_MAX_STEPS:-0}
+SAVE_EVERY_N_STEPS=${SAVE_EVERY_N_STEPS:-5}
+
+# Optional bounded Nsight Systems capture. The delay skips restore/JIT startup,
+# and %h gives each node a distinct report on the shared filesystem.
+NSYS_PROFILE=${NSYS_PROFILE:-0}
+NSYS_DELAY=${NSYS_DELAY:-300}
+NSYS_DURATION=${NSYS_DURATION:-120}
+NSYS_DIR=${NSYS_DIR:-"${OUTPUT_DIR}/nsys"}
 
 if [[ "${SSA_KERNEL_VERSION}" != "triton" ]]; then
   echo "ERROR: SSA_KERNEL_VERSION must be 'triton' (got '${SSA_KERNEL_VERSION}')."
@@ -113,6 +121,8 @@ echo "Skip warmup: $SKIP_TRITON_WARMUP"
 echo "Contig QKV:  $FORCE_CONTIGUOUS_QKV"
 echo "Global max:  $GLOBAL_MAX_STEPS"
 echo "This-run max:${THIS_RUN_MAX_STEPS}"
+echo "Checkpoint:  every $SAVE_EVERY_N_STEPS steps"
+echo "Nsight:      $NSYS_PROFILE (delay=${NSYS_DELAY}s, duration=${NSYS_DURATION}s)"
 echo "W&B:         $USE_WANDB (mode=${WANDB_MODE})"
 echo "=========================================="
 
@@ -161,6 +171,22 @@ if [[ "${USE_WANDB}" == "1" ]]; then
   fi
 fi
 
+PROFILE_CMD=()
+if [[ "${NSYS_PROFILE}" == "1" ]]; then
+  mkdir -p "${NSYS_DIR}"
+  PROFILE_CMD=(
+    nsys profile
+    --output "${NSYS_DIR}/${NAME}_${SLURM_JOB_ID}_%h"
+    --force-overwrite=true
+    --trace=cuda,nvtx,osrt,cublas,nccl
+    --sample=none
+    --cuda-event-trace=false
+    --stats=true
+    --delay="${NSYS_DELAY}"
+    --duration="${NSYS_DURATION}"
+  )
+fi
+
 # Pre-compile Triton kernels (warmup) — avoids JIT overhead at step 0
 # Triton caches compiled kernels in ~/.triton/cache, so this only helps first run
 export TRITON_CACHE_DIR="/lustre/work/pdl17996/udl62d273/phase2_output_blackwell/triton_cache"
@@ -193,6 +219,7 @@ srun apptainer exec \
   "${WANDB_ENV_ARGS[@]}" \
   --bind "$WORK:$WORK,/lustre/work/pdl17996/shared:/lustre/work/pdl17996/shared" \
   --nv /lustre/work/pdl17996/shared/containers/nemo_25.04.03_arm.sif \
+  "${PROFILE_CMD[@]}" \
   torchrun \
   --nnodes=${SLURM_NNODES} \
   --nproc_per_node=4 \
@@ -217,7 +244,7 @@ srun apptainer exec \
   --pipeline_parallelism 1 \
   --context_parallelism 1 \
   --duration "${SLURM_DURATION}" \
-  --save_every_n_steps 5 \
+  --save_every_n_steps "${SAVE_EVERY_N_STEPS}" \
   --log_ssa_every_n_steps 2 \
   --log_gpu_every_n_steps ${LOG_GPU_EVERY_N_STEPS:-2} \
   --ssa_n $SSA_N \
